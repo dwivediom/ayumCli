@@ -4,48 +4,42 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import {useRouter} from 'next/router'
-import Link from 'next/link'
 
+const ViewAllAppo = () => {
+    const router= useRouter()
 
-const DocAppointment = () => {
-  const router= useRouter()
-
-  const url=`${process.env.NEXT_PUBLIC_B_PORT}/api/dailyappointment`; 
-  const [patient , setpatient]= useState('')
-  useEffect( ()=>{
-    
-    axios.get(url, {
-      headers:{
-        "x-auth-token":localStorage.doctoken
-      }
-   }).then((data)=>{
-     setpatient(data)
-   }).catch((err)=> console.log(err.message))
-   
-   
-   if(!localStorage.doctoken){
-    
-    router.push('/Doctor/DocRegistr')
-       console.log("its not worikng ")
-  }
-  },[])
-
-    
- console.log("patitent ",patient)
-
-
-
+    const url=`${process.env.NEXT_PUBLIC_B_PORT}/api/profile/mee`; 
+    const [patient , setpatient]= useState('')
+    useEffect( ()=>{
+      
+      axios.get(url, {
+        headers:{
+          "x-auth-token":localStorage.doctoken
+        }
+     }).then((data)=>{
+       setpatient(data)
+     }).catch((err)=> console.log(err.message))
+     
+     
+     if(!localStorage.doctoken){
+      
+      router.push('/Doctor/DocRegistr')
+         console.log("its not worikng ")
+    }
+    },[])
+  
+      
+   console.log("patitent ",patient)
+        var i = 1 ; 
+  
   return (
     <>
+   <div className='p-2'>
    
-   
-    <div className="p-4 w-full lg:max-w-[70%] bg-white m-auto rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div className="p-4 w-full  lg:max-w-[70%] bg-white m-auto rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
      <div className="flex justify-between items-center mb-4">
-         <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Todays Appointments </h5>
-        <Link href={'/Doctor/ViewAllAppo'}>
-           <a  className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-             View all
-         </a></Link>
+         <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">All Appointments </h5>
+    
     </div>
     <div className="flow-root">
          <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -74,11 +68,11 @@ const DocAppointment = () => {
  
                  return(<>
                    <Patient
-                    key={data._id}
+                    key={data.bookingId}
                     Pname={data.patientname }
                     description={data.description}
                     bookingId= {data.bookingId}
-                    appointmentno={data.appointmentno}
+                    appointmentno={i++}
                     age= {data.age}
                     />
                    
@@ -91,9 +85,9 @@ const DocAppointment = () => {
     </div>
  
     </div>
-    
+    </div>
     </>
   )
 }
 
-export default DocAppointment
+export default ViewAllAppo
