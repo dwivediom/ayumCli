@@ -101,17 +101,17 @@ const url=`${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/${doctordata.docid}
   
   <div className="mb-6">
         
-        <label   htmlFor="patientname" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Name of patient</label>
+        <label   htmlFor="patientname" className="block mb-2 text-sm font-medium text-white dark:text-gray-300">Name of patient</label>
         <input type="text" onChange={(e)=>handlechange(e)} id="patientname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" placeholder="maruti " required/>
       </div>
       
       <div className="mb-6">
-        <label   htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Age of patient </label>
+        <label   htmlFor="age" className="block mb-2 text-sm font-medium text-white dark:text-gray-300"> Age of patient </label>
         <input type="text"onChange={(e)=>handlechange(e)} id="age" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" required/>
       </div>
 
       <div className="mb-6">
-        <label   htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> description of problem/disease </label>
+        <label   htmlFor="description" className="block mb-2 text-sm font-medium text-white dark:text-gray-300"> description of problem/disease </label>
         <input type="text"onChange={(e)=>handlechange(e)} id="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" required/>
       </div>
       
@@ -125,7 +125,7 @@ const url=`${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/${doctordata.docid}
           }): error  }</h5>}
   
   
-    <h6  className='text-white mt-6 ml-2'> If you are Rgistred please go to  <Link href="/User/UserRegistration"><a className='text-sky-500'> Registration page</a></Link></h6>
+    
     </div>
   
   
