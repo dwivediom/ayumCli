@@ -37,6 +37,14 @@
         "orientation": "portrait-primary",
         "icons": [
             {
+                "src": "/ayum.ico",
+                "sizes": "72x72 96x96 128x128 256x256"
+              },
+            {
+                "src": "/icon-512x512.png",
+                "sizes": "any"
+              },
+            {
                 "src": "/icon-192x192.png",
                 "sizes": "192x192",
                 "type": "image/png"
