@@ -191,14 +191,14 @@ const UserRegistrationPage = () => {
   <h2 className='m-auto text-center text-cyan-500 font-bold'>User Registration </h2>
   <div className="mb-6">
     {viewName && <div className="mb-6">
-      <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your name</label>
+      <label htmlFor="name"  className="block mb-2 text-sm font-medium text-gray-300">Your name</label>
 
-      <input value={data.name} onChange={(e) => handlechange(e)} type="text" id="name" name='name' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" placeholder="Your name " required />
+      <input value={data.name} onChange={(e) => handlechange(e)} type="text" id="name" name='name' className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500" placeholder="Your name " required />
       <button type="submit" onClick={(e) => submit(e)} className="mt-5 text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">Submit</button>
     </div>}
     {viewphone && <div>
-      <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your phone</label>
-      <input type="number" onChange={(e) => handlechange(e)} id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" placeholder="+91 5675453453" required />
+      <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-300">Your phone</label>
+      <input type="number" onChange={(e) => handlechange(e)} id="phone" className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500" placeholder="+91 5675453453" required />
     </div>}
   </div>
 
@@ -209,13 +209,13 @@ const UserRegistrationPage = () => {
 
 
   {viewOtp && <div className='m-2'>
-    <label htmlFor="otp" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">otp</label>
+    <label htmlFor="otp" className="block mb-2 text-sm font-medium text-gray-300">otp</label>
     <input type="number"
     inputmode="numeric"
     autocomplete="one-time-code"
     pattern="\d{6}"
     
-    onChange={(e) => varifyOtp(e)} id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" required />
+    onChange={(e) => varifyOtp(e)} id="password" className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500" required />
 
   </div>}
 
