@@ -213,28 +213,28 @@ const DocRegistr = () => {
                 <div className="flex items-center h-5">
                   <input id="remember" type="checkbox" value="" className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 focus:ring-cyan-500 dark:focus:ring-cyan-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                 </div>
-                <label htmlFor="remember" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
+                <label htmlFor="remember" className="ml-2 text-sm font-medium text-gray-300">Remember me</label>
               </div>
 
               <div className="flex items-start mb-6">
                 <div className="flex items-center h-5">
                   <input onChange={(e) => handlechange(e)} name='hospital' type="radio" value="gov hospital" className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 focus:ring-cyan-500 dark:focus:ring-cyan-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required />
                 </div>
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Government hospital </label>
+                <label className="ml-2 text-sm font-medium text-gray-300"> Government hospital </label>
               </div>
 
               <div className="flex items-start mb-6">
                 <div className="flex items-center h-5">
                   <input onChange={(e) => handlechange(e)} name='hospital' type="radio" value="clinic" className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 focus:ring-cyan-500 dark:focus:ring-cyan-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required />
                 </div>
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Clinic </label>
+                <label className="ml-2 text-sm font-medium text-gray-300"> Clinic </label>
               </div>
 
               <div className="flex items-start mb-6">
                 <div className="flex items-center h-5">
                   <input autoComplete='off' onChange={(e) => handlechange(e)} name='hospital' type="radio" value="private hospital" className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 focus:ring-cyan-500 dark:focus:ring-cyan-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required />
                 </div>
-                <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Private hospital </label>
+                <label className="ml-2 text-sm font-medium text-gray-300"> Private hospital </label>
               </div>
 
             </div>
