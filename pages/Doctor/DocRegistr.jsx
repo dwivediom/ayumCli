@@ -189,21 +189,21 @@ const DocRegistr = () => {
         <form className='m-2' >
 
           {viewphone&&<div className="mb-6">
-            <label htmlFor="number" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your Phone </label>
-            <input value={data.phone} onChange={(e) => handlechange(e)} type="number" id="phone" name='phone' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" placeholder="9812345678" required />
+            <label htmlFor="number" className="block mb-2 text-sm font-medium text-gray-300">Your Phone </label>
+            <input value={data.phone} onChange={(e) => handlechange(e)} type="number" id="phone" name='phone'className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500" placeholder="9812345678" required />
           </div>}
           {viewphone && <button type="submit" onClick={(e) => requsetOtp(e)} className="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">Submit</button>}
 
           {viewName&&<div>
 
             <div className="mb-6">
-              <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your name</label>
-              <input value={data.name} onChange={(e) => handlechange(e)} type="text" id="name" name='name' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" placeholder="Your name " required />
+              <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-300">Your name</label>
+              <input value={data.name} onChange={(e) => handlechange(e)} type="text" id="name" name='name'className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500" placeholder="Your name " required />
             </div>
 
             <div className="mb-6">
-              <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your city </label>
-              <input value={data.city} onChange={(e) => handlechange(e)} type="text" id="city" name='city' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" placeholder="Mumbai" required />
+              <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-300">Your city </label>
+              <input value={data.city} onChange={(e) => handlechange(e)} type="text" id="city" name='city'className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500" placeholder="Mumbai" required />
             </div>
 
 
@@ -246,13 +246,13 @@ const DocRegistr = () => {
         </form>
 
         {viewOtp && <div className='m-2'>
-          <label htmlFor="otp" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">otp</label>
+          <label htmlFor="otp" className="block mb-2 text-sm font-medium text-gray-300">otp</label>
           <input type="number"
           inputmode="numeric"
           autocomplete="one-time-code"
           pattern="\d{6}"
           
-          onChange={(e) => varifyOtp(e)} id="otp" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" required />
+          onChange={(e) => varifyOtp(e)} id="otp" className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500" required />
 
         </div>}
 
