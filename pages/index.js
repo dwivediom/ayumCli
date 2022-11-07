@@ -29,7 +29,6 @@ export default function Home() {
           <div>
             <div className={styles.person}>
               <img src="https://media-exp1.licdn.com/dms/image/C4E03AQFg4w0Im47BLQ/profile-displayphoto-shrink_800_800/0/1641879029231?e=1673481600&v=beta&t=zAEbhQnM6xhjjF95gvyKvzqGH5vWibgr0bK43dUBrzk" />{" "}
-              -
               <span className={styles.name}>
                 Barkha Upadhyay <br />
                 <span>
@@ -41,7 +40,6 @@ export default function Home() {
             </div>
             <div className={styles.person}>
               <img src="https://i.ibb.co/CHRw9nX/Whats-App-Image-2022-11-07-at-6-59-20-PM.jpg" />{" "}
-              -
               <span className={styles.name}>
                 Dr Dheerendra Mishra <br />
                 <span>
