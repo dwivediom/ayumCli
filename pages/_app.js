@@ -1,16 +1,16 @@
-import '../styles/globals.css'
-import { Provider as ReduxProvider } from 'react-redux';
-import { store } from '../redux/store/store'
-import Navbar from '../components/Navbar';
-import BottomNav from '../components/BottomNav';
+import "../styles/globals.css";
+import { Provider as ReduxProvider } from "react-redux";
+import { store } from "../redux/store/store";
+import Navbar from "../components/Navbar";
+import BottomNav from "../components/BottomNav";
 function MyApp({ Component, pageProps }) {
-  return(
+  return (
     <ReduxProvider store={store}>
-      <Navbar/>
+      <Navbar />
       <Component {...pageProps} />
-      <BottomNav/>
+      <BottomNav />
     </ReduxProvider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

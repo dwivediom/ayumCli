@@ -11,23 +11,70 @@
   justify-content: center;
   align-items: center;
 }
-
 .footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  min-height: 20vh;
+  color: white;
+  margin-top: 7rem;
 }
 
-.footer a {
+.thankyouCard {
+  width: 80%;
+  margin: auto;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 12px;
+  background-color: rgb(17, 21, 34);
+  padding: 20px;
+  border: 1px solid rgba(0, 255, 255, 0.416);
+}
+.thankyouCard h2 {
+  margin: auto;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.thankyouCard h3 {
+  font-weight: 500;
+}
+.thankyouCard div {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.name {
+  width: 60%;
+}
+.person {
+  display: flex;
+  width: 40%;
+  height: 8rem;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 10px;
   align-items: center;
-  flex-grow: 1;
+  border-radius: 12px;
+  background-color: rgb(11, 11, 18);
+}
+@media (max-width: 600px) {
+  .person {
+    width: 100%;
+  }
+}
+.person img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
 }
 
+.name span {
+  font-style: italic;
+  color: rgb(184, 183, 183);
+  font-weight: lighter;
+  font-size: small;
+}
 .title a {
   color: #0070f3;
   text-decoration: none;
@@ -124,10 +171,6 @@
     background: #111;
   }
   .logo img {
-     display:none;
+    display: none;
   }
-}
-
-.footerimg{ 
-  display: block;
 }
