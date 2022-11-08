@@ -19,7 +19,7 @@
 }
 
 .thankyouCard {
-  width: 80%;
+  width: 95%;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -45,22 +45,40 @@
   justify-content: space-between;
 }
 .name {
-  width: 60%;
+  width: 80%;
+  text-align: center;
+  margin: auto;
 }
 .person {
   display: flex;
   width: 40%;
-  height: 8rem;
+  min-height: 8rem;
   justify-content: space-between;
   margin-top: 20px;
   padding: 10px;
   align-items: center;
   border-radius: 12px;
-  background-color: rgb(11, 11, 18);
+  background-color: rgb(0, 0, 0);
+}
+@media (max-width: 1100px) {
+  .person {
+    width: 60%;
+  }
+}
+@media (max-width: 300px) {
+  .person img {
+    margin: auto;
+  }
+  .name {
+    margin: auto;
+  }
 }
 @media (max-width: 600px) {
   .person {
     width: 100%;
+  }
+  .name {
+    width: 70%;
   }
 }
 .person img {
@@ -72,7 +90,7 @@
 .name span {
   font-style: italic;
   color: rgb(184, 183, 183);
-  font-weight: lighter;
+  font-weight: 400;
   font-size: small;
 }
 .title a {

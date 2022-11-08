@@ -36,7 +36,6 @@ export default function Home() {
                   (Jabalpur Incubation Center){" "}
                 </span>
               </span>
-              <br />
             </div>
             <div className={styles.person}>
               <img src="https://i.ibb.co/CHRw9nX/Whats-App-Image-2022-11-07-at-6-59-20-PM.jpg" />{" "}
