@@ -38,6 +38,17 @@ export default function Home() {
               </span>
             </div>
             <div className={styles.person}>
+              <img src="https://i.ibb.co/w6DBTXC/Whats-App-Image-2022-11-08-at-6-22-10-PM.jpg" />{" "}
+              <span className={styles.name}>
+                Dr BL Mishra
+                <br />
+                <span>
+                  CMHO Rewa ,sidhi <br />
+                  (Medical specialist at kushabahu thakre rewa)
+                </span>
+              </span>
+            </div>
+            <div className={styles.person}>
               <img src="https://i.ibb.co/CHRw9nX/Whats-App-Image-2022-11-07-at-6-59-20-PM.jpg" />{" "}
               <span className={styles.name}>
                 Dr Dheerendra Mishra <br />
