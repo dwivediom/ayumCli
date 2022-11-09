@@ -21,7 +21,7 @@ const Doctor = (props) => {
   };
   return (
     <div className="mt-1 m-auto w-[100%]  ">
-      <div className="p-4    break-normal   rounded-lg border h-[19rem] w-[100%] m-auto  border-cyan-700 shadow-md bg-gray-800  ">
+      <div className="p-4    break-normal   rounded-lg border  lg:h-[18rem] w-[100%] m-auto  border-cyan-700 shadow-md bg-gray-800  ">
         <a href="#" className="">
           <h5 className="mb-2 text-2xl font-bold tracking-tight overflow-hidden    break-normal w-[90%] text-white">
             {name}{" "}
