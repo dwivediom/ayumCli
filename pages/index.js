@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect } from "react";
+import Footer from "../components/Footer";
 import GetDoctor from "../components/GetDoctor";
 import Navbar from "../components/Navbar";
 import QuickSearch from "../components/QuickSearch";
@@ -60,6 +61,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <Footer />
       </footer>
     </div>
   );
