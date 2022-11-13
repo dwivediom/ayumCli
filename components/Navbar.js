@@ -96,17 +96,25 @@ const Navbar = () => {
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <Link href={"/"}>
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    style={{ marginTop: "-10px" }}
-                    className="block h-10 mr-6  lg:hidden lg:m-0 lg:h-0 lg:w-0"
-                    src={`/ayumTranparent.png`}
-                    alt="Your Company"
-                  />
-                  <img
-                    className="hidden h-8 w-auto lg:block"
-                    src={`/ayumTranparent.png`}
-                    alt="Your Company "
-                  />
+                  <span className="block h-10 mr-6  lg:hidden lg:m-0 lg:h-0 lg:w-0">
+                    <Image
+                      style={{ marginTop: "-10px" }}
+                      width={"70px"}
+                      height={"30px"}
+                      src={`/ayumTranparent.png`}
+                      loading="lazy"
+                      alt="Your Company"
+                    />
+                  </span>
+                  <span className="hidden h-8 w-auto lg:block">
+                    <Image
+                      width={"60px"}
+                      height={"25px"}
+                      src={`/ayumTranparent.png`}
+                      alt="Your Company "
+                      loading="lazy"
+                    />
+                  </span>
                 </div>
               </Link>
               <div className=" hidden   sm:ml-10 md:block sm:block">
@@ -168,21 +176,11 @@ const Navbar = () => {
                     aria-haspopup="true"
                   >
                     <span className="sr-only">Open user menu</span>
-                    <div className="h-8 w-8 rounded-full text-white text-center p-1 font-extrabold  bg-cyan-500">
-                      {" "}
+                    <div className="h-8 w-8 rounded-full text-white text-center p-1  font-extrabold  bg-cyan-500">
                       P
                     </div>
                   </button>
                 </div>
-
-                {/* Dropdown menu, show/hide based on menu state.
-
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95" */}
 
                 {profile && (
                   <div
@@ -192,7 +190,6 @@ const Navbar = () => {
                     aria-labelledby="user-menu-button"
                     tabIndex="-1"
                   >
-                    {/* <!-- Active: "bg-gray-100", Not Active: "" --> */}
                     <Link href="/Doctor/createDocProfile">
                       <a
                         className="block px-4 py-2 text-sm text-gray-700"
@@ -231,11 +228,9 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* <!-- Mobile menu, show/hide based on menu state. --> */}
         <div className="sm:hidden" id="mobile-menu">
           {navitem && (
             <div className="  space-y-1 px-2 pt-2 pb-3">
-              {/* <!</div>-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
               <a
                 className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
                 aria-current="page"
@@ -243,27 +238,6 @@ const Navbar = () => {
               >
                 Contact Us
               </a>
-
-              {/* <a
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Team
-              </a>
-
-              <a
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Projects
-              </a>
-
-              <a
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Calendar
-              </a> */}
             </div>
           )}
         </div>
