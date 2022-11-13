@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "../redux/store/store";
 import { getallDoctorAction } from "../redux/actions/docActions";
-import Doctor from "./Doctor";
+import dynamic from "next/dynamic";
+const Doctor = dynamic(() => import("./Doctor"));
 import Image from "next/image";
 
 const GetDoctor = () => {

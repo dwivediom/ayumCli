@@ -1,7 +1,6 @@
+import dynamic from "next/dynamic";
 import React from "react";
-import Contact from "../../components/Contact us/contact";
-import Footer from "../../components/Footer";
-
+const Contact = dynamic(() => import("../../components/Contact us/contact"));
 const Contactpage = () => {
   return (
     <>

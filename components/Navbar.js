@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import Script from "next/script";
-import logo from "../public/ayumTranparent.png";
 import { bgSecColor, bgPriColor } from "./theam/theam";
 import Link from "next/link";
 import Router from "next/router";
