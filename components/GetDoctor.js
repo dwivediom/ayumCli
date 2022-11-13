@@ -1,21 +1,10 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-  memo,
-} from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "../redux/store/store";
 import { getallDoctorAction } from "../redux/actions/docActions";
-import { bgPriColor } from "./theam/theam";
 import Doctor from "./Doctor";
-import DoctorCard from "./DoctorCard";
-
-import styles from "../styles/doctorcard.module.css";
+import Image from "next/image";
 
 const GetDoctor = () => {
-  const [doctorData, setDoctorData] = useState("");
-
   const dispatch = useDispatch();
 
   const getDoctor = useSelector((state) => state.getDoctorReducer);
@@ -27,11 +16,17 @@ const GetDoctor = () => {
   if (getDoctor.loading) {
     return (
       <>
-        <img
-          style={{ width: "120px", height: "120px", margin: "auto" }}
-          src="./Spinner-1s-200px.svg"
-          alt=""
-        />
+        <div
+          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        >
+          <Image
+            width={"120px"}
+            height={"120px"}
+            loading="eager"
+            src={"/spin.svg"}
+            alt="Loading"
+          />
+        </div>
       </>
     );
   }

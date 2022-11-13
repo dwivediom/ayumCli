@@ -1,12 +1,12 @@
-import React from 'react'
-import BookAppointment from '../../components/UserProfile/BookAppointment'
+import React from "react";
+import BookAppointment from "../../components/UserProfile/BookAppointment";
 
 const BookAppointmentPage = () => {
   return (
     <>
-     <BookAppointment/>
+      <BookAppointment />
     </>
-  )
-}
+  );
+};
 
-export default BookAppointmentPage
+export default BookAppointmentPage;

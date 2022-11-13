@@ -1,21 +1,14 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { bgPriColor } from "../../components/theam/theam";
 
 import axios from "axios";
 
 import { authentication } from "../../firebase.config";
-import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-} from "firebase/auth";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 const {
   initializeAppCheck,
   ReCaptchaV3Provider,
 } = require("firebase/app-check");
-// import OtpInput from "otp-input-react";
 import { useSelector } from "react-redux";
 
 const UserRegistrationPage = () => {
@@ -39,14 +32,6 @@ const UserRegistrationPage = () => {
   });
 
   const generateRecaptcha = () => {
-    // window.recaptchaVerifier = initializeAppCheck(authentication, {
-    //   provider: new ReCaptchaV3Provider('6LfOJtEiAAAAAO1zDyGYumO6UUwErzRV2_7-xMXE'),
-
-    //   // Optional argument. If true, the SDK automatically refreshes App Check
-    //   // tokens as needed.
-    //   isTokenAutoRefreshEnabled: true
-    // });
-
     window.recaptchaVerifier = new RecaptchaVerifier(
       "sign-in-button",
       {
@@ -54,36 +39,35 @@ const UserRegistrationPage = () => {
           "6LfOJtEiAAAAAO1zDyGYumO6UUwErzRV2_7-xMXE"
         ),
         size: "invisible",
-        callback: (response) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-          // onSignInSubmit();
-        },
+        callback: (response) => {},
       },
       authentication
     );
   };
 
+  const [loader, setloader] = useState(false);
+
   const requsetOtp = (e) => {
+    setloader(true);
     e.preventDefault();
+
     generateRecaptcha();
     const appVerifier = window.recaptchaVerifier;
     const phoneNumber = `+91${data.phone}`;
     console.log(phoneNumber);
     signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
       .then((confirmationResult) => {
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
         setviewOtp(true);
       })
       .catch((error) => {
         console.log(error.message);
-        setotpmsg(error.message);
+        setotpmsg("Invalid Phone Number");
+        setloader(false);
       });
   };
 
   const varifyOtp = (e) => {
-    console.log(Otp);
     let Otp = e.target.value;
     setotp(Otp);
     if (Otp.length === 6) {
@@ -93,7 +77,6 @@ const UserRegistrationPage = () => {
         .then((result) => {
           // User signed in successfully.
           const user = result.user;
-          console.log(result.user.uid);
           setuid(result.user.uid);
           login();
           setviewOtp(false);
@@ -101,8 +84,7 @@ const UserRegistrationPage = () => {
         })
         .catch((error) => {
           // User couldn't sign in (bad verification code?)
-          setotpmsg(error.message);
-          console.log(error.message);
+          setotpmsg("Otp is Not Valid");
         });
     }
   };
@@ -116,9 +98,7 @@ const UserRegistrationPage = () => {
       });
 
       setresponce(userdata);
-      console.log(response);
       localStorage.setItem("usertoken", userdata.data.token);
-
       if (docdata != null && localStorage.usertoken) {
         router.push("/User/BookAppointmentPage");
       } else {
@@ -126,7 +106,6 @@ const UserRegistrationPage = () => {
       }
     } catch (err) {
       setviewName(true);
-      console.log(err.response);
       if (err.response) {
       }
     }
@@ -142,9 +121,7 @@ const UserRegistrationPage = () => {
       });
 
       setresponce(userdata);
-      console.log(response);
       localStorage.setItem("usertoken", userdata.data.token);
-      console.log(localStorage.usertoken);
 
       if (docdata != null && localStorage.usertoken) {
         router.push("/User/BookAppointmentPage");
@@ -152,7 +129,6 @@ const UserRegistrationPage = () => {
         router.push("/");
       }
     } catch (err) {
-      console.log(err.response);
       if (err.response) {
         seterror(err.response.data.error);
       }
@@ -228,7 +204,7 @@ const UserRegistrationPage = () => {
                 onClick={(e) => requsetOtp(e)}
                 className="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
               >
-                Submit
+                {loader ? "Submitting..." : "Submit"}
               </button>
             )}
           </form>
@@ -239,7 +215,7 @@ const UserRegistrationPage = () => {
                 htmlFor="otp"
                 className="block mb-2 text-sm font-medium text-gray-300"
               >
-                otp
+                Otp
               </label>
               <input
                 type="number"
@@ -266,7 +242,7 @@ const UserRegistrationPage = () => {
             </h5>
           )}
 
-          {otpmsg && <h3 className="text-red-600 text-bold"> `${otpmsg}` </h3>}
+          {otpmsg && <h3 className="text-red-600 text-bold"> {otpmsg} </h3>}
         </div>
 
         <div id="sign-in-button"></div>
