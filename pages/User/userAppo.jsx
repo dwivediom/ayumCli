@@ -1,5 +1,8 @@
 import React from "react";
-import UserAppointments from "../../components/UserProfile/UserAppointments";
+import dynamic from "next/dynamic";
+const UserAppointments = dynamic(() =>
+  import("../../components/UserProfile/UserAppointments")
+);
 
 const userAppo = () => {
   return (

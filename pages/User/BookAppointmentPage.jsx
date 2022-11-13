@@ -1,5 +1,8 @@
+import dynamic from "next/dynamic";
 import React from "react";
-import BookAppointment from "../../components/UserProfile/BookAppointment";
+const BookAppointment = dynamic(
+  import("../../components/UserProfile/BookAppointment")
+);
 
 const BookAppointmentPage = () => {
   return (

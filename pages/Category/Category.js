@@ -1,10 +1,13 @@
-import React from 'react'
-import QuickSearch from '../../components/QuickSearch'
+import dynamic from "next/dynamic";
+import React from "react";
+const QuickSearch = dynamic(() => import("../../components/QuickSearch"));
 
 const Category = () => {
   return (
-    <div><QuickSearch/></div>
-  )
-}
+    <div>
+      <QuickSearch />
+    </div>
+  );
+};
 
-export default Category
+export default Category;
