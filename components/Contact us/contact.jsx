@@ -58,18 +58,23 @@ const Contact = () => {
           </h1>
           <form ref={form} onSubmit={sendEmail}>
             <input
+              style={{ border: " 1px solid rgba(0, 255, 255, 0.58)" }}
               type="text"
               placeholder="Enter Your Name"
+              className="p-3 border-1 "
               required
               name="user_name"
             />
             <input
+              style={{ border: " 1px solid rgba(0, 255, 255, 0.58)" }}
               type="email"
               placeholder="Enter Your Email"
               name="user_email"
+              className="p-3"
               required
             />
             <textarea
+              style={{ border: " 1px solid rgba(0, 255, 255, 0.58)" }}
               name="message"
               id=""
               cols="37"
