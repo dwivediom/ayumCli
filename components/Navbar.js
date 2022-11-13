@@ -33,12 +33,11 @@ const Navbar = () => {
         style={{
           boxShadow: "0px 3px 10px rgba(0,0,0,0.8) ",
         }}
-        className={`${bgSecColor} fixed top-0 z-10 w-full   `}
+        className={`${bgSecColor} fixed top-0 z-10 w-full  `}
       >
-        <div className="  mx-auto max-w-7xl px-2 sm:px-6  lg:px-8">
+        <div className=" mx-auto max-w-7xl px-2 sm:px-3  lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-              {/* <!-- Mobile menu button--> */}
               <button
                 type="button"
                 onClick={clicknavitem}
@@ -47,13 +46,6 @@ const Navbar = () => {
                 aria-expanded="false"
               >
                 <span className="sr-only">Open main menu</span>
-                {/* <!--
-            Icon when menu is closed.
-
-            Heroicon name: outline/bars-3
-
-            Menu open: "hidden", Menu closed: "block"
-          --> */}
                 <svg
                   className="block h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
@@ -69,13 +61,6 @@ const Navbar = () => {
                     d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                   />
                 </svg>
-                {/* <!--
-            Icon when menu is open.
-
-            Heroicon name: outline/x-mark
-
-            Menu open: "block", Menu closed: "hidden"
-          --> */}
                 <svg
                   className="hidden h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +87,7 @@ const Navbar = () => {
                       width={"70px"}
                       height={"30px"}
                       src={`/ayumTranparent.png`}
-                      loading="lazy"
+                      loading="eager"
                       alt="Your Company"
                     />
                   </span>
@@ -112,31 +97,39 @@ const Navbar = () => {
                       height={"25px"}
                       src={`/ayumTranparent.png`}
                       alt="Your Company "
-                      loading="lazy"
+                      loading="eager"
                     />
                   </span>
                 </div>
               </Link>
-              <div className=" hidden   sm:ml-10 md:block sm:block">
-                <div className="flex space-x-4">
-                  {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
+              <div className=" hidden sm:ml-10 md:block sm:block">
+                <div>
                   <a
                     onClick={() => Router.push("/Contact/Contactpage")}
                     style={{
                       border: "1px solid rgba(39, 239, 245, 0.3)",
                       cursor: "pointer",
                     }}
-                    className=" text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className=" text-white px-2 py-1 rounded-md text-sm font-medium"
                     aria-current="page"
                   >
                     Contact Us
                   </a>
-
-                  {/* <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Team</a>
-
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Calendar</a> */}
+                </div>
+              </div>
+              <div className=" hidden sm:ml-10 md:block sm:block">
+                <div>
+                  <a
+                    onClick={() => Router.push("/Contact/Contactpage")}
+                    style={{
+                      border: "1px solid rgba(39, 239, 245, 0.3)",
+                      cursor: "pointer",
+                    }}
+                    className=" text-white px-2 py-1 rounded-md text-sm font-medium"
+                    aria-current="page"
+                  >
+                    About us
+                  </a>
                 </div>
               </div>
             </div>
@@ -146,7 +139,6 @@ const Navbar = () => {
                 className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
               >
                 <span className="sr-only">View notifications</span>
-                {/* <!-- Heroicon name: outline/bell --> */}
                 <svg
                   className="h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
@@ -230,15 +222,26 @@ const Navbar = () => {
 
         <div className="sm:hidden" id="mobile-menu">
           {navitem && (
-            <div className="  space-y-1 px-2 pt-2 pb-3">
-              <a
-                className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-                aria-current="page"
-                onClick={() => Router.push("/Contact/Contactpage")}
-              >
-                Contact Us
-              </a>
-            </div>
+            <>
+              <div className="  space-y-1 px-2 pt-2 pb-3">
+                <a
+                  className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
+                  aria-current="page"
+                  onClick={() => Router.push("/Contact/Contactpage")}
+                >
+                  Contact Us
+                </a>
+              </div>
+              <div className="  space-y-1 px-2 pt-2 pb-3">
+                <a
+                  className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
+                  aria-current="page"
+                  onClick={() => Router.push("/Contact/Contactpage")}
+                >
+                  About Us
+                </a>
+              </div>
+            </>
           )}
         </div>
       </nav>

@@ -1,12 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect } from "react";
 import Footer from "../components/Footer";
 import GetDoctor from "../components/GetDoctor";
-import Navbar from "../components/Navbar";
 import QuickSearch from "../components/QuickSearch";
 import SearchBox from "../components/SearchBox";
 import styles from "../styles/Home.module.css";
+
+export const config = {
+  unstable_runtimeJS: false,
+};
 
 export default function Home() {
   return (
@@ -14,6 +16,10 @@ export default function Home() {
       <Head>
         <title>Ayum</title>
         <meta name="title" content="ayum" />
+        <meta
+          name="description"
+          content="Ayum is Online Doctor Appointment Booking Platform and Health Care Services Provider i,e Lab Reports , Medicine Delivery etc.  "
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
