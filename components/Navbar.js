@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
-import Script from "next/script";
 import { bgSecColor, bgPriColor } from "./theam/theam";
 import Link from "next/link";
 import Router from "next/router";
@@ -22,12 +21,6 @@ const Navbar = () => {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <Script
-        src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"
-        strategy="beforeInteractive"
-      />
-      <Script src="https://cdn.tailwindcss.com" />
-      {/* <nav className="bg-gray-800"> */}
       <nav
         style={{
           boxShadow: "0px 3px 10px rgba(0,0,0,0.8) ",
