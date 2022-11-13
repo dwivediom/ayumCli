@@ -2,7 +2,8 @@ import React from "react";
 import styles from "../../styles/contact.module.css";
 import emailjs from "@emailjs/browser";
 import { useRef } from "react";
-import Footer from "../Footer";
+import dynamic from "next/dynamic";
+const Footer = dynamic(() => import("../Footer"));
 
 const Contact = () => {
   const form = useRef();

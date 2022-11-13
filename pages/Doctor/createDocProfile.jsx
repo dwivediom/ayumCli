@@ -1,16 +1,13 @@
-import React from 'react'
-import CreateDocProfile from '../../components/DocProfile/CreateDocProfile'
-import { useRouter } from 'next/router'
+import dynamic from "next/dynamic";
+import React from "react";
+const CreateDocProfile = dynamic(() => import(CreateDocProfile));
 
 const createDocProfile = () => {
-  
   return (
-   <>
-   <CreateDocProfile/>
-   
-   </>
-  )
-}
+    <>
+      <CreateDocProfile />
+    </>
+  );
+};
 
-export default createDocProfile
-
+export default createDocProfile;

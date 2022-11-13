@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { bgPriColor } from "../theam/theam";
-import { doctorRegister } from "../../pages/api/DoctorApi/DocApi";
 import axios from "axios";
-import { Port } from "../../pages/api/Mainport";
 import { useSelector } from "react-redux";
 
 const UserLogin = () => {
