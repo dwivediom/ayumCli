@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Docprofile = () => {
-  return (
-    <div>Dorofile</div>
-  )
-}
+  return <div>Dorofile</div>;
+};
 
-export default Docprofile
+export default Docprofile;
