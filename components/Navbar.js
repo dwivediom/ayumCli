@@ -27,7 +27,7 @@ const Navbar = () => {
         }}
         className={`${bgSecColor} fixed top-0 z-10 w-full  `}
       >
-        <div className=" mx-auto max-w-7xl px-2 sm:px-3  lg:px-8">
+        <div className=" mx-auto max-w-7xl px-1 sm:px-2  lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
               <button
@@ -76,8 +76,8 @@ const Navbar = () => {
                   <span className="block h-10 mr-6  lg:hidden lg:m-0 lg:h-0 lg:w-0">
                     <Image
                       style={{ marginTop: "-10px" }}
-                      width={"70px"}
-                      height={"30px"}
+                      width={"100px"}
+                      height={"40px"}
                       src={`/ayumTranparent.png`}
                       loading="eager"
                       alt="Your Company"
@@ -85,8 +85,8 @@ const Navbar = () => {
                   </span>
                   <span className="hidden h-8 w-auto lg:block">
                     <Image
-                      width={"60px"}
-                      height={"25px"}
+                      width={"100px"}
+                      height={"40px"}
                       src={`/ayumTranparent.png`}
                       alt="Your Company "
                       loading="eager"
@@ -106,21 +106,6 @@ const Navbar = () => {
                     aria-current="page"
                   >
                     Contact Us
-                  </a>
-                </div>
-              </div>
-              <div className=" hidden sm:ml-10 md:block sm:block">
-                <div>
-                  <a
-                    onClick={() => Router.push("/About/Aboutpage")}
-                    style={{
-                      border: "1px solid rgba(39, 239, 245, 0.3)",
-                      cursor: "pointer",
-                    }}
-                    className=" text-white px-2 py-1 rounded-md text-sm font-medium"
-                    aria-current="page"
-                  >
-                    About us
                   </a>
                 </div>
               </div>
