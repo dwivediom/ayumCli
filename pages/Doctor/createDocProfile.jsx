@@ -1,7 +1,5 @@
-import dynamic from "next/dynamic";
 import React from "react";
-const CreateDocProfile = dynamic(() => import(CreateDocProfile));
-
+import CreateDocProfile from "../../components/DocProfile/CreateDocProfile";
 const createDocProfile = () => {
   return (
     <>
