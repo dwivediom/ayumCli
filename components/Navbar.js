@@ -85,8 +85,8 @@ const Navbar = () => {
                   </span>
                   <span className="hidden h-8 w-auto lg:block">
                     <Image
-                      width={"80px"}
-                      height={"30px"}
+                      width={"100px"}
+                      height={"40px"}
                       src={`/ayumTranparent.png`}
                       alt="Your Company "
                       loading="eager"
