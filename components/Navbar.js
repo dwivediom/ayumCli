@@ -70,7 +70,13 @@ const Navbar = () => {
                 </svg>
               </button>
             </div>
-            <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+              className="flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start"
+            >
               <Link href={"/"}>
                 <div className="flex flex-shrink-0 items-center">
                   <span className="block h-10 mr-6  lg:hidden lg:m-0 lg:h-0 lg:w-0">
@@ -80,21 +86,21 @@ const Navbar = () => {
                       height={"40px"}
                       src={`/ayumTranparent.png`}
                       loading="eager"
-                      alt="Your Company"
+                      alt="Ayum"
                     />
                   </span>
                   <span className="hidden h-8 w-auto lg:block">
                     <Image
                       width={"100px"}
-                      height={"40px"}
+                      height={"30px"}
                       src={`/ayumTranparent.png`}
-                      alt="Your Company "
+                      alt="Ayum"
                       loading="eager"
                     />
                   </span>
                 </div>
               </Link>
-              <div className=" hidden sm:ml-10 md:block sm:block">
+              <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
                 <div>
                   <a
                     onClick={() => Router.push("/Contact/Contactpage")}
@@ -106,6 +112,21 @@ const Navbar = () => {
                     aria-current="page"
                   >
                     Contact Us
+                  </a>
+                </div>
+              </div>
+              <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
+                <div>
+                  <a
+                    onClick={() => Router.push("/About/Aboutpage")}
+                    style={{
+                      border: "1px solid rgba(39, 239, 245, 0.3)",
+                      cursor: "pointer",
+                    }}
+                    className=" text-white px-2 py-1 rounded-md text-sm font-medium"
+                    aria-current="page"
+                  >
+                    About Us
                   </a>
                 </div>
               </div>
