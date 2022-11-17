@@ -26,7 +26,7 @@ const Aboutus = () => {
               <span>
                 Using Ayum doctors can easily take appointments from user and
                 with simple and interactive interface they can also analyze
-                their buisness growth{" "}
+                their buisness growth
               </span>
             </div>
             <Image
