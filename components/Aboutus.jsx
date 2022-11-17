@@ -15,9 +15,9 @@ const Aboutus = () => {
             dhar Dwivedi , Anurag Singh , Om dwivedi etc. . Ayum is an One Stop
             Online platform that provides the facility to Book Appointments and
             using Ayum you can also get your Lab tests report in your smartphone
-            . Ayum makes the hectic procedure of booking doctor's appointement
-            and getting lab tests report into an simple task . we bring
-            innovation and technology in the health care sector . we are
+            . Ayum makes the hectic procedure of booking doctor&apos;s
+            appointement and getting lab tests report into an simple task . we
+            bring innovation and technology in the health care sector . we are
             passionate about making peoples live better.
           </p>
           <div className={styles.doctrust}>
