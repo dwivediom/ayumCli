@@ -107,7 +107,7 @@ const Doctor = (props) => {
         <a
           href="#"
           onClick={(e) => Click(e)}
-          className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-cyan-500 rounded-lg hover:bg-cyan-500 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-600  hover:bg-cyan-800 dark:focus:ring-cyan-500"
+          className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-cyan-700 rounded-lg hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-700  hover:bg-cyan-800 dark:focus:ring-cyan-500"
         >
           Book slot
           <svg
