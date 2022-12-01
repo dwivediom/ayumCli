@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "../redux/store/store";
 import { getallDoctorAction } from "../redux/actions/docActions";
 import dynamic from "next/dynamic";
+import styles from "../styles/loader.module.css";
 const Doctor = dynamic(() => import("./Doctor"));
 import Image from "next/image";
 
@@ -18,15 +19,14 @@ const GetDoctor = () => {
     return (
       <>
         <div
-          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "2rem",
+          }}
         >
-          <Image
-            width={"120px"}
-            height={"120px"}
-            loading="eager"
-            src={"/spin.svg"}
-            alt="Loading"
-          />
+          <div className={styles.dotsbars4}></div>
         </div>
       </>
     );
