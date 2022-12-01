@@ -42,6 +42,7 @@ export default function Home() {
                 height={"65px"}
                 loading="lazy"
                 src={"/barkha.jpg"}
+                alt={"Barkha Upadhyay"}
               />{" "}
               <span className={styles.name}>
                 Barkha Upadhyay <br />
@@ -57,6 +58,7 @@ export default function Home() {
                 height={"65px"}
                 loading="lazy"
                 src={"/bl.jpeg"}
+                alt={"Dr BL Mishra"}
               />{" "}
               <span className={styles.name}>
                 Dr BL Mishra
@@ -73,6 +75,7 @@ export default function Home() {
                 height={"65px"}
                 loading="lazy"
                 src={"/dhreendra.jpeg"}
+                alt={"Dr Dheerendra Mishra"}
               />{" "}
               <span className={styles.name}>
                 Dr Dheerendra Mishra <br />

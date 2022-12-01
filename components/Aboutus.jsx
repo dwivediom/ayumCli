@@ -34,6 +34,7 @@ const Aboutus = () => {
               width={"190px"}
               height={"320px"}
               src={"/doc.png"}
+              alt={"Image"}
             />
           </div>
           <div className={styles.doctrust}>
@@ -42,6 +43,7 @@ const Aboutus = () => {
               width={"200px"}
               height={"320px"}
               src={"/man.png"}
+              alt={"Image"}
             />
             <div>
               People use Ayum for Booking Appointment
