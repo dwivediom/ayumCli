@@ -27,7 +27,7 @@ const QuickSearch = () => {
       <div
         onClick={(e) => qSearch(e)}
         value="Kideny  "
-        className="cursor-pointer h-12 lg:h-16 rounded-2xl  border-2 border-red-800 bg-red-400 text-center      pt-3 lg:pt-4  text-white decoration-8 "
+        className="cursor-pointer h-12 lg:h-16 rounded-2xl  border-2 border-red-800 bg-red-700 text-center      pt-3 lg:pt-4  text-white decoration-8 "
       >
         {" "}
         <span className={`${styles.divtext}`}>Kideny</span>{" "}
@@ -35,7 +35,7 @@ const QuickSearch = () => {
       <div
         onClick={(e) => qSearch(e)}
         value="Dentist "
-        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-blue-800   bg-blue-800 text-center   pt-3 lg:pt-4 "
+        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-blue-900   bg-blue-900 text-center   pt-3 lg:pt-4 "
       >
         {" "}
         <span className={`${styles.divtext}`}>Dentist</span>
@@ -43,7 +43,7 @@ const QuickSearch = () => {
       <div
         onClick={(e) => qSearch(e)}
         value="neuro   "
-        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-green-800 bg-green-600 text-center   pt-3 lg:pt-4  "
+        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-green-800 bg-green-900 text-center   pt-3 lg:pt-4  "
       >
         {" "}
         <span className={`${styles.divtext}`}>neuro</span>{" "}
@@ -51,7 +51,7 @@ const QuickSearch = () => {
       <div
         onClick={(e) => qSearch(e)}
         value="surgery "
-        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-yellow-600 bg-yellow-600 text-center pt-3 lg:pt-4 "
+        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-yellow-600 bg-purple-800 text-center pt-3 lg:pt-4 "
       >
         {" "}
         <span className={`${styles.divtext}`}>surgery</span>{" "}
@@ -59,7 +59,7 @@ const QuickSearch = () => {
       <div
         onClick={(e) => qSearch(e)}
         value="Skin    "
-        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-orange-800 bg-orange-600 text-center pt-3 lg:pt-4"
+        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-orange-800 bg-orange-700 text-center pt-3 lg:pt-4"
       >
         {" "}
         <span className={`${styles.divtext}`}>Skin</span>
@@ -67,14 +67,14 @@ const QuickSearch = () => {
       <div
         onClick={(e) => qSearch(e)}
         value="Bone    "
-        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-sky-800 bg-sky-600 text-center       pt-3 lg:pt-4"
+        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-sky-800 bg-sky-700 text-center       pt-3 lg:pt-4"
       >
         <span className={`${styles.divtext}`}>Bone</span>{" "}
       </div>
       <div
         onClick={(e) => qSearch(e)}
         value="Gynae   "
-        className="cursor-pointer  h-12 lg:h-16 rounded-2xl  border-2 border-red-800 bg-pink-400 text-center    pt-3 lg:pt-4  text-white decoration-8"
+        className="cursor-pointer  h-12 lg:h-16 rounded-2xl  border-2 border-red-800 bg-pink-700 text-center    pt-3 lg:pt-4  text-white decoration-8"
       >
         {" "}
         <span className={`${styles.divtext}`}>Gynae</span>{" "}
@@ -82,7 +82,7 @@ const QuickSearch = () => {
       <div
         onClick={(e) => qSearch(e)}
         value="Medicine  "
-        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-blue-800   bg-blue-800 text-center   pt-3 lg:pt-4 "
+        className="cursor-pointer  h-12 lg:h-16 rounded-2xl border-2 border-blue-800   bg-violet-900 text-center   pt-3 lg:pt-4 "
       >
         {" "}
         <span className={`${styles.divtext}`}>Medicine</span>
