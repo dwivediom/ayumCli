@@ -52,9 +52,9 @@ const DoctorCard = (props) => {
           </span>
         </div>
       </div>
-      <div className={`${styles.appoint_btn}`}>
+      {/* <div className={`${styles.appoint_btn}`}>
         <span>Book Slot</span>
-      </div>
+      </div> */}
     </div>
   );
 };
