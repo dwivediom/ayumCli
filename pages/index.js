@@ -1,13 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
-// import Footer from "../components/Footer";
-// import GetDoctor from "../components/GetDoctor";
-// import QuickSearch from "../components/QuickSearch";
-// import SearchBox from "../components/SearchBox";
+
 import styles from "../styles/Home.module.css";
 import dynamic from "next/dynamic";
 const SearchBox = dynamic(() => import("../components/SearchBox"));
-// const styles = dynamic(() => import("../styles/Home.module.css"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
 const GetDoctor = dynamic(() => import("../components/GetDoctor"));
 const Footer = dynamic(() => import("../components/Footer"));
@@ -37,13 +33,15 @@ export default function Home() {
           <h3>Supported By :</h3>
           <div>
             <div className={styles.person}>
-              <Image
-                width={"65px"}
-                height={"65px"}
-                loading="lazy"
-                src={"/barkha.jpg"}
-                alt={"Barkha Upadhyay"}
-              />{" "}
+              <div style={{ margin: "auto" }}>
+                <Image
+                  width={65}
+                  height={65}
+                  loading="lazy"
+                  src={"/barkha.jpg"}
+                  alt={"Barkha Upadhyay"}
+                />{" "}
+              </div>
               <span className={styles.name}>
                 Barkha Upadhyay <br />
                 <span>
@@ -53,13 +51,15 @@ export default function Home() {
               </span>
             </div>
             <div className={styles.person}>
-              <Image
-                width={"65px"}
-                height={"65px"}
-                loading="lazy"
-                src={"/bl.jpeg"}
-                alt={"Dr BL Mishra"}
-              />{" "}
+              <div style={{ margin: "auto" }}>
+                <Image
+                  width={65}
+                  height={65}
+                  loading="lazy"
+                  src={"/bl.jpeg"}
+                  alt={"Dr BL Mishra"}
+                />
+              </div>
               <span className={styles.name}>
                 Dr BL Mishra
                 <br />
@@ -70,13 +70,15 @@ export default function Home() {
               </span>
             </div>
             <div className={styles.person}>
-              <Image
-                width={"65px"}
-                height={"65px"}
-                loading="lazy"
-                src={"/dhreendra.jpeg"}
-                alt={"Dr Dheerendra Mishra"}
-              />{" "}
+              <div style={{ margin: "auto" }}>
+                <Image
+                  width={65}
+                  height={65}
+                  loading="lazy"
+                  src={"/dhreendra.jpeg"}
+                  alt={"Dr Dheerendra Mishra"}
+                />
+              </div>
               <span className={styles.name}>
                 Dr Dheerendra Mishra <br />
                 <span>
