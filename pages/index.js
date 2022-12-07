@@ -100,7 +100,6 @@ export async function getServerSideProps(context) {
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_B_PORT}/api/profile`
   );
-  console.log(data);
   return {
     props: { data }, // will be passed to the page component as props
   };
