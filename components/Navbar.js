@@ -103,7 +103,7 @@ const Navbar = () => {
               <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
                 <div>
                   <a
-                    onClick={() => Router.push("/Contact/Contactpage")}
+                    onClick={() => Router.push("/Contact")}
                     style={{
                       border: "1px solid rgba(39, 239, 245, 0.3)",
                       cursor: "pointer",
@@ -118,7 +118,7 @@ const Navbar = () => {
               <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
                 <div>
                   <a
-                    onClick={() => Router.push("/About/Aboutpage")}
+                    onClick={() => Router.push("/About")}
                     style={{
                       border: "1px solid rgba(39, 239, 245, 0.3)",
                       cursor: "pointer",
@@ -225,7 +225,7 @@ const Navbar = () => {
                 <a
                   className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
                   aria-current="page"
-                  onClick={() => Router.push("/Contact/Contactpage")}
+                  onClick={() => Router.push("/Contact")}
                 >
                   Contact Us
                 </a>
@@ -234,7 +234,7 @@ const Navbar = () => {
                 <a
                   className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
                   aria-current="page"
-                  onClick={() => Router.push("/About/Aboutpage")}
+                  onClick={() => Router.push("/About")}
                 >
                   About Us
                 </a>
