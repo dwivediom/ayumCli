@@ -1,14 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
-
+import { getdoctor } from "./api/DoctorApi/DocApi";
 import styles from "../styles/Home.module.css";
 import dynamic from "next/dynamic";
+import axios from "axios";
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
 const GetDoctor = dynamic(() => import("../components/GetDoctor"));
 const Footer = dynamic(() => import("../components/Footer"));
 
-export default function Home() {
+export default function Home(props) {
   return (
     <div className={styles.container}>
       <Head>
@@ -24,7 +25,7 @@ export default function Home() {
       <SearchBox />
       <QuickSearch />
       <main className={`${""} m-3`}>
-        <GetDoctor />
+        <GetDoctor getDoctor={props.data} />
       </main>
 
       <footer className={styles.footer}>
@@ -93,4 +94,14 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_B_PORT}/api/profile`
+  );
+  console.log(data);
+  return {
+    props: { data }, // will be passed to the page component as props
+  };
 }
