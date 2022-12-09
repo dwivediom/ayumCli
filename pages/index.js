@@ -19,6 +19,7 @@ export default function Home(props) {
           name="description"
           content="Ayum is Online Doctor Appointment Booking Platform and Health Care Services Provider i,e Lab Reports , Medicine Delivery etc.  "
         />
+        <meta name="google-site-verification" content="TZ_t3W3EZ4x4C5q8BPlZ_luCjIeWczMJwCyObT8AjYA" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
