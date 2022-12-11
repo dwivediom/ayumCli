@@ -196,3 +196,23 @@
     display: none;
   }
 }
+
+.installbtn {
+  background-image: linear-gradient(
+    to right,
+    #ef32d9 0%,
+    #11d7d4 51%,
+    #ef32d9 100%
+  );
+  box-shadow: 0 0 15px rgba(2, 255, 255, 0.47);
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  display: block;
+}
+
+.installbtn:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
