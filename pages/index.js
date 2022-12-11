@@ -4,6 +4,7 @@ import { getdoctor } from "./api/DoctorApi/DocApi";
 import styles from "../styles/Home.module.css";
 import dynamic from "next/dynamic";
 import axios from "axios";
+
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
 const GetDoctor = dynamic(() => import("../components/GetDoctor"));
@@ -24,6 +25,7 @@ export default function Home(props) {
 
       <SearchBox />
       <QuickSearch />
+
       <main className={`${""} m-3`}>
         <GetDoctor getDoctor={props.data} />
       </main>
