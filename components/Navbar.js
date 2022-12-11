@@ -3,7 +3,9 @@ import Image from "next/image";
 import Head from "next/head";
 import { bgSecColor, bgPriColor } from "./theam/theam";
 import Link from "next/link";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
+import styles from "../styles/Home.module.css";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const [profile, setprofile] = useState(false);
@@ -15,6 +17,51 @@ const Navbar = () => {
   const clicknavitem = () => {
     setnavitem((navitem) => !navitem);
   };
+
+  const router = useRouter();
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  useEffect(() => {
+    if (!router.isServer) {
+      window.addEventListener("beforeinstallprompt", (event) => {
+        // Prevent the default prompt
+        event.preventDefault();
+        // Save the event so it can be triggered later
+        setDeferredPrompt(event);
+      });
+    }
+  }, [router.isServer]);
+  // Listen for the beforeinstallprompt event and save the prompt
+
+  const showInstallPrompt = () => {
+    // Check if there is a saved event
+    if (deferredPrompt) {
+      if (typeof deferredPrompt === "object") {
+        // Check if the app property exists
+        if (deferredPrompt.hasOwnProperty("app")) {
+          // Apply custom styles to the prompt
+          deferredPrompt.app.setStyle({
+            width: "375px",
+            height: "667px",
+            backgroundColor: "#fafafa",
+            border: "1px solid #999",
+          });
+        }
+      }
+      // Show the prompt
+      deferredPrompt.prompt();
+      // Wait for the user to respond to the prompt
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted the install prompt");
+        } else {
+          console.log("User dismissed the install prompt");
+        }
+        // Clear the saved event
+        setDeferredPrompt(null);
+      });
+    }
+  };
+
   return (
     <>
       <Head>
@@ -44,7 +91,7 @@ const Navbar = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
-                  stroke="currentColor"
+                  stroke="aqua"
                   aria-hidden="true"
                 >
                   <path
@@ -129,6 +176,14 @@ const Navbar = () => {
                     About Us
                   </a>
                 </div>
+              </div>
+              <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
+                <button
+                  onClick={showInstallPrompt}
+                  className={`${styles.installbtn} text-white px-2 py-1 rounded-md text-sm font-medium`}
+                >
+                  Install App
+                </button>
               </div>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -238,6 +293,14 @@ const Navbar = () => {
                 >
                   About Us
                 </a>
+              </div>
+              <div className=" space-y-1 px-2 ml-2 pt-2 pb-3">
+                <button
+                  onClick={showInstallPrompt}
+                  className={`${styles.installbtn} text-white px-2 py-1 rounded-md text-sm font-medium`}
+                >
+                  Install App
+                </button>
               </div>
             </>
           )}
