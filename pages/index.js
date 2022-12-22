@@ -4,6 +4,8 @@ import { getdoctor } from "./api/DoctorApi/DocApi";
 import styles from "../styles/Home.module.css";
 import dynamic from "next/dynamic";
 import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
@@ -11,6 +13,10 @@ const GetDoctor = dynamic(() => import("../components/GetDoctor"));
 const Footer = dynamic(() => import("../components/Footer"));
 
 export default function Home(props) {
+  const [loading, setloading] = useState(true);
+  useEffect(() => {
+    setloading(false);
+  }, [props.data]);
   return (
     <div className={styles.container}>
       <Head>
@@ -20,7 +26,10 @@ export default function Home(props) {
           name="description"
           content="Ayum is Online Doctor Appointment Booking Platform and Health Care Services Provider i,e Lab Reports , Medicine Delivery etc.  "
         />
-        <meta name="google-site-verification" content="TZ_t3W3EZ4x4C5q8BPlZ_luCjIeWczMJwCyObT8AjYA" />
+        <meta
+          name="google-site-verification"
+          content="TZ_t3W3EZ4x4C5q8BPlZ_luCjIeWczMJwCyObT8AjYA"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -28,7 +37,24 @@ export default function Home(props) {
       <QuickSearch />
 
       <main className={`${""} m-3`}>
-        <GetDoctor getDoctor={props.data} />
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            {" "}
+            <Image
+              style={{ borderRadius: "50%" }}
+              src={"/loading.gif"}
+              width={200}
+              height={200}
+            />{" "}
+          </div>
+        ) : (
+          <GetDoctor getDoctor={props.data} />
+        )}
       </main>
 
       <footer className={styles.footer}>

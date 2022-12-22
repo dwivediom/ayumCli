@@ -1,18 +1,128 @@
+.maindiv div {
+  /* background: rgba(255, 0, 0, 0.6);     */
 
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  /* border: 1px solid rgba(255, 255, 255, 0.18); */
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.589);
+}
 
+.divtext {
+  background: rgba(255, 0, 0, 0);
+  font-weight: bolder;
+  color: white;
+}
 
-.maindiv div{
-    /* background: rgba(255, 0, 0, 0.6);     */
-    
-   
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 4px );
-    border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );}
-
-.divtext{
-    background: rgba(255, 0, 0, 0);
-    font-weight: bolder;
-    color: white;
-    
+.btn1 {
+  background-image: linear-gradient(
+    to right,
+    #76a8c7 0%,
+    #0019fe 51%,
+    #76a8c7 100%
+  );
+  transition: 0.5s;
+  background-size: 200% auto;
+  border: none;
+}
+.btn1:hover {
+  background-position: right center; /* change the direction of the change here */
+}
+.btn2 {
+  background-image: linear-gradient(
+    to right,
+    #6da7b7 0%,
+    #0fec13 51%,
+    #6da7b7 100%
+  );
+  transition: 0.5s;
+  background-size: 200% auto;
+  border: none;
+}
+.btn2:hover {
+  background-position: right center; /* change the direction of the change here */
+}
+.btn3 {
+  background-image: linear-gradient(
+    to right,
+    #f857a6 0%,
+    #962323 51%,
+    #f857a6 100%
+  );
+  transition: 0.5s;
+  background-size: 200% auto;
+  border: none;
+}
+.btn3:hover {
+  background-position: right center; /* change the direction of the change here */
+}
+.btn4 {
+  background-image: linear-gradient(
+    to right,
+    #db0707 0%,
+    #8d391d 51%,
+    #f00808 100%
+  );
+  transition: 0.5s;
+  background-size: 200% auto;
+  border: none;
+}
+.btn4:hover {
+  background-position: right center; /* change the direction of the change here */
+}
+.btn5 {
+  background-image: linear-gradient(
+    to right,
+    #ff00aa 0%,
+    #2a3ce1 51%,
+    #00ffd5 100%
+  );
+  transition: 0.5s;
+  background-size: 200% auto;
+  border: none;
+}
+.btn5:hover {
+  background-position: right center; /* change the direction of the change here */
+}
+.btn6 {
+  background-image: linear-gradient(
+    to right,
+    #6a3093 0%,
+    #a044ff 51%,
+    #6a3093 100%
+  );
+  transition: 0.5s;
+  background-size: 200% auto;
+  border: none;
+}
+.btn6:hover {
+  background-position: right center; /* change the direction of the change here */
+}
+.btn7 {
+  background-image: linear-gradient(
+    to right,
+    #0099f7 0%,
+    #f11712 51%,
+    #0099f7 100%
+  );
+  transition: 0.5s;
+  background-size: 200% auto;
+  border: none;
+}
+.btn7:hover {
+  background-position: right center; /* change the direction of the change here */
+}
+.btn8 {
+  background-image: linear-gradient(
+    to right,
+    #bf00ff 0%,
+    #ff00ff 51%,
+    #c300ff 100%
+  );
+  transition: 0.5s;
+  background-size: 200% auto;
+  border: none;
+}
+.btn8:hover {
+  background-position: right center; /* change the direction of the change here */
 }
