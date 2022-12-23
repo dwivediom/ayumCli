@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import { getdoctor } from "./api/DoctorApi/DocApi";
 import styles from "../styles/Home.module.css";
 import dynamic from "next/dynamic";
 import axios from "axios";
@@ -42,15 +41,10 @@ export default function Home(props) {
             style={{
               display: "flex",
               justifyContent: "center",
+              marginTop: "3rem",
             }}
           >
-            {" "}
-            <Image
-              style={{ borderRadius: "50%" }}
-              src={"/loading.gif"}
-              width={200}
-              height={200}
-            />{" "}
+            <div className={`${styles.continuous4}`}></div>
           </div>
         ) : (
           <GetDoctor getDoctor={props.data} />
