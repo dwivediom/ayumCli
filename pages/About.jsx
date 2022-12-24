@@ -1,8 +1,15 @@
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Aboutus from "../components/Aboutus";
+import Loader from "../components/Loader";
 
 const Aboutpage = () => {
+  const [loading, setloading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setloading(false);
+    }, 2000);
+  });
   return (
     <>
       <Head>
@@ -17,7 +24,7 @@ const Aboutpage = () => {
           content="TZ_t3W3EZ4x4C5q8BPlZ_luCjIeWczMJwCyObT8AjYA"
         />
       </Head>
-      <Aboutus />
+      {loading ? <Loader /> : <Aboutus />}
     </>
   );
 };
