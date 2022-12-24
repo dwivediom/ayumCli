@@ -117,7 +117,7 @@ const Navbar = () => {
                   </svg>
                 )}
               </button>
-              <div
+              {/* <div
                 onClick={showInstallPrompt}
                 style={{
                   color: "#00f445",
@@ -142,6 +142,12 @@ const Navbar = () => {
                   />
                 </svg>
                 <span style={{ marginTop: "-0.7rem" }}>&darr;</span>
+              </div> */}
+              <div onClick={showInstallPrompt} style={{ marginLeft: "10px" }}>
+                <img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAW0lEQVR4nGNgGDngVeVRhldV/yG48jANLKj6j4JHLcAAr0aDaPgF0cuqcgxDceN6WlpST0uf1FNmOH5LqGQ4dkuobDgMvKxsAONRQBvwiuhM9Z8oTH8LGIYoAAAtpRMLOlH1GgAAAABJRU5ErkJggg=="
+                  alt="download app"
+                ></img>
               </div>
             </div>
             <div

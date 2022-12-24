@@ -1,37 +1,37 @@
 import "../styles/globals.css";
 import { Provider as ReduxProvider } from "react-redux";
+import styles from "../styles/Home.module.css";
+
 import { store } from "../redux/store/store";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
+import { useState } from "react";
+import Loader from "../components/Loader";
 const BottomNav = dynamic(() => import("../components/BottomNav"));
 const Navbar = dynamic(() => import("../components/Navbar"));
 function MyApp({ Component, pageProps }) {
-  // useEffect(() => {
-  //   let deferredPrompt;
-
-  //   window.addEventListener("beforeinstallprompt", (e) => {
-  //     deferredPrompt = e;
-  //   });
-  //   const installApp = document.getElementById("installApp");
-
-  //   installApp.addEventListener("click", async () => {
-  //     if (deferredPrompt !== null) {
-  //       console.log(deferredPrompt);
-  //       deferredPrompt.prompt();
-  //       const { outcome } = await deferredPrompt.userChoice;
-  //       if (outcome === "accepted") {
-  //         deferredPrompt = null;
-  //       }
-  //     }
-  //   });
-  // }, []);
-
+  const [loading, setloading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setloading(false);
+    }, 3000);
+  });
   return (
-    <ReduxProvider store={store}>
-      <Navbar />
-      <Component {...pageProps} />
-      <BottomNav />
-    </ReduxProvider>
+    <>
+      <ReduxProvider store={store}>
+        <Navbar />
+        {loading ? (
+          <>
+            <Loader />
+          </>
+        ) : (
+          <div>
+            <Component {...pageProps} />
+            <BottomNav />
+          </div>
+        )}
+      </ReduxProvider>
+    </>
   );
 }
 

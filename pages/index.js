@@ -14,10 +14,12 @@ const Footer = dynamic(() => import("../components/Footer"));
 export default function Home(props) {
   const [loading, setloading] = useState(true);
   useEffect(() => {
-    setloading(false);
+    setTimeout(() => {
+      setloading(false);
+    }, 2000);
   }, [props.data]);
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Ayum</title>
         <meta name="title" content="ayum" />
@@ -32,90 +34,79 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <SearchBox />
-      <QuickSearch />
-
-      <main className={`${""} m-3`}>
-        {loading ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "3rem",
-            }}
-          >
-            <div className={`${styles.continuous4}`}></div>
-          </div>
-        ) : (
+      <div className={styles.container}>
+        <SearchBox />
+        <QuickSearch />
+        <main className={`${""} m-3`}>
           <GetDoctor getDoctor={props.data} />
-        )}
-      </main>
+        </main>
 
-      <footer className={styles.footer}>
-        <div className={styles.thankyouCard}>
-          <h2>Special Thanks To 💖✨</h2>
-          <h3>Supported By :</h3>
-          <div>
-            <div className={styles.person}>
-              <div style={{ margin: "auto" }}>
-                <Image
-                  width={65}
-                  height={65}
-                  loading="lazy"
-                  src={"/barkha.jpg"}
-                  alt={"Barkha Upadhyay"}
-                />{" "}
-              </div>
-              <span className={styles.name}>
-                Barkha Upadhyay <br />
-                <span>
-                  Senior Technical Consultant <br />
-                  (Jabalpur Incubation Center){" "}
+        <footer className={styles.footer}>
+          <div className={styles.thankyouCard}>
+            <h2>Special Thanks To 💖✨</h2>
+            <h3>Supported By :</h3>
+            <div>
+              <div className={styles.person}>
+                <div style={{ margin: "auto" }}>
+                  <Image
+                    width={65}
+                    height={65}
+                    loading="lazy"
+                    src={"/barkha.jpg"}
+                    alt={"Barkha Upadhyay"}
+                  />{" "}
+                </div>
+                <span className={styles.name}>
+                  Barkha Upadhyay <br />
+                  <span>
+                    Senior Technical Consultant <br />
+                    (Jabalpur Incubation Center){" "}
+                  </span>
                 </span>
-              </span>
-            </div>
-            <div className={styles.person}>
-              <div style={{ margin: "auto" }}>
-                <Image
-                  width={65}
-                  height={65}
-                  loading="lazy"
-                  src={"/bl.jpeg"}
-                  alt={"Dr BL Mishra"}
-                />
               </div>
-              <span className={styles.name}>
-                Dr BL Mishra
-                <br />
-                <span>
-                  CMHO Rewa ,sidhi <br />
-                  (Medical specialist at kushabahu thakre rewa)
+              <div className={styles.person}>
+                <div style={{ margin: "auto" }}>
+                  <Image
+                    width={65}
+                    height={65}
+                    loading="lazy"
+                    src={"/bl.jpeg"}
+                    alt={"Dr BL Mishra"}
+                  />
+                </div>
+                <span className={styles.name}>
+                  Dr BL Mishra
+                  <br />
+                  <span>
+                    CMHO Rewa ,sidhi <br />
+                    (Medical specialist at kushabahu thakre rewa)
+                  </span>
                 </span>
-              </span>
-            </div>
-            <div className={styles.person}>
-              <div style={{ margin: "auto" }}>
-                <Image
-                  width={65}
-                  height={65}
-                  loading="lazy"
-                  src={"/dhreendra.jpeg"}
-                  alt={"Dr Dheerendra Mishra"}
-                />
               </div>
-              <span className={styles.name}>
-                Dr Dheerendra Mishra <br />
-                <span>
-                  MD , DNB <br /> (Asso. Member of International headache
-                  society , London)
+              <div className={styles.person}>
+                <div style={{ margin: "auto" }}>
+                  <Image
+                    width={65}
+                    height={65}
+                    loading="lazy"
+                    src={"/dhreendra.jpeg"}
+                    alt={"Dr Dheerendra Mishra"}
+                  />
+                </div>
+                <span className={styles.name}>
+                  Dr Dheerendra Mishra <br />
+                  <span>
+                    MD , DNB <br /> (Asso. Member of International headache
+                    society , London)
+                  </span>
                 </span>
-              </span>
+              </div>
             </div>
           </div>
-        </div>
-        <Footer />
-      </footer>
-    </div>
+          <Footer />
+        </footer>
+      </div>
+    </>
   );
 }
 
