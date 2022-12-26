@@ -24,7 +24,12 @@ const Aboutpage = () => {
           content="TZ_t3W3EZ4x4C5q8BPlZ_luCjIeWczMJwCyObT8AjYA"
         />
       </Head>
-      {loading ? <Loader /> : <Aboutus />}
+      <div style={loading ? { display: "block" } : { display: "none" }}>
+        <Loader />
+      </div>
+      <main style={loading ? { display: "none" } : { display: "block" }}>
+        <Aboutus />
+      </main>
     </>
   );
 };
