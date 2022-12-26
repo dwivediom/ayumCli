@@ -19,17 +19,14 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <ReduxProvider store={store}>
-        <Navbar />
-        {loading ? (
-          <>
-            <Loader />
-          </>
-        ) : (
-          <div>
-            <Component {...pageProps} />
-            <BottomNav />
-          </div>
-        )}
+        <div style={loading ? { display: "block" } : { display: "none" }}>
+          <Loader />
+        </div>
+        <div style={loading ? { display: "none" } : { display: "block" }}>
+          <Navbar />
+          <Component {...pageProps} />
+          <BottomNav />
+        </div>
       </ReduxProvider>
     </>
   );

@@ -11,7 +11,16 @@ const Contactpage = () => {
       setloading(false);
     }, 2000);
   });
-  return <>{loading ? <Loader /> : <Contact />}</>;
+  return (
+    <>
+      <div style={loading ? { display: "block" } : { display: "none" }}>
+        <Loader />
+      </div>
+      <div style={loading ? { display: "none" } : { display: "block" }}>
+        <Contact />
+      </div>
+    </>
+  );
 };
 
 export default Contactpage;
