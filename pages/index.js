@@ -3,27 +3,13 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import dynamic from "next/dynamic";
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
-import Loader from "../components/Loader";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
 const GetDoctor = dynamic(() => import("../components/GetDoctor"));
 const Footer = dynamic(() => import("../components/Footer"));
 
-const mystyle = {
-  visibility: "hidden",
-};
-
 export default function Home(props) {
-  const [loading, setloading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setloading(false);
-    }, 3000);
-  }, [props.data]);
-
   return (
     <>
       <Head>
@@ -39,13 +25,8 @@ export default function Home(props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div style={loading ? { display: "block" } : { display: "none" }}>
-        <Loader />
-      </div>
-      <div
-        style={loading ? { display: "none" } : { display: "block" }}
-        className={styles.container}
-      >
+
+      <div className={styles.container}>
         <SearchBox />
         <QuickSearch />
         <main className={`${""} m-3`}>

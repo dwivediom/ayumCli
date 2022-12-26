@@ -157,7 +157,7 @@ const Navbar = () => {
               }}
               className="flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start"
             >
-              <Link href={"/"}>
+              <div onClick={() => router.push("/")}>
                 <div className="flex flex-shrink-0 items-center">
                   <span className="block h-10 mr-6  lg:hidden lg:m-0 lg:h-0 lg:w-0">
                     <Image
@@ -179,7 +179,7 @@ const Navbar = () => {
                     />
                   </span>
                 </div>
-              </Link>
+              </div>
               <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
                 <div>
                   <a
@@ -187,8 +187,9 @@ const Navbar = () => {
                     style={{
                       border: "1px solid rgba(39, 239, 245, 0.3)",
                       cursor: "pointer",
+                      transition: "0.5s all",
                     }}
-                    className=" text-white px-2 py-1 rounded-md text-sm font-medium"
+                    className=" text-white px-2 py-1 rounded-md text-sm font-medium hover:bg-sky-500 hover:border-gray-300"
                     aria-current="page"
                   >
                     Contact Us
@@ -202,8 +203,9 @@ const Navbar = () => {
                     style={{
                       border: "1px solid rgba(39, 239, 245, 0.3)",
                       cursor: "pointer",
+                      transition: "0.5s all",
                     }}
-                    className=" text-white px-2 py-1 rounded-md text-sm font-medium"
+                    className=" text-white px-2 py-1 rounded-md text-sm font-medium hover:text-white  hover:bg-sky-500 hover:border-gray-300"
                     aria-current="page"
                   >
                     About Us
@@ -309,20 +311,30 @@ const Navbar = () => {
         <div className="sm:hidden" id="mobile-menu">
           {navitem && (
             <>
-              <div className="  space-y-1 px-2 pt-2 pb-3">
+              <div className={` space-y-1 px-2 pt-2 pb-3`}>
                 <a
-                  className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
+                  style={{
+                    border: "1px solid rgba(39, 239, 245, 0.3)",
+                    cursor: "pointer",
+                    transition: "0.5s all",
+                  }}
+                  className=" bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-sky-500 hover:border-gray-300 "
                   aria-current="page"
-                  onClick={() => Router.push("/Contact")}
+                  onClick={() => router.push("/Contact")}
                 >
                   Contact Us
                 </a>
               </div>
               <div className="  space-y-1 px-2 pt-2 pb-3">
                 <a
-                  className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
+                  style={{
+                    border: "1px solid rgba(39, 239, 245, 0.3)",
+                    cursor: "pointer",
+                    transition: "0.5s all",
+                  }}
+                  className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-sky-500 hover:border-gray-300"
                   aria-current="page"
-                  onClick={() => Router.push("/About")}
+                  onClick={() => router.push("/About")}
                 >
                   About Us
                 </a>

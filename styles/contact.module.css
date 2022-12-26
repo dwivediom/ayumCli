@@ -1,7 +1,10 @@
 .contactcontainer {
   width: 100%;
   min-height: 100vh;
+  margin-top: -20px;
+  /* background-color: #1f2937; */
   position: absolute;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1059%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='rgba(17%2c 24%2c 39%2c 1)'%3e%3c/rect%3e%3cpath d='M884.3803536933752 61.98983360510904L869.8516621764941 228.05353753374533 1035.9153661051305 242.58222905062644 1050.4440576220115 76.51852512199017z' fill='rgba(255%2c 255%2c 255%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M296.86145512241757 258.6148155344086L204.72704450842897 152.62630034614804 190.87293993415702 350.74922614839716z' fill='rgba(255%2c 255%2c 255%2c 0.4)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M1349.6275546062798 322.8526746108377L1511.7988070047859 279.39901849511426 1306.1738984905562 160.68142221233163z' fill='rgba(255%2c 255%2c 255%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M1160.155135391753 493.9406583876657L1195.6045124496763 362.14432943648876 1079.8429595001303 391.00692623942416z' fill='rgba(255%2c 255%2c 255%2c 0.4)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M458.645%2c619.199C517.08%2c620.588%2c566.107%2c577.082%2c592.285%2c524.821C615.886%2c477.704%2c605.768%2c423.571%2c579.526%2c377.873C553.156%2c331.951%2c511.6%2c291.927%2c458.645%2c292.094C405.913%2c292.26%2c364.24%2c332.29%2c339.074%2c378.63C315.181%2c422.626%2c313.288%2c473.888%2c335.571%2c518.721C360.835%2c569.552%2c401.898%2c617.851%2c458.645%2c619.199' fill='rgba(255%2c 255%2c 255%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M112.58858068953134 306.9522150100992L-30.74927129399242 334.8142709897931-2.8872153142985155 478.15212297331686 140.45063666922525 450.290066993623z' fill='rgba(255%2c 255%2c 255%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M43.283895920127456 283.65129416959905L-63.26591683214367 345.16785724422704-1.749353757515692 451.71766999649816 104.80045899475543 390.2011069218702z' fill='rgba(255%2c 255%2c 255%2c 0.4)' class='triangle-float2'%3e%3c/path%3e%3cpath d='M853.3807723176647 380.2991562677817L842.88777580418 480.13334931396173 942.72196885036 490.6263458274464 953.2149653638447 390.7921527812664z' fill='rgba(255%2c 255%2c 255%2c 0.4)' class='triangle-float1'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1059'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3cstyle%3e %40keyframes float1 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-10px%2c 0)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float1 %7b animation: float1 5s infinite%3b %7d %40keyframes float2 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-5px%2c -5px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float2 %7b animation: float2 4s infinite%3b %7d %40keyframes float3 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(0%2c -10px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float3 %7b animation: float3 6s infinite%3b %7d %3c/style%3e%3c/defs%3e%3c/svg%3e");
 }
 .contactshell {
   height: 90vh;
@@ -14,18 +17,20 @@
 .contactbox {
   max-width: 30rem;
   height: 28rem;
-  background-color: #1f2937;
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   margin: auto;
-  border-radius: 24px;
+  border-radius: 0px;
   padding: 20px;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  border: 1px solid rgba(0, 255, 255, 0.58);
+  background: rgba(164, 246, 248, 0.28);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8.8px);
+  -webkit-backdrop-filter: blur(8.8px);
+  border: 1px solid rgba(254, 254, 254, 0.21);
+  margin-top: 100px;
 }
 .contactbox form {
   display: flex;
@@ -33,25 +38,23 @@
   gap: 2rem;
 }
 .contactbox form input {
-  background-color: #1f2937;
-  border-radius: 12px;
+  background-color: #1f2937d5;
   width: 100%;
   transition: 0.2s all;
   color: white;
 }
 .contactbox form input:focus {
-  box-shadow: 0 0 0 2px cyan;
+  box-shadow: 0 0 0 1px rgba(0, 255, 255, 0.489);
 }
 .contactbox form textarea {
-  border-radius: 12px;
-  background-color: #1f2937;
+  background-color: #1f2937d5;
   transition: 0.2s;
   width: 100%;
   color: white;
   padding: 10px;
 }
 .contactbox form textarea:focus {
-  box-shadow: 0 0 0 2px cyan;
+  box-shadow: 0 0 0 1px rgba(0, 255, 255, 0.489);
 }
 .contactbox form button {
   width: 5rem;
