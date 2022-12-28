@@ -110,7 +110,7 @@ const Aboutus = () => {
                     <path d="M22 4L12 14.01l-3-3"></path>
                   </svg>
                   <span className="title-font font-medium text-white">
-                    Easy Appointment Booking for Lab Test's
+                    Easy Appointment Booking for Lab Tests
                   </span>
                 </div>
               </div>
@@ -129,7 +129,7 @@ const Aboutus = () => {
                     <path d="M22 4L12 14.01l-3-3"></path>
                   </svg>
                   <span className="title-font font-medium text-white">
-                    Providing Lab Reports in Smartphone's
+                    Providing Lab Reports in Smartphones
                   </span>
                 </div>
               </div>
