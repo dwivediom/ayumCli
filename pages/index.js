@@ -17,6 +17,10 @@ export default function Home(props) {
         <title>Ayum</title>
         <meta name="title" content="ayum" />
         <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
+        <meta
           name="description"
           content="Ayum is Online Doctor Appointment Booking Platform and Health Care Services Provider i,e Lab Reports , Medicine Delivery etc.  "
         />
@@ -30,72 +34,10 @@ export default function Home(props) {
       <div className={styles.container}>
         <SearchBox />
         <QuickSearch />
-        <main className={`${""} m-3`}>
+        <main>
           <GetDoctor getDoctor={props.data} />
         </main>
-
         <footer className={styles.footer}>
-          {/* <div className={styles.thankyouCard}>
-            <h2>Special Thanks To 💖✨</h2>
-            <h3>Supported By :</h3>
-            <div>
-              <div className={styles.person}>
-                <div style={{ margin: "auto" }}>
-                  <Image
-                    width={65}
-                    height={65}
-                    loading="lazy"
-                    src={"/barkha.jpg"}
-                    alt={"Barkha Upadhyay"}
-                  />{" "}
-                </div>
-                <span className={styles.name}>
-                  Barkha Upadhyay <br />
-                  <span>
-                    Senior Technical Consultant <br />
-                    (Jabalpur Incubation Center){" "}
-                  </span>
-                </span>
-              </div>
-              <div className={styles.person}>
-                <div style={{ margin: "auto" }}>
-                  <Image
-                    width={65}
-                    height={65}
-                    loading="lazy"
-                    src={"/bl.jpeg"}
-                    alt={"Dr BL Mishra"}
-                  />
-                </div>
-                <span className={styles.name}>
-                  Dr BL Mishra
-                  <br />
-                  <span>
-                    CMHO Rewa ,sidhi <br />
-                    (Medical specialist at kushabahu thakre rewa)
-                  </span>
-                </span>
-              </div>
-              <div className={styles.person}>
-                <div style={{ margin: "auto" }}>
-                  <Image
-                    width={65}
-                    height={65}
-                    loading="lazy"
-                    src={"/dhreendra.jpeg"}
-                    alt={"Dr Dheerendra Mishra"}
-                  />
-                </div>
-                <span className={styles.name}>
-                  Dr Dheerendra Mishra <br />
-                  <span>
-                    MD , DNB <br /> (Asso. Member of International headache
-                    society , London)
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div> */}
           <ThankyouCard />
           <Footer />
         </footer>

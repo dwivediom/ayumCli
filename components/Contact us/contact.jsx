@@ -58,9 +58,9 @@ const Contact = () => {
             </button>
           </form>
         </div>
-      </div>
-      <div className={`${styles.footercontact}`}>
-        <Footer />
+        <div className={`${styles.footercontact}`}>
+          <Footer />
+        </div>
       </div>
     </>
   );
