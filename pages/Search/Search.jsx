@@ -5,12 +5,16 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
+import styles from "../../styles/Search.module.css";
+import DoctorCard from "../../components/DoctorCard";
+import Image from "next/image";
 const Doctor = dynamic(import("../../components/Doctor"));
 
 const Search = () => {
   const [data, setdata] = useState(null);
   const [input, setinput] = useState("");
   const sdata = useSelector((state) => state.quickSearchReducer);
+  const [loading, setloading] = useState(false);
   const [reload, setreload] = useState(true);
   const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
   useEffect(() => {
@@ -30,6 +34,7 @@ const Search = () => {
   };
 
   const onSearch = async (e) => {
+    setloading(true);
     setreload(false);
     if (e) {
       e.preventDefault();
@@ -38,6 +43,7 @@ const Search = () => {
     const searchdata = await axios.get(url);
     console.log(searchdata);
     setdata(searchdata);
+    setloading(false);
   };
   {
     data && console.log(data.data);
@@ -49,21 +55,15 @@ const Search = () => {
   };
 
   return (
-    <div className="m-4">
-      <form onSubmit={(e) => onSearch(e)}>
-        <label
-          htmlFor="default-search"
-          className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300"
-        >
-          Search
-        </label>
+    <div className="m-4 ">
+      <form className={`${styles.searchform}`} onSubmit={(e) => onSearch(e)}>
         <div className="relative">
-          <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+          {/* <div className={`${styles.searchicon}`}>
             <svg
               aria-hidden="true"
               className="w-5 h-5  text-gray-300"
               fill="none"
-              stroke="currentColor"
+              stroke="rgb(0, 154, 171)"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -74,42 +74,57 @@ const Search = () => {
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               ></path>
             </svg>
-          </div>
+          </div> */}
           <input
             type="search"
             onChange={(e) => handleChange(e)}
             id="default-search"
-            className={`block p-4 pl-10 w-full text-sm text-white  rounded-lg border border-gray-300 focus:ring-cyan-500 focus:border-cyan-500 ${bgSecColor} dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500`}
-            placeholder="Search Mockups, Logos..."
+            className={`${styles.searchinput}`}
+            placeholder="Search Doctors, Specialist , Clinics..."
             required
           />
           <button
             type="button"
             onClick={(e) => onSearch(e)}
-            className={`text-white absolute right-2.5 bottom-2.5 ${bgPriColor} hover:bg-cyan-800 focus:ring-7 focus:outline-none focus:ring-cyan-50 font-medium rounded-lg text-sm px-4 py-2 dark:bg-cyan-500 dark:hover:bg-cyan-500 dark:focus:ring-cyan-500`}
+            className={`${styles.searchbtn}`}
+            // className={`text-white absolute right-2.5 bottom-2.5 ${bgPriColor} hover:bg-cyan-800 focus:ring-7 focus:outline-none focus:ring-cyan-50 font-medium rounded-lg text-sm px-4 py-2 dark:bg-cyan-500 dark:hover:bg-cyan-500 dark:focus:ring-cyan-500`}
           >
             Search
           </button>
         </div>
       </form>
 
-      <div className=" m-auto  grid  lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1  gap-2 md:gap-4">
-        {data &&
-          data.data.map((doctor) => {
-            return (
-              <Doctor
-                key={doctor._id}
-                name={doctor.name}
-                specialist={doctor.specialist}
-                location={doctor.location}
-                phone={doctor.phone}
-                fees={doctor.fees}
-                timing={doctor.timing}
-                docid={doctor._id}
-              />
-            );
-          })}
-      </div>
+      {loading ? (
+        <div
+          style={{
+            width: "100vw",
+            height: "50vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Image src={"/loader.svg"} width={50} height={50} alt="Loading..." />
+        </div>
+      ) : (
+        <div className="  m-auto mt-6 grid  lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1  gap-2 md:gap-4">
+          {data &&
+            data.data.map((doctor) => {
+              return (
+                <DoctorCard
+                  key={doctor._id}
+                  name={doctor.name}
+                  specialist={doctor.specialist}
+                  location={doctor.location}
+                  phone={doctor.phone}
+                  fees={doctor.fees}
+                  timing={doctor.timing}
+                  docid={doctor._id}
+                />
+              );
+            })}
+        </div>
+      )}
     </div>
   );
 };

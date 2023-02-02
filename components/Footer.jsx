@@ -3,31 +3,49 @@ import styles from "../styles/footer.module.css";
 const Footer = () => {
   return (
     <div className={styles.footercontainer}>
-      <div>
-        <h2 className="font-bold text-gray-200">General</h2>
-        <ul className={styles.list}>
-          <li>Home</li>
-          <li>Contact us</li>
-          <li>Blog</li>
-          <li>About us</li>
-        </ul>
+      <div className={styles.footc1}></div>
+      <div className={styles.footc2}></div>
+      <div className={styles.footerboxes}>
+        <h2>Socials</h2>
+        <div>
+          <img src="https://img.icons8.com/3d-fluency/94/null/instagram-new.png" />
+          <a href="https://www.instagram.com/ayum_health/" target={"_blank"}>
+            <span>Instagram</span>
+          </a>
+        </div>
+        <div>
+          <img src="https://img.icons8.com/3d-fluency/94/null/facebook-circled.png" />
+          <a href="https://www.instagram.com/ayum_health/" target={"_blank"}>
+            <span>Facebook</span>
+          </a>
+        </div>
+        <div>
+          <img src="https://img.icons8.com/3d-fluency/94/null/twitter-circled.png" />
+          <a href="https://twitter.com/ayum_health" target={"_blank"}>
+            <span>Twitter</span>{" "}
+          </a>
+        </div>
+        <div>
+          <img src="https://img.icons8.com/3d-fluency/94/null/linkedin.png" />
+          <a href="https://www.linkedin.com/in/ayum-in-263828257/">
+            <span>Linkedin</span>
+          </a>
+        </div>
       </div>
-      <div>
-        <h2 className="font-bold text-gray-200">Socials</h2>
-        <ul className={styles.list}>
-          <li>Instagram</li>
-          <li>Linkedin</li>
-          <li>Facebook</li>
-          <li>Twitter</li>
-        </ul>
-      </div>
-      <div>
-        <h2 className="font-bold text-gray-200">Our Services</h2>
-        <ul className={styles.list}>
-          <li>Medicine Delivery</li>
-          <li>Lab Tests</li>
-          <li>Doctor Appointments</li>
-        </ul>
+      <div className={styles.footerboxes}>
+        <h2>Our Services</h2>
+        <div>
+          <img src="https://img.icons8.com/external-justicon-flat-gradient-justicon/64/null/external-appointment-telemedicine-justicon-flat-gradient-justicon.png" />
+          <span>Online Appointment</span>
+        </div>
+        <div>
+          <img src="https://img.icons8.com/fluency/96/null/appointment-scheduling.png" />
+          <span>Patient Management</span>
+        </div>
+        <div>
+          <img src="https://img.icons8.com/external-flat-berkahicon/64/null/external-Lab-Test-healthcare-flat-berkahicon.png" />
+          <span>Online Lab Test</span>
+        </div>
       </div>
     </div>
   );

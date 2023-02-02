@@ -21,13 +21,11 @@ const QuickSearch = () => {
   };
 
   return (
-    <div
-      className={`m-4 grid grid-cols-4 lg:grid-cols-8 gap-2 ${styles.maindiv}`}
-    >
+    <div className={` ${styles.maindiv}`}>
       <div
         onClick={(e) => qSearch(e)}
         value="Kideny  "
-        className={`cursor-pointer h-12 lg:h-16 rounded-2xl   text-center      pt-3 lg:pt-4  text-white  ${styles.btn1} `}
+        className={`${styles.btn1} `}
       >
         {" "}
         <span className={`${styles.divtext}`}>Kideny</span>{" "}
@@ -35,23 +33,23 @@ const QuickSearch = () => {
       <div
         onClick={(e) => qSearch(e)}
         value="Dentist "
-        className={`cursor-pointer h-12 lg:h-16 rounded-2xl   text-center      pt-3 lg:pt-4  text-white  ${styles.btn2} `}
+        className={`${styles.btn2} `}
       >
         {" "}
         <span className={`${styles.divtext}`}>Dentist</span>
       </div>
       <div
         onClick={(e) => qSearch(e)}
-        value="neuro   "
-        className={`cursor-pointer h-12 lg:h-16 rounded-2xl   text-center      pt-3 lg:pt-4  text-white  ${styles.btn3} `}
+        value="neuro"
+        className={` ${styles.btn3} `}
       >
         {" "}
         <span className={`${styles.divtext}`}>neuro</span>{" "}
       </div>
       <div
         onClick={(e) => qSearch(e)}
-        value="surgery "
-        className={`cursor-pointer h-12 lg:h-16 rounded-2xl   text-center      pt-3 lg:pt-4  text-white  ${styles.btn4} `}
+        value="surgery"
+        className={`${styles.btn4} `}
       >
         {" "}
         <span className={`${styles.divtext}`}>surgery</span>{" "}
@@ -59,30 +57,30 @@ const QuickSearch = () => {
       <div
         onClick={(e) => qSearch(e)}
         value="Skin    "
-        className={`cursor-pointer h-12 lg:h-16 rounded-2xl   text-center      pt-3 lg:pt-4  text-white  ${styles.btn5} `}
+        className={`${styles.btn5} `}
       >
         {" "}
         <span className={`${styles.divtext}`}>Skin</span>
       </div>
       <div
         onClick={(e) => qSearch(e)}
-        value="Bone    "
-        className={`cursor-pointer h-12 lg:h-16 rounded-2xl   text-center      pt-3 lg:pt-4  text-white  ${styles.btn6} `}
+        value="Bone"
+        className={`${styles.btn6} `}
       >
         <span className={`${styles.divtext}`}>Bone</span>{" "}
       </div>
       <div
         onClick={(e) => qSearch(e)}
-        value="Gynae   "
-        className={`cursor-pointer h-12 lg:h-16 rounded-2xl   text-center      pt-3 lg:pt-4  text-white  ${styles.btn7} `}
+        value="Gynae"
+        className={`${styles.btn7} `}
       >
         {" "}
         <span className={`${styles.divtext}`}>Gynae</span>{" "}
       </div>
       <div
         onClick={(e) => qSearch(e)}
-        value="Medicine  "
-        className={`cursor-pointer h-12 lg:h-16 rounded-2xl   text-center      pt-3 lg:pt-4  text-white  ${styles.btn8} `}
+        value="Medicine"
+        className={`${styles.btn8} `}
       >
         {" "}
         <span className={`${styles.divtext}`}>Medicine</span>

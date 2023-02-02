@@ -1,128 +1,192 @@
-.maindiv div {
-  /* background: rgba(255, 0, 0, 0.6);     */
-
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-radius: 10px;
-  /* border: 1px solid rgba(255, 255, 255, 0.18); */
-  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.589);
+.maindiv {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: space-between;
+  padding: 0px 25px;
+  margin-bottom: 1rem;
 }
-
-.divtext {
-  background: rgba(255, 0, 0, 0);
-  font-weight: bolder;
-  color: white;
-}
-
 .btn1 {
-  background-image: linear-gradient(
-    to right,
-    #76a8c7 0%,
-    #0019fe 51%,
-    #76a8c7 100%
-  );
-  transition: 0.5s;
-  background-size: 200% auto;
-  border: none;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 8rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  border-radius: 4px;
+  border-top: 3px solid red;
+  font-weight: bold;
+  background-color: rgba(255, 0, 0, 0.187);
+  transition: 0.2s all;
+  cursor: pointer;
 }
 .btn1:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-color: rgba(255, 0, 0, 0.342);
 }
+
 .btn2 {
-  background-image: linear-gradient(
-    to right,
-    #6da7b7 0%,
-    #0fec13 51%,
-    #6da7b7 100%
-  );
-  transition: 0.5s;
-  background-size: 200% auto;
-  border: none;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  width: 8rem;
+
+  justify-content: center;
+  height: 60px;
+  border-radius: 4px;
+  border-top: 3px solid rgb(43, 255, 0);
+  font-weight: bold;
+  background-color: rgba(0, 255, 8, 0.187);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  transition: 0.2s all;
+  cursor: pointer;
 }
 .btn2:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-color: rgba(0, 255, 0, 0.342);
 }
 .btn3 {
-  background-image: linear-gradient(
-    to right,
-    #f857a6 0%,
-    #962323 51%,
-    #f857a6 100%
-  );
-  transition: 0.5s;
-  background-size: 200% auto;
-  border: none;
+  /* border: 1px solid red; */
+  display: flex;
+  width: 8rem;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  text-transform: capitalize;
+  border-radius: 4px;
+  border-top: 3px solid rgb(166, 0, 255);
+  font-weight: bold;
+  background-color: rgba(153, 0, 255, 0.187);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  transition: 0.2s all;
+  cursor: pointer;
 }
 .btn3:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-color: rgba(187, 0, 255, 0.342);
 }
 .btn4 {
-  background-image: linear-gradient(
-    to right,
-    #db0707 0%,
-    #8d391d 51%,
-    #f00808 100%
-  );
-  transition: 0.5s;
-  background-size: 200% auto;
-  border: none;
+  /* border: 1px solid red; */
+  display: flex;
+  width: 8rem;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  text-transform: capitalize;
+  border-radius: 4px;
+  border-top: 3px solid rgb(193, 215, 1);
+  font-weight: bold;
+  background-color: rgba(255, 255, 0, 0.187);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  transition: 0.2s all;
+  cursor: pointer;
 }
 .btn4:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-color: rgba(255, 247, 0, 0.342);
 }
 .btn5 {
-  background-image: linear-gradient(
-    to right,
-    #ff00aa 0%,
-    #2a3ce1 51%,
-    #00ffd5 100%
-  );
-  transition: 0.5s;
-  background-size: 200% auto;
-  border: none;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  text-transform: capitalize;
+  border-radius: 4px;
+  border-top: 3px solid rgb(255, 77, 0);
+  font-weight: bold;
+  background-color: rgba(255, 115, 0, 0.187);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  transition: 0.2s all;
+  cursor: pointer;
+  width: 8rem;
 }
 .btn5:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-color: rgba(255, 106, 0, 0.342);
 }
 .btn6 {
-  background-image: linear-gradient(
-    to right,
-    #6a3093 0%,
-    #a044ff 51%,
-    #6a3093 100%
-  );
-  transition: 0.5s;
-  background-size: 200% auto;
-  border: none;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 8rem;
+  text-transform: capitalize;
+  border-radius: 4px;
+  border-top: 3px solid rgb(1, 215, 211);
+  font-weight: bold;
+  background-color: rgba(0, 255, 234, 0.187);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  transition: 0.2s all;
+  cursor: pointer;
 }
 .btn6:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-color: rgba(0, 255, 229, 0.342);
 }
 .btn7 {
-  background-image: linear-gradient(
-    to right,
-    #0099f7 0%,
-    #f11712 51%,
-    #0099f7 100%
-  );
-  transition: 0.5s;
-  background-size: 200% auto;
-  border: none;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  height: 60px;
+  width: 8rem;
+  text-transform: capitalize;
+  border-radius: 4px;
+  border-top: 3px solid rgb(215, 1, 176);
+  font-weight: bold;
+  background-color: rgba(255, 0, 230, 0.187);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  transition: 0.2s all;
+  cursor: pointer;
+  justify-content: center;
 }
 .btn7:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-color: rgba(255, 0, 255, 0.342);
 }
 .btn8 {
-  background-image: linear-gradient(
-    to right,
-    #bf00ff 0%,
-    #ff00ff 51%,
-    #c300ff 100%
-  );
-  transition: 0.5s;
-  background-size: 200% auto;
-  border: none;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  text-transform: capitalize;
+  border-radius: 4px;
+  border-top: 3px solid rgb(15, 1, 215);
+  font-weight: bold;
+  background-color: rgba(0, 13, 255, 0.187);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  transition: 0.2s all;
+  cursor: pointer;
+  width: 8rem;
 }
 .btn8:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-color: rgba(0, 30, 255, 0.342);
+}
+@media (max-width: 700px) {
+  .btn1 {
+    width: 5rem;
+  }
+  .btn2 {
+    width: 5rem;
+  }
+  .btn3 {
+    width: 5rem;
+  }
+  .btn4 {
+    width: 5rem;
+  }
+  .btn5 {
+    width: 5rem;
+  }
+  .btn6 {
+    width: 5rem;
+  }
+  .btn7 {
+    width: 5rem;
+  }
+  .btn8 {
+    width: 5rem;
+  }
+  .maindiv {
+    padding: 0 10px;
+  }
 }
