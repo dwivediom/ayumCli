@@ -9,25 +9,40 @@ const Footer = () => {
         <h2>Socials</h2>
         <div>
           <img src="https://img.icons8.com/3d-fluency/94/null/instagram-new.png" />
-          <a href="https://www.instagram.com/ayum_health/" target={"_blank"}>
+          <a
+            rel="noreferrer"
+            href="https://www.instagram.com/ayum_health/"
+            target={"_blank"}
+          >
             <span>Instagram</span>
           </a>
         </div>
         <div>
           <img src="https://img.icons8.com/3d-fluency/94/null/facebook-circled.png" />
-          <a href="https://www.instagram.com/ayum_health/" target={"_blank"}>
+          <a
+            rel="noreferrer"
+            href="https://www.instagram.com/ayum_health/"
+            target={"_blank"}
+          >
             <span>Facebook</span>
           </a>
         </div>
         <div>
           <img src="https://img.icons8.com/3d-fluency/94/null/twitter-circled.png" />
-          <a href="https://twitter.com/ayum_health" target={"_blank"}>
+          <a
+            rel="noreferrer"
+            href="https://twitter.com/ayum_health"
+            target={"_blank"}
+          >
             <span>Twitter</span>{" "}
           </a>
         </div>
         <div>
           <img src="https://img.icons8.com/3d-fluency/94/null/linkedin.png" />
-          <a href="https://www.linkedin.com/in/ayum-in-263828257/">
+          <a
+            rel="noreferrer"
+            href="https://www.linkedin.com/in/ayum-in-263828257/"
+          >
             <span>Linkedin</span>
           </a>
         </div>

@@ -1,7 +1,9 @@
 .container {
   padding: 0rem;
   /* margin-bottom: -35rem; */
+  margin: auto;
   position: absolute;
+  width: 100%;
 }
 
 .main {
@@ -12,12 +14,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-.footer {
-  width: 100%;
-  min-height: 20vh;
-  color: white;
-  margin-top: 7rem;
 }
 
 .installbtn {
@@ -94,6 +90,7 @@
   color: black;
   width: 95%;
   border-radius: 4px;
+  margin-top: 4rem;
 }
 .thankyouframe h1 {
   text-align: center;
