@@ -70,9 +70,11 @@ const Navbar = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <nav
-        style={{
-          boxShadow: "0px 3px 10px rgba(0,0,0,0.8) ",
-        }}
+        style={
+          {
+            // boxShadow: "0px 3px 10px rgba(0,0,0,0.8) ",
+          }
+        }
         className={`${bgSecColor} fixed top-0 z-10 w-full  `}
       >
         <div className=" mx-auto max-w-7xl px-1 sm:px-2  lg:px-8">

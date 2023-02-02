@@ -6,7 +6,8 @@
   position: absolute;
   flex-direction: column;
   overflow: hidden;
-  background-color: #111827;
+  background-color: #ffffff;
+  color: black !important;
 }
 
 .boximg {
