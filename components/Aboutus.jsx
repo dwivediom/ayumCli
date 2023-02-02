@@ -8,19 +8,19 @@ const Aboutus = () => {
       <div className={`${styles.aboutbox}`}>
         <section
           style={{ height: "50vh" }}
-          className="text-gray-400 bg-gray-900 body-font"
+          className="text-black bg-white body-font"
         >
           <div className="container px-5 py-24 mx-auto">
             <div className="flex flex-col text-center w-full mb-20">
-              <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">
+              <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-black">
                 We are Team Ayum
               </h1>
-              <p className="lg:w-2/3 mx-auto   text-base">
+              <p className="lg:w-2/3 mx-auto ">
                 We are the Team of Passionate Developers and Engineers including
-                some names as Om dhar Dwivedi , Anurag Singh , Om dwivedi etc. .
-                Ayum is an One Stop Online platform that provides the facility
-                to Book Appointments and using Ayum you can also get your Lab
-                tests report in your smartphone . Ayum makes the hectic
+                some names as Om dhar Dwivedi , Anurag Singh and our hardworking
+                team. . Ayum is an One Stop Online platform that provides the
+                facility to Book Appointments and using Ayum you can also get
+                your Lab tests report in your smartphone . Ayum makes the hectic
                 procedure of booking doctor&apos;s appointement and getting lab
                 tests report into an simple task . we bring innovation and
                 technology in the health care sector . we are passionate about
@@ -29,10 +29,10 @@ const Aboutus = () => {
             </div>
           </div>
         </section>
-        <section className="text-gray-400 bg-gray-900 body-font mt-20">
+        <section className="text-black bg-white body-font mt-20">
           <div className="container px-5 py-24 mx-auto">
             <div className="text-center mb-5">
-              <h1 className="sm:text-3xl text-2xl font-medium text-center title-font text-white mb-4">
+              <h1 className="sm:text-3xl text-2xl font-medium text-center title-font text-black mb-4">
                 What we Provide
               </h1>
             </div>
@@ -155,106 +155,102 @@ const Aboutus = () => {
             </div>
           </div>
         </section>
-        <div
-          style={{ backgroundColor: "#111827" }}
-          className="text-center mb-5 mt-5"
-        >
-          <h1 className="sm:text-3xl text-2xl font-medium text-center title-font text-white mb-4">
-            Ayum Gallery Pictures & Recommendations
-          </h1>
-        </div>
-        <div
-          style={{ backgroundColor: "#111827" }}
-          className="flex flex-wrap -m-4"
-        >
-          <div className="lg:w-1/3 sm:w-1/2 p-4">
-            <div style={{ height: "230px" }} className="flex relative">
-              <img
-                alt="gallery"
-                className="absolute inset-0 w-full h-full  object-cover object-center"
-                src="https://i.postimg.cc/gcR1c9ss/Whats-App-Image-2022-11-08-at-6-22-10-PM.jpg"
-              />
-              <div
-                style={{ transition: "0.5s all" }}
-                className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"
-              >
-                <h2 className="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">
-                  Recommeded by Dr. BL mishra , CMHO Rewa, Sidhi.
-                </h2>
+        <div className=" bg-gray-300">
+          <div className=" bg-gray-300 text-center mb-5 mt-5 text-black  pt-2">
+            <h1 className="sm:text-3xl text-2xl font-medium text-center title-font text-black  mb-4">
+              Ayum Gallery Pictures & Recommendations
+            </h1>
+          </div>
+          <div className=" bg-gray-300 flex flex-wrap  m-4">
+            <div className="lg:w-1/3 sm:w-1/2 p-4">
+              <div style={{ height: "230px" }} className="flex relative">
+                <img
+                  alt="gallery"
+                  className="absolute inset-0 w-full h-full  object-cover object-center"
+                  src="https://i.postimg.cc/gcR1c9ss/Whats-App-Image-2022-11-08-at-6-22-10-PM.jpg"
+                />
+                <div
+                  style={{ transition: "0.5s all" }}
+                  className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"
+                >
+                  <h2 className="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">
+                    Recommeded by Dr. BL mishra , CMHO Rewa, Sidhi.
+                  </h2>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="lg:w-1/3 sm:w-1/2 p-4">
-            <div
-              style={{ height: "230px", transition: "1s all" }}
-              className="flex relative"
-            >
-              <img
-                alt="gallery"
-                className="absolute inset-0 w-full h-full object-cover object-center"
-                src="https://i.postimg.cc/rsXVdS7P/Whats-App-Image-2022-11-07-at-6-59-20-PM.jpg"
-              />
+            <div className="lg:w-1/3 sm:w-1/2 p-4">
               <div
-                style={{ transition: "0.5s all" }}
-                className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"
+                style={{ height: "230px", transition: "1s all" }}
+                className="flex relative"
               >
-                <h2 className="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">
-                  Recommeded by Dr. Dheerendra Mishra , MD , DNB (Asso. Member
-                  of International headache society , London)
-                </h2>
+                <img
+                  alt="gallery"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                  src="https://i.postimg.cc/rsXVdS7P/Whats-App-Image-2022-11-07-at-6-59-20-PM.jpg"
+                />
+                <div
+                  style={{ transition: "0.5s all" }}
+                  className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"
+                >
+                  <h2 className="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">
+                    Recommeded by Dr. Dheerendra Mishra , MD , DNB (Asso. Member
+                    of International headache society , London)
+                  </h2>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="lg:w-1/3 sm:w-1/2 p-4">
-            <div style={{ height: "230px" }} className="flex relative">
-              <img
-                alt="gallery"
-                className="absolute inset-0 w-full h-full object-cover object-center"
-                src="https://i.postimg.cc/rFgTcXyb/Whats-App-Image-2022-12-22-at-10-49-15-AM.jpg"
-              />
-              <div
-                style={{ transition: "0.5s all" }}
-                className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"
-              >
-                <h2 className="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">
-                  Presented Ayum as Startup in Startup hackathon at Jhanshi and
-                  came in Top 15 startups of Uttar Pradesh .
-                </h2>
+            <div className="lg:w-1/3 sm:w-1/2 p-4">
+              <div style={{ height: "230px" }} className="flex relative">
+                <img
+                  alt="gallery"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                  src="https://i.postimg.cc/rFgTcXyb/Whats-App-Image-2022-12-22-at-10-49-15-AM.jpg"
+                />
+                <div
+                  style={{ transition: "0.5s all" }}
+                  className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"
+                >
+                  <h2 className="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">
+                    Presented Ayum as Startup in Startup hackathon at Jhanshi
+                    and came in Top 15 startups of Uttar Pradesh .
+                  </h2>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="lg:w-1/3 sm:w-1/2 p-4">
-            <div style={{ height: "230px" }} className="flex relative">
-              <img
-                alt="gallery"
-                className="absolute inset-0 w-full h-full object-cover object-top"
-                src="https://i.postimg.cc/Fs6P0DTz/Whats-App-Image-2022-12-22-at-10-49-15-AM-2.jpg"
-              />
-              <div
-                style={{ transition: "0.5s all" }}
-                className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"
-              >
-                <h2 className="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">
-                  Anurag Singh & Om dhar Dwivedi at Jhansi Hackathon
-                </h2>
+            <div className="lg:w-1/3 sm:w-1/2 p-4">
+              <div style={{ height: "230px" }} className="flex relative">
+                <img
+                  alt="gallery"
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                  src="https://i.postimg.cc/Fs6P0DTz/Whats-App-Image-2022-12-22-at-10-49-15-AM-2.jpg"
+                />
+                <div
+                  style={{ transition: "0.5s all" }}
+                  className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"
+                >
+                  <h2 className="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">
+                    Anurag Singh & Om dhar Dwivedi at Jhansi Hackathon
+                  </h2>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="lg:w-1/3 sm:w-1/2 p-4">
-            <div style={{ height: "230px" }} className="flex relative">
-              <img
-                alt="gallery"
-                className="absolute inset-0 w-full h-full object-cover object-center"
-                src="https://i.postimg.cc/L4wfTwFc/Whats-App-Image-2022-12-22-at-10-49-15-AM-1.jpg"
-              />
-              <div
-                style={{ transition: "0.5s all" }}
-                className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"
-              >
-                <h2 className="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">
-                  Presented Ayum as Startup in Startup hackathon at Jhanshi and
-                  came in Top 15 startups of Uttar Pradesh .
-                </h2>
+            <div className="lg:w-1/3 sm:w-1/2 p-4">
+              <div style={{ height: "230px" }} className="flex relative">
+                <img
+                  alt="gallery"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                  src="https://i.postimg.cc/L4wfTwFc/Whats-App-Image-2022-12-22-at-10-49-15-AM-1.jpg"
+                />
+                <div
+                  style={{ transition: "0.5s all" }}
+                  className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"
+                >
+                  <h2 className="tracking-widest text-sm title-font font-medium text-indigo-400 mb-1">
+                    Presented Ayum as Startup in Startup hackathon at Jhanshi
+                    and came in Top 15 startups of Uttar Pradesh .
+                  </h2>
+                </div>
               </div>
             </div>
           </div>

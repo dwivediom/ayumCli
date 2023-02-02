@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../styles/contact.module.css";
 import emailjs from "@emailjs/browser";
 import { useRef } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 const Footer = dynamic(() => import("../Footer"));
 
 const Contact = () => {
   const form = useRef();
+  const [loading, setloading] = useState(false);
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -30,44 +32,35 @@ const Contact = () => {
   };
   return (
     <>
-      <div className={`${styles.contactcontainer}`}>
-        <div className={`${styles.contactshell}`}></div>
-        <div className={`${styles.contactbox}`}>
-          <h1 className="text-white text-xl text-center mb-2">
-            Connect With us
-          </h1>
+      <div className={`${styles.maincontact}`}>
+        <div className={`${styles.contactimg}`}>
+          <img src="/contact2.jpg" alt="" />
+          <h2>Health and healing, strengthened by partnership</h2>
+        </div>
+        <div className={`${styles.contactform}`}>
+          <h1>Contact Us</h1>
           <form ref={form} onSubmit={sendEmail}>
+            <input type="text" placeholder="Enter Your Name" name="user_name" />
             <input
-              style={{ border: " 1px solid rgba(0, 255, 255, 0.58)" }}
-              type="text"
-              placeholder="Enter Your Name"
-              className="p-3 border-1 "
-              required
-              name="user_name"
-            />
-            <input
-              style={{ border: " 1px solid rgba(0, 255, 255, 0.58)" }}
               type="email"
               placeholder="Enter Your Email"
               name="user_email"
-              className="p-3"
-              required
             />
             <textarea
-              style={{ border: " 1px solid rgba(0, 255, 255, 0.58)" }}
               name="message"
               id=""
               cols="37"
               rows="5"
-              required
               placeholder="Enter Your message"
             ></textarea>
-            <button type="submit">Send</button>
+            <button className="send_btn" type="submit">
+              {loading ? "Sending..." : "Send"}
+            </button>
           </form>
         </div>
-        <div>
-          <Footer />
-        </div>
+      </div>
+      <div className={`${styles.footercontact}`}>
+        <Footer />
       </div>
     </>
   );

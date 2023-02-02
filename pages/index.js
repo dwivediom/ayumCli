@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import dynamic from "next/dynamic";
 import axios from "axios";
+import ThankyouCard from "../components/ThankyouCard";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
@@ -34,7 +35,7 @@ export default function Home(props) {
         </main>
 
         <footer className={styles.footer}>
-          <div className={styles.thankyouCard}>
+          {/* <div className={styles.thankyouCard}>
             <h2>Special Thanks To 💖✨</h2>
             <h3>Supported By :</h3>
             <div>
@@ -94,7 +95,8 @@ export default function Home(props) {
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
+          <ThankyouCard />
           <Footer />
         </footer>
       </div>
