@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import Image from "next/image";
 import Head from "next/head";
 import { bgSecColor, bgPriColor } from "./theam/theam";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 import { useEffect } from "react";
-
+import Image from "next/image";
 const Navbar = () => {
   const [profile, setprofile] = useState(false);
   const [navitem, setnavitem] = useState(false);
@@ -119,37 +118,14 @@ const Navbar = () => {
                   </svg>
                 )}
               </button>
-              {/* <div
-                onClick={showInstallPrompt}
-                style={{
-                  color: "#00f445",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  marginTop: "10px",
-                  marginLeft: "10px",
-                }}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M19.35 10.04C18.67 6.59 15.64 4 12 4C9.11 4 6.6 5.64 5.35 8.04C2.34 8.36 0 10.91 0 14C0 17.31 2.69 20 6 20H19C21.76 20 24 17.76 24 15C24 12.36 21.95 10.22 19.35 10.04M13.46 12.29L11.21 15.83L9 13.53L6 17H18L13.46 12.29M19 18H6C3.79 18 2 16.21 2 14C2 11.79 3.79 10 6 10H6.71C7.37 7.69 9.5 6 12 6C15.04 6 17.5 8.46 17.5 11.5V12H19C20.66 12 22 13.34 22 15C22 16.66 20.66 18 19 18M16.5 16.25C16.5 14.75 13.5 14 12 14C10.5 14 7.5 14.75 7.5 16.25V17H16.5V16.25Z"
-                    fill="#00ff44"
-                  />
-                </svg>
-                <span style={{ marginTop: "-0.7rem" }}>&darr;</span>
-              </div> */}
+
               <div onClick={showInstallPrompt} style={{ marginLeft: "10px" }}>
-                <img
+                <Image
                   src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAW0lEQVR4nGNgGDngVeVRhldV/yG48jANLKj6j4JHLcAAr0aDaPgF0cuqcgxDceN6WlpST0uf1FNmOH5LqGQ4dkuobDgMvKxsAONRQBvwiuhM9Z8oTH8LGIYoAAAtpRMLOlH1GgAAAABJRU5ErkJggg=="
                   alt="download app"
-                ></img>
+                  width={25}
+                  height={25}
+                />
               </div>
             </div>
             <div

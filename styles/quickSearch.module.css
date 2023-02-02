@@ -1,21 +1,28 @@
 .maindiv {
   /* border: 1px solid red; */
+  width: 99%;
+  margin: auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  /* gap: 7px; */
+  padding: 10px;
   margin-top: 20px;
   justify-content: space-between;
-  padding: 0px 25px;
   margin-bottom: 1rem;
+  background: aliceblue;
+  border-radius: 4px;
 }
 .btn1 {
   /* border: 1px solid red; */
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60px;
+  /* height: 55px; */
+  /* width: 70px; */
+  /* padding: 13px 26px; */
   width: 8rem;
+  height: 60px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
   border-radius: 4px;
   border-top: 3px solid red;
@@ -163,30 +170,31 @@
 }
 @media (max-width: 700px) {
   .btn1 {
-    width: 5rem;
+    width: 5.3rem;
   }
   .btn2 {
-    width: 5rem;
+    width: 5.3rem;
   }
   .btn3 {
-    width: 5rem;
+    width: 5.3rem;
   }
   .btn4 {
-    width: 5rem;
+    width: 5.3rem;
   }
   .btn5 {
-    width: 5rem;
+    width: 5.3rem;
   }
   .btn6 {
-    width: 5rem;
+    width: 5.3rem;
   }
   .btn7 {
-    width: 5rem;
+    width: 5.3rem;
   }
   .btn8 {
-    width: 5rem;
+    width: 5.3rem;
   }
   .maindiv {
-    padding: 0 10px;
+    padding: 5px;
+    gap: 10px;
   }
 }

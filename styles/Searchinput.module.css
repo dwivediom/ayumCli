@@ -21,9 +21,11 @@
   border-bottom-right-radius: 0px !important;
   /* margin-left: 20px; */
 }
+.searchform {
+  width: 100%;
+}
 
 .searchform div:nth-of-type(1) {
-  /* border: 1px solid red; */
   display: flex;
   justify-content: space-between;
 }
