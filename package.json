@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@emailjs/browser": "^3.9.1",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@headlessui/react": "^1.7.3",
     "@heroicons/react": "^2.0.12",
     "@reduxjs/toolkit": "^1.8.6",
@@ -36,6 +38,5 @@
   "engines": {
     "node": ">6.9.4",
     "npm": ">4.2.0"
-}
-
+  }
 }

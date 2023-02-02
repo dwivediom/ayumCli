@@ -1,38 +1,85 @@
 .footercontainer {
-  margin-top: 10rem;
-  width: 99vw;
-  height: 13rem;
-  margin-bottom: 2rem;
-  border-top: 2px solid rgb(19, 93, 100);
-  background: rgb(3, 8, 10);
-  background: linear-gradient(155deg, rgba(3, 8, 10, 1) 0%, rgb(3, 39, 48) 69%);
+  height: 14rem;
+  width: 95%;
+  margin: auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.231);
+  margin-bottom: 4rem;
+  border-radius: 4px;
+  margin-top: 3rem;
+  /* background-color: aliceblue; */
+  border-bottom: 3px solid rgb(0, 172, 172);
   display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  padding: 20px;
+  gap: 5px;
   overflow: hidden;
+  position: relative;
+  padding: 10px 5px;
 }
-
-@media (max-width: 400px) {
-  .footercontainer h2 {
-    font-size: small;
-  }
-  .list {
-    padding: 0px;
-  }
-  .list li {
-    width: 140%;
-  }
-}
-.list {
-  font-size: small;
+.footerboxes {
+  color: black;
+  /* border: 1px solid red; */
   display: flex;
   flex-direction: column;
-  gap: 5px;
   padding: 5px;
-  color: aliceblue;
+  gap: 5px;
 }
-.list li:hover {
-  color: cyan;
+.footerboxes h2 {
+  font-weight: bold;
+  font-size: small;
+}
+
+.footerboxes div {
+  width: fit-content;
+  color: rgb(0, 115, 119);
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: small;
+  border-radius: 4px;
+  padding: 4px;
+  /* width: 8rem; */
+  gap: 10px;
+  transition: 0.2s all;
+}
+.footerboxes div span:hover {
+  transition: 0.2s all;
+
+  color: rgb(255, 136, 0);
   cursor: pointer;
+}
+.footerboxes div img {
+  width: 30px;
+  height: 30px;
+}
+@media (max-width: 600px) {
+  .footerboxes div img {
+    width: 20px;
+    height: 20px;
+  }
+  .footc1 {
+    display: none;
+  }
+  .footc2 {
+    display: none;
+  }
+  .footercontainer {
+    width: 100%;
+  }
+}
+.footc1 {
+  position: absolute;
+  width: 10rem;
+  height: 10rem;
+  border: 20px solid rgba(0, 128, 128, 0.676);
+  right: -2rem;
+  top: -3rem;
+  border-radius: 50%;
+}
+.footc2 {
+  position: absolute;
+  width: 15rem;
+  height: 15rem;
+  border: 20px solid rgba(0, 202, 202, 0.676);
+  right: -4rem;
+  top: -5rem;
+  border-radius: 50%;
 }
