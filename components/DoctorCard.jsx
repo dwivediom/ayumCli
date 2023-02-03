@@ -40,7 +40,10 @@ const DoctorCard = (props) => {
           {" "}
           <span>{phone}</span>
           <div className={`${styles.imgbox}`}>
-            <img src="https://img.icons8.com/ios/50/00b6d6/phone--v1.png" />
+            <img
+              src="https://img.icons8.com/ios/50/00b6d6/phone--v1.png"
+              alt="phone"
+            />
           </div>
         </div>
         <button onClick={(e) => Click(e)} className={`${styles.bookslot}`}>

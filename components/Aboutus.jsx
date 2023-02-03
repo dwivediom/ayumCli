@@ -34,7 +34,7 @@ const Aboutus = () => {
           <div className="container px-5 py-24 mx-auto">
             <div className="text-center mb-5">
               <h1 className="sm:text-3xl text-2xl font-medium text-center title-font text-black mb-4">
-                What we Provide
+                What We Provide
               </h1>
             </div>
             <div className="flex flex-wrap lg:w-4/5 sm:mx-auto sm:mb-2 -mx-2">
