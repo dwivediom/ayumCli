@@ -11,7 +11,7 @@ const QuickSearch = () => {
   const dispatch = useDispatch();
   const qSearch = (e) => {
     e.preventDefault();
-    let val = e.target.innerText;
+    let val = e.target.value;
 
     console.log(val);
     setkey(val);
