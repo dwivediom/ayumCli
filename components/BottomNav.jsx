@@ -152,6 +152,7 @@ const BottomNav = () => {
               >
                 <img
                   style={{ width: "25px", height: "25px" }}
+                  alt="Lab Test"
                   src="https://img.icons8.com/external-vectorslab-glyph-vectorslab/53/FFFFFF/external-Injection-medical-and-corona-virus-vectorslab-glyph-vectorslab.png"
                 />
 

@@ -20,6 +20,18 @@ const Navbar = () => {
 
   const router = useRouter();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+
+  useEffect(() => {
+    if (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true
+    ) {
+      setShowInstallButton(false);
+    } else {
+      setShowInstallButton(true);
+    }
+  }, []);
   useEffect(() => {
     if (!router.isServer) {
       window.addEventListener("beforeinstallprompt", (event) => {
@@ -68,14 +80,7 @@ const Navbar = () => {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <nav
-        style={
-          {
-            // boxShadow: "0px 3px 10px rgba(0,0,0,0.8) ",
-          }
-        }
-        className={`${bgSecColor} fixed top-0 z-10 w-full  `}
-      >
+      <nav className={`${bgSecColor} fixed top-0 z-10 w-full  `}>
         <div className=" mx-auto max-w-7xl px-1 sm:px-2  lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -118,15 +123,16 @@ const Navbar = () => {
                   </svg>
                 )}
               </button>
-
-              <div onClick={showInstallPrompt} style={{ marginLeft: "10px" }}>
-                <Image
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAW0lEQVR4nGNgGDngVeVRhldV/yG48jANLKj6j4JHLcAAr0aDaPgF0cuqcgxDceN6WlpST0uf1FNmOH5LqGQ4dkuobDgMvKxsAONRQBvwiuhM9Z8oTH8LGIYoAAAtpRMLOlH1GgAAAABJRU5ErkJggg=="
-                  alt="download app"
-                  width={25}
-                  height={25}
-                />
-              </div>
+              {showInstallButton && (
+                <div onClick={showInstallPrompt} style={{ marginLeft: "10px" }}>
+                  <Image
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAW0lEQVR4nGNgGDngVeVRhldV/yG48jANLKj6j4JHLcAAr0aDaPgF0cuqcgxDceN6WlpST0uf1FNmOH5LqGQ4dkuobDgMvKxsAONRQBvwiuhM9Z8oTH8LGIYoAAAtpRMLOlH1GgAAAABJRU5ErkJggg=="
+                    alt="download app"
+                    width={25}
+                    height={25}
+                  />
+                </div>
+              )}
             </div>
             <div
               style={{
@@ -139,9 +145,11 @@ const Navbar = () => {
                 <div className="flex flex-shrink-0 items-center">
                   <span className="block h-10 mr-6  lg:hidden lg:m-0 lg:h-0 lg:w-0">
                     <Image
-                      style={{ marginTop: "-10px" }}
-                      width={"100px"}
-                      height={"35px"}
+                      width={100}
+                      height={35}
+                      style={{
+                        marginTop: "-10px",
+                      }}
                       src={`/ayumTranparent.png`}
                       loading="eager"
                       alt="Ayum"
@@ -160,7 +168,7 @@ const Navbar = () => {
               </div>
               <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
                 <div>
-                  <a
+                  <div
                     onClick={() => Router.push("/Contact")}
                     style={{
                       border: "1px solid rgba(39, 239, 245, 0.3)",
@@ -171,12 +179,12 @@ const Navbar = () => {
                     aria-current="page"
                   >
                     Contact Us
-                  </a>
+                  </div>
                 </div>
               </div>
               <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
                 <div>
-                  <a
+                  <div
                     onClick={() => Router.push("/About")}
                     style={{
                       border: "1px solid rgba(39, 239, 245, 0.3)",
@@ -187,16 +195,18 @@ const Navbar = () => {
                     aria-current="page"
                   >
                     About Us
-                  </a>
+                  </div>
                 </div>
               </div>
               <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
-                <button
-                  onClick={showInstallPrompt}
-                  className={`${styles.installbtn} text-white px-2 py-1 rounded-md text-sm font-medium`}
-                >
-                  Install App
-                </button>
+                {showInstallButton && (
+                  <button
+                    onClick={showInstallPrompt}
+                    className={`${styles.installbtn} text-white px-2 py-1 rounded-md text-sm font-medium`}
+                  >
+                    Install App
+                  </button>
+                )}
               </div>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -298,7 +308,11 @@ const Navbar = () => {
                   }}
                   className=" bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-sky-500 hover:border-gray-300 "
                   aria-current="page"
-                  onClick={() => router.push("/Contact")}
+                  onClick={() => {
+                    router.push("/Contact");
+                    setnavitem(false);
+                    setcollapse(false);
+                  }}
                 >
                   Contact Us
                 </a>
@@ -312,7 +326,11 @@ const Navbar = () => {
                   }}
                   className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-sky-500 hover:border-gray-300"
                   aria-current="page"
-                  onClick={() => router.push("/About")}
+                  onClick={() => {
+                    router.push("/About");
+                    setnavitem(false);
+                    setcollapse(false);
+                  }}
                 >
                   About Us
                 </a>
