@@ -48,8 +48,8 @@ function MyApp({ Component, pageProps }) {
           </div>
         )}
 
+        <Navbar />
         <div style={{ display: loading ? "none" : "block" }}>
-          <Navbar />
           <Component {...pageProps} />
           <BottomNav />
         </div>
