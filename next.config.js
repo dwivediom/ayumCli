@@ -18,7 +18,7 @@ const withPWA = require("next-pwa")({
 
 const nextConfig = withPWA({
   images: {
-    domains: ["www.pexels.com", "www.postimg.cc"],
+    domains: ["www.pexels.com", "i.postimg.cc", "img.icons8.com"],
   },
   reactStrictMode: true,
   swcMinify: true,
