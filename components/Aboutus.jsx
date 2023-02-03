@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "./Footer";
 import styles from "../styles/newAbout.module.css";
+import Image from "next/image";
 
 const Aboutus = () => {
   return (
@@ -166,7 +167,7 @@ const Aboutus = () => {
               <div style={{ height: "230px" }} className="flex relative">
                 <img
                   alt="gallery"
-                  className="absolute inset-0 w-full h-full  object-cover object-center"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
                   src="https://i.postimg.cc/gcR1c9ss/Whats-App-Image-2022-11-08-at-6-22-10-PM.jpg"
                 />
                 <div
@@ -189,6 +190,7 @@ const Aboutus = () => {
                   className="absolute inset-0 w-full h-full object-cover object-center"
                   src="https://i.postimg.cc/rsXVdS7P/Whats-App-Image-2022-11-07-at-6-59-20-PM.jpg"
                 />
+
                 <div
                   style={{ transition: "0.5s all" }}
                   className="px-8 py-10 relative z-10 w-full border-4 border-gray-800 bg-gray-900 opacity-0 hover:opacity-100"

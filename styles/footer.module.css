@@ -46,10 +46,10 @@
   color: rgb(255, 136, 0);
   cursor: pointer;
 }
-.footerboxes div img {
+/* .footerboxes div img {
   width: 30px;
   height: 30px;
-}
+} */
 @media (max-width: 600px) {
   .footerboxes div img {
     width: 20px;

@@ -198,3 +198,29 @@
     gap: 10px;
   }
 }
+@media (max-width: 390px) {
+  .btn1 {
+    width: 4.5rem;
+  }
+  .btn2 {
+    width: 4.5rem;
+  }
+  .btn3 {
+    width: 4.5rem;
+  }
+  .btn4 {
+    width: 4.5rem;
+  }
+  .btn5 {
+    width: 4.5rem;
+  }
+  .btn6 {
+    width: 4.5rem;
+  }
+  .btn7 {
+    width: 4.5rem;
+  }
+  .btn8 {
+    width: 4.5rem;
+  }
+}
