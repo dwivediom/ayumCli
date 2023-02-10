@@ -9,7 +9,7 @@ import { useState } from "react";
 import Loader from "../components/Loader";
 import Image from "next/image";
 const BottomNav = dynamic(() => import("../components/BottomNav"));
-const Navbar = dynamic(() => import("../components/Navbar"));
+import Navbar from "../components/Navbar";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
