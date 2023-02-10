@@ -19,14 +19,19 @@
 .installbtn {
   background-image: linear-gradient(
     to right,
-    #ef32d9 0%,
-    #11d7d4 51%,
-    #ef32d9 100%
+    #ff512f 0%,
+    #ffa72b 51%,
+    #ff512f 100%
   );
-  box-shadow: 0 0 15px rgba(2, 255, 255, 0.47);
+  margin: 15px;
+  padding: 5px 30px;
+  text-align: center;
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
+  cursor: pointer;
+  /* box-shadow: 0 0 20px #eee; */
+  border-radius: 10px;
   display: block;
 }
 
@@ -144,4 +149,56 @@
   display: flex;
   align-items: center;
   justify-content: right;
+}
+
+.doctorbtn {
+  background-image: linear-gradient(
+    to right,
+    #db2cfe 0%,
+    #9018f9 51%,
+    #da22ff 100%
+  );
+  margin: 15px;
+  padding: 5px 30px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  cursor: pointer;
+  /* box-shadow: 0 0 20px #eee; */
+  border-radius: 10px;
+  display: block;
+}
+.navitem {
+  margin: 15px;
+  padding: 5px 30px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  cursor: pointer;
+  /* box-shadow: 0 0 20px #eee; */
+  border-radius: 10px;
+  display: block;
+  border: 1px solid rgba(0, 255, 255, 0.443);
+}
+
+.doctorbtn:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+.navbarpc {
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (min-width: 700px) {
+  .doctorbtn {
+    margin: 0;
+  }
+  .installbtn {
+    margin: 0;
+  }
 }

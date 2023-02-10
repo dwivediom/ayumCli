@@ -135,11 +135,7 @@ const Navbar = () => {
               )}
             </div>
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-              className="flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start"
+              className={` ${styles.navbarpc} flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start`}
             >
               <div onClick={() => router.push("/")}>
                 <div className="flex flex-shrink-0 items-center">
@@ -155,7 +151,7 @@ const Navbar = () => {
                       alt="Ayum"
                     />
                   </span>
-                  <span className="hidden h-8 w-auto lg:block">
+                  <span className="hidden h-8 w-auto lg:block cursor-pointer">
                     <Image
                       width={"100px"}
                       height={"30px"}
@@ -182,6 +178,7 @@ const Navbar = () => {
                   </div>
                 </div>
               </div>
+
               <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
                 <div>
                   <div
@@ -199,10 +196,20 @@ const Navbar = () => {
                 </div>
               </div>
               <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
+                <div>
+                  <a
+                    href={"https://www.doctor.ayum.in/"}
+                    className={`${styles.doctorbtn} text-white rounded-md text-sm font-medium`}
+                  >
+                    Ayum Doctor
+                  </a>
+                </div>
+              </div>
+              <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
                 {showInstallButton && (
                   <button
                     onClick={showInstallPrompt}
-                    className={`${styles.installbtn} text-white px-2 py-1 rounded-md text-sm font-medium`}
+                    className={`${styles.installbtn} text-white  rounded-md text-sm font-medium`}
                   >
                     Install App
                   </button>
@@ -299,14 +306,29 @@ const Navbar = () => {
         <div className="sm:hidden" id="mobile-menu">
           {navitem && (
             <>
-              <div className={` space-y-1 px-2 pt-2 pb-3`}>
+              <div>
+                <div>
+                  <a
+                    href={"https://www.doctor.ayum.in/"}
+                    className={`${styles.doctorbtn} text-white rounded-md text-sm font-medium`}
+                    aria-current="page"
+                  >
+                    Ayum Doctor
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div
+                  onClick={showInstallPrompt}
+                  className={`${styles.installbtn} text-white rounded-md text-sm font-medium`}
+                >
+                  Install App
+                </div>
+              </div>
+              <div>
                 <a
-                  style={{
-                    border: "1px solid rgba(39, 239, 245, 0.3)",
-                    cursor: "pointer",
-                    transition: "0.5s all",
-                  }}
-                  className=" bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-sky-500 hover:border-gray-300 "
+                  className={`${styles.navitem} text-white rounded-md text-sm font-medium`}
+                  // className=" bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-sky-500 hover:border-gray-300 "
                   aria-current="page"
                   onClick={() => {
                     router.push("/Contact");
@@ -317,14 +339,10 @@ const Navbar = () => {
                   Contact Us
                 </a>
               </div>
-              <div className="  space-y-1 px-2 pt-2 pb-3">
+              <div>
                 <a
-                  style={{
-                    border: "1px solid rgba(39, 239, 245, 0.3)",
-                    cursor: "pointer",
-                    transition: "0.5s all",
-                  }}
-                  className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-sky-500 hover:border-gray-300"
+                  className={`${styles.navitem} text-white rounded-md text-sm font-medium`}
+                  // className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-sky-500 hover:border-gray-300"
                   aria-current="page"
                   onClick={() => {
                     router.push("/About");
@@ -334,14 +352,6 @@ const Navbar = () => {
                 >
                   About Us
                 </a>
-              </div>
-              <div className=" space-y-1 px-2 ml-2 pt-2 pb-3">
-                <button
-                  onClick={showInstallPrompt}
-                  className={`${styles.installbtn} text-white px-2 py-1 rounded-md text-sm font-medium`}
-                >
-                  Install App
-                </button>
               </div>
             </>
           )}
