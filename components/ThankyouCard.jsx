@@ -67,7 +67,6 @@ const ThankyouCard = () => {
           </div>
         </div>
       </div>
-      ;
     </>
   );
 };
