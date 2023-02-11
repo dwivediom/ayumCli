@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import styles from "../../styles/Bookappo.module.css";
 
 const BookAppointment = () => {
   const docdata = useSelector((state) => state.setdocDataReducer);
-
   const router = useRouter();
   const [doctordata, setdoctordata] = useState(docdata);
   const [error, seterror] = useState("");
@@ -74,16 +74,15 @@ const BookAppointment = () => {
 
   return (
     <div>
-      <div className="lg:w-[60%] m-auto">
-        <form className="m-2">
-          <h2 className="m-auto text-center text-cyan-500 font-bold">
-            Book Your Appoitnemnt
-          </h2>
-
+      <div>
+        <h2 className="m-auto text-center text-cyan-500 font-bold">
+          Book Your Appoitnemnt
+        </h2>
+        <form className={`${styles.bookform}`}>
           <div className="mb-6">
             <label
               htmlFor="patientname"
-              className="block mb-2 text-sm font-medium text-white dark:text-gray-300"
+              className="block mb-2 text-sm font-medium "
             >
               Name of patient
             </label>
@@ -91,17 +90,14 @@ const BookAppointment = () => {
               type="text"
               onChange={(e) => handlechange(e)}
               id="patientname"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
+              className="  text-black text-sm  w-full  rounded  "
               placeholder="maruti "
               required
             />
           </div>
 
           <div className="mb-6">
-            <label
-              htmlFor="age"
-              className="block mb-2 text-sm font-medium text-white dark:text-gray-300"
-            >
+            <label htmlFor="age" className="block mb-2 text-sm font-medium ">
               {" "}
               Age of patient{" "}
             </label>
@@ -109,7 +105,7 @@ const BookAppointment = () => {
               type="text"
               onChange={(e) => handlechange(e)}
               id="age"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
+              className="  text-black text-sm  w-full  rounded  "
               required
             />
           </div>
@@ -117,16 +113,16 @@ const BookAppointment = () => {
           <div className="mb-6">
             <label
               htmlFor="description"
-              className="block mb-2 text-sm font-medium text-white dark:text-gray-300"
+              className=" block mb-2 text-sm font-medium  "
             >
               {" "}
-              description of problem/disease{" "}
+              Description of problem/disease
             </label>
             <input
               type="text"
               onChange={(e) => handlechange(e)}
               id="description"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
+              className="  text-black text-sm  w-full p-2.5 rounded  "
               required
             />
           </div>
@@ -134,7 +130,7 @@ const BookAppointment = () => {
           <button
             type="submit"
             onClick={(e) => submit(e)}
-            className="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+            className={`${styles.bookformsubmit}`}
           >
             Submit
           </button>

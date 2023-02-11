@@ -17,6 +17,7 @@ const Search = () => {
   const sdata = useSelector((state) => state.quickSearchReducer);
   const [loading, setloading] = useState(false);
   const [reload, setreload] = useState(true);
+  const [viewsearchill, setviewsearchill] = useState(true);
   const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
   useEffect(() => {
     if (sdata.searchkey && reload) {
@@ -35,15 +36,22 @@ const Search = () => {
   };
 
   const onSearch = async (e) => {
+    if (input == "") {
+      setdata(null);
+      return setviewsearchill(true);
+    }
+    setviewsearchill(false);
     setloading(true);
     setreload(false);
     if (e) {
       e.preventDefault();
     }
+
     console.log(sdata);
     const searchdata = await axios.get(url);
     console.log(searchdata);
     setdata(searchdata);
+    console.log(searchdata.data.length);
     setloading(false);
   };
   {
@@ -59,23 +67,6 @@ const Search = () => {
     <div className="m-4 ">
       <form className={`${styles.searchform}`} onSubmit={(e) => onSearch(e)}>
         <div className="relative">
-          {/* <div className={`${styles.searchicon}`}>
-            <svg
-              aria-hidden="true"
-              className="w-5 h-5  text-gray-300"
-              fill="none"
-              stroke="rgb(0, 154, 171)"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
-          </div> */}
           <input
             type="search"
             onChange={(e) => handleChange(e)}
@@ -88,12 +79,30 @@ const Search = () => {
             type="button"
             onClick={(e) => onSearch(e)}
             className={`${styles.searchbtn}`}
-            // className={`text-white absolute right-2.5 bottom-2.5 ${bgPriColor} hover:bg-cyan-800 focus:ring-7 focus:outline-none focus:ring-cyan-50 font-medium rounded-lg text-sm px-4 py-2 dark:bg-cyan-500 dark:hover:bg-cyan-500 dark:focus:ring-cyan-500`}
           >
             Search
           </button>
         </div>
       </form>
+
+      {viewsearchill && (
+        <div
+          style={{
+            height: "50vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "auto",
+          }}
+        >
+          <Image
+            src={"/searchill.png"}
+            width={170}
+            height={170}
+            alt="Loading..."
+          />
+        </div>
+      )}
 
       {loading ? (
         <div
@@ -103,13 +112,34 @@ const Search = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            margin: "auto",
           }}
         >
           <Image src={"/loader.svg"} width={50} height={50} alt="Loading..." />
         </div>
       ) : (
         <div className="  m-auto mt-6 grid  lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1  gap-2 md:gap-4">
-          {data &&
+          {data && data.data.length == 0 ? (
+            <div
+              style={{
+                height: "50vh",
+                width: "90vw",
+
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "auto",
+              }}
+            >
+              <Image
+                src={"/notfound.png"}
+                width={170}
+                height={140}
+                alt="Loading..."
+              />
+            </div>
+          ) : (
+            data &&
             data.data.map((doctor) => {
               return (
                 <DoctorCard
@@ -123,7 +153,8 @@ const Search = () => {
                   docid={doctor._id}
                 />
               );
-            })}
+            })
+          )}
         </div>
       )}
     </div>

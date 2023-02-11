@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-
 import axios from "axios";
-
 import { authentication } from "../../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import styles from "../../styles/Auth.module.css";
 const {
   initializeAppCheck,
   ReCaptchaV3Provider,
@@ -137,6 +136,7 @@ const UserRegistrationPage = () => {
 
   const handlechange = (e) => {
     const newdata = { ...data };
+    setotpmsg(null);
     newdata[e.target.id] = e.target.value;
     setdata(newdata);
   };
@@ -144,17 +144,17 @@ const UserRegistrationPage = () => {
   return (
     <>
       <div>
-        <div className="lg:w-[60%] m-auto">
-          <form className="m-2">
-            <h2 className="m-auto text-center text-cyan-500 font-bold">
-              User Registration{" "}
-            </h2>
+        <div>
+          <h2 className="m-auto text-center text-cyan-500 font-bold">
+            User Registration{" "}
+          </h2>
+          <form className={`${styles.authcontainer}`}>
             <div className="mb-6">
               {viewName && (
                 <div className="mb-6">
                   <label
                     htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-gray-300"
+                    className="block mb-2 text-sm font-medium "
                   >
                     Your name
                   </label>
@@ -165,14 +165,14 @@ const UserRegistrationPage = () => {
                     type="text"
                     id="name"
                     name="name"
-                    className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                    className="  text-black text-sm  w-full p-2.5 rounded  "
                     placeholder="Your name "
                     required
                   />
                   <button
                     type="submit"
                     onClick={(e) => submit(e)}
-                    className="mt-5 text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                    className={`${styles.bookbtn}`}
                   >
                     Submit
                   </button>
@@ -181,16 +181,17 @@ const UserRegistrationPage = () => {
               {viewphone && (
                 <div>
                   <label
-                    htmlFor="phone"
-                    className="block mb-2 text-sm font-medium text-gray-300"
+                    htmlFor="number"
+                    className="block mb-2 text-sm font-medium "
                   >
-                    Your phone
+                    Enter Phone Number
                   </label>
                   <input
                     type="number"
                     onChange={(e) => handlechange(e)}
                     id="phone"
-                    className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                    name="phone"
+                    className="  text-black text-sm  w-full p-2.5 rounded  "
                     placeholder="+91 5675453453"
                     required
                   />
@@ -202,7 +203,7 @@ const UserRegistrationPage = () => {
               <button
                 type="submit"
                 onClick={(e) => requsetOtp(e)}
-                className="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                className={`${styles.bookbtn}`}
               >
                 {loader ? "Submitting..." : "Submit"}
               </button>
@@ -210,12 +211,12 @@ const UserRegistrationPage = () => {
           </form>
 
           {viewOtp && (
-            <div className="m-2">
-              <label
-                htmlFor="otp"
-                className="block mb-2 text-sm font-medium text-gray-300"
-              >
-                Otp
+            <div
+              style={{ marginTop: "20px", marginBottom: "40px" }}
+              className={`${styles.authcontainer}`}
+            >
+              <label htmlFor="otp" className="block mb-2 text-sm font-medium ">
+                Enter Otp
               </label>
               <input
                 type="number"
@@ -224,7 +225,7 @@ const UserRegistrationPage = () => {
                 pattern="\d{6}"
                 onChange={(e) => varifyOtp(e)}
                 id="password"
-                className=" border   text-sm rounded-lg   block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-cyan-500 focus:border-cyan-500"
+                className="  text-black text-sm  w-full p-2.5 rounded  "
                 required
               />
             </div>
@@ -242,7 +243,22 @@ const UserRegistrationPage = () => {
             </h5>
           )}
 
-          {otpmsg && <h3 className="text-red-600 text-bold"> {otpmsg} </h3>}
+          {otpmsg && (
+            <h3
+              style={{
+                border: "1px solid red",
+                width: "23rem",
+                margin: "auto",
+                marginTop: "2rem",
+                padding: "5px",
+                borderRadius: "4px",
+              }}
+              className="text-red-600 text-bold text-center "
+            >
+              {" "}
+              {otpmsg}{" "}
+            </h3>
+          )}
         </div>
 
         <div id="sign-in-button"></div>
