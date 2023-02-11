@@ -10,7 +10,7 @@ const DoctorCard = (props) => {
   const router = useRouter();
   const Click = (e) => {
     e.preventDefault();
-
+    console.log(localStorage.usertoken);
     dispatch(setDocDataAction(props));
 
     if (localStorage.usertoken) {
