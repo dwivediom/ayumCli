@@ -1,0 +1,46 @@
+.bookform {
+  width: 23rem;
+  margin: auto;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  background: rgb(255, 255, 255);
+  border-radius: 4px;
+  box-shadow: 0 4px 30px rgba(15, 14, 14, 0.297);
+}
+
+.bookformsubmit {
+  align-items: center;
+  background-color: #0101e6 !important;
+  border-radius: 4px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d2d2e6 0 -3px 0 inset;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  /* font-family: "JetBrains Mono", monospace; */
+  height: 35px;
+  justify-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  transition: box-shadow 0.15s, transform 0.15s;
+  font-size: 14px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.bookformsubmit:focus {
+  box-shadow: #4141e4 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3a3ad6 0 -3px 0 inset;
+}
+
+.bookformsubmit:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3b3be4 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.bookformsubmit:active {
+  box-shadow: #2020dc 0 3px 7px inset;
+  transform: translateY(2px);
+}
