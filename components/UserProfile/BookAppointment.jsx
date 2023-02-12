@@ -4,7 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import styles from "../../styles/Bookappo.module.css";
 
-const BookAppointment = () => {
+const BookAppointment = ({ reqdata }) => {
   const docdata = useSelector((state) => state.setdocDataReducer);
   const router = useRouter();
   const [doctordata, setdoctordata] = useState(docdata);
@@ -32,11 +32,16 @@ const BookAppointment = () => {
     } else {
       router.push("/User/UserRegistrationPage");
     }
+
+    if (!reqdata) {
+      router.push("/");
+    }
   }, [token, router, docdata]);
-  console.log(doctordata);
-  const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/${doctordata.docid}`;
-  console.log("url ", url);
+
   const submit = async (e) => {
+    const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/${
+      reqdata && reqdata.docid
+    }/${reqdata && reqdata.clinicid}`;
     e.preventDefault();
     try {
       let userdata = await axios.post(
