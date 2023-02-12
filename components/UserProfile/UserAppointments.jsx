@@ -65,15 +65,17 @@ const UserAppointments = () => {
               appointment.data.appointment.map((data) => {
                 return (
                   <>
-                    <Appointment
-                      key={data._id}
-                      docname={data.docname}
-                      age={data.age}
-                      appointmentno={data.appointmentno}
-                      Pname={data.patientname}
-                      doclocation={data.doclocation}
-                      date={data.date}
-                    />
+                    <div key={data._id}>
+                      <Appointment
+                        key={data._id}
+                        docname={data.docname}
+                        age={data.age}
+                        appointmentno={data.appointmentno}
+                        Pname={data.patientname}
+                        doclocation={data.doclocation}
+                        date={data.date}
+                      />
+                    </div>
                   </>
                 );
               })}
