@@ -6,6 +6,7 @@ import Image from "next/image";
 import DoctorCard from "./DoctorCard";
 
 const GetDoctor = ({ getDoctor }) => {
+  console.log(getDoctor, "Get Doctor ");
   return (
     <>
       <div className={`${styles.doccontainer}`}>

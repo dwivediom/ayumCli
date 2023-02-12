@@ -3,20 +3,26 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { setDocDataAction } from "../redux/actions/userActions";
 import styles from "../styles/doctorcard.module.css";
+import Router from "next/router";
 
 const DoctorCard = (props) => {
-  const { name, specialist, location, fees, phone, timing } = props;
+  const { name, specialist, location, fees, phone, timing, docid } = props;
   const dispatch = useDispatch();
-  const router = useRouter();
   const Click = (e) => {
     e.preventDefault();
-    console.log(localStorage.usertoken);
+    console.log(localStorage.usertoken, "user token ");
+    console.log(docid);
     dispatch(setDocDataAction(props));
 
     if (localStorage.usertoken) {
-      router.push("/User/BookAppointmentPage");
+      Router.push({
+        pathname: "/User/SelectClinic",
+        query: {
+          did: docid,
+        },
+      });
     } else {
-      router.push("/User/UserRegistrationPage");
+      Router.push("/User/UserRegistrationPage");
     }
   };
   return (

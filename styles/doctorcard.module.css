@@ -111,9 +111,10 @@
   border-radius: 4px;
   font-weight: bold;
   color: white;
-  background: #011fb8;
+  background: #294af3;
   cursor: pointer !important;
   transition: 0.2s all !important;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px;
 }
 
 .bookslot:hover {
