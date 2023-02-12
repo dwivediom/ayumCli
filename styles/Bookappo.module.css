@@ -3,6 +3,7 @@
   margin: auto;
   padding: 1rem;
   border-radius: 4px;
+
   margin-top: 1rem;
   background: rgb(255, 255, 255);
   border-radius: 4px;
@@ -14,7 +15,7 @@
   background-color: #0101e6 !important;
   border-radius: 4px;
   box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
-    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d2d2e6 0 -3px 0 inset;
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #aeaefc 0 -3px 0 inset;
   color: #ffffff;
   cursor: pointer;
   display: inline-flex;
@@ -43,4 +44,87 @@
 .bookformsubmit:active {
   box-shadow: #2020dc 0 3px 7px inset;
   transform: translateY(2px);
+}
+
+.cliniccard {
+  width: 23rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  color: #36395a;
+  background-color: #f8f8ff !important;
+  border-radius: 8px;
+  box-shadow: 5px 15px 20px rgba(37, 43, 51, 0.265);
+  font-family: "Poppins", sans-serif;
+  margin: 5px;
+  border-top: 4px solid rgb(1, 197, 197);
+}
+.cardcontainer {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 6rem;
+}
+.cliniccard h2 {
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+  color: #36395a;
+}
+.timebox {
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: space-between;
+}
+.timebox div {
+  /* border: 1px solid rgb(0, 162, 184); */
+  background-color: rgb(236, 246, 255);
+  font-size: small;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 5px;
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.locationbox {
+  /* border: 1px solid red; */
+  font-size: small;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 5px;
+  height: 4rem;
+  gap: 2px;
+  border-radius: 4px;
+  background-color: rgb(236, 246, 255);
+}
+.continuebox {
+  margin: auto;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  padding: 3px 13px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+  width: 6rem;
+  color: white;
+  background: #294af3;
+  cursor: pointer !important;
+  transition: 0.2s all !important;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px;
+}
+
+.continuebox:hover {
+  background: #294af3 !important;
+  transform: translateY(2px) !important;
 }
