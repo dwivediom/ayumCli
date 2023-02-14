@@ -10,7 +10,8 @@ import Loader from "../components/Loader";
 import Image from "next/image";
 const BottomNav = dynamic(() => import("../components/BottomNav"));
 import Navbar from "../components/Navbar";
-
+import  {googleClientId} from "../utils/googleClientId"; 
+import { GoogleOAuthProvider } from "@react-oauth/google";
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -28,6 +29,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
+    <GoogleOAuthProvider clientId= "546426590582-i87n4u2efdi9qupcuovdblf73h1h5rak.apps.googleusercontent.com">
       <ReduxProvider store={store}>
         {loading && (
           <div
@@ -54,6 +56,7 @@ function MyApp({ Component, pageProps }) {
           <BottomNav />
         </div>
       </ReduxProvider>
+      </GoogleOAuthProvider>
     </>
   );
 }
