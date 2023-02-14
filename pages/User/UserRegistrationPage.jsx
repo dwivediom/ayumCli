@@ -3,18 +3,17 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { authentication } from "../../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { GoogleLogin  } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 import styles from "../../styles/Auth.module.css";
-const {
-  initializeAppCheck,
-  ReCaptchaV3Provider,
-} = require("firebase/app-check");
 import { useSelector } from "react-redux";
-
+import { async } from "@firebase/util";
+import { loginInitate,registerinitate } from "../../routers/UserRegistration";
 const UserRegistrationPage = () => {
   const docdata = useSelector((state) => state.setdocDataReducer);
   const router = useRouter();
-  const loginurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/login`;
-  const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/register`;
+  const loginUrl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/login`;
+  const registerUrl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/register`;
   const [uid, setuid] = useState("");
   const [error, seterror] = useState("");
   const [response, setresponce] = useState("");
@@ -23,116 +22,49 @@ const UserRegistrationPage = () => {
   const [viewOtp, setviewOtp] = useState(false);
   const [viewName, setviewName] = useState(false);
   const [otpmsg, setotpmsg] = useState(null);
+  const [loader, setloader] = useState(true)
   const [data, setdata] = useState({
+
     name: "",
     email: "",
     phone: "",
     password: "",
+    sub: "",
+    picture: "",
+    email_verified: ""
   });
-
-  const generateRecaptcha = () => {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      "sign-in-button",
-      {
-        provider: new ReCaptchaV3Provider(
-          "6LfOJtEiAAAAAO1zDyGYumO6UUwErzRV2_7-xMXE"
-        ),
-        size: "invisible",
-        callback: (response) => {},
-      },
-      authentication
-    );
-  };
-
-  const [loader, setloader] = useState(false);
-
-  const requsetOtp = (e) => {
-    setloader(true);
-    e.preventDefault();
-
-    generateRecaptcha();
-    const appVerifier = window.recaptchaVerifier;
-    const phoneNumber = `+91${data.phone}`;
-    console.log(phoneNumber);
-    signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        setviewOtp(true);
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setotpmsg("Invalid Phone Number");
-        setloader(false);
-      });
-  };
-
-  const varifyOtp = (e) => {
-    let Otp = e.target.value;
-    setotp(Otp);
-    if (Otp.length === 6) {
-      let confirmationResult = window.confirmationResult;
-      confirmationResult
-        .confirm(Otp)
-        .then((result) => {
-          // User signed in successfully.
-          const user = result.user;
-          setuid(result.user.uid);
-          login();
-          setviewOtp(false);
-          setviewphone(false);
-        })
-        .catch((error) => {
-          // User couldn't sign in (bad verification code?)
-          setotpmsg("Otp is Not Valid");
-        });
+  const onLoginSucess = async (res) => {
+    const decodedjwt = jwt_decode(res.credential)
+    console.log(decodedjwt)
+     setdata(decodedjwt)
+    
+    console.log("data ",data) 
+    const logindata = await loginInitate( decodedjwt);
+    console.log("logindata " , logindata )
+    if(logindata.data){ 
+      localStorage.setItem("usertoken", logindata.data.token);
     }
-  };
-
-  const login = async () => {
-    try {
-      let userdata = await axios.post(loginurl, {
-        phone: data.phone,
-
-        password: data.phone,
-      });
-
-      setresponce(userdata);
-      localStorage.setItem("usertoken", userdata.data.token);
-      if (docdata != null && localStorage.usertoken) {
-        router.push("/User/BookAppointmentPage");
-      } else {
-        router.push("/");
+    if(logindata.error){ 
+      const registerData = await registerinitate(decodedjwt)
+      if(registerData.data){ 
+        localStorage.setItem("usertoken", registerData.data.token);
+        
       }
-    } catch (err) {
-      setviewName(true);
-      if (err.response) {
-      }
+      console.log("registerdata " ,registerData)
     }
-  };
 
-  const submit = async (e) => {
-    e.preventDefault();
-    try {
-      let userdata = await axios.post(url, {
-        name: data.name,
-        phone: data.phone,
-        password: data.phone,
-      });
-
-      setresponce(userdata);
-      localStorage.setItem("usertoken", userdata.data.token);
-
-      if (docdata != null && localStorage.usertoken) {
-        router.push("/User/BookAppointmentPage");
-      } else {
-        router.push("/");
-      }
-    } catch (err) {
-      if (err.response) {
-        seterror(err.response.data.error);
-      }
+    if ( localStorage.usertoken) {
+      router.push("/");
+    } else {
+      router.push("/");
     }
-  };
+  }
+  const onLoginError = (res) => {
+    console.log(res.message)
+  }
+
+  
+ 
 
   const handlechange = (e) => {
     const newdata = { ...data };
@@ -148,6 +80,15 @@ const UserRegistrationPage = () => {
           <h2 className="m-auto text-center text-cyan-500 font-bold">
             User Registration{" "}
           </h2>
+
+
+          <GoogleLogin
+            onSuccess={onLoginSucess} onError={onLoginError}
+
+          />
+
+
+
           <form className={`${styles.authcontainer}`}>
             <div className="mb-6">
               {viewName && (
@@ -237,8 +178,8 @@ const UserRegistrationPage = () => {
             <h5 className="text-red-600 text-bold">
               {error && Array.isArray(error)
                 ? error.map((data) => {
-                    return `${data.msg}!!`;
-                  })
+                  return `${data.msg}!!`;
+                })
                 : error}
             </h5>
           )}
