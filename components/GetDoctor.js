@@ -6,36 +6,26 @@ import Image from "next/image";
 import DoctorCard from "./DoctorCard";
 
 const GetDoctor = ({ getDoctor }) => {
-  console.log(getDoctor, "Get Doctor ");
   return (
     <>
       <div className={`${styles.doccontainer}`}>
         {getDoctor
           .slice(0)
           .reverse()
-          .map((doctor) => {
-            return (
-              // <Doctor
-              //   key={doctor._id}
-              //   name={doctor.doctor.name}
-              //   specialist={doctor.specialist}
-              //   location={doctor.location}
-              //   phone={doctor.doctor.phone}
-              //   fees={doctor.fees}
-              //   timing={doctor.timing}
-              //   docid={doctor.doctor._id}
-              // />
-              <DoctorCard
-                key={doctor._id}
-                name={doctor.doctor.name}
-                specialist={doctor.specialist}
-                location={doctor.location}
-                phone={doctor.doctor.phone}
-                fees={doctor.fees}
-                timing={doctor.timing}
-                docid={doctor.doctor._id}
-              />
-            );
+          .map((item) => {
+            if (item.doctor)
+              return (
+                <DoctorCard
+                  key={item._id}
+                  name={item.doctor && item.doctor.name}
+                  specialist={item.specialist && item.specialist}
+                  location={item.location && item.location}
+                  phone={item.doctor && item.doctor.phone}
+                  fees={item.fees && item.fees}
+                  timing={item.timing && item.timing}
+                  docid={item.doctor && item.doctor._id}
+                />
+              );
           })}
       </div>
     </>
