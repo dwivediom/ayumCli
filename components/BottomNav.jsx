@@ -139,7 +139,7 @@ const BottomNav = () => {
                 <span className="tab tab-explore block text-xs">Search</span>
               </a>
             </Link>
-            <Link href={"/Doctor/DocAppointment"}>
+            <Link href={"/"}>
               <a
                 style={{
                   display: "flex",

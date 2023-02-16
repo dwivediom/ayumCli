@@ -10,8 +10,9 @@ import Loader from "../components/Loader";
 import Image from "next/image";
 const BottomNav = dynamic(() => import("../components/BottomNav"));
 import Navbar from "../components/Navbar";
-import  {googleClientId} from "../utils/googleClientId"; 
+import { googleClientId } from "../utils/googleClientId";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import AccountProvider from "../context/AccountProvider";
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -29,33 +30,35 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-    <GoogleOAuthProvider clientId= "546426590582-i87n4u2efdi9qupcuovdblf73h1h5rak.apps.googleusercontent.com">
-      <ReduxProvider store={store}>
-        {loading && (
-          <div
-            style={{
-              width: "100vw",
-              height: "50vh",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Image
-              src={"/loader.svg"}
-              width={50}
-              height={50}
-              alt="Loading..."
-            />
-          </div>
-        )}
+      <GoogleOAuthProvider clientId="546426590582-i87n4u2efdi9qupcuovdblf73h1h5rak.apps.googleusercontent.com">
+        <AccountProvider>
+          <ReduxProvider store={store}>
+            {loading && (
+              <div
+                style={{
+                  width: "100vw",
+                  height: "50vh",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  src={"/loader.svg"}
+                  width={50}
+                  height={50}
+                  alt="Loading..."
+                />
+              </div>
+            )}
 
-        <Navbar />
-        <div style={{ display: loading ? "none" : "block" }}>
-          <Component {...pageProps} />
-          <BottomNav />
-        </div>
-      </ReduxProvider>
+            <Navbar />
+            <div style={{ display: loading ? "none" : "block" }}>
+              <Component {...pageProps} />
+              <BottomNav />
+            </div>
+          </ReduxProvider>
+        </AccountProvider>
       </GoogleOAuthProvider>
     </>
   );

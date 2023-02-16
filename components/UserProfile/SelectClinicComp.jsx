@@ -36,64 +36,61 @@ const SelectClinicComp = ({ docid }) => {
           {clinic &&
             clinic.map((item) => {
               return (
-                <>
-                  <div key={item.clinicName} className={`${styles.cliniccard}`}>
-                    <h2>{item.clinicName}</h2>
-                    <div className={`${styles.timebox}`}>
-                      <div>
-                        {" "}
-                        <Image
-                          src={
-                            " https://img.icons8.com/fluency/48/null/overtime.png"
-                          }
-                          height={23}
-                          width={23}
-                        />{" "}
-                        {item.timing}
-                      </div>
-
-                      <div>
-                        {" "}
-                        <Image
-                          src={
-                            "https://img.icons8.com/external-flaticons-flat-flat-icons/64/null/external-limited-black-friday-cyber-monday-flaticons-flat-flat-icons.png"
-                          }
-                          width={23}
-                          height={23}
-                        />{" "}
-                        Slots Remaining -{" "}
-                        <span className="text-red-500">30</span>
-                      </div>
-                    </div>
-                    <div className={`${styles.locationbox}`}>
+                <div key={item._id} className={`${styles.cliniccard}`}>
+                  <h2>{item.clinicName}</h2>
+                  <div className={`${styles.timebox}`}>
+                    <div>
+                      {" "}
                       <Image
                         src={
-                          "https://img.icons8.com/external-flatart-icons-flat-flatarticons/64/null/external-location-coronavirus-flatart-icons-flat-flatarticons.png"
+                          " https://img.icons8.com/fluency/48/null/overtime.png"
+                        }
+                        height={23}
+                        width={23}
+                      />{" "}
+                      {item.timing}
+                    </div>
+
+                    <div>
+                      {" "}
+                      <Image
+                        src={
+                          "https://img.icons8.com/external-flaticons-flat-flat-icons/64/null/external-limited-black-friday-cyber-monday-flaticons-flat-flat-icons.png"
                         }
                         width={23}
                         height={23}
-                      />
-                      {item.location}
-                    </div>
-
-                    <div
-                      onClick={() => {
-                        Router.push({
-                          pathname: "/User/BookAppointmentPage",
-                          query: {
-                            data: JSON.stringify({
-                              docid: `${docid}`,
-                              clinicid: `${item._id}`,
-                            }),
-                          },
-                        });
-                      }}
-                      className={`${styles.continuebox}`}
-                    >
-                      Continue
+                      />{" "}
+                      Slots Remaining - <span className="text-red-500">30</span>
                     </div>
                   </div>
-                </>
+                  <div className={`${styles.locationbox}`}>
+                    <Image
+                      src={
+                        "https://img.icons8.com/external-flatart-icons-flat-flatarticons/64/null/external-location-coronavirus-flatart-icons-flat-flatarticons.png"
+                      }
+                      width={23}
+                      height={23}
+                    />
+                    {item.location}
+                  </div>
+
+                  <div
+                    onClick={() => {
+                      Router.push({
+                        pathname: "/User/BookAppointmentPage",
+                        query: {
+                          data: JSON.stringify({
+                            docid: `${docid}`,
+                            clinicid: `${item._id}`,
+                          }),
+                        },
+                      });
+                    }}
+                    className={`${styles.continuebox}`}
+                  >
+                    Continue
+                  </div>
+                </div>
               );
             })}
         </div>
