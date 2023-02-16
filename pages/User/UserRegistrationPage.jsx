@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { authentication } from "../../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { GoogleLogin  } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import styles from "../../styles/Auth.module.css";
+// import styles from "../../styles/Auth.module.css";
 import { useSelector } from "react-redux";
 import { async } from "@firebase/util";
-import { loginInitate,registerinitate } from "../../routers/UserRegistration";
+import { loginInitate, registerinitate } from "../../routers/UserRegistration";
+import styles from "../../styles/Home.module.css";
+import { AccountContext } from "../../context/AccountProvider";
 const UserRegistrationPage = () => {
+  const { setauthstatus } = useContext(AccountContext);
   const docdata = useSelector((state) => state.setdocDataReducer);
   const router = useRouter();
   const loginUrl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/login`;
@@ -22,49 +25,45 @@ const UserRegistrationPage = () => {
   const [viewOtp, setviewOtp] = useState(false);
   const [viewName, setviewName] = useState(false);
   const [otpmsg, setotpmsg] = useState(null);
-  const [loader, setloader] = useState(true)
+  const [loader, setloader] = useState(true);
   const [data, setdata] = useState({
-
     name: "",
     email: "",
     phone: "",
     password: "",
     sub: "",
     picture: "",
-    email_verified: ""
+    email_verified: "",
   });
   const onLoginSucess = async (res) => {
-    const decodedjwt = jwt_decode(res.credential)
-    console.log(decodedjwt)
-     setdata(decodedjwt)
-    
-    console.log("data ",data) 
-    const logindata = await loginInitate( decodedjwt);
-    console.log("logindata " , logindata )
-    if(logindata.data){ 
+    const decodedjwt = jwt_decode(res.credential);
+    console.log(decodedjwt);
+    setdata(decodedjwt);
+
+    console.log("data ", data);
+    const logindata = await loginInitate(decodedjwt);
+    console.log("logindata ", logindata);
+    if (logindata.data) {
       localStorage.setItem("usertoken", logindata.data.token);
     }
-    if(logindata.error){ 
-      const registerData = await registerinitate(decodedjwt)
-      if(registerData.data){ 
+    if (logindata.error) {
+      const registerData = await registerinitate(decodedjwt);
+      if (registerData.data) {
         localStorage.setItem("usertoken", registerData.data.token);
-        
       }
-      console.log("registerdata " ,registerData)
+      console.log("registerdata ", registerData);
     }
 
-    if ( localStorage.usertoken) {
+    if (localStorage.usertoken) {
+      setauthstatus(true);
       router.push("/");
     } else {
       router.push("/");
     }
-  }
+  };
   const onLoginError = (res) => {
-    console.log(res.message)
-  }
-
-  
- 
+    console.log(res.message);
+  };
 
   const handlechange = (e) => {
     const newdata = { ...data };
@@ -75,21 +74,20 @@ const UserRegistrationPage = () => {
 
   return (
     <>
-      <div>
-        <div>
-          <h2 className="m-auto text-center text-cyan-500 font-bold">
-            User Registration{" "}
-          </h2>
+      <div className={`${styles.authbox}`}>
+        <div className={`${styles.authdiv}`}>
+          <div className="text-md text-cyan-600">
+            {" "}
+            Login using{" "}
+            <span className="text-orange-500 text-lg font-bold">
+              Google
+            </span>{" "}
+            with <span className="text-lg font-bold">Ayum</span>
+          </div>
 
-
-          <GoogleLogin
-            onSuccess={onLoginSucess} onError={onLoginError}
-
-          />
-
-
-
-          <form className={`${styles.authcontainer}`}>
+          <GoogleLogin onSuccess={onLoginSucess} onError={onLoginError} />
+        </div>
+        {/* <form className={`${styles.authcontainer}`}>
             <div className="mb-6">
               {viewName && (
                 <div className="mb-6">
@@ -149,9 +147,9 @@ const UserRegistrationPage = () => {
                 {loader ? "Submitting..." : "Submit"}
               </button>
             )}
-          </form>
+          </form> */}
 
-          {viewOtp && (
+        {/* {viewOtp && (
             <div
               style={{ marginTop: "20px", marginBottom: "40px" }}
               className={`${styles.authcontainer}`}
@@ -199,10 +197,7 @@ const UserRegistrationPage = () => {
               {" "}
               {otpmsg}{" "}
             </h3>
-          )}
-        </div>
-
-        <div id="sign-in-button"></div>
+          )} */}
       </div>
     </>
   );
