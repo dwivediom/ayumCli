@@ -63,7 +63,7 @@ const SelectClinicComp = ({ docid }) => {
                       Slots Remaining - <span className="text-red-500">30</span>
                     </div>
                   </div>
-                  <div className={`${styles.locationbox}`}>
+                  <div className={`${styles.locationbox} text-left`}>
                     <Image
                       src={
                         "https://img.icons8.com/external-flatart-icons-flat-flatarticons/64/null/external-location-coronavirus-flatart-icons-flat-flatarticons.png"
@@ -71,25 +71,37 @@ const SelectClinicComp = ({ docid }) => {
                       width={23}
                       height={23}
                     />
-                    {item.location}
+                    <span
+                      style={{
+                        width: "92%",
+                      }}
+                    >
+                      {item.location}
+                    </span>
                   </div>
 
-                  <div
-                    onClick={() => {
-                      Router.push({
-                        pathname: "/User/BookAppointmentPage",
-                        query: {
-                          data: JSON.stringify({
-                            docid: `${docid}`,
-                            clinicid: `${item._id}`,
-                          }),
-                        },
-                      });
-                    }}
-                    className={`${styles.continuebox}`}
-                  >
-                    Continue
-                  </div>
+                  {item.bookingStatus ? (
+                    <div
+                      onClick={() => {
+                        Router.push({
+                          pathname: "/User/BookAppointmentPage",
+                          query: {
+                            data: JSON.stringify({
+                              docid: `${docid}`,
+                              clinicid: `${item._id}`,
+                            }),
+                          },
+                        });
+                      }}
+                      className={`${styles.continuebox}`}
+                    >
+                      Continue
+                    </div>
+                  ) : (
+                    <div className="text-center mt-2 text-sm text-red-500 font-bold ">
+                      Booking For This Clinic Are Closed For Now!
+                    </div>
+                  )}
                 </div>
               );
             })}
