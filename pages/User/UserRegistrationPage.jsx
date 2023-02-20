@@ -81,7 +81,7 @@ const UserRegistrationPage = () => {
             Login using{" "}
             <span className="text-orange-500 text-lg font-bold">
               Google
-            </span>{" "}
+            </span>
             with <span className="text-lg font-bold">Ayum</span>
           </div>
 
