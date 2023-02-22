@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <GoogleOAuthProvider clientId="546426590582-i87n4u2efdi9qupcuovdblf73h1h5rak.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_B_GOOGLE_CLIENT_ID}>
         <AccountProvider>
           <ReduxProvider store={store}>
             {loading && (
