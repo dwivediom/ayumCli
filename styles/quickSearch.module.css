@@ -5,7 +5,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  /* gap: 7px; */
+  gap: 1rem;
   padding: 10px;
   margin-top: 20px;
   justify-content: space-between;

@@ -43,6 +43,8 @@ export default function Home(props) {
     }
   });
 
+  console.log(props.newdata, "Data");
+
   if (!isOnline || props.newdata == "error") {
     return (
       <>
