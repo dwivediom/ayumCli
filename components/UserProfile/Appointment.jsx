@@ -1,69 +1,75 @@
-import React from "react";
-
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import styles from "../../styles/UserAppo.module.css";
 const Appointment = (props) => {
-  const { docname, description, appointmentno, age, Pname, doclocation, date } =
-    props;
+  const { data } = props;
+  const appodate = new Date(data.date);
+  const [crn, setcrn] = useState();
+  const [runcrn, setruncrn] = useState(true);
 
-  const appodate = new Date(date);
-
+  useEffect(() => {
+    console.log(data.clinicId, "Clinic id for CRN");
+    async function getcrn() {
+      const crndata = await axios({
+        url: `https://www.crn.ayum.in/CRN/get/${data.clinicId.toString()}`,
+        method: "get",
+      });
+      console.log(crndata);
+      if (crndata.data != {}) {
+        setcrn(crndata && crndata.data);
+      }
+    }
+    if (data.clinicId) {
+      getcrn();
+    }
+  }, [runcrn]);
   return (
     <>
-      <li className="py-3 sm:py-4">
-        <div className="flex items-center  space-x-4">
-          <div className="flex-1 min-w-0">
-            <p className="text-sm ml-4 font-medium text-gray-900 truncate dark:text-white">
-              {docname}
-            </p>
-            <p className="text-sm ml-4 text-gray-500 truncate dark:text-gray-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 inline mr-2 h-5 text-cyan-500"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                />
-              </svg>
-              {doclocation}
-            </p>
-            <p className="text-sm mt-1 ml-4 text-gray-500 truncate dark:text-gray-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 inline mr-2 h-5 text-cyan-500"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                />
-              </svg>
-              {Pname}
-            </p>
+      <div className={`${styles.userappocard}`}>
+        <h2>{data.patientname}</h2>
+        <div className={`${styles.userdetail}`}>
+          <div>Slot Number - {data.appointmentno}</div>
+          <div>Clinic - {data.clinicName} </div>
+        </div>
+        <div className={`${styles.userdetail}`}>
+          <div>
+            {" "}
+            <img src="https://img.icons8.com/fluency/48/null/overtime.png" />{" "}
+            {data.date.substring(0, 10)}
           </div>
-
-          <div className="inline-flex flex-col items-center text-base font-semibold text-gray-900 dark:text-white">
-            <h2 className=""> {appointmentno}</h2>
-
-            <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-              {`${appodate.getDate()}-${appodate.getMonth()}-${appodate.getFullYear()}`}
-            </p>
+          <div>
+            <img src="https://img.icons8.com/color/48/null/medical-doctor.png" />{" "}
+            {data.docname}
           </div>
         </div>
-      </li>
+
+        <div className={`${styles.userdetail}`}>
+          <div>
+            <img src="https://img.icons8.com/external-stick-figures-gan-khoon-lay/51/null/external-age-life-cycle-aging-stick-figures-gan-khoon-lay-2.png" />{" "}
+            {data.age} years
+          </div>
+          <div>
+            <img src="https://img.icons8.com/color/48/null/contact-card.png" />{" "}
+            {data.phone}
+          </div>
+        </div>
+        <div className={`${styles.userdetail}`}>
+          <div className={`${styles.CRNnumber} `}>
+            <span> Current Running Number :</span>
+            <span className="text-red-500">
+              {" "}
+              {crn && crn != {} ? crn.CRN : "N/A"}
+            </span>
+          </div>
+          <div
+            onClick={() => setruncrn(!runcrn)}
+            className={`${styles.crnrefresh} `}
+            style={{ width: "30%" }}
+          >
+            Refresh
+          </div>
+        </div>
+      </div>
     </>
   );
 };
