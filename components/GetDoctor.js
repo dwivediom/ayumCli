@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/doctorcard.module.css";
-import dynamic from "next/dynamic";
-const Doctor = dynamic(() => import("./Doctor"));
-import Image from "next/image";
 import DoctorCard from "./DoctorCard";
 
 const GetDoctor = ({ getDoctor }) => {
