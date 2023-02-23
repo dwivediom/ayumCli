@@ -1,5 +1,6 @@
 import React from "react";
 import Appointment from "./Appointment";
+import styles from "../../styles/UserAppo.module.css";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -28,58 +29,26 @@ const UserAppointments = () => {
     }
   }, []);
 
-  console.log("patitent ", appointment);
+  console.log("patitent ", appointment && appointment);
 
   return (
     <>
-      <div className="p-4  w-full lg:max-w-[70%] bg-white m-auto rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex justify-between items-center mb-4">
-          <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-            {" "}
-            Appointments{" "}
-          </h5>
-          {/* <a href="#" className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-            View all
-        </a> */}
-        </div>
-        <div className="flow-root">
-          <ul
-            role="list"
-            className="divide-y divide-gray-200 dark:divide-gray-700"
-          >
-            <li className="py-3 sm:py-4">
-              <div className="flex items-center space-x-4">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    {`Doctor's Name`}
-                  </p>
-                  <p className="text-sm text-gray-500 truncate dark:text-gray-400"></p>
-                </div>
-
-                <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                  Appointment No.
-                </div>
-              </div>
-            </li>
-            {appointment.data &&
-              appointment.data.appointment.map((data) => {
-                return (
-                  <>
-                    <div key={data._id}>
-                      <Appointment
-                        key={data._id}
-                        docname={data.docname}
-                        age={data.age}
-                        appointmentno={data.appointmentno}
-                        Pname={data.patientname}
-                        doclocation={data.doclocation}
-                        date={data.date}
-                      />
-                    </div>
-                  </>
-                );
-              })}
-          </ul>
+      <div className={`${styles.userappocontainer}`}>
+        <h1>Your Appointments</h1>
+        <div className={`${styles.userapposhell}`}>
+          {appointment.data ? (
+            appointment.data.appointment.map((data) => {
+              return (
+                <>
+                  <div key={data._id}>
+                    <Appointment key={data._id} data={data} />
+                  </div>
+                </>
+              );
+            })
+          ) : (
+            <div className="mt-9">You Have No Appointments</div>
+          )}
         </div>
       </div>
     </>

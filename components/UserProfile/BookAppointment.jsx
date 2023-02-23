@@ -11,10 +11,12 @@ const BookAppointment = ({ reqdata }) => {
   const [error, seterror] = useState("");
   const [token, settoken] = useState();
   const [response, setresponce] = useState("");
+  const [empty, setempty] = useState(false);
   const [data, setdata] = useState({
     patientname: "",
     age: "",
     description: "",
+    phone: "",
   });
 
   useEffect(() => {
@@ -39,6 +41,10 @@ const BookAppointment = ({ reqdata }) => {
   }, [token, router, docdata]);
 
   const submit = async (e) => {
+    if (data.patientname == "" || data.age == "" || data.phone == "") {
+      return setempty(true);
+    }
+
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/${
       reqdata && reqdata.docid
     }/${reqdata && reqdata.clinicid}`;
@@ -49,6 +55,7 @@ const BookAppointment = ({ reqdata }) => {
         {
           patientname: data.patientname,
           age: data.age,
+          phone: data.phone,
           description: data.description,
         },
         {
@@ -72,6 +79,7 @@ const BookAppointment = ({ reqdata }) => {
   };
 
   const handlechange = (e) => {
+    setempty(false);
     const newdata = { ...data };
     newdata[e.target.id] = e.target.value;
     setdata(newdata);
@@ -80,16 +88,16 @@ const BookAppointment = ({ reqdata }) => {
   return (
     <div>
       <div>
-        <h2 className="m-auto text-center text-cyan-500 font-bold">
+        <h2 className="m-auto text-center text-cyan-500 font-bold mt-4">
           Book Your Appoitnemnt
         </h2>
-        <form className={`${styles.bookform}`}>
+        <form className={`${styles.bookform} `} action="#">
           <div className="mb-6">
             <label
               htmlFor="patientname"
               className="block mb-2 text-sm font-medium "
             >
-              Name of patient
+              Name of patient <span className="text-red-400">*</span>
             </label>
             <input
               type="text"
@@ -104,12 +112,25 @@ const BookAppointment = ({ reqdata }) => {
           <div className="mb-6">
             <label htmlFor="age" className="block mb-2 text-sm font-medium ">
               {" "}
-              Age of patient{" "}
+              Age of patient <span className="text-red-400">*</span>
             </label>
             <input
-              type="text"
+              type="number"
               onChange={(e) => handlechange(e)}
               id="age"
+              className="   text-black text-sm  w-full  rounded  "
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="phone" className="block mb-2 text-sm font-medium ">
+              {" "}
+              Phone <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="number"
+              onChange={(e) => handlechange(e)}
+              id="phone"
               className="  text-black text-sm  w-full  rounded  "
               required
             />
@@ -131,14 +152,17 @@ const BookAppointment = ({ reqdata }) => {
               required
             />
           </div>
-
-          <button
-            type="submit"
-            onClick={(e) => submit(e)}
-            className={`${styles.bookformsubmit}`}
-          >
-            Submit
-          </button>
+          {empty ? (
+            <div className="text-red-500">Fill required fields!</div>
+          ) : (
+            <button
+              type="submit"
+              onClick={(e) => submit(e)}
+              className={`${styles.bookformsubmit}`}
+            >
+              Submit
+            </button>
+          )}
         </form>
 
         {response.status == 200 ? (
