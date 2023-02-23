@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
+
+.userappocontainer {
+  width: 100%;
+  position: absolute;
+  margin: auto;
+}
+.userappocontainer h1 {
+  text-align: center;
+  font-size: 1.2rem;
+  color: rgb(3, 157, 157);
+}
+.userapposhell {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.userappocard {
+  /* border: 1px solid red; */
+  width: 23rem;
+  /* height: 6rem; */
+  width: 23rem;
+  padding: 10px;
+  color: #36395a;
+  background-color: #f8f8ff !important;
+  border-radius: 8px;
+  box-shadow: 5px 15px 20px rgba(37, 43, 51, 0.265);
+  font-family: "Poppins", sans-serif;
+  margin: 5px;
+  border-top: 4px solid rgb(1, 197, 197);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.userappocard h2 {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif !important;
+}
+
+.userdetail {
+  display: flex;
+  font-size: 0.8rem;
+  font-weight: bold;
+  /* border: 1px solid red; */
+  gap: 10px;
+  justify-content: space-between;
+}
+.userdetail div img {
+  width: 25px;
+  height: 25px;
+}
+.userdetail div {
+  padding: 5px;
+  width: 100%;
+  display: flex;
+  border-radius: 4px;
+  background-color: aliceblue;
+  /* justify-content: space-between; */
+  align-items: center;
+  /* border: 1px solid red; */
+  gap: 10px;
+}
+.CRNnumber {
+  font-size: 1rem;
+  /* text-align: center; */
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  gap: 20px;
+  /* border: 1px solid red; */
+}
+
+.crnrefresh {
+  /* border: 1px solid red; */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(13, 0, 255) !important;
+  cursor: pointer;
+  transition: 0.2s all;
+}
+.crnrefresh:active {
+  transform: translateY(3px);
+}
