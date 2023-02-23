@@ -1,15 +1,11 @@
 import React from "react";
 import axios from "axios";
-import { bgPriColor, bgSecColor } from "../../components/theam/theam";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import dynamic from "next/dynamic";
-// import styles from "../../styles/Search.module.css";
 import styles from "../../styles/Searchinput.module.css";
 import DoctorCard from "../../components/DoctorCard";
 import Image from "next/image";
-const Doctor = dynamic(import("../../components/Doctor"));
 
 const Search = () => {
   const [data, setdata] = useState(null);
