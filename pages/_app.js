@@ -30,7 +30,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_B_GOOGLE_CLIENT_ID}>
+      <GoogleOAuthProvider
+        clientId={process.env.NEXT_PUBLIC_B_GOOGLE_CLIENT_ID}
+      >
         <AccountProvider>
           <ReduxProvider store={store}>
             {loading && (
@@ -52,7 +54,7 @@ function MyApp({ Component, pageProps }) {
               </div>
             )}
 
-            <Navbar />
+            {/* <Navbar /> */}
             <div style={{ display: loading ? "none" : "block" }}>
               <Component {...pageProps} />
               <BottomNav />
