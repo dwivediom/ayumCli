@@ -139,7 +139,7 @@ const BottomNav = () => {
                 <span className="tab tab-explore block text-xs">Search</span>
               </a>
             </Link>
-            <Link href={"/"}>
+            <Link href={"/Chatpage"}>
               <a
                 style={{
                   display: "flex",
