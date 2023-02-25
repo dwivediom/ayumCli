@@ -1,5 +1,6 @@
 import axios from "axios";
 import { use } from "react";
+import RecentChat from "../components/usersSection/RecentChat";
 const host = process.env.NEXT_PUBLIC_B_PORT_CHAT;
 export const adduser = async (userData) => {
   try {
@@ -7,6 +8,7 @@ export const adduser = async (userData) => {
     await axios.post(url, {
       data: userData,
     });
+    return "useradded";
   } catch (error) {
     console.log("error in adduser forntend ", error.message);
   }
@@ -53,8 +55,9 @@ export const getuserId = async (senderId, reciverId) => {
 
 export const getRecentChat = async (data) => {
   try {
-    let url = `${host}/user/userdata`;
+    let url = `${host}/user/recentchat`;
     let userdata = await axios.post(url, { jwt: data });
+    console.log("reacent chat data ", userdata);
     return userdata;
   } catch (error) {
     console.log(error.message);
@@ -71,8 +74,11 @@ export const updateuser = async (jwt, data) => {
       jwt: jwt,
       name: data.name,
       picture: data.picture,
+      endpoint: data.endpoint,
+      auth: data.auth,
+      p256dh: data.p256dh,
     });
-    console.log("userd", userData);
+    console.log(" updated userd", userData);
     return userData;
   } catch (error) {
     console.log(error.message);

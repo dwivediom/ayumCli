@@ -1,11 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { getuserId } from "../../routers/user";
 import { AccountContext } from "../../context/AccountProvider";
 import { setmessage } from "../../routers/message";
 import { uploadFile } from "../../routers/file";
+// import upload
 import styles from "../../styles/chat.module.css";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import FileCopyRoundedIcon from "@mui/icons-material/FileCopyRounded";
+import { notify } from "../../routers/notify";
 
 const MsgInputSection = () => {
   const {
@@ -24,6 +26,11 @@ const MsgInputSection = () => {
   const [image, setimage] = useState("");
   const [inputholder, setinputholder] = useState("");
 
+  useEffect(() => {
+    const localStoragedata = JSON.parse(localStorage.getItem("labuser"));
+    setAccount(localStoragedata);
+  }, []);
+
   const getconst = async () => {
     if (file) {
       let data = new FormData();
@@ -39,10 +46,12 @@ const MsgInputSection = () => {
   };
 
   const sendmsg = async (e) => {
-    setinputholder(input);
     e.preventDefault();
-    const localStoragedata = JSON.parse(localStorage.getItem("labuser"));
-    setAccount(localStoragedata);
+    if (input == "") {
+      return;
+    }
+    setinputholder(input);
+
     if (!file) {
       let socketmsg = {
         senderId: account.sub,
@@ -106,8 +115,15 @@ const MsgInputSection = () => {
         setuplodedmsg(!uplodedmsg);
         setfile("");
       }
+
       setinput(" ");
       setinputholder("");
+      await notify({
+        auth: person.user.auth,
+        endpoint: person.user.endpoint,
+        p256dh: person.user.p256dh,
+        sender: account.name,
+      });
     }
   };
 
@@ -124,14 +140,10 @@ const MsgInputSection = () => {
           <div>
             <form action="#" onSubmit={(e) => sendmsg(e)}>
               <input
-                onChange={(e) => {
-                  setinput(e.target.value);
-                }}
+                type="text"
+                onChange={(e) => setinput(e.target.value)}
                 value={input}
-                type="search"
-                id="first_name"
-                placeholder="Send Message..."
-                required
+                placeholder="Send Message ..."
               />
             </form>
           </div>

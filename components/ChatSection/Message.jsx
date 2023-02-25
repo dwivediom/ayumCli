@@ -122,7 +122,10 @@ const Message = (props) => {
     }
   } else {
     return (
-      <div className="d-flex flex-col" style={senderstyle}>
+      <div
+        className={`d-flex flex-col ${styles.chattextbox} `}
+        style={senderstyle}
+      >
         <div style={childstyle} className={`${styles.chattxt}`}>
           <span>{props.msgval}</span> <br />
         </div>
