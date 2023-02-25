@@ -16,6 +16,7 @@ const RCcontainer = ({ mobile }) => {
       const localStoragejwt = localStorage.getItem("userjwt");
 
       let data = await getRecentChat(localStoragejwt);
+      console.log("recemt cat ", data);
       const localStoragedata = JSON.parse(localStorage.getItem("labuser"));
       setadmin(localStoragedata);
       console.log(" racent chat data", data);
@@ -51,7 +52,7 @@ const RCcontainer = ({ mobile }) => {
           <div className={`${styles.usercontainer}`}>
             {usermenu &&
               alluser &&
-              alluser.data.recentChat.map((user) => {
+              alluser.data.map((user) => {
                 if (user.sub != admin.sub) {
                   return (
                     <User

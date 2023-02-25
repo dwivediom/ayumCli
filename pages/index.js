@@ -7,6 +7,7 @@ import ThankyouCard from "../components/ThankyouCard";
 import { useContext, useEffect, useState } from "react";
 import { AccountContext } from "../context/AccountProvider";
 import Modal from "../components/Modal";
+import Navbar from "../components/Navbar";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
@@ -92,6 +93,7 @@ export default function Home(props) {
       </Head>
 
       <div className={styles.container}>
+        <Navbar />
         <SearchBox />
         <QuickSearch />
         {props.newdata ? (

@@ -17,7 +17,7 @@ const User = (props) => {
 
     await setConversation(senderId, reciverid);
   };
-
+  console.log("pros.user ", props.user);
   return (
     <>
       <div
