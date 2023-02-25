@@ -52,12 +52,16 @@ const Allusers = ({ mobile }) => {
       <div className=" h-full w-full  rounded-lg shadow">
         {admin && (
           <div className={`${styles.chathead1}  `}>
-            <div className={`${styles.chatheaddetail}  `}>
-              <Image width={50} height={50} src={`${admin.picture}`} />{" "}
-              <div>
-                <span> {admin.name}</span>
-                <span className="text-sm text-gray-400"> {admin.email}</span>
-              </div>
+            <Image
+              className={`${styles.chatheadimg}`}
+              width={40}
+              height={40}
+              src={`${admin.picture}`}
+              alt="person pic"
+            />
+            <div>
+              <span> {admin.name}</span>
+              <span className="text-sm text-gray-400"> {admin.email}</span>
             </div>
 
             <div

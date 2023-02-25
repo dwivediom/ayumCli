@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useContext } from "react";
 import { AccountContext } from "../../context/AccountProvider";
-import { setConversation } from "../../routes/user";
+import { setConversation } from "../../routers/user";
 import styles from "../../styles/chat.module.css";
 const RecentChat = (props) => {
   const { setperson, account, setmsgopened } = useContext(AccountContext);

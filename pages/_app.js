@@ -15,6 +15,18 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import AccountProvider from "../context/AccountProvider";
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if the Web Push API is supported
+    if (
+      "Notification" in window &&
+      "serviceWorker" in navigator &&
+      "PushManager" in window
+    ) {
+      // Request permission for notifications
+      Notification.requestPermission();
+    }
+  }, []);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -54,7 +66,7 @@ function MyApp({ Component, pageProps }) {
               </div>
             )}
 
-            {/* <Navbar /> */}
+            <Navbar />
             <div style={{ display: loading ? "none" : "block" }}>
               <Component {...pageProps} />
               <BottomNav />
