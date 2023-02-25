@@ -31,12 +31,12 @@ export default function Chatpage() {
   return (
     <>
       <div className={`${styles.chatpagecontainer}`}>
-        <div className={`${styles.pageback}`}>
+        {/* <div className={`${styles.pageback}`}>
           <Image width={150} height={120} src={"/icons/icon-192x192.png"} />
           <h3 className="text-cyan-600 ">
             Ayum Labs - Making Lab Tests More Convenient
           </h3>
-        </div>
+        </div> */}
         <div
           style={mobile ? { display: msgopened ? "none" : "flex" } : {}}
           className={`${styles.allusercontainer}`}

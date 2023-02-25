@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { AccountContext } from "../../context/AccountProvider";
+import { AccountContext, Accountontext } from "../../context/AccountProvider";
 import { getAllMessages } from "../../routers/message";
 import { getuserId } from "../../routers/user";
 import Message from "./Message";
@@ -50,6 +50,7 @@ const ChatBox = ({ mobile }) => {
         JSON.parse(localStorage.getItem("labuser")).sub,
         person.user.sub
       );
+      console.log(data && data, "Data hai bhaaiaiai");
       if (data.data) {
         console.log(data.data);
         let allmessage = await getAllMessages(data.data._id);
@@ -100,8 +101,8 @@ const ChatBox = ({ mobile }) => {
         )}
         <Image
           className={`${styles.chatheadimg}`}
-          width={50}
-          height={50}
+          width={40}
+          height={40}
           src={`${person.user.picture}`}
           alt="person pic"
         />

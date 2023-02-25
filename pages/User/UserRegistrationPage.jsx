@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
-
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-
-import { useSelector } from "react-redux";
 import { loginInitate, registerinitate } from "../../routers/UserRegistration";
 import styles from "../../styles/Home.module.css";
 import { AccountContext } from "../../context/AccountProvider";
+import { webpushfunc } from "../../utils/notification";
+import { updateuser } from "../../routers/user";
+import { adduser } from "../../routers/user";
 const UserRegistrationPage = () => {
   const { setauthstatus } = useContext(AccountContext);
   const router = useRouter();
@@ -35,6 +35,18 @@ const UserRegistrationPage = () => {
       localStorage.setItem("usertoken", logindata.data.token);
       localStorage.setItem("labuser", JSON.stringify(decodedjwt));
       console.log("Labsuser aur Usertoken set kro");
+      if (decodedjwt) {
+        const logined = await adduser(decodedjwt);
+        if (logined === "useradded") {
+          const data = await webpushfunc();
+          await updateuser(res.credential, {
+            endpoint: data.endpoint,
+            auth: data.keys.auth,
+            p256dh: data.keys.p256dh,
+          });
+        }
+        router.push("/");
+      }
     }
 
     if (logindata.error) {
@@ -42,6 +54,19 @@ const UserRegistrationPage = () => {
       if (registerData.data) {
         localStorage.setItem("labuser", JSON.stringify(decodedjwt));
         localStorage.setItem("usertoken", registerData.data.token);
+        if (decodedjwt) {
+          const logined = await adduser(decodedjwt);
+          if (logined === "useradded") {
+            const data = await webpushfunc();
+            await updateuser(res.credential, {
+              endpoint: data.endpoint,
+              auth: data.keys.auth,
+              p256dh: data.keys.p256dh,
+            });
+          }
+
+          router.push("/");
+        }
       }
       console.log("registerdata ", registerData);
     }

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import React from "react";
 import Aboutus from "../components/Aboutus";
+import Navbar from "../components/Navbar";
 
 const About = () => {
   return (
