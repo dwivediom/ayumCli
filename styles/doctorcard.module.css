@@ -4,6 +4,7 @@
   justify-content: space-between;
   gap: 1.5rem;
 }
+
 .doctorcard {
   box-shadow: 5px 6px 20px rgba(37, 43, 51, 0.265);
   border-radius: 4px;
@@ -13,6 +14,16 @@
   margin: auto;
   position: relative;
   overflow: hidden;
+  animation: dotmodal 0.8s ease-in-out;
+  animation-fill-mode: forwards;
+}
+@keyframes dotmodal {
+  0% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
 }
 .bottomc1 {
   width: 8rem;
@@ -55,16 +66,6 @@
   left: 1rem;
   overflow: hidden;
   padding: 2px;
-}
-.blobimg {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 50%;
-  background-color: aliceblue;
 }
 
 .doccontent {

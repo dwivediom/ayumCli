@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 const runtimeCaching = require("next-pwa/cache");
 // const nextConfig = {
@@ -34,21 +33,5 @@ const nextConfig = withPWA({
     Bport: "http://localhost:5000",
   },
 });
-
-module.exports = {
-  webpack: (config, { webpack }) => {
-    if (process.env.ANALYZE) {
-      config.plugins.push(
-        new BundleAnalyzerPlugin({
-          analyzerMode: "server",
-          analyzerPort: 8888,
-          openAnalyzer: true,
-        })
-      );
-    }
-
-    return config;
-  },
-};
 
 module.exports = nextConfig;

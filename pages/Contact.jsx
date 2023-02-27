@@ -7,6 +7,7 @@ const Contactpage = () => {
   return (
     <>
       <div>
+        <Navbar />
         <Contact />
       </div>
     </>

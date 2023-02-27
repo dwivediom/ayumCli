@@ -324,39 +324,3 @@
   border-bottom-left-radius: 8px;
   z-index: 20;
 }
-
-.popup {
-  border-radius: 8px;
-  width: 10rem;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  box-shadow: 2px -3px 10px rgba(0, 0, 0, 0.785);
-  top: 3.5rem;
-  background-color: #111827;
-  right: 1rem;
-}
-.popup div {
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: 0.2s all;
-  font-size: 0.85rem;
-  border-bottom: 1px solid rgba(61, 61, 61, 0.573);
-  width: 100%;
-  animation: dotmodal 0.3s ease-in-out;
-  animation-fill-mode: forwards;
-}
-
-@keyframes dotmodal {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-.popup div:hover {
-  background-color: #202d46;
-}
