@@ -60,30 +60,8 @@ const Allusers = ({ mobile }) => {
               alt="person pic"
             />
             <div>
-              <span> {admin.name}</span>
+              <span> {admin.name}</span> <br />
               <span className="text-sm text-gray-400"> {admin.email}</span>
-            </div>
-
-            <div
-              onClick={() => setthreedotmodal(!threedotmodal)}
-              className={`${styles.threedot}`}
-            >
-              <Image
-                src={"/threedot.png"}
-                width={25}
-                height={25}
-                alt={"Three Dots"}
-              />
-            </div>
-            {/* Popup */}
-            <div
-              style={{
-                display: !threedotmodal && "none",
-              }}
-              className={`${styles.popup}`}
-            >
-              <div onClick={(e) => gotoupdatepage(e)}>Update Profile</div>
-              <SignOutbtn />
             </div>
           </div>
         )}

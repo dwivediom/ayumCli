@@ -9,7 +9,7 @@ import { webpushfunc } from "../../utils/notification";
 import { updateuser } from "../../routers/user";
 import { adduser } from "../../routers/user";
 const UserRegistrationPage = () => {
-  const { setauthstatus } = useContext(AccountContext);
+  const { setauthstatus, setsignout } = useContext(AccountContext);
   const router = useRouter();
 
   const [otpmsg, setotpmsg] = useState(null);
@@ -73,6 +73,7 @@ const UserRegistrationPage = () => {
 
     if (localStorage.usertoken) {
       setauthstatus(true);
+      setsignout(false);
       router.push("/");
     } else {
       router.push("/");

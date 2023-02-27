@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Head from "next/head";
 import { bgSecColor, bgPriColor } from "./theam/theam";
 import Link from "next/link";
@@ -6,11 +6,20 @@ import Router, { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 import { useEffect } from "react";
 import Image from "next/image";
+import { AccountContext } from "../context/AccountProvider";
+import SignOutbtn from "./usersSection/SignOutbtn";
 const Navbar = () => {
   const [profile, setprofile] = useState(false);
   const [navitem, setnavitem] = useState(false);
   const [collapseopen, setcollapse] = useState(false);
+  const [profilepic, setprofilepic] = useState();
+  const [name, setname] = useState();
 
+  const { threedotmodal, setthreedotmodal, signout } =
+    useContext(AccountContext);
+  useEffect(() => {
+    console.log("UserSignout");
+  }, [signout]);
   const clickprofile = () => {
     setprofile((profile) => !profile);
   };
@@ -21,6 +30,16 @@ const Navbar = () => {
   const router = useRouter();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
+
+  useEffect(() => {
+    const UserData = JSON.parse(localStorage.getItem("labuser"));
+    if (UserData) {
+      const index = UserData.picture.indexOf("=");
+      const result = UserData.picture.slice(0, index);
+      setprofilepic(result);
+      setname(UserData.name);
+    }
+  }, []);
 
   useEffect(() => {
     if (
@@ -251,53 +270,32 @@ const Navbar = () => {
                     aria-haspopup="true"
                   >
                     <span className="sr-only">Open user menu</span>
-                    <div className="h-8 w-8 rounded-full text-white text-center p-1  font-extrabold  bg-cyan-500">
-                      P
-                    </div>
+                    {!signout && (
+                      <Image
+                        onClick={() => setthreedotmodal(!threedotmodal)}
+                        style={{
+                          borderRadius: "50%",
+                        }}
+                        src={profilepic ? profilepic : "/deafaultpro.jpg"}
+                        width={40}
+                        height={38}
+                        alt="Profile Pic"
+                      />
+                    )}
                   </button>
                 </div>
-
-                {profile && (
+                {!signout && (
                   <div
-                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="user-menu-button"
-                    tabIndex="-1"
+                    style={{
+                      display: !threedotmodal && "none",
+                    }}
+                    className={`${styles.popup}`}
                   >
-                    <Link href="/Doctor/createDocProfile">
-                      <a
-                        className="block px-4 py-2 text-sm text-gray-700"
-                        role="menuitem"
-                        tabIndex="-1"
-                        id="user-menu-item-2"
-                      >
-                        Doctor update profile
-                      </a>
-                    </Link>
-
-                    <Link href="/Doctor/DocRegistr">
-                      <a
-                        className="block px-4 py-2 text-sm text-gray-700"
-                        role="menuitem"
-                        tabIndex="-1"
-                        id="user-menu-item-2"
-                      >
-                        Doctor Login/Registration
-                      </a>
-                    </Link>
-                    <Link href="/User/UserRegistrationPage">
-                      <a
-                        className="block px-4 py-2 text-sm text-gray-700"
-                        role="menuitem"
-                        tabIndex="-1"
-                        id="user-menu-item-2"
-                      >
-                        User Login/Registration
-                      </a>
-                    </Link>
+                    <div className="text-white">{name ? name : "..."} </div>
+                    <SignOutbtn />
                   </div>
                 )}
+                {/* Popup */}
               </div>
             </div>
           </div>
