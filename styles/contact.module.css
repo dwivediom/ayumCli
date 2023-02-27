@@ -1,18 +1,15 @@
 .maincontact {
   position: absolute;
   width: 100%;
-  /* height: 100%; */
   display: flex;
   margin-top: -3rem;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   gap: 4rem;
-  /* border: 1px solid red; */
 }
 .contactform {
   width: 23rem;
-  /* height: 40%; */
   margin: 10rem;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.215);
@@ -47,7 +44,6 @@
   box-shadow: inset 0 3px 10px rgba(74, 74, 74, 0.235);
 }
 .contactform form button {
-  /* border: 1px solid red; */
   width: 7rem;
   margin: auto;
   border-radius: 4px;
@@ -63,14 +59,12 @@
 .contactimg {
   width: 23rem;
   height: 40%;
-  /* border: 1px solid red; */
 }
 .contactimg img {
   width: 400px;
   height: 240px;
   mix-blend-mode: darken;
   animation: animate 4s linear infinite;
-  /* transform: translateY(20px); */
 }
 @keyframes animate {
   0% {
@@ -101,8 +95,6 @@
   }
 }
 .footercontact {
-  /* position: absolute; */
-  /* bottom: -20rem; */
   bottom: 0;
   width: 100%;
   left: 0;

@@ -1,6 +1,5 @@
 .container {
   padding: 0rem;
-  /* margin-bottom: -35rem; */
   margin: auto;
   position: absolute;
   width: 100%;
@@ -30,13 +29,12 @@
   background-size: 200% auto;
   color: white;
   cursor: pointer;
-  /* box-shadow: 0 0 20px #eee; */
   border-radius: 10px;
   display: block;
 }
 
 .installbtn:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-position: right center;
   color: #fff;
   text-decoration: none;
 }
@@ -89,7 +87,8 @@
   transition: 0.4s all;
 }
 .thankyouframe {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.317);
+  /* box-shadow: 5px 6px 20px rgba(37, 43, 51, 0.265); */
+  border: 1px solid rgba(128, 128, 128, 0.258);
   margin: auto;
   padding-top: 10px;
   color: black;
@@ -105,9 +104,7 @@
 }
 
 .thankyoucontainer {
-  /* width: 100%; */
   margin: auto;
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.317); */
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
@@ -119,15 +116,13 @@
   width: 23rem;
   height: 13rem;
   border-radius: 4px;
-  box-shadow: 0px 3px 10px rgba(52, 52, 52, 0.473);
+  box-shadow: 5px 6px 20px rgba(37, 43, 51, 0.265);
   margin: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  /* border: 1px solid red; */
 }
 .thankyoucard:nth-of-type(1) {
-  /* background-color: rgba(202, 246, 246, 0.224); */
   border-bottom: 3px solid rgb(3, 184, 184);
 }
 .thankyoucard:nth-of-type(2) {
@@ -138,7 +133,6 @@
 }
 
 .thankyoudetail {
-  /* border: 1px solid red; */
   overflow: hidden;
   height: 5rem;
   padding: 5px;
@@ -165,7 +159,6 @@
   background-size: 200% auto;
   color: white;
   cursor: pointer;
-  /* box-shadow: 0 0 20px #eee; */
   border-radius: 10px;
   display: block;
 }
@@ -177,19 +170,17 @@
   background-size: 200% auto;
   color: white;
   cursor: pointer;
-  /* box-shadow: 0 0 20px #eee; */
   border-radius: 10px;
   display: block;
   border: 1px solid rgba(0, 255, 255, 0.443);
 }
 
 .doctorbtn:hover {
-  background-position: right center; /* change the direction of the change here */
+  background-position: right center;
   color: #fff;
   text-decoration: none;
 }
 .navbarpc {
-  /* border: 1px solid red; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -204,7 +195,6 @@
 }
 
 .authbox {
-  /* width: 100vw; */
   height: 100vh;
   display: flex;
   align-items: flex-start;
@@ -219,24 +209,18 @@
 }
 
 .authdiv {
-  /* border: 2px solid blue; */
   border-radius: 8px;
-  /* border: 3px solid rgb(0, 163, 163); */
-  /* padding: 60px; */
   height: 23rem;
+  font-family: "Poppins", sans-serif !important;
   display: flex;
   align-items: center;
   background-color: white;
   flex-direction: column;
-
   padding-top: 20px;
   gap: 2rem;
   justify-content: flex-start;
   width: 23rem;
-  box-shadow: 0 0px 20px rgba(0, 0, 0, 0.199);
-  background: url("/authcard.svg");
-  background-position: bottom;
-  background-repeat: no-repeat;
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.199);
 }
 
 .modalback {
@@ -250,7 +234,6 @@
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
-  /* align-items: flex-start; */
   align-items: center;
   padding-top: 200px;
 }
@@ -258,15 +241,12 @@
   width: 23rem;
   height: 10rem;
   background-color: white;
-  /* border: 2px solid green; */
   border-radius: 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 10px;
   justify-content: flex-start;
-  /* text-align: center; */
-  /* gap: 1rem; */
   background: url("/authcard.svg");
   background-position: bottom;
   background-repeat: no-repeat;
@@ -274,7 +254,6 @@
 }
 
 .closemodal {
-  /* border: 1px solid red; */
   font-size: 0.88rem;
   border-radius: 4px;
   border: 1px solid red;
