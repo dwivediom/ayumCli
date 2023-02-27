@@ -1,12 +1,22 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setDocDataAction } from "../redux/actions/userActions";
 import styles from "../styles/doctorcard.module.css";
 import Router from "next/router";
+import Image from "next/image";
 
 const DoctorCard = (props) => {
-  const { name, specialist, location, fees, phone, timing, docid } = props;
+  const { name, specialist, location, fees, phone, timing, docid, pic } = props;
+  console.log(pic, "Picture hai");
+  const [docpic, setdocpic] = useState();
+  useEffect(() => {
+    if (pic) {
+      const index = pic.indexOf("=");
+      const result = pic.slice(0, index);
+      setdocpic(result);
+    }
+  }, []);
   const dispatch = useDispatch();
   const Click = (e) => {
     e.preventDefault();
@@ -31,12 +41,13 @@ const DoctorCard = (props) => {
       <div className={`${styles.bottomc2}`}></div>
       <div className={`${styles.topsvg}`}></div>
       <div className={`${styles.blob}`}>
-        <div
-          style={{
-            backgroundImage: "url(/deafaultpro.jpg)",
-          }}
-          className={`${styles.blobimg}`}
-        ></div>
+        <Image
+          style={{ borderRadius: "50%" }}
+          src={docpic ? docpic : "/deafaultpro.jpg"}
+          width={100}
+          height={100}
+          alt="doc pic"
+        />
       </div>
 
       <div className={`${styles.doccontent}`}>

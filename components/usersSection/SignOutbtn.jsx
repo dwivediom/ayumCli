@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
+import { AccountContext } from "../../context/AccountProvider";
 
 const SignOutbtn = () => {
+  const { setsignout } = useContext(AccountContext);
   const router = useRouter();
   const signOut = () => {
+    setsignout(true);
     localStorage.removeItem("labuser");
-    router.push("./");
+    localStorage.removeItem("usertoken");
+
+    router.push("/");
   };
   return (
     <>
