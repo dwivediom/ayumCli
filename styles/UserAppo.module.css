@@ -20,9 +20,6 @@
   flex-wrap: wrap;
 }
 .userappocard {
-  /* border: 1px solid red; */
-  width: 23rem;
-  /* height: 6rem; */
   width: 23rem;
   padding: 10px;
   color: #36395a;
@@ -47,7 +44,6 @@
   display: flex;
   font-size: 0.8rem;
   font-weight: bold;
-  /* border: 1px solid red; */
   gap: 10px;
   justify-content: space-between;
 }
@@ -61,23 +57,18 @@
   display: flex;
   border-radius: 4px;
   background-color: aliceblue;
-  /* justify-content: space-between; */
   align-items: center;
-  /* border: 1px solid red; */
   gap: 10px;
 }
 .CRNnumber {
   font-size: 1rem;
-  /* text-align: center; */
   width: 100%;
   display: flex;
   justify-content: left;
   gap: 20px;
-  /* border: 1px solid red; */
 }
 
 .crnrefresh {
-  /* border: 1px solid red; */
   color: white;
   display: flex;
   justify-content: center;
