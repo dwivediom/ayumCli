@@ -6,6 +6,7 @@ export const AccountContext = createContext(null);
 const AccountProvider = ({ children }) => {
   const [authstatus, setauthstatus] = useState(false);
   const [thankmodal, setthankmodal] = useState(false);
+  const [threedotmodal, setthreedotmodal] = useState(false);
   const [msgopened, setmsgopened] = useState(false);
   const [account, setAccount] = useState();
   const [person, setperson] = useState(null);
@@ -14,6 +15,7 @@ const AccountProvider = ({ children }) => {
   const [mobilevalue, setmobilevalue] = useState(false);
   const [uplodedmsg, setuplodedmsg] = useState(true);
   const [msgprivate, setmsgprivate] = useState(false);
+  const [signout, setsignout] = useState(false);
 
   const socket = useRef();
   useEffect(() => {
@@ -23,6 +25,8 @@ const AccountProvider = ({ children }) => {
   return (
     <AccountContext.Provider
       value={{
+        signout,
+        setsignout,
         authstatus,
         setauthstatus,
         thankmodal,
@@ -34,6 +38,8 @@ const AccountProvider = ({ children }) => {
         socket,
         ActiveUsers,
         setActiveUsers,
+        threedotmodal,
+        setthreedotmodal,
         msgchange,
         setmsgchange,
         msgopened,

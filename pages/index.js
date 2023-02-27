@@ -20,6 +20,8 @@ export default function Home(props) {
   console.log(authstatus);
 
   const [isOnline, setIsOnline] = useState(true);
+  const [doctors, setdoctors] = useState([]);
+  const [full, setfull] = useState(false);
 
   useEffect(() => {
     function handleOnline() {
@@ -37,13 +39,31 @@ export default function Home(props) {
   }, []);
 
   useEffect(() => {
+    console.log(props.newdata, "New DAta");
+    setdoctors(props.newdata && props.newdata);
+
     if (authstatus) {
       // alert("Thankyou For Registering with Ayum");
       setthankmodal(true);
       setauthstatus(false);
     }
-  });
+  }, []);
 
+  const Loadmore = async () => {
+    const newdocdata = await axios({
+      method: "get",
+      url: "https://www.server.ayum.in/api/profile/showmoreDoc",
+    });
+    const finalstatedata = doctors.concat(newdocdata.data);
+    console.log(finalstatedata, "Final data hai");
+    if (doctors.length == finalstatedata.length) {
+      console.log("That's All For Now");
+      setfull(true);
+    }
+    setdoctors(finalstatedata);
+  };
+
+  // const finalstate=doctors.concat(new)
   console.log(props.newdata, "Data");
 
   if (!isOnline || props.newdata == "error") {
@@ -97,11 +117,22 @@ export default function Home(props) {
         <SearchBox />
         <QuickSearch />
         {props.newdata ? (
-          <main>
-            <GetDoctor getDoctor={props.newdata} />
-          </main>
+          <main>{doctors && <GetDoctor getDoctor={doctors} />}</main>
         ) : (
           <p className="text-center">Loading...</p>
+        )}
+
+        {full ? (
+          <div className="w-full text-center mt-9 text-cyan-600 font-bold">
+            That's All For Now!
+          </div>
+        ) : (
+          <div
+            onClick={Loadmore}
+            className="m-auto p-2 border border-gray-700 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer "
+          >
+            Show More
+          </div>
         )}
 
         <footer className={styles.footer}>
