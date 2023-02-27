@@ -13,8 +13,16 @@ import Navbar from "../components/Navbar";
 import { googleClientId } from "../utils/googleClientId";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AccountProvider from "../context/AccountProvider";
+import { webpushfunc } from "../utils/notification";
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const relod = async () => {
+      await webpushfunc();
+    };
+    relod();
+  }, []);
 
   useEffect(() => {
     // Check if the Web Push API is supported
