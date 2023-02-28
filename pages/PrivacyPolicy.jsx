@@ -48,23 +48,24 @@ const PrivacyPolicy = () => {
             the app without the written permission of Ayum.
           </li>
           <li className=" list-disc ml-2 	 text-left mb-3">
-            The app is provided "as is" without any representations or
-            warranties, express or implied. The app does not warrant the
-            accuracy, completeness, or timeliness of the information provided by
-            doctors or users. The app is not liable for any damages arising from
-            the use of the app, including but not limited to loss of profits,
-            business interruption, or data loss.
+            The app is provided as without any representations or warranties,
+            express or implied. The app does not warrant the accuracy,
+            completeness, or timeliness of the information provided by doctors
+            or users. The app is not liable for any damages arising from the use
+            of the app, including but not limited to loss of profits, business
+            interruption, or data loss.
           </li>
           <li className=" list-disc	ml-2  text-left mb-3">
             The app reserves the right to modify these terms and conditions at
             any time. Users can see updated changes at any time from{" "}
             <a
+              rel="noreferrer"
               className="text-blue-500"
               href="https://www.ayum.in"
               target={"_blank"}
             >
               Ayum.in
-            </a>{" "}
+            </a>
             Terms and condition page .
           </li>
         </ol>
