@@ -47,6 +47,7 @@ const SelectClinicComp = ({ docid }) => {
                         }
                         height={23}
                         width={23}
+                        alt={"timing"}
                       />{" "}
                       {item.timing}
                     </div>
@@ -59,6 +60,7 @@ const SelectClinicComp = ({ docid }) => {
                         }
                         width={23}
                         height={23}
+                        alt={"remain"}
                       />{" "}
                       Slots Remaining - <span className="text-red-500">30</span>
                     </div>
@@ -70,6 +72,7 @@ const SelectClinicComp = ({ docid }) => {
                       }
                       width={23}
                       height={23}
+                      alt={"location"}
                     />
                     <span
                       style={{

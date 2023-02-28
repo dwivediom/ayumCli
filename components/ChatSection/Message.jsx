@@ -91,6 +91,7 @@ const Message = (props) => {
                   width={300}
                   height={300}
                   src={`${props.msgval}`}
+                  alt={"message"}
                   style={{
                     objectFit: "cover",
                     display: "block",
