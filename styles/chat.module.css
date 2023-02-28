@@ -49,10 +49,9 @@
 }
 
 .chatmsgs {
-  height: 100%;
   padding: 10px;
+  border: 1px solid red !important;
   overflow: auto;
-  position: relative;
   border-radius: 8px;
 }
 
@@ -93,7 +92,7 @@
   color: #111827;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 @media (min-width: 700px) {

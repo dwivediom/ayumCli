@@ -17,7 +17,6 @@ const Footer = dynamic(() => import("../components/Footer"));
 export default function Home(props) {
   const { authstatus, setauthstatus, thankmodal, setthankmodal } =
     useContext(AccountContext);
-  console.log(authstatus);
 
   const [isOnline, setIsOnline] = useState(true);
   const [doctors, setdoctors] = useState([]);
@@ -39,11 +38,9 @@ export default function Home(props) {
   }, []);
 
   useEffect(() => {
-    console.log(props.newdata, "New DAta");
     setdoctors(props.newdata && props.newdata);
 
     if (authstatus) {
-      // alert("Thankyou For Registering with Ayum");
       setthankmodal(true);
       setauthstatus(false);
     }
@@ -57,7 +54,6 @@ export default function Home(props) {
     const finalstatedata = doctors.concat(newdocdata.data);
     console.log(finalstatedata, "Final data hai");
     if (doctors.length == finalstatedata.length) {
-      console.log("That's All For Now");
       setfull(true);
     }
     setdoctors(finalstatedata);
@@ -124,7 +120,7 @@ export default function Home(props) {
 
         {full ? (
           <div className="w-full text-center mt-9 text-cyan-600 font-bold">
-            That's All For Now!
+            Thats All For Now!
           </div>
         ) : (
           <div
