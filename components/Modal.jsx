@@ -7,17 +7,7 @@ const Modal = () => {
     <>
       <div className={styles.modalback}>
         <div className={styles.modalbox}>
-          <div>
-            <span className=" text-orange-500">
-              Thankyou For Connecting With{" "}
-              <span className="  text-cyan-600">Ayum</span>{" "}
-            </span>
-            <br />
-            <span className="text-green-500">
-              {" "}
-              Now you can use all the Services
-            </span>
-          </div>
+          <h1>Thankyou For Connecting With Ayum</h1>
           <div
             onClick={() => setthankmodal(false)}
             className={styles.closemodal}

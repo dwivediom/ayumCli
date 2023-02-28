@@ -34,22 +34,34 @@ const Appointment = (props) => {
         <div className={`${styles.userdetail}`}>
           <div>
             {" "}
-            <img src="https://img.icons8.com/fluency/48/null/overtime.png" />{" "}
+            <img
+              src="https://img.icons8.com/fluency/48/null/overtime.png"
+              alt="date"
+            />{" "}
             {data.date.substring(0, 10)}
           </div>
           <div>
-            <img src="https://img.icons8.com/color/48/null/medical-doctor.png" />{" "}
+            <img
+              src="https://img.icons8.com/color/48/null/medical-doctor.png"
+              alt="doctor name"
+            />{" "}
             {data.docname}
           </div>
         </div>
 
         <div className={`${styles.userdetail}`}>
           <div>
-            <img src="https://img.icons8.com/external-stick-figures-gan-khoon-lay/51/null/external-age-life-cycle-aging-stick-figures-gan-khoon-lay-2.png" />{" "}
+            <img
+              src="https://img.icons8.com/external-stick-figures-gan-khoon-lay/51/null/external-age-life-cycle-aging-stick-figures-gan-khoon-lay-2.png"
+              alt="age"
+            />{" "}
             {data.age} years
           </div>
           <div>
-            <img src="https://img.icons8.com/color/48/null/contact-card.png" />{" "}
+            <img
+              src="https://img.icons8.com/color/48/null/contact-card.png"
+              alt="phone"
+            />{" "}
             {data.phone}
           </div>
         </div>
