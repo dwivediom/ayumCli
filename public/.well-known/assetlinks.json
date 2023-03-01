@@ -1,0 +1,6 @@
+[{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target" : { "namespace": "android_app", "package_name": "in.ayum.twa",
+                     "sha256_cert_fingerprints": ["2E:BD:77:01:5F:0F:1E:65:DA:9B:C2:DB:B3:E4:5C:FD:4F:D7:3B:0B:9C:BF:D3:61:5A:9D:F1:4C:D2:70:7C:97"] }
+      }
+]
