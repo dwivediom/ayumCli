@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
-import { getuser } from "../../routers/user";
+import User from "./User";
+import { getuser, getRecentChat } from "../../routers/user";
+import { Accountcontext } from "../../context/AccountProvider";
 import styles from "../../styles/chat.module.css";
 import Image from "next/image";
 import RCcontainer from "./RCcontainer";
@@ -19,9 +21,6 @@ const Allusers = ({ mobile }) => {
   const [threedotmodal, setthreedotmodal] = useState(false);
   const router = useRouter();
   useEffect(() => {
-    if (!localStorage.labuser) {
-      router.push("/User/UserRegistrationPage");
-    }
     const users = async () => {
       const localStoragejwt = localStorage.getItem("userjwt");
       let data = await getuser();
@@ -55,16 +54,34 @@ const Allusers = ({ mobile }) => {
       <div className=" h-full w-full  rounded-lg shadow">
         {admin && (
           <div className={`${styles.chathead1}  `}>
-            <Image
-              className={`${styles.chatheadimg}`}
-              width={40}
-              height={40}
-              src={`${admin.picture}`}
-              alt="person pic"
-            />
-            <div>
-              <span> {admin.name}</span> <br />
-              <span className="text-sm text-gray-400"> {admin.email}</span>
+            <div className={`${styles.chatheaddetail}  `}>
+              <Image width={50} height={50} src={`${admin.picture}`} />{" "}
+              <div>
+                <span> {admin.name}</span>
+                <span className="text-sm text-gray-400"> {admin.email}</span>
+              </div>
+            </div>
+
+            <div
+              onClick={() => setthreedotmodal(!threedotmodal)}
+              className={`${styles.threedot}`}
+            >
+              <Image
+                src={"/threedot.png"}
+                width={25}
+                height={25}
+                alt={"Three Dots"}
+              />
+            </div>
+            {/* Popup */}
+            <div
+              style={{
+                display: !threedotmodal && "none",
+              }}
+              className={`${styles.popup}`}
+            >
+              <div onClick={(e) => gotoupdatepage(e)}>Update Profile</div>
+              <SignOutbtn />
             </div>
           </div>
         )}
