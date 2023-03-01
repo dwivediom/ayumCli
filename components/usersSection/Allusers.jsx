@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import User from "./User";
 import { getuser, getRecentChat } from "../../routers/user";
-import { Accountcontext } from "../../context/AccountProvider";
 import styles from "../../styles/chat.module.css";
 import Image from "next/image";
 import RCcontainer from "./RCcontainer";
@@ -41,6 +40,7 @@ const Allusers = ({ mobile }) => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    console.log(input);
     if (input != "") {
       const data = await searchApi(input);
       console.log("data", data);
