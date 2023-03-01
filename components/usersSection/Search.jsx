@@ -4,6 +4,10 @@ import styles from "../../styles/chat.module.css";
 
 const Search = ({ mobile, searcheddata, admin }) => {
   console.log(searcheddata, "search data");
+
+  if (searcheddata && searcheddata.data.length === 0) {
+    return <h2 className="text-center mt-3">Not Found</h2>;
+  }
   return (
     <>
       <div className=" h-full w-full  rounded-lg shadow">

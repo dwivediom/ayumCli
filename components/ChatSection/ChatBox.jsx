@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { AccountContext, Accountontext } from "../../context/AccountProvider";
-import { getAllMessages } from "../../routers/message";
-import { getuserId } from "../../routers/user";
+import { getAllMessages } from "../../routes/message";
+import { getuserId } from "../../routes/user";
 import Message from "./Message";
 import styles from "../../styles/chat.module.css";
 import Image from "next/image";
@@ -51,9 +51,9 @@ const ChatBox = ({ mobile }) => {
         person.user.sub
       );
       console.log(data && data, "Data hai bhaaiaiai");
-      if (data.data) {
+      if (data) {
         console.log(data.data);
-        let allmessage = await getAllMessages(data.data._id);
+        let allmessage = await getAllMessages(data.data && data.data._id);
         setusermessage(allmessage.data);
         setloading(false);
       }
@@ -91,13 +91,16 @@ const ChatBox = ({ mobile }) => {
   return (
     <>
       <div className={`${styles.chathead}`}>
-        <Image
-          className={`${styles.chatheadimg}`}
-          width={40}
-          height={40}
-          src={`${person.user.picture}`}
-          alt="person pic"
-        />
+        {person.user.picture && (
+          <Image
+            className={`${styles.chatheadimg}`}
+            width={40}
+            height={40}
+            src={`${person.user.picture}`}
+            alt="person pic"
+          />
+        )}
+
         <span className="text-lg font-bold">{person.name}</span>
         <SendPrivatebtn />
       </div>

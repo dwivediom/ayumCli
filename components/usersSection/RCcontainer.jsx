@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import User from "./User";
-import { getRecentChat } from "../../routers/user";
+import { getRecentChat } from "../../routes/user";
 import styles from "../../styles/chat.module.css";
 import Image from "next/image";
 
