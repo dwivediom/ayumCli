@@ -1,5 +1,5 @@
 import axios from "axios";
-const host = process.env.NEXT_PUBLIC_B_PORT_CHAT;
+const host = process.env.NEXT_PUBLIC_B_PORT;
 
 export const searchApi = async (data) => {
   try {
