@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
-import { getuserId } from "../../routers/user";
+import { getuserId } from "../../routes/user";
 import { AccountContext } from "../../context/AccountProvider";
-import { setmessage } from "../../routers/message";
-import { uploadFile } from "../../routers/file";
+import { setmessage } from "../../routes/message";
+import { uploadFile } from "../../routes/file";
 // import upload
 import styles from "../../styles/chat.module.css";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import FileCopyRoundedIcon from "@mui/icons-material/FileCopyRounded";
-import { notify } from "../../routers/notify";
+import { notify } from "../../routes/notify";
 
 const MsgInputSection = () => {
   const {

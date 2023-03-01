@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import { loginInitate, registerinitate } from "../../routers/UserRegistration";
+import { loginInitate, registerinitate } from "../../routes/UserRegistration";
 import styles from "../../styles/Home.module.css";
 import { AccountContext } from "../../context/AccountProvider";
 import { webpushfunc } from "../../utils/notification";
-import { updateuser } from "../../routers/user";
-import { adduser } from "../../routers/user";
+import { updateuser } from "../../routes/user";
+import { adduser } from "../../routes/user";
 const UserRegistrationPage = () => {
   const { setauthstatus, setsignout } = useContext(AccountContext);
   const router = useRouter();
