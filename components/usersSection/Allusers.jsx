@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import User from "./User";
-import { getuser, getRecentChat } from "../../routers/user";
+import { getuser, getRecentChat } from "../../routes/user";
 import styles from "../../styles/chat.module.css";
 import Image from "next/image";
 import RCcontainer from "./RCcontainer";
 import Search from "./Search";
 import { useRouter } from "next/router";
-import { searchApi } from "../../routers/search";
+import { searchApi } from "../../routes/search";
 import SignOutbtn from "./SignOutbtn";
 
 const Allusers = ({ mobile }) => {
@@ -55,14 +55,23 @@ const Allusers = ({ mobile }) => {
         {admin && (
           <div className={`${styles.chathead1}  `}>
             <div className={`${styles.chatheaddetail}  `}>
-              <Image width={50} height={50} src={`${admin.picture}`} />{" "}
+              <Image
+                // onClick={() => setthreedotmodal(!threedotmodal)}
+                style={{
+                  borderRadius: "50%",
+                }}
+                src={admin ? admin.picture : "/deafaultpro.jpg"}
+                width={40}
+                height={38}
+                alt="Profile Pic"
+              />
               <div>
                 <span> {admin.name}</span>
                 <span className="text-sm text-gray-400"> {admin.email}</span>
               </div>
             </div>
 
-            <div
+            {/* <div
               onClick={() => setthreedotmodal(!threedotmodal)}
               className={`${styles.threedot}`}
             >
@@ -72,9 +81,9 @@ const Allusers = ({ mobile }) => {
                 height={25}
                 alt={"Three Dots"}
               />
-            </div>
+            </div> */}
             {/* Popup */}
-            <div
+            {/* <div
               style={{
                 display: !threedotmodal && "none",
               }}
@@ -82,7 +91,7 @@ const Allusers = ({ mobile }) => {
             >
               <div onClick={(e) => gotoupdatepage(e)}>Update Profile</div>
               <SignOutbtn />
-            </div>
+            </div> */}
           </div>
         )}
         <div className={`${styles.mainusercontainer}`}>
