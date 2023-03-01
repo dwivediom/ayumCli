@@ -21,6 +21,7 @@ export default function Home(props) {
   const [isOnline, setIsOnline] = useState(true);
   const [doctors, setdoctors] = useState([]);
   const [full, setfull] = useState(false);
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
     function handleOnline() {
@@ -47,16 +48,21 @@ export default function Home(props) {
   }, []);
 
   const Loadmore = async () => {
+    setloading(true);
     const newdocdata = await axios({
       method: "get",
       url: "https://www.server.ayum.in/api/profile/showmoreDoc",
     });
-    const finalstatedata = doctors.concat(newdocdata.data);
-    console.log(finalstatedata, "Final data hai");
-    if (doctors.length == finalstatedata.length) {
+    console.log("Data aa rha hai", newdocdata);
+    if (newdocdata.data.length === 0) {
       setfull(true);
     }
+
+    const finalstatedata = doctors.concat(newdocdata.data);
+    console.log(finalstatedata, "Final data hai");
+
     setdoctors(finalstatedata);
+    setloading(false);
   };
 
   // const finalstate=doctors.concat(new)
@@ -119,15 +125,15 @@ export default function Home(props) {
         )}
 
         {full ? (
-          <div className="w-full text-center mt-9 text-cyan-600 font-bold">
+          <div className="m-auto p-2 border border-gray-700 w-[14rem] text-center mt-9 text-cyan-600  font-bold  ">
             Thats All For Now!
           </div>
         ) : (
           <div
-            onClick={Loadmore}
+            onClick={() => !loading && Loadmore()}
             className="m-auto p-2 border border-gray-700 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer "
           >
-            Show More
+            {loading ? "Loading..." : "Show More"}
           </div>
         )}
 
