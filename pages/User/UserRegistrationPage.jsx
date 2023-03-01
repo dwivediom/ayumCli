@@ -40,9 +40,9 @@ const UserRegistrationPage = () => {
         if (logined === "useradded") {
           const data = await webpushfunc();
           await updateuser(res.credential, {
-            endpoint: data.endpoint,
-            auth: data.keys.auth,
-            p256dh: data.keys.p256dh,
+            endpoint: localStorage.endpoint,
+            auth: localStorage.auth,
+            p256dh: localStorage.p256dh,
           });
         }
         router.push("/");

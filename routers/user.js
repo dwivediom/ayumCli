@@ -1,7 +1,7 @@
 import axios from "axios";
 import { use } from "react";
 import RecentChat from "../components/usersSection/RecentChat";
-const host = process.env.NEXT_PUBLIC_B_PORT_CHAT;
+const host = process.env.NEXT_PUBLIC_B_PORT;
 export const adduser = async (userData) => {
   try {
     const url = `${host}/user/add`;

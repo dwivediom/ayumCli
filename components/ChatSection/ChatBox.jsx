@@ -59,7 +59,7 @@ const ChatBox = ({ mobile }) => {
       }
     };
 
-    person && showMessage();
+    showMessage();
   }, [person, uplodedmsg]);
 
   useEffect(() => {
@@ -91,14 +91,6 @@ const ChatBox = ({ mobile }) => {
   return (
     <>
       <div className={`${styles.chathead}`}>
-        {mobile && (
-          <button
-            className={`${styles.backbtn}`}
-            onClick={() => setmsgopened(false)}
-          >
-            {"\u2190"} Back
-          </button>
-        )}
         <Image
           className={`${styles.chatheadimg}`}
           width={40}
@@ -129,6 +121,14 @@ const ChatBox = ({ mobile }) => {
         </div>
       ) : (
         <div className={`${styles.chatmsgs}`} ref={scrollRef}>
+          {mobile && (
+            <button
+              className={`${styles.backbtn}`}
+              onClick={() => setmsgopened(false)}
+            >
+              {"\u2190"} Back
+            </button>
+          )}
           {usermessage &&
             usermessage.map((msg) => {
               if (msg) {
