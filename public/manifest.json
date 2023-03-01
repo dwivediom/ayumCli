@@ -12,8 +12,13 @@
             "sizes": "192x192"
           }
         ]
+       
       }
     ], 
+
+    
+
+
     "related_applications": [{
         "platform": "play",
         "url": "https://play.google.com/store/search?q=practo&c=apps&hl=en_IN&gl=US"
@@ -27,8 +32,10 @@
                 "description":"home screen"
             }
         ],
+        
         "background_color": "#f6f2ee",
         "display": "standalone",
+        "display_override": "window-control-overlay",
         "scope": "/",
         "start_url": "/",
         "name": "Ayum",
@@ -38,31 +45,38 @@
         "icons": [
             {
                 "src": "/ayum.ico",
-                "sizes": "72x72 96x96 128x128 256x256"
+                "sizes": "72x72 96x96 128x128 256x256",
+                "type": "ico"
               },
             {
-                "src": "/icon-512x512.png",
-                "sizes": "any"
+                "src": "/icons/icon-512x512.png",
+                "sizes": "any",
+                "type": "image/png"
               },
             {
-                "src": "/icon-192x192.png",
+                "src": "/icons/icon-192x192.png",
                 "sizes": "192x192",
-                "type": "image/png"
+                "type": "image/png",
+                "purpose": "any"
             },
             {
-                "src": "/icon-256x256.png",
+                "src": "/icons/icon-256x256.png",
                 "sizes": "256x256",
-                "type": "image/png"
+                "type": "image/png",
+                "purpose":"any"
             },
             {
-                "src": "/icon-384x384.png",
+                "src": "/icons/icon-384x384.png",
                 "sizes": "384x384",
-                "type": "image/png"
+                "type": "image/png",
+                "purpose":"any"
             },
             {
-                "src": "/icon-512x512.png",
+                "src": "/icons/icon-512x512.png",
                 "sizes": "512x512",
-                "type": "image/png"
+                "type": "image/png",
+                "purpose":"any"
             }
         ]
+        
     }
