@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useContext } from "react";
 import { AccountContext } from "../../context/AccountProvider";
-import { setConversation } from "../../routers/user";
+import { setConversation } from "../../routes/user";
 import styles from "../../styles/chat.module.css";
 const User = (props) => {
   const { setperson, account, setmsgopened, setmobilevalue } =
@@ -17,7 +17,7 @@ const User = (props) => {
 
     await setConversation(senderId, reciverid);
   };
-  console.log("pros.user ", props.user);
+  console.log("pros.user ", props.user.picture);
   return (
     <>
       <div
@@ -34,7 +34,7 @@ const User = (props) => {
             alt="profile pic"
             width={60}
             height={60}
-            src={`${props.user.picture}`}
+            src={props.user.picture}
           />
         </div>
         <div className={`${styles.userdetail}`}>
