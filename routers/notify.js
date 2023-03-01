@@ -1,4 +1,4 @@
-const host = process.env.NEXT_PUBLIC_B_PORT;
+const host = process.env.NEXT_PUBLIC_B_PORT_CHAT;
 import axios from "axios";
 export const notify = async (data) => {
   try {

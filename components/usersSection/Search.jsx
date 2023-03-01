@@ -3,6 +3,7 @@ import User from "./User";
 import styles from "../../styles/chat.module.css";
 
 const Search = ({ mobile, searcheddata, admin }) => {
+  console.log(searcheddata, "search data");
   return (
     <>
       <div className=" h-full w-full  rounded-lg shadow">
