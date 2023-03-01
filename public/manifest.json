@@ -35,7 +35,7 @@
         
         "background_color": "#f6f2ee",
         "display": "standalone",
-        "display_override": "window-control-overlay",
+        "display_override":["window-control-overlay","standalone"],
         "scope": "/",
         "start_url": "/",
         "name": "Ayum",
@@ -59,6 +59,12 @@
                 "type": "image/png",
                 "purpose": "any"
             },
+            {
+              "src": "/icons/icon-99x99.png",
+              "sizes": "99x99",
+              "type": "image/png",
+              "purpose": "any"
+          },
             {
                 "src": "/icons/icon-256x256.png",
                 "sizes": "256x256",
