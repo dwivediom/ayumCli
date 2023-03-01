@@ -19,6 +19,9 @@ const Allusers = ({ mobile }) => {
   const [threedotmodal, setthreedotmodal] = useState(false);
   const router = useRouter();
   useEffect(() => {
+    if (!localStorage.labuser) {
+      router.push("/User/UserRegistrationPage");
+    }
     const users = async () => {
       const localStoragejwt = localStorage.getItem("userjwt");
       let data = await getuser();
