@@ -1,5 +1,5 @@
 import axios from "axios";
-const host = process.env.NEXT_PUBLIC_B_PORT;
+const host = process.env.NEXT_PUBLIC_B_PORT_CHAT;
 
 export const setmessage = async (msg) => {
   let url = `${host}/message/add`;
