@@ -81,12 +81,20 @@ const ChatBox = ({ mobile }) => {
       let localdataperson = await JSON.parse(localStorage.getItem("person"));
       console.log(localdataperson);
       if (data.senderId == localdataperson.user.sub) {
-        setusermessage([...usermessage, data]);
+        if (usermessage.length > 0) {
+          setusermessage([...usermessage, data]);
+        } else {
+          setusermessage([data]);
+        }
       }
     });
   }, [usermessage]);
   useEffect(() => {
-    setusermessage([...usermessage, msgchange]);
+    if (usermessage.length > 0) {
+      setusermessage([...usermessage, msgchange]);
+    } else {
+      setusermessage([msgchange]);
+    }
   }, [msgchange]);
 
   return (
@@ -133,7 +141,7 @@ const ChatBox = ({ mobile }) => {
               {"\u2190"} Back
             </button>
           )}
-          {usermessage &&
+          {usermessage.length > 0 &&
             usermessage.map((msg) => {
               if (msg) {
                 return (

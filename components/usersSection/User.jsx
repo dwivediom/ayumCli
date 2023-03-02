@@ -34,7 +34,7 @@ const User = (props) => {
             alt="profile pic"
             width={60}
             height={60}
-            src={props.user.picture}
+            src={props.user.picture ? props.user.picture : "/deafaultpro.jpg"}
           />
         </div>
         <div className={`${styles.userdetail}`}>
