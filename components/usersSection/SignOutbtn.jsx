@@ -9,6 +9,7 @@ const SignOutbtn = () => {
     setsignout(true);
     localStorage.removeItem("labuser");
     localStorage.removeItem("usertoken");
+    localStorage.removeItem("userjwt");
 
     router.push("/");
   };
