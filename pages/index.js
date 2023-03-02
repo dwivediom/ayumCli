@@ -43,6 +43,9 @@ export default function Home(props) {
 
     if (authstatus) {
       setthankmodal(true);
+      setTimeout(() => {
+        setthankmodal(false);
+      }, 3000);
       setauthstatus(false);
     }
   }, []);

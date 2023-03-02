@@ -57,6 +57,7 @@ const ChatBox = ({ mobile }) => {
         setusermessage(allmessage.data);
         setloading(false);
       }
+      console.log(usermessage, "User message ");
     };
 
     showMessage();
@@ -136,13 +137,14 @@ const ChatBox = ({ mobile }) => {
             usermessage.map((msg) => {
               if (msg) {
                 return (
-                  <Message
-                    key={msg._id}
-                    senderId={msg.senderId}
-                    msgval={msg.text && msg.text}
-                    time={msg.createdAt}
-                    datatype={msg.type}
-                  />
+                  <div key={msg._id}>
+                    <Message
+                      senderId={msg.senderId}
+                      msgval={msg.text && msg.text}
+                      time={msg.createdAt}
+                      datatype={msg.type}
+                    />
+                  </div>
                 );
               }
             })}
