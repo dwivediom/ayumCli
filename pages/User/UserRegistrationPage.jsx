@@ -31,13 +31,19 @@ const UserRegistrationPage = () => {
     console.log("data ", data);
     const logindata = await loginInitate(decodedjwt);
     console.log("logindata ", logindata);
+    console.log("decoded jwt ", decodedjwt);
     if (logindata.data) {
       localStorage.setItem("usertoken", logindata.data.token);
       localStorage.setItem("labuser", JSON.stringify(decodedjwt));
       console.log("Labsuser aur Usertoken set kro");
       if (decodedjwt) {
         const logined = await adduser(decodedjwt);
+        console.log(logined, "Logine hai ");
         if (logined === "useradded") {
+          setsignout(false);
+          setauthstatus(true);
+
+          router.push("/");
           const data = await webpushfunc();
           await updateuser(res.credential, {
             endpoint: localStorage.endpoint,
@@ -57,11 +63,15 @@ const UserRegistrationPage = () => {
         if (decodedjwt) {
           const logined = await adduser(decodedjwt);
           if (logined === "useradded") {
+            setsignout(false);
+            setauthstatus(true);
+            router.push("/");
             const data = await webpushfunc();
+
             await updateuser(res.credential, {
-              endpoint: data.endpoint,
-              auth: data.keys.auth,
-              p256dh: data.keys.p256dh,
+              endpoint: localStorage.endpoint,
+              auth: localStorage.keys.auth,
+              p256dh: localStorage.keys.p256dh,
             });
           }
 
@@ -69,14 +79,6 @@ const UserRegistrationPage = () => {
         }
       }
       console.log("registerdata ", registerData);
-    }
-
-    if (localStorage.usertoken) {
-      setauthstatus(true);
-      setsignout(false);
-      router.push("/");
-    } else {
-      router.push("/");
     }
   };
   const onLoginError = (res) => {
