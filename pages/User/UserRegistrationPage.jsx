@@ -39,17 +39,20 @@ const UserRegistrationPage = () => {
       if (decodedjwt) {
         const logined = await adduser(decodedjwt);
         console.log(logined, "Logine hai ");
-        if (logined === "useradded") {
+        if (logined.msg === "useradded") {
           setsignout(false);
           setauthstatus(true);
 
           router.push("/");
-          const data = await webpushfunc();
+
           await updateuser(res.credential, {
             endpoint: localStorage.endpoint,
             auth: localStorage.auth,
             p256dh: localStorage.p256dh,
+            picture: decodedjwt.picture,
+            name: decodedjwt.name,
           });
+          const data = await webpushfunc();
         }
         router.push("/");
       }
