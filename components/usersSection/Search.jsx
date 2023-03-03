@@ -13,7 +13,7 @@ const Search = ({ mobile, searcheddata, admin }) => {
       <div className=" h-full w-full  rounded-lg shadow">
         <div className={`${styles.usercontainer}`}>
           {searcheddata &&
-            searcheddata.data.map((user) => {
+            searcheddata.map((user) => {
               if (user.sub != admin.sub) {
                 return (
                   <User
