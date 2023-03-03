@@ -44,7 +44,7 @@ const Allusers = ({ mobile }) => {
     if (input != "") {
       const data = await searchApi(input);
       console.log("data", data);
-      setsearchdata(data);
+      setsearchdata(data.data);
       setdoctormenu(true);
     }
   };

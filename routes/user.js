@@ -3,12 +3,13 @@ import { use } from "react";
 import RecentChat from "../components/usersSection/RecentChat";
 const host = process.env.NEXT_PUBLIC_B_PORT_CHAT;
 export const adduser = async (userData) => {
+  console.log(userData, "User Ka Data");
   try {
     const url = `${host}/user/add`;
-    await axios.post(url, {
+    const logined = await axios.post(url, {
       data: userData,
     });
-    return "useradded";
+    return { msg: "useradded", user: logined };
   } catch (error) {
     console.log("error in adduser forntend ", error.message);
   }
