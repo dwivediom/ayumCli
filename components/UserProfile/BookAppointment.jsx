@@ -89,7 +89,7 @@ const BookAppointment = ({ reqdata }) => {
     <div>
       <div>
         <h2 className="m-auto text-center text-cyan-500 font-bold mt-4">
-          Book Your Appoitnemnt
+          Book Your Appointment
         </h2>
         <form className={`${styles.bookform} `} action="#">
           <div className="mb-6">
