@@ -11,11 +11,11 @@ const QuickSearch = () => {
   const dispatch = useDispatch();
   const qSearch = (e) => {
     e.preventDefault();
-    let val = e.target.value;
-
-    console.log(val);
+    let val = e.target.getAttribute("value");
+    
+  
     setkey(val);
-
+  
     dispatch(quickSearchaction(val));
     router.push("/Search/Search");
   };
@@ -23,8 +23,9 @@ const QuickSearch = () => {
   return (
     <div className={` ${styles.maindiv}`}>
       <div
+      value="Kideny"
         onClick={(e) => qSearch(e)}
-        value="Kideny  "
+        data='kideny'
         className={`${styles.btn1} `}
       >
         {" "}
