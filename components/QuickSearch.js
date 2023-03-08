@@ -11,8 +11,9 @@ const QuickSearch = () => {
   const dispatch = useDispatch();
   const qSearch = (e) => {
     e.preventDefault();
-    let val = e.target.getAttribute("value");
-    
+    let val = e.target.outerText
+      localStorage.setItem("skey",val)  
+      console.log("key data " , val)
   
     setkey(val);
   

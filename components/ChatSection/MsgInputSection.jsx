@@ -107,7 +107,7 @@ const MsgInputSection = () => {
           text: newfile,
           type: "file",
         };
-
+        setmsgchange(msg)
         await setmessage(msg);
         socket.current.emit("sendMessage", msg);
         setinput("");
@@ -116,14 +116,16 @@ const MsgInputSection = () => {
         setfile("");
       }
 
+      let holdinput = input  ;
+      setinputholder('') 
       setinput(" ");
-      setinputholder("");
-      await notify({
-        auth: person.user.auth,
-        endpoint: person.user.endpoint,
-        p256dh: person.user.p256dh,
-        sender: account.name,
-      });
+      
+     await notify(
+      {auth:person.user.auth,
+      endpoint:person.user.endpoint,
+      p256dh:person.user.p256dh,
+       sender:account.name , 
+       message:holdinput});
     }
   };
 

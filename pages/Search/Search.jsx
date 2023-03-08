@@ -18,9 +18,11 @@ const Search = () => {
   const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
   useEffect(() => {
      console.log("sedata" , sdata)
-    if (sdata.searchkey && reload) {
-      setinput(sdata.searchkey);
+    if (localStorage.skey && reload) {
+      setinput(localStorage.skey);
       input && onloadSearch(input);
+     
+     
     }
   }, [sdata, reload, input]);
 
@@ -32,6 +34,7 @@ const Search = () => {
     setdata(searchdata);
     setreload(false);
     if(searchdata.data){setviewsearchill(false)}
+    localStorage.removeItem("skey")
   };
 
   const onSearch = async (e) => {
