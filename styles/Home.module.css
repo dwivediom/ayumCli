@@ -327,5 +327,23 @@
   }
 }
 .popup div:hover {
-  background-color: #202d46;
+  background-color: #00eaff;
+  color: black;
+}
+
+.popup div:nth-of-type(1):hover {
+  cursor: default;
+  color: rgb(50, 255, 252);
+
+  background-color: #111827;
+}
+.popup div:nth-last-child(1):hover {
+  background-color: #ff002f;
+  color: rgb(255, 255, 255);
+}
+.privacybox {
+  /* border: 2px solid red; */
+  color: #191021 !important;
+
+  box-shadow: 0 0 20px rgba(99, 105, 104, 0.251);
 }
