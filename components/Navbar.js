@@ -291,7 +291,13 @@ const Navbar = () => {
                     }}
                     className={`${styles.popup}`}
                   >
-                    <div className="text-white">{name ? name : "..."} </div>
+                    <div className="text-cyan-400">{name ? name : "..."} </div>
+                    <div
+                      onClick={() => Router.push("/PrivacyPolicy")}
+                      className="text-sm text-white"
+                    >
+                      Terms & Condition
+                    </div>
                     <SignOutbtn />
                   </div>
                 )}

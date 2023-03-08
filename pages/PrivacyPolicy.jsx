@@ -1,8 +1,9 @@
 import React from "react";
+import styles from "../styles/Home.module.css";
 
 const PrivacyPolicy = () => {
   return (
-    <div className=" pb-20 absolute p-3">
+    <div className={` ${styles.privacybox} pb-20 absolute p-3`}>
       <div>
         <h1 className="font-bold mb-2 text-left">Privacy Policy</h1>
         <p className=" text-left">
