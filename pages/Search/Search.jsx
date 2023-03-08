@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import styles from "../../styles/Searchinput.module.css";
 import DoctorCard from "../../components/DoctorCard";
 import Image from "next/image";
+import { setDocDataAction } from "../../redux/actions/userActions";
 
 const Search = () => {
   const [data, setdata] = useState(null);
@@ -16,9 +17,12 @@ const Search = () => {
   const [viewsearchill, setviewsearchill] = useState(true);
   const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
   useEffect(() => {
-    if (sdata.searchkey && reload) {
-      setinput(sdata.searchkey);
+     console.log("sedata" , sdata)
+    if (localStorage.skey && reload) {
+      setinput(localStorage.skey);
       input && onloadSearch(input);
+     
+     
     }
   }, [sdata, reload, input]);
 
@@ -29,6 +33,8 @@ const Search = () => {
     console.log(searchdata);
     setdata(searchdata);
     setreload(false);
+    if(searchdata.data){setviewsearchill(false)}
+    localStorage.removeItem("skey")
   };
 
   const onSearch = async (e) => {

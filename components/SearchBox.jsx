@@ -19,7 +19,7 @@ const SearchBox = () => {
             id="default-search"
             className={`${styles.searchinput}`}
             placeholder="Search Doctors, Specialist , Clinics..."
-            required
+            
           />
           <button
             type="button"

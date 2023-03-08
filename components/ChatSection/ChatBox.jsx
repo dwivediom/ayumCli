@@ -50,7 +50,7 @@ const ChatBox = ({ mobile }) => {
         JSON.parse(localStorage.getItem("labuser")).sub,
         person.user.sub
       );
-      console.log(data && data, "Data hai bhaaiaiai");
+      
       if (data) {
         console.log(data.data);
         let allmessage = await getAllMessages(data.data && data.data._id);
@@ -61,7 +61,7 @@ const ChatBox = ({ mobile }) => {
     };
 
     showMessage();
-  }, [person, uplodedmsg]);
+  }, [person]);
 
   useEffect(() => {
     console.log("scroll log", scrollRef);
