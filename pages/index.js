@@ -8,6 +8,8 @@ import { useContext, useEffect, useState } from "react";
 import { AccountContext } from "../context/AccountProvider";
 import Modal from "../components/Modal";
 import Navbar from "../components/Navbar";
+import Docphonebookbtn from "../components/Docphonebookbtn";
+import EmailBanner from "../components/EmailBanner";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
@@ -49,6 +51,19 @@ export default function Home(props) {
       setauthstatus(false);
     }
   }, []);
+
+  const [logged, setlogged] = useState(false);
+  const [loggedmail, setloggedmail] = useState();
+
+  useEffect(() => {
+    if (localStorage.labuser) {
+      setlogged(true);
+      const user = JSON.parse(localStorage.labuser);
+      setloggedmail(user.email);
+    } else {
+      setlogged(false);
+    }
+  });
 
   const Loadmore = async () => {
     setloading(true);
@@ -121,6 +136,12 @@ export default function Home(props) {
         <Navbar />
         <SearchBox />
         <QuickSearch />
+        <div className={styles.directorycontainer}>
+          <Docphonebookbtn />
+          {/* <Docphonebookbtn /> */}
+          <EmailBanner logged={logged} loggedmail={loggedmail && loggedmail} />
+        </div>
+
         {props.newdata ? (
           <main>{doctors && <GetDoctor getDoctor={doctors} />}</main>
         ) : (

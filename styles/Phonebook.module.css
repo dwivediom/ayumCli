@@ -1,0 +1,116 @@
+.docphonebookbtn {
+  width: 100%;
+  /* height: 3rem; */
+  /* margin-bottom: 1rem; */
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  padding-left: 20px;
+  justify-content: left;
+}
+
+.phonebookbtn {
+  background-color: rgba(0, 255, 34, 0.484);
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+.emailbtn {
+  background-color: rgba(170, 43, 254, 0.484);
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.emailimg {
+  width: 35px;
+  height: 35px;
+  /* padding: 7px; */
+  /* border-radius: 24px; */
+}
+
+.callimg {
+  width: 35px;
+  height: 35px;
+  padding: 7px;
+  border-radius: 24px;
+  background-color: rgb(1, 167, 1);
+}
+.callimg img {
+  width: 100%;
+  height: 100%;
+}
+.directorypage {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+}
+.searchdoc {
+  width: 80%;
+  border-radius: 4px !important;
+  outline: none;
+  border: 1px solid grey;
+}
+.searchdoc:active {
+  outline: none !important;
+  border: none !important;
+  box-sizing: border-box;
+}
+.searchdoc:focus {
+  outline: none !important;
+  border: none !important;
+}
+.directoryshell {
+  display: flex;
+  gap: 20px;
+  /* justify-content: sp; */
+
+  padding-top: 20px;
+  flex-wrap: wrap;
+}
+.directorycard {
+  width: 23rem;
+  display: flex;
+  border-radius: 8px;
+  height: 11rem;
+  flex-direction: column;
+  box-shadow: 0 3px 15px rgb(187, 194, 199);
+}
+
+.carddeatilbox {
+  display: flex;
+  /* justify-content: space-evenly; */
+  padding: 5px;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+.carddeatilbox div {
+  background-color: rgba(114, 213, 255, 0.281);
+  padding: 4px 10px;
+  border-radius: 4px;
+  box-shadow: 0 3px 8px rgb(183, 186, 188);
+
+  font-size: small;
+}
+
+.cardname {
+  text-align: center;
+  font-weight: bold;
+  padding: 5px 0px;
+}
