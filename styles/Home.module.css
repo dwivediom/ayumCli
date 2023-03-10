@@ -17,28 +17,11 @@
 }
 
 .installbtn {
-  background-image: linear-gradient(
-    to right,
-    #ff512f 0%,
-    #ffa72b 51%,
-    #ff512f 100%
-  );
-  margin: 15px;
-  padding: 5px 30px;
-  text-align: center;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  cursor: pointer;
-  border-radius: 10px;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.installbtn:hover {
-  background-position: right center;
-  color: #fff;
-  text-decoration: none;
-}
 .continuous4 {
   width: 150px;
   height: 22px;
@@ -344,6 +327,15 @@
 .privacybox {
   /* border: 2px solid red; */
   color: #191021 !important;
-
   box-shadow: 0 0 20px rgba(99, 105, 104, 0.251);
+}
+.directorycontainer {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 700px) {
+  .directorycontainer {
+    flex-direction: column;
+  }
 }

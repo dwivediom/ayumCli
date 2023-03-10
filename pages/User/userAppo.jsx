@@ -6,7 +6,7 @@ const UserAppointments = dynamic(() =>
 
 const userAppo = () => {
   return (
-    <div className="p-1">
+    <div className="p-1 pb-20">
       <UserAppointments />
     </div>
   );
