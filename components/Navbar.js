@@ -225,14 +225,20 @@ const Navbar = () => {
                 </div>
               </div>
               <div className=" hidden sm:ml-10 md:block sm:block border-1 border-red-500">
-                {showInstallButton && (
-                  <button
-                    onClick={showInstallPrompt}
-                    className={`${styles.installbtn} text-white  rounded-md text-sm font-medium`}
-                  >
-                    Install App
-                  </button>
-                )}
+                <a
+                  href="https://play.google.com/store/apps/details?id=in.ayum.twa"
+                  className={`${styles.installbtn} text-white  rounded-md text-sm font-medium`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image
+                    src={"/google.svg"}
+                    width={100}
+                    height={30}
+                    alt="Install App"
+                    title="Install App"
+                  />
+                </a>
               </div>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -291,7 +297,13 @@ const Navbar = () => {
                     }}
                     className={`${styles.popup}`}
                   >
-                    <div className="text-white">{name ? name : "..."} </div>
+                    <div className="text-cyan-400">{name ? name : "..."} </div>
+                    <div
+                      onClick={() => Router.push("/PrivacyPolicy")}
+                      className="text-sm text-white"
+                    >
+                      Terms & Condition
+                    </div>
                     <SignOutbtn />
                   </div>
                 )}
@@ -304,6 +316,21 @@ const Navbar = () => {
         <div className="sm:hidden" id="mobile-menu">
           {navitem && (
             <>
+              <div className="mt-4">
+                <a
+                  href="https://play.google.com/store/apps/details?id=in.ayum.twa"
+                  rel="norefferer"
+                  className={`${styles.installbtn} text-white rounded-md text-sm font-medium`}
+                >
+                  <Image
+                    src={"/google.svg"}
+                    width={"100%"}
+                    height={30}
+                    alt="Install App"
+                    title="Install App"
+                  />
+                </a>
+              </div>
               <div>
                 <div>
                   <a
@@ -315,14 +342,7 @@ const Navbar = () => {
                   </a>
                 </div>
               </div>
-              <div>
-                <div
-                  onClick={showInstallPrompt}
-                  className={`${styles.installbtn} text-white rounded-md text-sm font-medium`}
-                >
-                  Install App
-                </div>
-              </div>
+
               <div>
                 <a
                   className={`${styles.navitem} text-white rounded-md text-sm font-medium`}
