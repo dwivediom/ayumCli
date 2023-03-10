@@ -15,11 +15,9 @@ const SearchBox = () => {
         <div className="relative">
           <input
             type="search"
-            // onChange={(e) => handleChange(e)}
             id="default-search"
             className={`${styles.searchinput}`}
             placeholder="Search Doctors, Specialist , Clinics..."
-            
           />
           <button
             type="button"
