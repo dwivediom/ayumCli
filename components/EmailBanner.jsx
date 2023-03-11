@@ -6,7 +6,7 @@ const EmailBanner = ({ logged, loggedmail }) => {
   const router = useRouter();
   return (
     <div
-      onClick={() => router.push("/DoctorDirectory")}
+      // onClick={() => router.push("/DoctorDirectory")}
       className={`${styles.docphonebookbtn}`}
     >
       {logged ? (

@@ -24,7 +24,7 @@
   gap: 10px;
 }
 .emailbtn {
-  background-color: rgba(170, 43, 254, 0.484);
+  background-color: rgba(43, 163, 254, 0.484);
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
@@ -80,32 +80,31 @@
   display: flex;
   gap: 20px;
   /* justify-content: sp; */
-
+  justify-content: center;
   padding-top: 20px;
   flex-wrap: wrap;
 }
-.directorycard {
+/* .directorycard {
   width: 23rem;
   display: flex;
   border-radius: 8px;
   height: 11rem;
   flex-direction: column;
   box-shadow: 0 3px 15px rgb(187, 194, 199);
-}
-
+} */
+/* 
 .carddeatilbox {
   display: flex;
-  /* justify-content: space-evenly; */
   padding: 5px;
   gap: 10px;
   font-size: 0.9rem;
 }
+
 .carddeatilbox div {
-  background-color: rgba(114, 213, 255, 0.281);
+  background-color: rgba(238, 199, 255, 0.281);
   padding: 4px 10px;
   border-radius: 4px;
-  box-shadow: 0 3px 8px rgb(183, 186, 188);
-
+  box-shadow: 0 3px 8px rgb(231, 237, 239);
   font-size: small;
 }
 
@@ -113,4 +112,50 @@
   text-align: center;
   font-weight: bold;
   padding: 5px 0px;
+} */
+.directorycard {
+  box-shadow: 0 3px 15px rgb(187, 194, 199);
+  /* width: 23rem; */
+  width: 20rem;
+  /* padding: 5px; */
+  height: 9.5rem;
+  overflow: hidden;
+  padding-left: 10px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 0.9rem;
+  /* text-align: center; */
+  transition: 0.3s all;
+  background: url("/dcard.jpg");
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: cover;
+  /* background-color: aquamarine; */
+}
+.cardname {
+  text-align: center;
+  font-weight: bold;
+  border-radius: 24px;
+  font-size: 1rem;
+  padding: 2px 0px;
+  margin-bottom: 6px;
+  border-bottom: 3px solid #009af4;
+}
+
+.showmore {
+  color: #009af4;
+  font-size: small;
+  cursor: pointer;
+  /* border: 1px solid red; */
+  width: 100%;
+  /* display: inline-block; */
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  /* justify-content: center; */
+  padding-left: 40px;
+}
+.carddeatilbox div {
+  /* border: 1px solid red; */
+  padding-left: 40px;
 }
