@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import DirectoryCard from "../components/DirectoryCard";
 import { directorydata } from "../routes/data";
 import { getDoc, SearchDoc } from "../routes/directory";
 import styles from "../styles/Phonebook.module.css";
@@ -10,6 +11,7 @@ const DoctorDirectory = () => {
   const [input, setinput] = useState({
     val: "",
   });
+
   useEffect(() => {
     async function getalldoc() {
       const gotdata = await getDoc();
@@ -25,6 +27,7 @@ const DoctorDirectory = () => {
     setinput({ ...input, [e.target.name]: e.target.value });
     console.log(input);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.val == "") {
@@ -48,6 +51,7 @@ const DoctorDirectory = () => {
     ];
     return colors[Math.floor(Math.random() * colors.length)];
   };
+
   return (
     <>
       <div className={`${styles.directorypage} pb-20 p-5`}>
@@ -77,46 +81,7 @@ const DoctorDirectory = () => {
         <div className={`${styles.directoryshell}`}>
           {docs.length > 0 &&
             docs.map((item) => {
-              return (
-                <div
-                  style={{
-                    borderTop: `4px solid ${getRandomColor()}`,
-                  }}
-                  key={item.name}
-                  className={`${styles.directorycard}`}
-                >
-                  <div>
-                    <div className={`${styles.cardname}`}> {item.name}</div>
-                  </div>
-                  <div className={`${styles.carddeatilbox}`}>
-                    <div>
-                      {" "}
-                      <span className="font-bold">Time :</span> {item.timeing}
-                    </div>
-                    <div>
-                      {" "}
-                      <span className="font-bold">Phone :</span> {item.phone}
-                    </div>
-                  </div>
-                  <div className={`${styles.carddeatilbox}`}>
-                    <div>
-                      {" "}
-                      <span className="font-bold">City :</span> {item.city}
-                    </div>
-                    <div>
-                      {" "}
-                      <span className="font-bold">Specialist :</span>{" "}
-                      {item.specialist}
-                    </div>
-                  </div>
-                  <div className={`${styles.carddeatilbox}`}>
-                    <div>
-                      <span className="font-bold">Address :</span>{" "}
-                      {item.address}
-                    </div>
-                  </div>
-                </div>
-              );
+              return <DirectoryCard item={item && item} />;
             })}
         </div>
       </div>
