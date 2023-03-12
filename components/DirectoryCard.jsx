@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styles from "../styles/Phonebook.module.css";
 
-const DirectoryCard = ({ item }) => {
+const DirectoryCard = ({ item, key }) => {
   const [show, setShow] = useState(false);
   return (
     <div
       style={{
         height: show && "fit-content",
       }}
-      key={item.name}
+      key={key}
       className={`${styles.directorycard}`}
     >
       <div>
