@@ -17,6 +17,14 @@ const AccountProvider = ({ children }) => {
   const [msgprivate, setmsgprivate] = useState(false);
   const [signout, setsignout] = useState(false);
 
+  useEffect(() => {
+    if (localStorage.labuser) {
+      setsignout(false);
+    } else {
+      setsignout(true);
+    }
+  }, []);
+
   const socket = useRef();
   useEffect(() => {
     socket.current = io("wss://www.chatsocket.ayum.in");

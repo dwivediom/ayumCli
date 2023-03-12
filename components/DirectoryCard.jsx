@@ -40,7 +40,10 @@ const DirectoryCard = ({ item }) => {
         </span>
       </div>
 
-      <div className={`${styles.carddeatilbox}`}>
+      <div
+        style={{ display: !show && "none" }}
+        className={`${styles.carddeatilbox}`}
+      >
         <div>
           <span className="font-bold">Address :</span> {item.address}
         </div>
