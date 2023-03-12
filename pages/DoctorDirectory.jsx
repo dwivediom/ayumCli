@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import DirectoryCard from "../components/DirectoryCard";
 import { directorydata } from "../routes/data";
-import { getDoc, SearchDoc } from "../routes/directory";
+import { getDoc, SearchDoc, showMore } from "../routes/directory";
 import styles from "../styles/Phonebook.module.css";
 import styles1 from "../styles/Searchinput.module.css";
 
 const DoctorDirectory = () => {
   const [docs, setdocs] = useState([]);
-  const [load, setload] = useState();
+  const [showload, setshowload] = useState();
+  const [full, setfull] = useState(false);
   const [input, setinput] = useState({
     val: "",
   });
@@ -18,10 +19,21 @@ const DoctorDirectory = () => {
       console.log(gotdata);
       setdocs(gotdata.data);
       console.log(docs && docs, "All dOcs Data");
-      setload(false);
+      // setload(false);
     }
     getalldoc();
   }, []);
+
+  const ShowMoreDoc = async () => {
+    setshowload(true);
+    const data = await showMore();
+    if (data.data.length == 0) {
+      setfull(true);
+    }
+    setdocs(docs.concat(data.data));
+    console.log(docs);
+    setshowload(false);
+  };
 
   const handleChange = (e) => {
     setinput({ ...input, [e.target.name]: e.target.value });
@@ -39,22 +51,10 @@ const DoctorDirectory = () => {
     console.log(getdata);
     setdocs(getdata.data);
   };
-  const getRandomColor = () => {
-    // helper function to generate a random background color
-    const colors = [
-      "#e91e63",
-      "rgb(166, 0, 255)",
-      "#009698",
-      "#ffc107",
-      "rgb(43, 255, 0)",
-      "rgb(15, 1, 215)",
-    ];
-    return colors[Math.floor(Math.random() * colors.length)];
-  };
 
   return (
     <>
-      <div className={`${styles.directorypage} pb-20 p-5`}>
+      <div className={`${styles.directorypage}  p-5`}>
         <form
           onSubmit={(e) => handleSubmit(e)}
           className={`${styles1.searchform}`}
@@ -78,11 +78,29 @@ const DoctorDirectory = () => {
             </button>
           </div>
         </form>
+
         <div className={`${styles.directoryshell}`}>
           {docs.length > 0 &&
             docs.map((item) => {
-              return <DirectoryCard key={item.name} item={item && item} />;
+              return <DirectoryCard key={item._id} item={item && item} />;
             })}
+        </div>
+        <div className="pb-20 ">
+          {full ? (
+            <div
+              // onClick={() => ShowMoreDoc()}
+              className="m-auto p-2 border border-gray-700 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer "
+            >
+              That's It
+            </div>
+          ) : (
+            <div
+              onClick={() => ShowMoreDoc()}
+              className="m-auto p-2 border border-gray-700 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer "
+            >
+              {showload ? "Loading..." : "Show More"}
+            </div>
+          )}
         </div>
       </div>
     </>
