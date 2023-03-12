@@ -6,11 +6,12 @@ const SignOutbtn = () => {
   const { setsignout } = useContext(AccountContext);
   const router = useRouter();
   const signOut = () => {
-    setsignout(true);
     localStorage.removeItem("labuser");
     localStorage.removeItem("usertoken");
     localStorage.removeItem("userjwt");
+    localStorage.setItem("authStatus", false);
 
+    setsignout(true);
     router.push("/");
   };
   return (
