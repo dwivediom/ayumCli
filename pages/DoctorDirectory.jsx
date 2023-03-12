@@ -81,7 +81,7 @@ const DoctorDirectory = () => {
         <div className={`${styles.directoryshell}`}>
           {docs.length > 0 &&
             docs.map((item) => {
-              return <DirectoryCard item={item && item} />;
+              return <DirectoryCard key={item.name} item={item && item} />;
             })}
         </div>
       </div>
