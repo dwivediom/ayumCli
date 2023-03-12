@@ -48,7 +48,7 @@ export default function Home(props) {
       setTimeout(() => {
         setthankmodal(false);
       }, 3000);
-      setauthstatus(false);
+      // setauthstatus(false);
     }
   }, []);
 
@@ -82,9 +82,6 @@ export default function Home(props) {
     setdoctors(finalstatedata);
     setloading(false);
   };
-
-  // const finalstate=doctors.concat(new)
-  console.log(props.newdata, "Data");
 
   if (!isOnline || props.newdata == "error") {
     return (

@@ -3,13 +3,13 @@ import { Provider as ReduxProvider } from "react-redux";
 import Router from "next/router";
 import { store } from "../redux/store/store";
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import Image from "next/image";
 const BottomNav = dynamic(() => import("../components/BottomNav"));
 import Navbar from "../components/Navbar";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import AccountProvider from "../context/AccountProvider";
+import AccountProvider, { AccountContext } from "../context/AccountProvider";
 import { webpushfunc } from "../utils/notification";
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
@@ -71,8 +71,8 @@ function MyApp({ Component, pageProps }) {
               </div>
             )}
 
-            <Navbar />
             <div style={{ display: loading ? "none" : "block" }}>
+              <Navbar />
               <Component {...pageProps} />
               <BottomNav />
             </div>

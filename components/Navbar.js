@@ -9,7 +9,6 @@ import Image from "next/image";
 import { AccountContext } from "../context/AccountProvider";
 import SignOutbtn from "./usersSection/SignOutbtn";
 const Navbar = () => {
-  const [profile, setprofile] = useState(false);
   const [navitem, setnavitem] = useState(false);
   const [collapseopen, setcollapse] = useState(false);
   const [profilepic, setprofilepic] = useState();
@@ -17,12 +16,7 @@ const Navbar = () => {
 
   const { threedotmodal, setthreedotmodal, signout } =
     useContext(AccountContext);
-  useEffect(() => {
-    console.log("UserSignout");
-  }, [signout]);
-  const clickprofile = () => {
-    setprofile((profile) => !profile);
-  };
+
   const clicknavitem = () => {
     setnavitem((navitem) => !navitem);
   };
@@ -269,44 +263,58 @@ const Navbar = () => {
                 <div>
                   <button
                     type="button"
-                    onClick={clickprofile}
+                    // onClick={clickprofile}
                     className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                     id="user-menu-button"
                     aria-expanded="false"
                     aria-haspopup="true"
                   >
                     <span className="sr-only">Open user menu</span>
-                    {!signout && (
+                    {
                       <Image
                         onClick={() => setthreedotmodal(!threedotmodal)}
                         style={{
                           borderRadius: "50%",
                         }}
-                        src={profilepic ? profilepic : "/deafaultpro.jpg"}
+                        src={!signout ? profilepic : "/deafaultpro.jpg"}
                         width={40}
                         height={38}
                         alt="Profile Pic"
                       />
-                    )}
+                    }
                   </button>
                 </div>
-                {!signout && (
+                {
                   <div
                     style={{
                       display: !threedotmodal && "none",
                     }}
                     className={`${styles.popup}`}
                   >
-                    <div className="text-cyan-400">{name ? name : "..."} </div>
-                    <div
-                      onClick={() => Router.push("/PrivacyPolicy")}
-                      className="text-sm text-white"
-                    >
-                      Terms & Condition
-                    </div>
-                    <SignOutbtn />
+                    {!signout && <div className="text-cyan-400">{name} </div>}
+                    {!signout && (
+                      <div
+                        onClick={() => Router.push("/PrivacyPolicy")}
+                        className="text-sm text-white"
+                      >
+                        Terms & Condition
+                      </div>
+                    )}
+
+                    {!signout ? (
+                      <SignOutbtn />
+                    ) : (
+                      <div
+                        onClick={() =>
+                          Router.push("/User/UserRegistrationPage")
+                        }
+                        className="text-sm text-white"
+                      >
+                        Log In
+                      </div>
+                    )}
                   </div>
-                )}
+                }
                 {/* Popup */}
               </div>
             </div>
