@@ -35,6 +35,7 @@ const UserRegistrationPage = () => {
     if (logindata.data) {
       localStorage.setItem("usertoken", logindata.data.token);
       localStorage.setItem("labuser", JSON.stringify(decodedjwt));
+      localStorage.setItem("authStatus", true);
       console.log("Labsuser aur Usertoken set kro");
       if (decodedjwt) {
         const logined = await adduser(decodedjwt);
