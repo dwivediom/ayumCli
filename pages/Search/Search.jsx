@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import styles from "../../styles/Searchinput.module.css";
+import styles2 from "../../styles/doctorcard.module.css";
 import DoctorCard from "../../components/DoctorCard";
 import Image from "next/image";
 import { setDocDataAction } from "../../redux/actions/userActions";
@@ -17,12 +18,10 @@ const Search = () => {
   const [viewsearchill, setviewsearchill] = useState(true);
   const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
   useEffect(() => {
-     console.log("sedata" , sdata)
+    console.log("sedata", sdata);
     if (localStorage.skey && reload) {
       setinput(localStorage.skey);
       input && onloadSearch(input);
-     
-     
     }
   }, [sdata, reload, input]);
 
@@ -33,8 +32,10 @@ const Search = () => {
     console.log(searchdata);
     setdata(searchdata);
     setreload(false);
-    if(searchdata.data){setviewsearchill(false)}
-    localStorage.removeItem("skey")
+    if (searchdata.data) {
+      setviewsearchill(false);
+    }
+    localStorage.removeItem("skey");
   };
 
   const onSearch = async (e) => {
@@ -66,7 +67,7 @@ const Search = () => {
   };
 
   return (
-    <div className="m-4 ">
+    <div className="m-4">
       <form className={`${styles.searchform}`} onSubmit={(e) => onSearch(e)}>
         <div className="relative">
           <input
@@ -120,7 +121,7 @@ const Search = () => {
           <Image src={"/loader.svg"} width={50} height={50} alt="Loading..." />
         </div>
       ) : (
-        <div className="  m-auto mt-6 grid  lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1  gap-2 md:gap-4">
+        <div className={`${styles2.doccontainer} mt-6`}>
           {data && data.data.length == 0 ? (
             <div
               style={{
@@ -143,9 +144,11 @@ const Search = () => {
           ) : (
             data &&
             data.data.map((doctor) => {
+              console.log(doctor.picture, doctor, "Doctor Ka Searchdata");
               return (
                 <DoctorCard
                   key={doctor._id}
+                  pic={doctor.picture}
                   name={doctor.name}
                   specialist={doctor.specialist}
                   location={doctor.location}

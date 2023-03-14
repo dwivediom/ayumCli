@@ -86,3 +86,8 @@ export const updateuser = async (jwt, data) => {
     return error.message;
   }
 };
+
+
+export const updateNavbar=()=>{
+  
+}
