@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import DirectoryCard from "../components/DirectoryCard";
 import { directorydata } from "../routes/data";
@@ -8,6 +9,7 @@ import styles1 from "../styles/Searchinput.module.css";
 const DoctorDirectory = () => {
   const [docs, setdocs] = useState([]);
   const [showload, setshowload] = useState();
+  const [loading, setloading] = useState(false);
   const [full, setfull] = useState(false);
   const [input, setinput] = useState({
     val: "",
@@ -15,11 +17,12 @@ const DoctorDirectory = () => {
 
   useEffect(() => {
     async function getalldoc() {
+      setloading(true);
       const gotdata = await getDoc();
       console.log(gotdata);
       setdocs(gotdata.data);
       console.log(docs && docs, "All dOcs Data");
-      // setload(false);
+      setloading(false);
     }
     getalldoc();
   }, []);
@@ -80,10 +83,27 @@ const DoctorDirectory = () => {
         </form>
 
         <div className={`${styles.directoryshell}`}>
-          {docs.length > 0 &&
+          {loading ? (
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                src={"/loader.svg"}
+                width={40}
+                height={40}
+                alt={"Loader Img"}
+              />
+            </div>
+          ) : (
+            docs.length > 0 &&
             docs.map((item) => {
               return <DirectoryCard key={item._id} item={item && item} />;
-            })}
+            })
+          )}
         </div>
         <div className="pb-20 ">
           {full ? (
@@ -91,7 +111,7 @@ const DoctorDirectory = () => {
               // onClick={() => ShowMoreDoc()}
               className="m-auto p-2 border border-gray-700 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer "
             >
-              That's It
+              Thats It
             </div>
           ) : (
             <div
