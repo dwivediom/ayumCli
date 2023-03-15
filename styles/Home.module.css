@@ -279,7 +279,7 @@
 
 .popup {
   border-radius: 8px;
-  width: 10rem;
+  /* width: 10rem; */
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -320,22 +320,48 @@
 
   background-color: #111827;
 }
+.popup div:nth-of-type(2):hover {
+  cursor: default;
+  color: rgb(50, 255, 252);
+
+  background-color: #111827;
+}
 .popup div:nth-last-child(1):hover {
   background-color: #ff002f;
   color: rgb(255, 255, 255);
 }
 .privacybox {
-  /* border: 2px solid red; */
   color: #191021 !important;
   box-shadow: 0 0 20px rgba(99, 105, 104, 0.251);
 }
 .directorycontainer {
   display: flex;
   justify-content: center;
+  margin-top: 0.5rem;
+  gap: 1rem;
+  overflow: auto;
+}
+.subdirectorycontainer {
+  display: flex;
+  justify-content: space-between;
+  width: 40%;
+  gap: 1rem;
 }
 
 @media (max-width: 700px) {
   .directorycontainer {
-    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  .subdirectorycontainer {
+    width: 95vw !important;
+    margin: auto;
+    gap: 10px;
+    justify-content: space-between;
+    display: flex;
   }
 }
