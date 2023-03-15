@@ -1,8 +1,10 @@
 .doccontainer {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: center; */
+  /* border: 2px solid red; */
   gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .doctorcard {
@@ -22,7 +24,7 @@
     transform: translateX(-20px);
   }
   100% {
-    transform: translateX(0px);
+    transform: translateX(3px);
   }
 }
 .bottomc1 {

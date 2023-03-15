@@ -12,6 +12,7 @@ const Navbar = () => {
   const [navitem, setnavitem] = useState(false);
   const [collapseopen, setcollapse] = useState(false);
   const [profilepic, setprofilepic] = useState();
+  const [loggedemail, setloggedemail] = useState();
   const [name, setname] = useState();
 
   const { threedotmodal, setthreedotmodal, signout } =
@@ -31,6 +32,7 @@ const Navbar = () => {
       const index = UserData.picture.indexOf("=");
       const result = UserData.picture.slice(0, index);
       setprofilepic(result);
+      setloggedemail(UserData.email);
       setname(UserData.name);
     }
   }, []);
@@ -292,6 +294,11 @@ const Navbar = () => {
                     className={`${styles.popup}`}
                   >
                     {!signout && <div className="text-cyan-400">{name} </div>}
+                    {!signout && (
+                      <div className="text-cyan-400">
+                        {loggedemail && loggedemail}{" "}
+                      </div>
+                    )}
                     {!signout && (
                       <div
                         onClick={() => Router.push("/PrivacyPolicy")}

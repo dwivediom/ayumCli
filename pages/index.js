@@ -9,7 +9,8 @@ import { AccountContext } from "../context/AccountProvider";
 import Modal from "../components/Modal";
 import Navbar from "../components/Navbar";
 import Docphonebookbtn from "../components/Docphonebookbtn";
-import EmailBanner from "../components/EmailBanner";
+import Nashmukti from "../components/Nashmuktibtn";
+import BloodDonatebtn from "../components/BloodDonatebtn";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
@@ -53,17 +54,6 @@ export default function Home(props) {
   }, []);
 
   const [logged, setlogged] = useState(false);
-  const [loggedmail, setloggedmail] = useState();
-
-  useEffect(() => {
-    if (localStorage.labuser) {
-      setlogged(true);
-      const user = JSON.parse(localStorage.labuser);
-      setloggedmail(user.email);
-    } else {
-      setlogged(false);
-    }
-  });
 
   const Loadmore = async () => {
     setloading(true);
@@ -134,9 +124,21 @@ export default function Home(props) {
         <SearchBox />
         <QuickSearch />
         <div className={styles.directorycontainer}>
-          <Docphonebookbtn />
-          {/* <Docphonebookbtn /> */}
-          <EmailBanner logged={logged} loggedmail={loggedmail && loggedmail} />
+          <div className={styles.subdirectorycontainer}>
+            <Docphonebookbtn />
+          </div>
+          <div
+            style={{
+              width: "80%",
+              margin: "none",
+              // border: "1px solid red",
+              justifyContent: "space-between",
+            }}
+            className={styles.subdirectorycontainer}
+          >
+            <Nashmukti />
+            <BloodDonatebtn />
+          </div>
         </div>
 
         {props.newdata ? (
