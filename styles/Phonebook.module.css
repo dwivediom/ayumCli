@@ -1,16 +1,13 @@
 .docphonebookbtn {
   width: 100%;
-
   display: flex;
   align-items: center;
-  padding: 10px;
-  padding-left: 20px;
   justify-content: left;
 }
 
 .phonebookbtn {
   background-color: rgba(0, 255, 34, 0.484);
-  padding: 10px;
+  padding: 5px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
@@ -19,32 +16,16 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
   display: flex;
   align-items: center;
-  width: 100%;
+  margin: auto;
+  width: 20rem;
+  /* width: fit-content; */
+  justify-content: center;
   gap: 10px;
-}
-.emailbtn {
-  background-color: rgba(43, 163, 254, 0.484);
-  padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: bold;
-  letter-spacing: 0.8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 10px;
-}
-
-.emailimg {
-  width: 35px;
-  height: 35px;
 }
 
 .callimg {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   padding: 7px;
   border-radius: 24px;
   background-color: rgb(1, 167, 1);
@@ -107,7 +88,8 @@
   font-weight: bold;
   border-radius: 24px;
   font-size: 1rem;
-  padding: 2px 0px;
+  padding: 7px;
+  padding-left: 10px;
   margin-bottom: 6px;
   border-bottom: 3px solid #009af4;
 }
@@ -125,4 +107,72 @@
 .carddeatilbox div {
   margin-top: 3px;
   padding-left: 43px;
+}
+.nsmimg {
+  width: 45px;
+  height: 45px;
+  background: url("/nashamukt.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+.nsmimgbtn {
+  background-color: rgba(0, 251, 255, 0.484);
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  display: flex;
+  align-items: center;
+  /* width: fit-content; */
+  width: 20rem;
+  justify-content: center;
+  gap: 10px;
+  margin: auto;
+  display: flex;
+  max-height: 3.2rem;
+}
+.bloodimgbtn {
+  background-color: rgba(255, 72, 0, 0.484);
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
+  display: flex;
+  align-items: center;
+  width: 20rem;
+  justify-content: center;
+  gap: 10px;
+  margin: auto;
+  max-height: 3.5rem;
+}
+.bloodimg {
+  width: 45px;
+  height: 45px;
+  background: url("/bloodlogo.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  border-radius: 50%;
+}
+@media (max-width: 700px) {
+  .phonebookbtn {
+    width: 100%;
+  }
+  .bloodimgbtn {
+    min-height: 4rem;
+    width: fit-content !important;
+    padding: 4px;
+  }
+  .nsmimgbtn {
+    min-height: 4rem;
+    width: fit-content !important;
+    padding: 4px;
+  }
 }
