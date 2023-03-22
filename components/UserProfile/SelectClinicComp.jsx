@@ -62,7 +62,7 @@ const SelectClinicComp = ({ docid }) => {
                         height={23}
                         alt={"remain"}
                       />{" "}
-                      Slots Remaining - <span className="text-red-500">30</span>
+                      Total Slots- <span className="text-red-500">{item.maxappo}</span>
                     </div>
                   </div>
                   <div className={`${styles.locationbox} text-left`}>
