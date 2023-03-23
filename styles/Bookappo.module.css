@@ -80,6 +80,7 @@
 .timebox {
   /* border: 1px solid red; */
   display: flex;
+  gap: 10px;
   justify-content: space-between;
 }
 .timebox div {
@@ -90,7 +91,8 @@
   letter-spacing: 0.5px;
   padding: 5px;
   display: flex;
-  gap: 2px;
+  gap: 10px;
+  width: 50%;
   align-items: center;
   border-radius: 4px;
 }

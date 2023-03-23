@@ -7,7 +7,10 @@ import axios from "axios";
 const SelectClinicComp = ({ docid }) => {
   console.log(docid && docid, "Doctor id from select clinic");
   const [clinic, setclinic] = useState();
+  const [loading, setloading] = useState(false);
+
   useEffect(() => {
+    setloading(true);
     if (!docid) {
       Router.push("/");
     }
@@ -16,7 +19,8 @@ const SelectClinicComp = ({ docid }) => {
         `${process.env.NEXT_PUBLIC_B_PORT}/api/profile/doctor/${docid}`
       );
       setclinic(doctordata.data.clinic && doctordata.data.clinic);
-      console.log(doctordata.data.clinic, "doctor ka data ");
+      setloading(false);
+      console.log(doctordata.data.clinic, " doctor ka data ");
     }
 
     docid && getdoctordata();
@@ -33,7 +37,25 @@ const SelectClinicComp = ({ docid }) => {
           Select The Clinic
         </h1>
         <div className={`${styles.cardcontainer}`}>
-          {clinic &&
+          {loading ? (
+            <div
+              style={{
+                width: "100vw",
+                height: "50vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                src={"/loader.svg"}
+                width={40}
+                height={40}
+                alt="Loading..."
+              />
+            </div>
+          ) : (
+            clinic &&
             clinic.map((item) => {
               return (
                 <div key={item._id} className={`${styles.cliniccard}`}>
@@ -62,7 +84,8 @@ const SelectClinicComp = ({ docid }) => {
                         height={23}
                         alt={"remain"}
                       />{" "}
-                      Total Slots- <span className="text-red-500">{item.maxappo}</span>
+                      Total Slots -
+                      <span className="text-red-500">{item.maxappo}</span>
                     </div>
                   </div>
                   <div className={`${styles.locationbox} text-left`}>
@@ -107,7 +130,8 @@ const SelectClinicComp = ({ docid }) => {
                   )}
                 </div>
               );
-            })}
+            })
+          )}
         </div>
       </div>
     </>
