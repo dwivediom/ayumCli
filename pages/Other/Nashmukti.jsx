@@ -2,9 +2,12 @@ import React from "react";
 
 const Nashamukti = () => {
   return (
-    <div className="absolute pb-20">
+    <div style={{ userSelect: "none" }} className="absolute pb-20">
       <h1
-        style={{ fontSize: "1.5rem", borderBottom: "1px solid black" }}
+        style={{
+          fontSize: "1.5rem",
+          borderBottom: "1px solid black",
+        }}
         className="text-center w-full text-lg font-bold  p-3"
       >
         नशामुक्ति: स्वस्थ जीवन का आधार।

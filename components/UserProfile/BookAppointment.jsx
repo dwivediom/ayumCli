@@ -11,7 +11,9 @@ const BookAppointment = ({ reqdata }) => {
   const [error, seterror] = useState("");
   const [token, settoken] = useState();
   const [response, setresponce] = useState("");
-  const [empty, setempty] = useState(false);
+  const [empty, setempty] = useState(true);
+  const [checked, setcheked] = useState(false);
+  const [loading, setloading] = useState(false);
   const [data, setdata] = useState({
     patientname: "",
     age: "",
@@ -44,6 +46,7 @@ const BookAppointment = ({ reqdata }) => {
     if (data.patientname == "" || data.age == "" || data.phone == "") {
       return setempty(true);
     }
+    setloading(true);
 
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/${
       reqdata && reqdata.docid
@@ -68,11 +71,15 @@ const BookAppointment = ({ reqdata }) => {
       setresponce(userdata);
       console.log(response);
       if (userdata) {
+        setloading(false);
         router.push("/User/userAppo");
       }
     } catch (err) {
       console.log(err.response);
-      if (err.response) {
+      if (err.message == "token is not valid") {
+        setloading(false);
+        router.push("/User/UserRegistrationPage");
+      } else if (err.response) {
         seterror(err.response.data.error);
       }
     }
@@ -152,16 +159,41 @@ const BookAppointment = ({ reqdata }) => {
               required
             />
           </div>
+          <div>
+            <label className=" block mb-2 text-sm font-medium  " htmlFor="sure">
+              Are You Sure To Book This Appointment{" "}
+              <span className="text-red-400">*</span>
+            </label>
+            <input
+              className="  text-black text-sm   p-2.5 rounded  "
+              type="checkbox"
+              id="sure"
+              onChange={(e) => setcheked(e.target.checked)}
+            />
+          </div>
           {empty ? (
-            <div className="text-red-500">Fill required fields!</div>
+            <div className="text-red-500 text-sm mt-3">
+              Fill required fields!
+            </div>
           ) : (
-            <button
-              type="submit"
-              onClick={(e) => submit(e)}
-              className={`${styles.bookformsubmit}`}
-            >
-              Submit
-            </button>
+            checked &&
+            (loading ? (
+              <button
+                type="submit"
+                // onClick={(e) => submit(e)}
+                className={`${styles.bookformsubmit}`}
+              >
+                Processing...
+              </button>
+            ) : (
+              <button
+                type="submit"
+                onClick={(e) => submit(e)}
+                className={`${styles.bookformsubmit}`}
+              >
+                Submit
+              </button>
+            ))
           )}
         </form>
 
