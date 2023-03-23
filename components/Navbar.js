@@ -10,13 +10,17 @@ import { AccountContext } from "../context/AccountProvider";
 import SignOutbtn from "./usersSection/SignOutbtn";
 const Navbar = () => {
   const [navitem, setnavitem] = useState(false);
-  const [collapseopen, setcollapse] = useState(false);
   const [profilepic, setprofilepic] = useState();
   const [loggedemail, setloggedemail] = useState();
   const [name, setname] = useState();
 
-  const { threedotmodal, setthreedotmodal, signout } =
-    useContext(AccountContext);
+  const {
+    threedotmodal,
+    setthreedotmodal,
+    signout,
+    collapseopen,
+    setcollapse,
+  } = useContext(AccountContext);
 
   const clicknavitem = () => {
     setnavitem((navitem) => !navitem);
@@ -101,8 +105,12 @@ const Navbar = () => {
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
               <button
                 type="button"
+                onMouseEnter={() => console.log("Enter button")}
+                onMouseLeave={() => {
+                  setcollapse(false);
+                }}
                 onClick={() => {
-                  clicknavitem(), setcollapse(!collapseopen);
+                  setcollapse(true);
                 }}
                 className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 aria-controls="mobile-menu"
@@ -138,16 +146,6 @@ const Navbar = () => {
                   </svg>
                 )}
               </button>
-              {showInstallButton && (
-                <div onClick={showInstallPrompt} style={{ marginLeft: "10px" }}>
-                  <Image
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAW0lEQVR4nGNgGDngVeVRhldV/yG48jANLKj6j4JHLcAAr0aDaPgF0cuqcgxDceN6WlpST0uf1FNmOH5LqGQ4dkuobDgMvKxsAONRQBvwiuhM9Z8oTH8LGIYoAAAtpRMLOlH1GgAAAABJRU5ErkJggg=="
-                    alt="download app"
-                    width={25}
-                    height={25}
-                  />
-                </div>
-              )}
             </div>
             <div
               className={` ${styles.navbarpc} flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start`}
@@ -265,7 +263,6 @@ const Navbar = () => {
                 <div>
                   <button
                     type="button"
-                    // onClick={clickprofile}
                     className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                     id="user-menu-button"
                     aria-expanded="false"
@@ -274,6 +271,7 @@ const Navbar = () => {
                     <span className="sr-only">Open user menu</span>
                     {
                       <Image
+                        // onMouseLeave={() => setthreedotmodal(false)}
                         onClick={() => setthreedotmodal(!threedotmodal)}
                         style={{
                           borderRadius: "50%",
@@ -288,6 +286,7 @@ const Navbar = () => {
                 </div>
                 {
                   <div
+                    onMouseLeave={() => setthreedotmodal(false)}
                     style={{
                       display: !threedotmodal && "none",
                     }}
@@ -329,7 +328,7 @@ const Navbar = () => {
         </div>
 
         <div className="sm:hidden" id="mobile-menu">
-          {navitem && (
+          {collapseopen && (
             <>
               <div className="mt-4">
                 <a

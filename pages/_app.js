@@ -11,7 +11,7 @@ import Navbar from "../components/Navbar";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AccountProvider, { AccountContext } from "../context/AccountProvider";
 import { webpushfunc } from "../utils/notification";
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, AccountContext }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

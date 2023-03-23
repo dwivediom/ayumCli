@@ -7,7 +7,6 @@ import ThankyouCard from "../components/ThankyouCard";
 import { useContext, useEffect, useState } from "react";
 import { AccountContext } from "../context/AccountProvider";
 import Modal from "../components/Modal";
-import Navbar from "../components/Navbar";
 import Docphonebookbtn from "../components/Docphonebookbtn";
 import Nashmukti from "../components/Nashmuktibtn";
 import BloodDonatebtn from "../components/BloodDonatebtn";
@@ -18,8 +17,7 @@ const GetDoctor = dynamic(() => import("../components/GetDoctor"));
 const Footer = dynamic(() => import("../components/Footer"));
 
 export default function Home(props) {
-  const { authstatus, setauthstatus, thankmodal, setthankmodal } =
-    useContext(AccountContext);
+  const { authstatus, thankmodal, setthankmodal } = useContext(AccountContext);
 
   const [isOnline, setIsOnline] = useState(true);
   const [doctors, setdoctors] = useState([]);
@@ -52,8 +50,6 @@ export default function Home(props) {
       // setauthstatus(false);
     }
   }, []);
-
-  const [logged, setlogged] = useState(false);
 
   const Loadmore = async () => {
     setloading(true);
@@ -120,7 +116,6 @@ export default function Home(props) {
       </Head>
 
       <div className={styles.container}>
-        <Navbar />
         <SearchBox />
         <QuickSearch />
         <div className={styles.directorycontainer}>
@@ -142,7 +137,28 @@ export default function Home(props) {
         </div>
 
         {props.newdata ? (
-          <main>{doctors && <GetDoctor getDoctor={doctors} />}</main>
+          <main>
+            {doctors ? (
+              <GetDoctor getDoctor={doctors} />
+            ) : (
+              <div
+                style={{
+                  width: "100vw",
+                  height: "50vh",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  src={"/loader.svg"}
+                  width={40}
+                  height={40}
+                  alt="Loading..."
+                />
+              </div>
+            )}
+          </main>
         ) : (
           <p className="text-center">Loading...</p>
         )}
