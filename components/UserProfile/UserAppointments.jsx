@@ -5,13 +5,16 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const UserAppointments = () => {
   const router = useRouter();
 
   const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getuser`;
   const [appointment, setappointment] = useState("");
+  const [loading, setloading] = useState(false);
   useEffect(() => {
+    setloading(true);
     axios
       .get(url, {
         headers: {
@@ -20,8 +23,15 @@ const UserAppointments = () => {
       })
       .then((data) => {
         setappointment(data);
+        setloading(false);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log(err.message);
+        if (err.message == "token is not valid") {
+          setloading(false);
+          router.push("/User/UserRegistrationPage");
+        }
+      });
 
     if (!localStorage.usertoken) {
       router.push("/User/UserRegistrationPage");
@@ -34,9 +44,27 @@ const UserAppointments = () => {
   return (
     <>
       <div className={`${styles.userappocontainer}`}>
-        <h1>Your Appointments</h1>
+        <h1 className="font-bold">Your Appointments</h1>
         <div className={`${styles.userapposhell}`}>
-          {appointment.data ? (
+          {loading ? (
+            <div
+              style={{
+                width: "100vw",
+                height: "50vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                src={"/loader.svg"}
+                width={40}
+                height={40}
+                alt="Loading..."
+              />
+            </div>
+          ) : (
+            appointment.data &&
             appointment.data.appointment.map((data) => {
               return (
                 <>
@@ -46,8 +74,6 @@ const UserAppointments = () => {
                 </>
               );
             })
-          ) : (
-            <div className="mt-9">You Have No Appointments</div>
           )}
         </div>
       </div>

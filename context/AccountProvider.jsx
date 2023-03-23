@@ -16,6 +16,7 @@ const AccountProvider = ({ children }) => {
   const [uplodedmsg, setuplodedmsg] = useState(true);
   const [msgprivate, setmsgprivate] = useState(false);
   const [signout, setsignout] = useState(false);
+  const [collapseopen, setcollapse] = useState(false);
 
   useEffect(() => {
     if (localStorage.labuser) {
@@ -58,6 +59,8 @@ const AccountProvider = ({ children }) => {
         setuplodedmsg,
         msgprivate,
         setmsgprivate,
+        collapseopen,
+        setcollapse,
       }}
     >
       {children}

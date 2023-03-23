@@ -6,6 +6,7 @@ const Appointment = (props) => {
   const appodate = new Date(data.date);
   const [crn, setcrn] = useState();
   const [runcrn, setruncrn] = useState(true);
+  const [expired, setexpired] = useState(false);
 
   useEffect(() => {
     console.log(data.clinicId, "Clinic id for CRN");
@@ -14,8 +15,11 @@ const Appointment = (props) => {
         url: `https://www.crn.ayum.in/CRN/get/${data.clinicId.toString()}`,
         method: "get",
       });
-      console.log(crndata);
-      if (crndata.data != {}) {
+      console.log(crndata.data, "Crn data");
+      if (!crndata.data.CRN) {
+        console.log("khaali hai");
+        setcrn(null);
+      } else if (crndata.data != {}) {
         setcrn(crndata && crndata.data);
       }
     }
@@ -23,6 +27,12 @@ const Appointment = (props) => {
       getcrn();
     }
   }, [runcrn]);
+
+  useEffect(() => {
+    if (data.date < Date.now) {
+      setexpired(true);
+    }
+  }, []);
   return (
     <>
       <div className={`${styles.userappocard}`}>
@@ -68,10 +78,7 @@ const Appointment = (props) => {
         <div className={`${styles.userdetail}`}>
           <div className={`${styles.CRNnumber} `}>
             <span> Current Running Number :</span>
-            <span className="text-red-500">
-              {" "}
-              {crn && crn != {} ? crn.CRN : "N/A"}
-            </span>
+            <span className="text-red-500"> {crn ? crn.CRN : "N/A"}</span>
           </div>
           <div
             onClick={() => setruncrn(!runcrn)}

@@ -75,7 +75,7 @@
   transition: 0.3s all;
   background: url("/dcard.jpg");
   background-repeat: no-repeat;
-  background-position: left;
+  background-position: -10px top;
   background-size: cover;
 }
 @media (max-width: 300px) {
@@ -89,7 +89,6 @@
   border-radius: 24px;
   font-size: 1rem;
   padding: 7px;
-  padding-left: 10px;
   margin-bottom: 6px;
   border-bottom: 3px solid #009af4;
 }
@@ -174,5 +173,10 @@
     min-height: 4rem;
     width: fit-content !important;
     padding: 4px;
+  }
+}
+@media (max-width: 350px) {
+  .directorycard {
+    height: 16rem;
   }
 }
