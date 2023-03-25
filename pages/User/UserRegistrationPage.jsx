@@ -103,14 +103,15 @@ const UserRegistrationPage = () => {
           <div className="w-[65%]">
             <h1 className="text-lg text-center font-bold">
               Hello, Welcome To Ayum <br />{" "}
-              <span className="text-sm ">Making Health Care Easy</span>{" "}
+              <span className="text-sm ">
+                Making Health Care More Convenient
+              </span>{" "}
             </h1>
           </div>
           <div className="text-md text-cyan-600">
             {" "}
-            Login using{" "}
-            <span className="text-orange-500 text-lg font-bold">Google </span>
-            with <span className="text-lg font-bold">Ayum</span>
+            Login with <span className="text-lg font-bold">Ayum</span> using
+            <span className="text-orange-500 text-lg font-bold"> Google </span>
           </div>
 
           <GoogleLogin onSuccess={onLoginSucess} onError={onLoginError} />
