@@ -22,7 +22,7 @@ class MyDocument extends Document {
 
           <Script
             async
-            src="https://www.googletagmanager.com/gtag/js?id=G-1RJPF2S40R"
+            src="https://www.googletagmanager.com/gtag/js?id=G-DTFN1P99X2"
           />
           <Script
             dangerouslySetInnerHTML={{
@@ -30,7 +30,7 @@ class MyDocument extends Document {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-1RJPF2S40R');
+              gtag('config', 'G-DTFN1P99X2');
               `,
             }}
           />
