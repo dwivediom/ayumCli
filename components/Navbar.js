@@ -14,6 +14,17 @@ const Navbar = () => {
   const [loggedemail, setloggedemail] = useState();
   const [name, setname] = useState();
 
+  const [mobile, setmobile] = useState(false);
+  useEffect(() => {
+    console.log(screen.width, "screen width hai");
+    console.log(window.innerWidth, "windows width hai");
+    if (window.innerWidth < 600) {
+      setmobile(true);
+    }
+
+    return;
+  }, []);
+
   const {
     threedotmodal,
     setthreedotmodal,
@@ -106,11 +117,11 @@ const Navbar = () => {
               <button
                 type="button"
                 onMouseEnter={() => console.log("Enter button")}
-                onMouseLeave={() => {
+                onMouseOut={() => {
                   setcollapse(false);
                 }}
                 onClick={() => {
-                  setcollapse(true);
+                  setcollapse(!collapseopen);
                 }}
                 className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 aria-controls="mobile-menu"
@@ -271,7 +282,8 @@ const Navbar = () => {
                     <span className="sr-only">Open user menu</span>
                     {
                       <Image
-                        // onMouseLeave={() => setthreedotmodal(false)}
+                        // onMouseOverCapture={() => console.log("Bahar aa gya")}
+                        onMouseOut={() => mobile && setthreedotmodal(false)}
                         onClick={() => setthreedotmodal(!threedotmodal)}
                         style={{
                           borderRadius: "50%",
@@ -330,7 +342,7 @@ const Navbar = () => {
         <div className="sm:hidden" id="mobile-menu">
           {collapseopen && (
             <>
-              <div className="mt-4">
+              <div className={`${styles.mobilecoll} mt-4`}>
                 <a
                   href="https://play.google.com/store/apps/details?id=in.ayum.twa"
                   rel="norefferer"
@@ -345,7 +357,7 @@ const Navbar = () => {
                   />
                 </a>
               </div>
-              <div>
+              <div className={`${styles.mobilecoll} `}>
                 <div>
                   <a
                     href={"https://www.doctor.ayum.in/"}
@@ -357,7 +369,7 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <div>
+              <div className={`${styles.mobilecoll} `}>
                 <a
                   className={`${styles.navitem} text-white rounded-md text-sm font-medium`}
                   // className=" bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-sky-500 hover:border-gray-300 "
@@ -371,7 +383,7 @@ const Navbar = () => {
                   Contact Us
                 </a>
               </div>
-              <div>
+              <div className={`${styles.mobilecoll} `}>
                 <a
                   className={`${styles.navitem} text-white rounded-md text-sm font-medium`}
                   // className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-sky-500 hover:border-gray-300"
