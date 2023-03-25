@@ -19,6 +19,22 @@ class MyDocument extends Document {
             src="https://cdn.tailwindcss.com"
             strategy="beforeInteractive"
           />
+
+          <Script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-1RJPF2S40R"
+          />
+          <Script
+            dangerouslySetInnerHTML={{
+              __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-1RJPF2S40R');
+              `,
+            }}
+          />
+
           <Main />
           <NextScript />
         </body>
