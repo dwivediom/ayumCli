@@ -119,21 +119,9 @@ export default function Home(props) {
         <SearchBox />
         <QuickSearch />
         <div className={styles.directorycontainer}>
-          <div className={styles.subdirectorycontainer}>
-            <Docphonebookbtn />
-          </div>
-          <div
-            style={{
-              width: "80%",
-              margin: "none",
-              // border: "1px solid red",
-              justifyContent: "space-between",
-            }}
-            className={styles.subdirectorycontainer}
-          >
-            <Nashmukti />
-            <BloodDonatebtn />
-          </div>
+          <Docphonebookbtn />
+          <Nashmukti />
+          <BloodDonatebtn />
         </div>
 
         {props.newdata ? (
