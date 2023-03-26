@@ -8,7 +8,7 @@ const Nashmukti = () => {
   return (
     <div
       onClick={() => router.push("/Other/Nashmukti")}
-      className={`${styles.docphonebookbtn}`}
+      className={`${styles.docphonebookbtn2}`}
     >
       <div className={`${styles.nsmimgbtn}`}>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>

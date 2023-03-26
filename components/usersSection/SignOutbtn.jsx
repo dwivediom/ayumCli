@@ -6,17 +6,13 @@ const SignOutbtn = () => {
   const { setsignout } = useContext(AccountContext);
   const router = useRouter();
   const signOut = () => {
-    // localStorage.removeItem("labuser");
-    // localStorage.removeItem("usertoken");
-    // localStorage.removeItem("userjwt");
-    // localStorage.setItem("authStatus", false);
     localStorage.clear();
     setsignout(true);
     router.push("/");
   };
   return (
     <>
-      <div className="text-red-500" onClick={(e) => signOut(e)}>
+      <div className="text-red-500 w-full" onClick={(e) => signOut(e)}>
         Sign Out
       </div>
     </>

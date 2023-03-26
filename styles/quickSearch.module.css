@@ -1,25 +1,50 @@
 .maindiv {
-  /* border: 1px solid red; */
-  width: 99%;
+  /* width: 99%; */
   margin: auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   padding: 10px;
   margin-top: 20px;
-  justify-content: space-between;
+  justify-content: center;
   background: aliceblue;
   border-radius: 4px;
 }
+@media (max-width: 1900px) {
+  .maindiv div {
+    width: 8rem !important;
+  }
+}
+@media (max-width: 1000px) {
+  .maindiv div {
+    width: 12rem !important;
+  }
+}
+@media (max-width: 850px) {
+  .maindiv {
+    /* border: 2px solid red; */
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+  .maindiv div {
+    width: 11rem !important;
+  }
+}
+@media (max-width: 800px) {
+  .maindiv {
+    /* border: 2px solid red; */
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+  .maindiv div {
+    width: 10rem !important;
+  }
+}
 .btn1 {
-  /* border: 1px solid red; */
   display: flex;
   align-items: center;
   justify-content: center;
-  /* height: 55px; */
-  /* width: 70px; */
-  /* padding: 13px 26px; */
   width: 8rem;
   height: 60px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
@@ -35,11 +60,9 @@
 }
 
 .btn2 {
-  /* border: 1px solid red; */
   display: flex;
   align-items: center;
   width: 8rem;
-
   justify-content: center;
   height: 60px;
   border-radius: 4px;
@@ -54,7 +77,6 @@
   background-color: rgba(0, 255, 0, 0.342);
 }
 .btn3 {
-  /* border: 1px solid red; */
   display: flex;
   width: 8rem;
   align-items: center;
@@ -73,7 +95,6 @@
   background-color: rgba(187, 0, 255, 0.342);
 }
 .btn4 {
-  /* border: 1px solid red; */
   display: flex;
   width: 8rem;
   align-items: center;
@@ -92,7 +113,6 @@
   background-color: rgba(255, 247, 0, 0.342);
 }
 .btn5 {
-  /* border: 1px solid red; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,7 +131,6 @@
   background-color: rgba(255, 106, 0, 0.342);
 }
 .btn6 {
-  /* border: 1px solid red; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,59 +186,29 @@
 .btn8:hover {
   background-color: rgba(0, 30, 255, 0.342);
 }
-@media (max-width: 700px) {
-  .btn1 {
-    width: 5.3rem;
-  }
-  .btn2 {
-    width: 5.3rem;
-  }
-  .btn3 {
-    width: 5.3rem;
-  }
-  .btn4 {
-    width: 5.3rem;
-  }
-  .btn5 {
-    width: 5.3rem;
-  }
-  .btn6 {
-    width: 5.3rem;
-  }
-  .btn7 {
-    width: 5.3rem;
-  }
-  .btn8 {
-    width: 5.3rem;
-  }
+@media (max-width: 600px) {
   .maindiv {
     padding: 5px;
-    gap: 10px;
+    justify-content: center;
+  }
+  .maindiv div {
+    width: 7rem !important;
   }
 }
-@media (max-width: 390px) {
-  .btn1 {
-    width: 4.5rem;
+@media (max-width: 500px) {
+  .maindiv {
+    padding: 5px;
+    gap: 12px;
   }
-  .btn2 {
-    width: 4.5rem;
+  .maindiv div {
+    width: 5.3rem !important;
   }
-  .btn3 {
-    width: 4.5rem;
+}
+@media (max-width: 380px) {
+  .maindiv {
+    justify-content: space-between;
   }
-  .btn4 {
-    width: 4.5rem;
-  }
-  .btn5 {
-    width: 4.5rem;
-  }
-  .btn6 {
-    width: 4.5rem;
-  }
-  .btn7 {
-    width: 4.5rem;
-  }
-  .btn8 {
-    width: 4.5rem;
+  .maindiv div {
+    width: 4.9rem !important;
   }
 }
