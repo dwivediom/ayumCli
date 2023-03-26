@@ -15,7 +15,7 @@ import Footer from "../../components/Footer";
 const Search = () => {
   const [data, setdata] = useState(null);
   const [docs, setdocs] = useState(null);
-  const [emptybook, setemptybook] = useState(false);
+
   const [input, setinput] = useState("");
   const sdata = useSelector((state) => state.quickSearchReducer);
   const [loading, setloading] = useState(false);
@@ -59,16 +59,11 @@ const Search = () => {
     const searchdata = await axios.get(url);
     console.log(searchdata);
 
-    console.log(searchdata.data.length);
-    if (searchdata.data.length == 0) {
-      setemptybook(true);
-      const getdata = await SearchDoc(input);
-      console.log(getdata);
-      setdocs(getdata.data);
-    } else {
-      setemptybook(false);
-      setdata(searchdata);
-    }
+    const getdata = await SearchDoc(input);
+    console.log(getdata);
+    setdocs(getdata.data);
+
+    setdata(searchdata);
 
     setloading(false);
   };
@@ -143,7 +138,7 @@ const Search = () => {
           </div>
         ) : (
           <div className={`${styles2.doccontainer} mt-6`}>
-            {data && data.data.length == 0 ? (
+            {data && data.data.length == 0 && docs.length == 0 ? (
               <div
                 style={{
                   height: "50vh",
@@ -162,29 +157,40 @@ const Search = () => {
                   alt="Loading..."
                 />
               </div>
-            ) : emptybook ? (
-              docs.length > 0 &&
-              docs.map((item) => {
-                return <DirectoryCard key={item._id} item={item && item} />;
-              })
             ) : (
-              data &&
-              data.data.map((doctor) => {
-                console.log(doctor.picture, doctor, "Doctor Ka Searchdata");
-                return (
-                  <DoctorCard
-                    key={doctor._id}
-                    pic={doctor.picture}
-                    name={doctor.name}
-                    specialist={doctor.specialist}
-                    location={doctor.location}
-                    phone={doctor.phone}
-                    fees={doctor.fees}
-                    timing={doctor.timing}
-                    docid={doctor._id}
-                  />
-                );
-              })
+              <>
+                <div className={`${styles2.doccontainer} mt-3`}>
+                  {data &&
+                    data.data.map((doctor) => {
+                      console.log(
+                        doctor.picture,
+                        doctor,
+                        "Doctor Ka Searchdata"
+                      );
+                      return (
+                        <DoctorCard
+                          key={doctor._id}
+                          pic={doctor.picture}
+                          name={doctor.name}
+                          specialist={doctor.specialist}
+                          location={doctor.location}
+                          phone={doctor.phone}
+                          fees={doctor.fees}
+                          timing={doctor.timing}
+                          docid={doctor._id}
+                        />
+                      );
+                    })}
+                </div>
+                <div className={`${styles2.doccontainer} mt-3`}>
+                  {docs &&
+                    docs.map((item) => {
+                      return (
+                        <DirectoryCard key={item._id} item={item && item} />
+                      );
+                    })}
+                </div>
+              </>
             )}
           </div>
         )}
