@@ -5,9 +5,8 @@
 
 body {
   padding: 0;
-  margin: auto;
+  /* margin: auto; */
   padding-top: 80px;
-
   background-color: #f8f8ff !important;
   font-family: "Poppins", sans-serif !important;
 }

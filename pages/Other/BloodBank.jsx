@@ -29,11 +29,15 @@ const BloodBank = () => {
         }}
       >
         <h1
-          style={{ fontSize: "1.3rem" }}
-          className=" text-center mb-8 font-bold"
+          style={{
+            fontSize: "1.3rem",
+            boxShadow: "2px 2px 15px rgba(0,0,0,0.3)",
+          }}
+          className=" text-center mb-8 font-bold text-white bg-red-500 p-4 rounded-md"
         >
-          Related Information Regarding Blood Banks
+          Blood Banks Related Information
         </h1>
+
         <div
           style={{
             display: "flex",

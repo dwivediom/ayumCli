@@ -93,7 +93,7 @@
   gap: 20px;
   flex-wrap: wrap;
   padding: 20px;
-  justify-content: space-between;
+  justify-content: left;
 }
 
 .thankyoucard {
@@ -104,6 +104,7 @@
   margin: auto;
   display: flex;
   flex-direction: column;
+
   gap: 10px;
 }
 .thankyoucard:nth-of-type(1) {
@@ -133,16 +134,18 @@
   background-image: linear-gradient(
     to right,
     #db2cfe 0%,
-    #9018f9 51%,
+    #7a00e6 51%,
     #da22ff 100%
   );
   margin: 15px;
-  padding: 5px 30px;
+  padding: 5px 20px;
   text-align: center;
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
+  max-height: 2rem;
   cursor: pointer;
+  font-size: 0.75rem;
   border-radius: 10px;
   display: block;
 }
@@ -166,15 +169,46 @@
 }
 .navbarpc {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 20px;
 }
+
 @media (min-width: 700px) {
   .doctorbtn {
     margin: 0;
   }
   .installbtn {
     margin: 0;
+  }
+  .navbarpc {
+    display: flex;
+    align-items: center !important;
+    justify-content: left !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .doctorbtn {
+    margin: 0;
+    /* border: 2px solid red; */
+    font-size: 0.7rem;
+    padding: 3px;
+    width: 6rem;
+  }
+  .navbtns {
+    width: 6rem;
+    text-align: center;
+  }
+  .navbtns div {
+    font-size: 0.6rem !important;
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 850px) {
+  .thankyoucard {
+    width: 20rem;
   }
 }
 
@@ -348,7 +382,7 @@
 }
 .directorycontainer {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   margin-top: 0.5rem;
   gap: 1rem;
   overflow: auto;

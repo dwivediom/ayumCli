@@ -9,7 +9,7 @@ const BloodDonatebtn = () => {
   return (
     <div
       onClick={() => router.push("/Other/BloodBank")}
-      className={`${styles.docphonebookbtn}`}
+      className={`${styles.docphonebookbtn3}`}
       //   className="grid grid-cols-3"
     >
       <div className={`${styles.bloodimgbtn}`}>
