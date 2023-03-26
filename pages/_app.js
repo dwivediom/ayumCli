@@ -71,8 +71,14 @@ function MyApp({ Component, pageProps, AccountContext }) {
               </div>
             )}
 
-            <div style={{ display: loading ? "none" : "block" }}>
-              <Navbar />
+            <Navbar />
+            <div
+              style={{
+                display: loading ? "none" : "block",
+                margin: "auto",
+                maxWidth: "1250px",
+              }}
+            >
               <Component {...pageProps} />
               <BottomNav />
             </div>

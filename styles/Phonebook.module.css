@@ -1,6 +1,21 @@
-.docphonebookbtn {
-  width: 100%;
+.docphonebookbtn1 {
   display: flex;
+  width: 20rem;
+  align-items: center;
+  justify-content: left;
+  padding-left: 10px;
+}
+.docphonebookbtn2 {
+  display: flex;
+  width: 20rem;
+  padding-left: 10px;
+  align-items: center;
+  justify-content: left;
+}
+.docphonebookbtn3 {
+  display: flex;
+  padding-right: 10px;
+  width: 20rem;
   align-items: center;
   justify-content: left;
 }
@@ -83,6 +98,7 @@
     height: 15rem;
   }
 }
+
 .cardname {
   text-align: center;
   font-weight: bold;
@@ -160,23 +176,39 @@
   background-position: top;
   border-radius: 50%;
 }
-@media (max-width: 700px) {
-  .phonebookbtn {
-    width: 100%;
+
+@media (max-width: 900px) {
+  .docphonebookbtn1 {
+    width: 15rem;
   }
-  .bloodimgbtn {
-    min-height: 4rem;
-    width: fit-content !important;
-    padding: 4px;
+  .docphonebookbtn2 {
+    width: 15rem;
   }
-  .nsmimgbtn {
-    min-height: 4rem;
-    width: fit-content !important;
-    padding: 4px;
+  .docphonebookbtn3 {
+    width: 15rem;
   }
 }
-@media (max-width: 350px) {
-  .directorycard {
-    height: 16rem;
+@media (max-width: 700px) {
+  .phonebookbtn {
+    width: 97%;
+    margin: auto;
+  }
+  .docphonebookbtn1 {
+    width: 100%;
+    padding-left: 0;
+  }
+  .docphonebookbtn2 {
+    width: 48%;
+  }
+  .docphonebookbtn3 {
+    width: 48%;
+  }
+}
+@media (max-width: 400px) {
+  .docphonebookbtn2 {
+    width: 47%;
+  }
+  .docphonebookbtn3 {
+    width: 47%;
   }
 }
