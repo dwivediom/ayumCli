@@ -24,7 +24,7 @@
     transform: translateX(-20px);
   }
   100% {
-    transform: translateX(3px);
+    transform: translateX(0px);
   }
 }
 .bottomc1 {

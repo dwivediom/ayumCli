@@ -10,7 +10,14 @@ const SearchBox = () => {
   };
 
   return (
-    <div className="px-4" onClick={() => clickserch()}>
+    <div
+      style={{
+        maxWidth: "1240px",
+        margin: "auto",
+      }}
+      className="px-4"
+      onClick={() => clickserch()}
+    >
       <form className={`${styles.searchform}`} onSubmit={(e) => onSearch(e)}>
         <div className="relative">
           <input

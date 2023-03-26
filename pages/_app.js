@@ -71,14 +71,15 @@ function MyApp({ Component, pageProps, AccountContext }) {
               </div>
             )}
 
-            <Navbar />
             <div
               style={{
                 display: loading ? "none" : "block",
-                margin: "auto",
-                maxWidth: "1250px",
+                alignSelf: "center",
+                justifySelf: "center",
+                maxWidth: "1350px",
               }}
             >
+              <Navbar />
               <Component {...pageProps} />
               <BottomNav />
             </div>
