@@ -33,7 +33,7 @@ const BloodBank = () => {
             fontSize: "1.3rem",
             boxShadow: "2px 2px 15px rgba(0,0,0,0.3)",
           }}
-          className=" text-center mb-8 font-bold text-white bg-red-500 p-4 rounded-md"
+          className=" text-center mb-8 font-bold text-white bg-red-600 p-4 rounded-md"
         >
           Blood Banks Related Information
         </h1>

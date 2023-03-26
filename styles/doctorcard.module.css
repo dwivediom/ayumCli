@@ -1,7 +1,7 @@
 .doccontainer {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
+  justify-content: center;
   /* border: 2px solid red; */
   gap: 1.5rem;
   margin-top: 1.5rem;
