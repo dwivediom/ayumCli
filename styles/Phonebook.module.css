@@ -71,7 +71,6 @@
 }
 .directoryshell {
   display: flex;
-  gap: 30px;
   width: 100%;
   justify-content: space-between;
   padding-top: 20px;
@@ -204,9 +203,13 @@
     width: 48%;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   .docphonebookbtn2 {
     width: 47%;
+  }
+  .docphonebookbtn2 div,
+  .docphonebookbtn3 div {
+    font-size: 0.75rem !important;
   }
   .docphonebookbtn3 {
     width: 47%;

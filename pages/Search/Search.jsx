@@ -31,11 +31,14 @@ const Search = () => {
   }, [sdata, reload, input]);
 
   const onloadSearch = async (input) => {
+    setloading(true);
     const newurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
     console.log(newurl);
     const searchdata = await axios.get(newurl);
-    console.log(searchdata);
     setdata(searchdata);
+    const getdata = await SearchDoc(input);
+    setdocs(getdata.data);
+    setloading(false);
     setreload(false);
     if (searchdata.data) {
       setviewsearchill(false);
@@ -57,14 +60,10 @@ const Search = () => {
 
     console.log(sdata);
     const searchdata = await axios.get(url);
-    console.log(searchdata);
 
     const getdata = await SearchDoc(input);
-    console.log(getdata);
     setdocs(getdata.data);
-
     setdata(searchdata);
-
     setloading(false);
   };
   {
@@ -138,7 +137,7 @@ const Search = () => {
           </div>
         ) : (
           <div className={`${styles2.doccontainer} mt-6`}>
-            {data && data.data.length == 0 && docs.length == 0 ? (
+            {data && data.data.length == 0 && docs && docs.length == 0 ? (
               <div
                 style={{
                   height: "50vh",
