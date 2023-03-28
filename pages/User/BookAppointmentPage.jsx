@@ -17,6 +17,8 @@ const BookAppointmentPage = () => {
       if (typeof parsedData === "object") {
         setData(parsedData);
       }
+    } else {
+      router.push("/");
     }
 
     console.log(data && data);
