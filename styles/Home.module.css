@@ -3,8 +3,6 @@
   padding: 0rem;
   position: absolute;
   width: 100vw;
-
-  /* margin: auto; */
 }
 .directorycontainer::-webkit-scrollbar {
   display: none;
@@ -387,15 +385,15 @@
 .directorycontainer {
   display: flex;
   justify-content: space-around;
-  margin-top: 0.5rem;
-  gap: 1rem;
+  margin-top: 1rem;
+  /* gap: 1rem; */
   overflow: auto;
 }
 .subdirectorycontainer {
   display: flex;
   justify-content: space-between;
   width: 40%;
-  gap: 1rem;
+  /* gap: 1rem; */
 }
 
 @media (max-width: 700px) {
@@ -403,15 +401,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 1rem;
-  }
-  .subdirectorycontainer {
-    width: 95vw !important;
-    margin: auto;
-    gap: 10px;
-    justify-content: space-between;
-    display: flex;
   }
 }

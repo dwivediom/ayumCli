@@ -1,5 +1,6 @@
 .maindiv {
-  /* width: 99%; */
+  width: 98%;
+
   margin: auto;
   display: flex;
   flex-wrap: wrap;
@@ -198,10 +199,10 @@
 @media (max-width: 500px) {
   .maindiv {
     padding: 5px;
-    gap: 12px;
+    gap: 15px;
   }
   .maindiv div {
-    width: 5.3rem !important;
+    width: 5rem !important;
   }
 }
 @media (max-width: 380px) {
@@ -210,5 +211,13 @@
   }
   .maindiv div {
     width: 4.9rem !important;
+  }
+}
+@media (max-width: 365px) {
+  .maindiv {
+    justify-content: space-between;
+  }
+  .maindiv div {
+    width: 4.4rem !important;
   }
 }
