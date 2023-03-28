@@ -79,7 +79,6 @@ function MyApp({ Component, pageProps, AccountContext }) {
 
                 maxWidth: "1350px",
                 margin: "auto",
-                position: "absolute",
               }}
             >
               <Navbar />
