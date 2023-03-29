@@ -11,22 +11,28 @@ const QuickSearch = () => {
   const dispatch = useDispatch();
   const qSearch = (e) => {
     e.preventDefault();
-    let val = e.target.outerText
-      localStorage.setItem("skey",val)  
-      console.log("key data " , val)
-  
+    let val = e.target.outerText;
+    localStorage.setItem("skey", val);
+    console.log("key data ", val);
+
     setkey(val);
-  
+
     dispatch(quickSearchaction(val));
     router.push("/Search/Search");
   };
 
   return (
-    <div className={` ${styles.maindiv}`}>
+    <div
+      style={{
+        width: "98%",
+        margin: "auto",
+      }}
+      className="grid lg:grid-cols-8 md:grid-cols-4 max-[760px]:grid-cols-4 gap-4 p-4"
+    >
       <div
-      value="Kideny"
+        value="Kideny"
         onClick={(e) => qSearch(e)}
-        data='kideny'
+        data="kideny"
         className={`${styles.btn1} `}
       >
         {" "}
@@ -36,6 +42,7 @@ const QuickSearch = () => {
         onClick={(e) => qSearch(e)}
         value="Dentist "
         className={`${styles.btn2} `}
+        // className="bg-gray-100 p-4"
       >
         {" "}
         <span className={`${styles.divtext}`}>Dentist</span>
@@ -44,6 +51,7 @@ const QuickSearch = () => {
         onClick={(e) => qSearch(e)}
         value="neuro"
         className={` ${styles.btn3} `}
+        // className="bg-gray-100 p-4"
       >
         {" "}
         <span className={`${styles.divtext}`}>neuro</span>{" "}
@@ -52,6 +60,7 @@ const QuickSearch = () => {
         onClick={(e) => qSearch(e)}
         value="surgery"
         className={`${styles.btn4} `}
+        // className="bg-gray-100 p-4"
       >
         {" "}
         <span className={`${styles.divtext}`}>surgery</span>{" "}
@@ -60,6 +69,7 @@ const QuickSearch = () => {
         onClick={(e) => qSearch(e)}
         value="Skin    "
         className={`${styles.btn5} `}
+        // className="bg-gray-100 p-4"
       >
         {" "}
         <span className={`${styles.divtext}`}>Skin</span>
@@ -68,6 +78,7 @@ const QuickSearch = () => {
         onClick={(e) => qSearch(e)}
         value="Bone"
         className={`${styles.btn6} `}
+        // className="bg-gray-100 p-4"
       >
         <span className={`${styles.divtext}`}>Bone</span>{" "}
       </div>
@@ -75,6 +86,7 @@ const QuickSearch = () => {
         onClick={(e) => qSearch(e)}
         value="Gynae"
         className={`${styles.btn7} `}
+        // className="bg-gray-100 p-4"
       >
         {" "}
         <span className={`${styles.divtext}`}>Gynae</span>{" "}
@@ -83,6 +95,7 @@ const QuickSearch = () => {
         onClick={(e) => qSearch(e)}
         value="Medicine"
         className={`${styles.btn8} `}
+        // className="bg-gray-100 p-4"
       >
         {" "}
         <span className={`${styles.divtext}`}>Medicine</span>

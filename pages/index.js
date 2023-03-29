@@ -118,26 +118,14 @@ export default function Home(props) {
       <div className={styles.container}>
         <SearchBox />
         <QuickSearch />
-        <div
-          style={{
-            maxWidth: "1350px",
-            margin: " 5px auto",
-            padding: "0 10px",
-          }}
-          className={styles.directorycontainer}
-        >
+        <div className={styles.directorycontainer}>
           <Docphonebookbtn />
           <Nashmukti />
           <BloodDonatebtn />
         </div>
 
         {props.newdata ? (
-          <main
-            style={{
-              maxWidth: "1240px",
-              margin: "auto",
-            }}
-          >
+          <main>
             {doctors ? (
               <GetDoctor getDoctor={doctors} />
             ) : (
@@ -176,13 +164,7 @@ export default function Home(props) {
           </div>
         )}
 
-        <footer
-          style={{
-            maxWidth: "1350px",
-            margin: "auto",
-          }}
-          className={styles.footer}
-        >
+        <footer className={styles.footer}>
           <ThankyouCard />
           <Footer />
         </footer>

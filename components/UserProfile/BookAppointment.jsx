@@ -75,13 +75,9 @@ const BookAppointment = ({ reqdata }) => {
         router.push("/User/userAppo");
       }
     } catch (err) {
-      console.log(err.response);
-      if (err.message == "token is not valid") {
-        setloading(false);
-        router.push("/User/UserRegistrationPage");
-      } else if (err.response) {
-        seterror(err.response.data.error);
-      }
+      setloading(false);
+
+      router.push("/User/UserRegistrationPage");
     }
   };
 
