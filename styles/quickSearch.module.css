@@ -1,52 +1,8 @@
-.maindiv {
-  width: 98%;
-
-  margin: auto;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 10px;
-  margin-top: 20px;
-  justify-content: center;
-  background: aliceblue;
-  border-radius: 4px;
-}
-@media (max-width: 1900px) {
-  .maindiv div {
-    width: 8rem !important;
-  }
-}
-@media (max-width: 1000px) {
-  .maindiv div {
-    width: 12rem !important;
-  }
-}
-@media (max-width: 850px) {
-  .maindiv {
-    /* border: 2px solid red; */
-    justify-content: space-between;
-    padding: 10px 20px;
-  }
-  .maindiv div {
-    width: 11rem !important;
-  }
-}
-@media (max-width: 800px) {
-  .maindiv {
-    /* border: 2px solid red; */
-    justify-content: space-between;
-    padding: 10px 20px;
-  }
-  .maindiv div {
-    width: 10rem !important;
-  }
-}
 .btn1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 8rem;
+  /* width: 8rem; */
   height: 60px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
   border-radius: 4px;
@@ -63,7 +19,7 @@
 .btn2 {
   display: flex;
   align-items: center;
-  width: 8rem;
+  /* width: 8rem; */
   justify-content: center;
   height: 60px;
   border-radius: 4px;
@@ -79,7 +35,7 @@
 }
 .btn3 {
   display: flex;
-  width: 8rem;
+  /* width: 8rem; */
   align-items: center;
   justify-content: center;
   height: 60px;
@@ -97,7 +53,7 @@
 }
 .btn4 {
   display: flex;
-  width: 8rem;
+  /* width: 8rem; */
   align-items: center;
   justify-content: center;
   height: 60px;
@@ -126,7 +82,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
   transition: 0.2s all;
   cursor: pointer;
-  width: 8rem;
+  /* width: 8rem; */
 }
 .btn5:hover {
   background-color: rgba(255, 106, 0, 0.342);
@@ -136,7 +92,7 @@
   align-items: center;
   justify-content: center;
   height: 60px;
-  width: 8rem;
+  /* width: 8rem; */
   text-transform: capitalize;
   border-radius: 4px;
   border-top: 3px solid rgb(1, 215, 211);
@@ -154,7 +110,7 @@
   display: flex;
   align-items: center;
   height: 60px;
-  width: 8rem;
+  /* width: 8rem; */
   text-transform: capitalize;
   border-radius: 4px;
   border-top: 3px solid rgb(215, 1, 176);
@@ -182,42 +138,35 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.212);
   transition: 0.2s all;
   cursor: pointer;
-  width: 8rem;
+  /* width: 8rem; */
 }
 .btn8:hover {
   background-color: rgba(0, 30, 255, 0.342);
 }
-@media (max-width: 600px) {
-  .maindiv {
-    padding: 5px;
-    justify-content: center;
-  }
-  .maindiv div {
-    width: 7rem !important;
-  }
-}
+
 @media (max-width: 500px) {
-  .maindiv {
-    padding: 5px;
-    gap: 15px;
+  .btn1 {
+    font-size: 0.9rem;
   }
-  .maindiv div {
-    width: 5rem !important;
+  .btn2 {
+    font-size: 0.9rem;
   }
-}
-@media (max-width: 380px) {
-  .maindiv {
-    justify-content: space-between;
+  .btn3 {
+    font-size: 0.9rem;
   }
-  .maindiv div {
-    width: 4.9rem !important;
+  .btn4 {
+    font-size: 0.9rem;
   }
-}
-@media (max-width: 365px) {
-  .maindiv {
-    justify-content: space-between;
+  .btn5 {
+    font-size: 0.9rem;
   }
-  .maindiv div {
-    width: 4.4rem !important;
+  .btn6 {
+    font-size: 0.9rem;
+  }
+  .btn7 {
+    font-size: 0.9rem;
+  }
+  .btn8 {
+    font-size: 0.9rem;
   }
 }
