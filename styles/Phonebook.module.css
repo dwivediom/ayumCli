@@ -176,7 +176,7 @@
   border-radius: 50%;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 920px) {
   .docphonebookbtn1 {
     width: 15rem;
   }
@@ -187,10 +187,11 @@
     width: 15rem;
   }
 }
-@media (max-width: 700px) {
+@media (max-width: 730px) {
   .phonebookbtn {
     width: 97%;
     margin: auto;
+    /* border: 2px solid red; */
   }
   .docphonebookbtn1 {
     width: 100%;

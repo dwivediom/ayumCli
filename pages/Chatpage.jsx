@@ -13,7 +13,7 @@ export default function Chatpage() {
   const { person, msgopened, signout } = useContext(AccountContext);
   const [mobile, setmobile] = useState(false);
   useEffect(() => {
-    if (!localStorage.usertoken && !localStorage.labuser) {
+    if (!localStorage.usertoken || !localStorage.labuser) {
       router.push("/User/UserRegistrationPage");
     }
     console.log(screen.width, "screen width hai");
