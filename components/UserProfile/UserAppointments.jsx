@@ -15,6 +15,7 @@ const UserAppointments = () => {
   const [loading, setloading] = useState(false);
   useEffect(() => {
     setloading(true);
+
     axios
       .get(url, {
         headers: {
@@ -26,11 +27,9 @@ const UserAppointments = () => {
         setloading(false);
       })
       .catch((err) => {
-        console.log(err.message);
-        if (err.message == "token is not valid") {
-          setloading(false);
-          router.push("/User/UserRegistrationPage");
-        }
+        console.log(err);
+        setloading(false);
+        router.push("/User/UserRegistrationPage");
       });
 
     if (!localStorage.usertoken) {
