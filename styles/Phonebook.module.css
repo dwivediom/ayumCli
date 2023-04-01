@@ -75,21 +75,27 @@
   justify-content: space-between;
   padding-top: 20px;
   flex-wrap: wrap;
+
+  gap: 20px;
 }
 
 .directorycard {
   box-shadow: 0 3px 15px rgb(187, 194, 199);
   width: 23rem;
-  height: 13rem;
+  height: fit-content;
+  /* min-height: 13rem; */
+  position: relative;
   overflow: hidden;
   padding-left: 15px;
+  padding-bottom: 10px;
   border-radius: 8px;
   text-align: left;
   font-size: 0.9rem;
-  transition: 0.3s all;
-  background: url("/dcard.jpg");
+  transition: 0.4s all;
+
+  background: url("/back3.png");
   background-repeat: no-repeat;
-  background-position: -10px top;
+  background-position: top;
   background-size: cover;
 }
 @media (max-width: 300px) {
@@ -104,7 +110,9 @@
   border-radius: 24px;
   font-size: 1rem;
   padding: 7px;
+  padding-left: 10px;
   margin-bottom: 6px;
+  margin-left: -10px;
   border-bottom: 3px solid #009af4;
 }
 
@@ -112,15 +120,16 @@
   color: #009af4;
   font-size: small;
   cursor: pointer;
-  width: 100%;
-  display: flex;
-  align-items: center;
   font-weight: bold;
-  padding-left: 40px;
+  width: 8rem;
+  text-align: right;
+}
+.showmorebox {
 }
 .carddeatilbox div {
   margin-top: 3px;
-  padding-left: 43px;
+  padding-left: 25px;
+  /* bot */
 }
 .nsmimg {
   width: 45px;

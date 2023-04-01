@@ -10,6 +10,8 @@ import Modal from "../components/Modal";
 import Docphonebookbtn from "../components/Docphonebookbtn";
 import Nashmukti from "../components/Nashmuktibtn";
 import BloodDonatebtn from "../components/BloodDonatebtn";
+import AdComp from "../components/AdComp";
+import Slider from "../components/AdComp2";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
@@ -25,22 +27,29 @@ export default function Home(props) {
   const [loading, setloading] = useState(false);
 
   useEffect(() => {
-    function handleOnline() {
+    const handleOnline = () => {
       setIsOnline(true);
-    }
-    function handleOffline() {
+      console.log("User is online");
+    };
+    const handleOffline = () => {
       setIsOnline(false);
-    }
+      console.log("User is offline");
+    };
+
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
+
     return () => {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
     };
   }, []);
-
   useEffect(() => {
-    setdoctors(props.newdata && props.newdata);
+    if (props.newdata) {
+      setdoctors(props.newdata && props.newdata);
+    } else {
+      setdoctors(null);
+    }
 
     if (authstatus) {
       setthankmodal(true);
@@ -69,7 +78,7 @@ export default function Home(props) {
     setloading(false);
   };
 
-  if (!isOnline || props.newdata == "error") {
+  if (!isOnline) {
     return (
       <>
         <div
@@ -122,6 +131,12 @@ export default function Home(props) {
           <Docphonebookbtn />
           <Nashmukti />
           <BloodDonatebtn />
+        </div>
+
+        <div>
+          {/* <AdComp /> */}
+          <Slider />
+          {/* <Slider /> */}
         </div>
 
         {props.newdata ? (

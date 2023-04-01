@@ -55,7 +55,7 @@ const DoctorCard = (props) => {
         <div className={`${styles.specialist}`}>{specialist}</div>
         <div className={`${styles.content}`}>
           {" "}
-          <span>{phone}</span>
+          <span>{phone} </span>
           <div className={`${styles.imgbox}`}>
             <img
               src="https://img.icons8.com/ios/50/00b6d6/phone--v1.png"
