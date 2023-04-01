@@ -2,17 +2,16 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* border: 2px solid red; */
-  gap: 1.5rem;
+  gap: 1rem;
   margin-top: 1.5rem;
 }
 
 .doctorcard {
   box-shadow: 5px 6px 20px rgba(37, 43, 51, 0.265);
   border-radius: 4px;
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 20px;
   width: 23rem;
-  height: 10.4rem;
   margin: auto;
   position: relative;
   overflow: hidden;
@@ -64,19 +63,17 @@
   border-radius: 50%;
   background-color: aliceblue;
   position: absolute;
-  top: 2rem;
-  left: 1rem;
+  box-shadow: 0 0 10px rgba(198, 198, 198, 0.5);
+  top: 4rem !important;
+  left: 1.5rem;
   overflow: hidden;
   padding: 2px;
 }
 
 .doccontent {
-  width: 15rem;
-  height: 8.5rem;
-  position: absolute;
-  right: 0;
-  top: 1.2rem;
+  width: 100%;
   padding: 5px 10px;
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -88,7 +85,7 @@
 }
 .specialist {
   font-size: 0.93rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.3rem;
 }
 .doccontent .content {
   display: flex;
@@ -123,4 +120,9 @@
 .bookslot:hover {
   background: #294af3 !important;
   transform: translateY(2px) !important;
+}
+@media (max-width: 390px) {
+  .doctorcard {
+    width: 21rem;
+  }
 }
