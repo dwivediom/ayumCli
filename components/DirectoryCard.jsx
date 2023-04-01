@@ -7,12 +7,21 @@ const DirectoryCard = ({ item, key }) => {
     <div
       style={{
         height: show && "fit-content",
+        background: show && "none",
+        boxShadow: show && "   0 3px 15px rgb(90, 186, 255)",
       }}
       key={key}
       className={`${styles.directorycard}`}
     >
       <div>
-        <div className={`${styles.cardname}`}> {item.name}</div>
+        <div
+          style={{
+            marginLeft: show && "-25px",
+          }}
+          className={`${styles.cardname}`}
+        >
+          {item.name}
+        </div>
       </div>
       <div className={`${styles.carddeatilbox}`}>
         <div>
@@ -30,14 +39,24 @@ const DirectoryCard = ({ item, key }) => {
           {" "}
           <span className="font-bold">Time :</span> {item.timeing}
         </div>
-        <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           {" "}
-          <span className="font-bold">Specialist :</span> {item.specialist}
+          <span>
+            {" "}
+            <span className="font-bold">Specialist :</span> {item.specialist}{" "}
+          </span>
         </div>
-        <span onClick={() => setShow(!show)} className={`${styles.showmore}`}>
-          {show ? "Hide" : "Show More"}{" "}
-          <span className="text-lg">&#x2193;</span>
-        </span>
+        <div className={`${styles.showmorebox}`}>
+          <span onClick={() => setShow(!show)} className={`${styles.showmore}`}>
+            {show ? "Hide details" : "More details..."}{" "}
+            <span className="text-lg">&#x2193;</span>
+          </span>
+        </div>
       </div>
 
       <div
