@@ -4,10 +4,16 @@ import styles from "../styles/Adcomp.module.css";
 
 const slidesData = [
   {
-    id: 1,
-    imageSrc: "https://i.ibb.co/fpYKkbV/Ayum.png",
-    title: "Slide 1",
+    id: 6,
+    imageSrc: "https://i.ibb.co/ZXcC6Gp/Ayum-6.png",
+    title: "Slide 5",
   },
+  {
+    id: 7,
+    imageSrc: "https://i.ibb.co/R4xmXHw/Ayum-7.png",
+    title: "Slide 7",
+  },
+
   {
     id: 2,
     imageSrc: "https://i.ibb.co/5MKMQt7/Ayum-1.png",
@@ -61,7 +67,7 @@ const Slider = () => {
       <div
         className={`${styles.adshell}`}
         style={{
-          transform: `translateX(${-activeIndex * 22}rem)`,
+          transform: `translateX(${-activeIndex * 23}rem)`,
           display: "flex",
           transition: "1.5s all",
         }}
