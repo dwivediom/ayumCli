@@ -12,7 +12,7 @@ const BookAppointment = ({ reqdata }) => {
   const [token, settoken] = useState();
   const [response, setresponce] = useState("");
   const [empty, setempty] = useState(true);
-  const [checked, setcheked] = useState(false);
+
   const [loading, setloading] = useState(false);
   const [data, setdata] = useState({
     patientname: "",
@@ -155,41 +155,27 @@ const BookAppointment = ({ reqdata }) => {
               required
             />
           </div>
-          <div>
-            <label className=" block mb-2 text-sm font-medium  " htmlFor="sure">
-              Are You Sure To Book This Appointment{" "}
-              <span className="text-red-400">*</span>
-            </label>
-            <input
-              className="  text-black text-sm   p-2.5 rounded  "
-              type="checkbox"
-              id="sure"
-              onChange={(e) => setcheked(e.target.checked)}
-            />
-          </div>
+
           {empty ? (
             <div className="text-red-500 text-sm mt-3">
               Fill required fields!
             </div>
+          ) : loading ? (
+            <button
+              type="submit"
+              // onClick={(e) => submit(e)}
+              className={`${styles.bookformsubmit}`}
+            >
+              Processing...
+            </button>
           ) : (
-            checked &&
-            (loading ? (
-              <button
-                type="submit"
-                // onClick={(e) => submit(e)}
-                className={`${styles.bookformsubmit}`}
-              >
-                Processing...
-              </button>
-            ) : (
-              <button
-                type="submit"
-                onClick={(e) => submit(e)}
-                className={`${styles.bookformsubmit}`}
-              >
-                Submit
-              </button>
-            ))
+            <button
+              type="submit"
+              onClick={(e) => submit(e)}
+              className={`${styles.bookformsubmit}`}
+            >
+              Submit
+            </button>
           )}
         </form>
 
