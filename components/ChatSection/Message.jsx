@@ -39,6 +39,11 @@ const Message = (props) => {
     marginTop: "10px",
   };
 
+  const [showFullMessage, setShowFullMessage] = useState(false);
+  const handleToggleMessage = () => {
+    setShowFullMessage(!showFullMessage);
+  };
+
   useEffect(() => {
     if (props.senderId === JSON.parse(localStorage.getItem("labuser")).sub) {
       setsender(true);
@@ -128,11 +133,35 @@ const Message = (props) => {
         style={senderstyle}
       >
         <div style={childstyle} className={`${styles.chattxt}`}>
-          <span>{props.msgval}</span> <br />
+          {showFullMessage ? (
+            <p>
+              {props.msgval} <br />
+              {props.msgval.length >= 200 && (
+                <a
+                  className="text-black cursor-pointer"
+                  onClick={() => handleToggleMessage()}
+                >
+                  ...Hide
+                </a>
+              )}
+            </p>
+          ) : (
+            <p>
+              {props.msgval.substring(0, 200)} <br />
+              {props.msgval.length >= 200 && (
+                <a
+                  className="cursor-pointer text-black font-bold text-sm"
+                  onClick={() => handleToggleMessage()}
+                >
+                  ...Read More
+                </a>
+              )}
+            </p>
+          )}
         </div>
         <span style={{ fontSize: "0.6rem" }} className="text-gray-400 text-sm">
           {time && time}
-        </span>{" "}
+        </span>
       </div>
     );
   }

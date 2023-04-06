@@ -31,7 +31,7 @@ const slidesData = [
   },
   {
     id: 5,
-    imageSrc: "https://i.ibb.co/qB2XhJZ/Ayum-5.png",
+    imageSrc: "https://i.ibb.co/XSh3b0d/Ayum.png",
     title: "Slide 4",
   },
 ];
