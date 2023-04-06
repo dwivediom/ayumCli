@@ -11,10 +11,12 @@ const DoctorCard = (props) => {
   console.log(pic, "Picture hai");
   const [docpic, setdocpic] = useState();
   useEffect(() => {
-    if (pic) {
+    if (pic && pic.includes("googleusercontent.com")) {
       const index = pic.indexOf("=");
       const result = pic.slice(0, index);
       setdocpic(result);
+    } else if (pic) {
+      setdocpic(pic);
     }
   }, []);
   const dispatch = useDispatch();

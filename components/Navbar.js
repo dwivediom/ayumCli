@@ -44,9 +44,13 @@ const Navbar = () => {
   useEffect(() => {
     const UserData = JSON.parse(localStorage.getItem("labuser"));
     if (UserData) {
-      const index = UserData.picture.indexOf("=");
-      const result = UserData.picture.slice(0, index);
-      setprofilepic(result);
+      if (UserData.picture.includes("googleusercontent.com")) {
+        const index = UserData.picture.indexOf("=");
+        const result = UserData.picture.slice(0, index);
+        setprofilepic(result);
+      } else {
+        setprofilepic(UserData.picture);
+      }
       setloggedemail(UserData.email);
       setname(UserData.name);
     }
