@@ -26,6 +26,7 @@ const nextConfig = withPWA({
       "lh3.googleusercontent.com",
       "www.chatserver.ayum.in",
       "i.ibb.co",
+      "www.imgbb.com",
     ],
   },
   reactStrictMode: true,
