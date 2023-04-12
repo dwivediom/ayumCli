@@ -86,6 +86,8 @@
 .specialist {
   font-size: 0.93rem;
   margin-bottom: 0.3rem;
+  width: 80%;
+  text-align: right;
 }
 .doccontent .content {
   display: flex;
