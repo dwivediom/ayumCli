@@ -20,7 +20,7 @@
   display: none;
 }
 .passimg {
-  box-shadow: 0 0 10px rgba(170, 169, 169, 0.539) !important;
+  box-shadow: 0 3px 10px rgba(156, 155, 155, 0.539) !important;
   width: 22rem;
   margin: auto;
   height: 10rem;

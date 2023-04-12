@@ -10,7 +10,6 @@ import Modal from "../components/Modal";
 import Docphonebookbtn from "../components/Docphonebookbtn";
 import Nashmukti from "../components/Nashmuktibtn";
 import BloodDonatebtn from "../components/BloodDonatebtn";
-import AdComp from "../components/AdComp";
 import Slider from "../components/AdComp2";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
@@ -134,9 +133,7 @@ export default function Home(props) {
         </div>
 
         <div>
-          {/* <AdComp /> */}
           <Slider />
-          {/* <Slider /> */}
         </div>
 
         {props.newdata ? (
