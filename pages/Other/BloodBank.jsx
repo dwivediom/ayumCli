@@ -28,6 +28,30 @@ const BloodBank = () => {
         }}
       >
         <div className={styles.bloodheadback}></div>
+        <div className={styles.followdiv}>
+          <a
+            rel="noreferrer"
+            href="https://www.instagram.com/ayum_health/"
+            target={"_blank"}
+          >
+            <h3>Follow For More Updates and Healthy Announcements</h3>{" "}
+            <div>
+              <Image
+                width={50}
+                height={50}
+                alt="instagram"
+                src="https://img.icons8.com/3d-fluency/94/null/instagram-new.png"
+              />
+              <a
+                rel="noreferrer"
+                href="https://www.instagram.com/ayum_health/"
+                target={"_blank"}
+              >
+                <span>@Ayum_health</span>
+              </a>
+            </div>
+          </a>
+        </div>
         <h1
           style={{
             fontSize: "1.3rem",
@@ -75,6 +99,7 @@ const BloodBank = () => {
             })
           )}
         </div>
+
         <div className={styles.announcediv}>
           <h2 className={styles.announcehead}>
             <img
@@ -389,25 +414,6 @@ const BloodBank = () => {
               रक्तदान करने से शरीर के अन्य अंगों को भी लाभ मिलता है। यह शरीर के
               ऑक्सीजन लेवल को बढ़ाता है जो शरीर को ताकत देता है।
             </span>
-          </div>
-        </div>
-
-        <div className={styles.followdiv}>
-          <h3>Follow For More Updates and Healthy Announcements</h3>{" "}
-          <div>
-            <Image
-              width={50}
-              height={50}
-              alt="instagram"
-              src="https://img.icons8.com/3d-fluency/94/null/instagram-new.png"
-            />
-            <a
-              rel="noreferrer"
-              href="https://www.instagram.com/ayum_health/"
-              target={"_blank"}
-            >
-              <span>@ayum_health</span>
-            </a>
           </div>
         </div>
       </div>
