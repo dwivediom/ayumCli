@@ -11,6 +11,10 @@ import Navbar from "../components/Navbar";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AccountProvider, { AccountContext } from "../context/AccountProvider";
 import { webpushfunc } from "../utils/notification";
+import ReactGA from "react-ga";
+
+const TRACKING_ID = "UA-247960197-1";
+ReactGA.initialize(TRACKING_ID);
 function MyApp({ Component, pageProps, AccountContext }) {
   const [loading, setLoading] = useState(true);
 
