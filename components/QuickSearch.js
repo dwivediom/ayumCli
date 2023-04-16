@@ -4,6 +4,7 @@ import { quickSearchaction } from "../redux/actions/searchAction";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import ReactGA from "react-ga";
 
 const QuickSearch = () => {
   const router = useRouter();
@@ -11,7 +12,15 @@ const QuickSearch = () => {
   const dispatch = useDispatch();
   const qSearch = (e) => {
     e.preventDefault();
+
     let val = e.target.outerText;
+
+    ReactGA.event({
+      category: "quick search button",
+      action: "clicked",
+      label: val,
+      value: val,
+    });
     localStorage.setItem("skey", val);
     console.log("key data ", val);
 

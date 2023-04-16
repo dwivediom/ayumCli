@@ -11,6 +11,7 @@ import Docphonebookbtn from "../components/Docphonebookbtn";
 import Nashmukti from "../components/Nashmuktibtn";
 import BloodDonatebtn from "../components/BloodDonatebtn";
 import Slider from "../components/AdComp2";
+import ReactGA from "react-ga";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
@@ -24,6 +25,10 @@ export default function Home(props) {
   const [doctors, setdoctors] = useState([]);
   const [full, setfull] = useState(false);
   const [loading, setloading] = useState(false);
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname);
+  }, []);
 
   useEffect(() => {
     const handleOnline = () => {
