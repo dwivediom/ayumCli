@@ -65,9 +65,15 @@ const UserAppointments = () => {
           ) : (
             appointment.data &&
             appointment.data.appointment.map((data) => {
+              const appointmentDate = new Date(`${data.date}`);
+              const today = new Date();
+              appointmentDate.setHours(0, 0, 0, 0);
+              today.setHours(0, 0, 0, 0);
+
               return (
                 <>
                   <div key={data._id}>
+                    <div>{appointmentDate.getTime() < today.getTime()}</div>
                     <Appointment key={data._id} data={data} />
                   </div>
                 </>
