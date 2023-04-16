@@ -98,25 +98,6 @@ const Search = () => {
           </div>
         </form>
 
-        {viewsearchill && (
-          <div
-            style={{
-              height: "50vh",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "auto",
-            }}
-          >
-            <Image
-              src={"/searchill.png"}
-              width={170}
-              height={170}
-              alt="Loading..."
-            />
-          </div>
-        )}
-
         {loading ? (
           <div
             style={{
@@ -130,8 +111,8 @@ const Search = () => {
           >
             <Image
               src={"/loader.svg"}
-              width={50}
-              height={50}
+              width={40}
+              height={40}
               alt="Loading..."
             />
           </div>

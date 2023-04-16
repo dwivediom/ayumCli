@@ -6,7 +6,10 @@ const GetDoctor = ({ getDoctor }) => {
   console.log(getDoctor, "Get DOctor");
   return (
     <>
-      <div className={`${styles.doccontainer}`}>
+      <div
+        className={`${styles.doccontainer}`}
+        // className="grid lg:grid-cols-3 md:grid-cols-3 max-[760px]:grid-cols-3 gap-4 p-4"
+      >
         {getDoctor && getDoctor != "error" ? (
           getDoctor.map((item) => {
             if (item.doctor)

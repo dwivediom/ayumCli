@@ -74,11 +74,7 @@ function MyApp({ Component, pageProps, AccountContext }) {
             <div
               style={{
                 display: loading ? "none" : "block",
-                alignSelf: "center",
-                justifySelf: "center",
-
-                maxWidth: "1350px",
-                margin: "auto",
+                margin: "auto !important",
               }}
             >
               <Navbar />

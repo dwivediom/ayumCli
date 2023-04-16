@@ -8,14 +8,14 @@ const BloodDonatebtn = () => {
 
   return (
     <div
-      onClick={() => router.push("/Other/BloodBank")}
+      onClick={() => router.push("/Other/Campaign")}
       className={`${styles.docphonebookbtn3}`}
       //   className="grid grid-cols-3"
     >
       <div className={`${styles.bloodimgbtn}`}>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <div className={`${styles.bloodimg}`}></div>
-          Blood Bank Info!
+          Blood Donation Campaign
         </div>
       </div>
     </div>
