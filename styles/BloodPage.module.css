@@ -107,22 +107,25 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-radius: 12px;
-  animation: animatediv 4s ease-in-out infinite;
+  border-radius: 8px;
 }
 
 @keyframes animatediv {
   0% {
-    background-color: rgb(222, 253, 253);
+    /* background-color: rgb(222, 253, 253); */
+    color: rgb(1, 198, 63);
   }
   25% {
-    background-color: rgb(232, 253, 222);
+    /* background-color: rgb(232, 253, 222); */
+    color: rgb(184, 0, 171);
   }
   55% {
-    background-color: rgb(227, 222, 253);
+    /* background-color: rgb(227, 222, 253); */
+    color: rgb(1, 11, 213);
   }
   100% {
-    background-color: rgb(222, 253, 253);
+    /* background-color: rgb(222, 253, 253); */
+    color: rgb(0, 183, 49);
   }
 }
 .followdiv h3 {
@@ -131,13 +134,46 @@
   text-align: center;
 }
 
-.followdiv div {
+.followdiv a {
   display: flex;
   align-items: center;
-  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  animation: animatediv 3s ease-in-out infinite;
 }
-.followdiv div a:hover {
+.followdiv a:hover {
   color: blue;
   transition: 0.2s all;
   text-decoration: underline;
+}
+
+.supportsbox {
+  width: 98vw;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.supportsbox div {
+  /* border: 1px solid red; */
+  padding: 30px;
+  border-radius: 8px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 4px 15px rgba(149, 149, 149, 0.53);
+}
+
+.supportsbox div p:nth-of-type(1) {
+  font-size: 1;
+  padding-top: 3px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.supportsbox div p:nth-of-type(2) {
+  font-size: 0.8rem;
+  padding-top: 3px;
+  font-weight: bold;
+  color: rgb(99, 99, 99);
+  font-family: Arial, Helvetica, sans-serif;
 }

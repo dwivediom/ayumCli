@@ -123,7 +123,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.container}>
+      <div className="absolute">
         <SearchBox />
         <QuickSearch />
         <div className={styles.directorycontainer}>

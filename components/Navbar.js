@@ -114,7 +114,7 @@ const Navbar = () => {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <nav className={`${bgSecColor} fixed top-0 z-10 w-full `}>
+      <nav className={`${bgSecColor} fixed top-0 z-10 w-full  `}>
         <div className=" mx-auto max-w-7xl px-1 sm:px-2  lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">

@@ -30,15 +30,6 @@ const QuickSearch = () => {
       className="grid lg:grid-cols-8 md:grid-cols-4 max-[760px]:grid-cols-4 gap-4 p-4"
     >
       <div
-        value="Kideny"
-        onClick={(e) => qSearch(e)}
-        data="kideny"
-        className={`${styles.btn1} `}
-      >
-        {" "}
-        <span className={`${styles.divtext}`}>Kideny</span>{" "}
-      </div>
-      <div
         onClick={(e) => qSearch(e)}
         value="Dentist "
         className={`${styles.btn2} `}
@@ -99,6 +90,15 @@ const QuickSearch = () => {
       >
         {" "}
         <span className={`${styles.divtext}`}>Medicine</span>
+      </div>
+      <div
+        // value="Kideny"
+        onClick={() => router.push("/Other/BloodBank")}
+        // data="kideny"
+        className={`${styles.btn1} `}
+      >
+        {" "}
+        <span className={`${styles.divtext}`}>Blood Bank</span>{" "}
       </div>
     </div>
   );
