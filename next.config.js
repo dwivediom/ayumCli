@@ -21,6 +21,7 @@ const nextConfig = withPWA({
   images: {
     domains: [
       "www.pexels.com",
+      "images.pexels.com",
       "i.postimg.cc",
       "img.icons8.com",
       "lh3.googleusercontent.com",

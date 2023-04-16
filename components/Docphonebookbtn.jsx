@@ -8,7 +8,6 @@ const Docphonebookbtn = () => {
     <div
       onClick={() => router.push("/DoctorDirectory")}
       className={`${styles.docphonebookbtn1}`}
-      // className="grid grid-cols-3"
     >
       <div className={`${styles.phonebookbtn}`}>
         <div className={`${styles.callimg}`}>

@@ -1,7 +1,9 @@
 .adcontainer {
   height: 13rem;
   overflow: hidden;
-  width: 100vw !important;
+  width: 98vw !important;
+
+  width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
