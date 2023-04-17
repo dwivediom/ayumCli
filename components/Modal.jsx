@@ -9,9 +9,15 @@ const Modal = () => {
       <div className={styles.modalback}>
         <div className={styles.modalbox}>
           <h1>Thankyou For Connecting With Ayum</h1>
-          <Image src={"/success.svg"} width={40} height={40} alt={"success"} />
+          <img
+            src="https://img.icons8.com/external-fauzidea-flat-fauzidea/64/null/external-success-online-learning-fauzidea-flat-fauzidea.png"
+            alt="success"
+          />
           <div
-            onClick={() => setthankmodal(false)}
+            onClick={() => {
+              localStorage.setItem("thankmodal", false);
+              setthankmodal(false);
+            }}
             className={styles.closemodal}
           >
             Close

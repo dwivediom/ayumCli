@@ -55,9 +55,10 @@ export default function Home(props) {
       setdoctors(null);
     }
 
-    if (authstatus) {
+    if (localStorage.getItem("thankmodal") == true) {
       setthankmodal(true);
       setTimeout(() => {
+        localStorage.setItem("thankmodal", false);
         setthankmodal(false);
       }, 3000);
       // setauthstatus(false);

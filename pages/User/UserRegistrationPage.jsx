@@ -9,7 +9,8 @@ import { webpushfunc } from "../../utils/notification";
 import { updateuser } from "../../routes/user";
 import { adduser } from "../../routes/user";
 const UserRegistrationPage = () => {
-  const { setauthstatus, setsignout } = useContext(AccountContext);
+  const { setauthstatus, setsignout, setthankmodal } =
+    useContext(AccountContext);
   const router = useRouter();
 
   const [otpmsg, setotpmsg] = useState(null);
@@ -42,7 +43,9 @@ const UserRegistrationPage = () => {
         console.log(logined, "Logine hai ");
         if (logined.msg === "useradded") {
           setsignout(false);
-          setauthstatus(true);
+          localStorage.setItem("thankmodal", true);
+          // setauthstatus(true);
+          setthankmodal(true);
 
           router.push("/");
 
