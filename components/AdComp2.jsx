@@ -100,6 +100,7 @@ const Slider = () => {
           <label key={id}>
             <input
               type="radio"
+              className={styles.radiobtn}
               name="slider"
               checked={activeIndex === index}
               onChange={() => handleManualSlide(index)}

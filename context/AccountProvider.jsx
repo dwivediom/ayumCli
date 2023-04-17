@@ -19,6 +19,9 @@ const AccountProvider = ({ children }) => {
   const [collapseopen, setcollapse] = useState(false);
 
   useEffect(() => {
+    if (localStorage.getItem("thankmodal") == false) {
+      setthankmodal(false);
+    }
     if (localStorage.labuser) {
       setsignout(false);
     } else {
