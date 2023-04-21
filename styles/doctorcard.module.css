@@ -5,6 +5,16 @@
   gap: 1rem;
   margin-top: 1.5rem;
 }
+.directoryshell {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-top: 20px;
+  flex-wrap: wrap;
+  min-height: 100vh !important;
+
+  gap: 20px;
+}
 
 .doctorcard {
   box-shadow: 5px 6px 20px rgba(37, 43, 51, 0.265);

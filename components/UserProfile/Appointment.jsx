@@ -6,18 +6,29 @@ const Appointment = (props) => {
   const appodate = new Date(data.date);
   const [crn, setcrn] = useState();
   const [runcrn, setruncrn] = useState(true);
+  const [message, setmessage] = useState("");
   const [expired, setexpired] = useState(false);
 
   useEffect(() => {
-    console.log(data.clinicId, "Clinic id for CRN");
+    // console.log(props.timeDiffInDays, "Message hai ");
+    if (props.timeDiffInDays == 0) {
+      // console.log(props.timeDiffInDays);
+      setmessage("today");
+    } else if (props.timeDiffInDays > 7) {
+      // console.log(props.timeDiffInDays);
+      setmessage("expired");
+    } else {
+      setmessage(`${props.timeDiffInDays}`);
+    }
+
     async function getcrn() {
       const crndata = await axios({
         url: `https://www.crn.ayum.in/CRN/get/${data.clinicId.toString()}`,
         method: "get",
       });
-      console.log(crndata.data, "Crn data");
+      // console.log(crndata.data, "Crn data");
       if (!crndata.data.CRN) {
-        console.log("khaali hai");
+        // console.log("khaali hai");
         setcrn(null);
       } else if (crndata.data != {}) {
         setcrn(crndata && crndata.data);
@@ -33,9 +44,32 @@ const Appointment = (props) => {
       setexpired(true);
     }
   }, []);
+
   return (
     <>
       <div className={`${styles.userappocard}`}>
+        <div
+          style={{
+            backgroundColor:
+              message == "expired"
+                ? "#FAA0A0	"
+                : message == "today"
+                ? "#90EE90"
+                : "rgba(255, 241, 117, 1)",
+            color: "black",
+          }}
+          className={`${styles.appbadge}`}
+        >
+          {message != "expired" ? (
+            message == "today" ? (
+              <span>Today</span>
+            ) : (
+              <span>{`Past ${message} day ago`}</span>
+            )
+          ) : (
+            <span>Expired</span>
+          )}
+        </div>
         <h2>{data.patientname}</h2>
         <div className={`${styles.userdetail}`}>
           <div>Slot Number - {data.appointmentno}</div>
@@ -75,19 +109,24 @@ const Appointment = (props) => {
             {data.phone}
           </div>
         </div>
-        <div className={`${styles.userdetail}`}>
-          <div className={`${styles.CRNnumber} `}>
-            <span> Current Running Number :</span>
-            <span className="text-red-500"> {crn ? crn.CRN : "N/A"}</span>
+
+        {message != "expired" && (
+          // <div className="text-center text-red-500 font-bold">Expired</div>
+
+          <div className={`${styles.userdetail}`}>
+            <div className={`${styles.CRNnumber} `}>
+              <span> Current Running Number :</span>
+              <span className="text-red-500"> {crn ? crn.CRN : "N/A"}</span>
+            </div>
+            <div
+              onClick={() => setruncrn(!runcrn)}
+              className={`${styles.crnrefresh} `}
+              style={{ width: "30%" }}
+            >
+              Refresh
+            </div>
           </div>
-          <div
-            onClick={() => setruncrn(!runcrn)}
-            className={`${styles.crnrefresh} `}
-            style={{ width: "30%" }}
-          >
-            Refresh
-          </div>
-        </div>
+        )}
       </div>
     </>
   );
