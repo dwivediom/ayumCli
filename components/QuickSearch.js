@@ -10,6 +10,7 @@ const QuickSearch = () => {
   const router = useRouter();
   const [key, setkey] = useState(null);
   const dispatch = useDispatch();
+  const [showmore, setshow] = useState(false);
   const qSearch = (e) => {
     e.preventDefault();
 
@@ -40,6 +41,15 @@ const QuickSearch = () => {
     >
       <div
         onClick={(e) => qSearch(e)}
+        value="Kidney "
+        className={`${styles.btn6} `}
+        // className="bg-gray-100 p-4"
+      >
+        {" "}
+        <span className={`${styles.divtext}`}>Kideny</span>
+      </div>
+      <div
+        onClick={(e) => qSearch(e)}
         value="Dentist "
         className={`${styles.btn2} `}
         // className="bg-gray-100 p-4"
@@ -47,24 +57,7 @@ const QuickSearch = () => {
         {" "}
         <span className={`${styles.divtext}`}>Dentist</span>
       </div>
-      <div
-        onClick={(e) => qSearch(e)}
-        value="neuro"
-        className={` ${styles.btn3} `}
-        // className="bg-gray-100 p-4"
-      >
-        {" "}
-        <span className={`${styles.divtext}`}>neuro</span>{" "}
-      </div>
-      <div
-        onClick={(e) => qSearch(e)}
-        value="surgery"
-        className={`${styles.btn4} `}
-        // className="bg-gray-100 p-4"
-      >
-        {" "}
-        <span className={`${styles.divtext}`}>surgery</span>{" "}
-      </div>
+
       <div
         onClick={(e) => qSearch(e)}
         value="Skin    "
@@ -75,13 +68,15 @@ const QuickSearch = () => {
         <span className={`${styles.divtext}`}>Skin</span>
       </div>
       <div
-        onClick={(e) => qSearch(e)}
-        value="Bone"
-        className={`${styles.btn6} `}
-        // className="bg-gray-100 p-4"
+        // value="Kideny"
+        onClick={() => router.push("/Other/BloodBank")}
+        // data="kideny"
+        className={`${styles.btn1} `}
       >
-        <span className={`${styles.divtext}`}>Bone</span>{" "}
+        {" "}
+        <span className={`${styles.divtext}`}>Blood Bank</span>{" "}
       </div>
+
       <div
         onClick={(e) => qSearch(e)}
         value="Gynae"
@@ -101,14 +96,65 @@ const QuickSearch = () => {
         <span className={`${styles.divtext}`}>Medicine</span>
       </div>
       <div
-        // value="Kideny"
-        onClick={() => router.push("/Other/BloodBank")}
-        // data="kideny"
-        className={`${styles.btn1} `}
+        onClick={(e) => qSearch(e)}
+        value="ortho bone"
+        className={`${styles.btn6} `}
+        // className="bg-gray-100 p-4"
       >
-        {" "}
-        <span className={`${styles.divtext}`}>Blood Bank</span>{" "}
+        <span className={`${styles.divtext}`}>Ortho</span>{" "}
       </div>
+      <div
+        // value="Kideny"
+        onClick={() => setshow(!showmore)}
+        // data="kideny"
+        className={`${styles.showbtn} `}
+      >
+        <span className={`${styles.divtext}`}>
+          {" "}
+          {showmore ? "Hide" : "Show More"}{" "}
+        </span>{" "}
+      </div>
+
+      {showmore && (
+        <>
+          <div
+            onClick={(e) => qSearch(e)}
+            value="surgery"
+            className={`${styles.btn4} `}
+            // className="bg-gray-100 p-4"
+          >
+            {" "}
+            <span className={`${styles.divtext}`}>surgery</span>{" "}
+          </div>
+          <div
+            onClick={(e) => qSearch(e)}
+            value="neuro"
+            className={` ${styles.btn3} `}
+            // className="bg-gray-100 p-4"
+          >
+            {" "}
+            <span className={`${styles.divtext}`}>neuro</span>{" "}
+          </div>
+          <div
+            onClick={(e) => qSearch(e)}
+            value="physician"
+            className={` ${styles.btn2} `}
+            // className="bg-gray-100 p-4"
+          >
+            {" "}
+            <span className={`${styles.divtext}`}>Physician</span>{" "}
+          </div>
+          <div
+            onClick={(e) => qSearch(e)}
+            value="cancer oncologist"
+            className={` ${styles.btn5} `}
+            // className="bg-gray-100 p-4"
+          >
+            {" "}
+            <span className={`${styles.divtext}`}>Cancer</span>{" "}
+          </div>
+        </>
+      )}
     </div>
   );
 };

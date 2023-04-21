@@ -162,7 +162,7 @@ const Search = () => {
                       );
                     })}
                 </div>
-                <div className={`${styles2.doccontainer} mt-3`}>
+                <div className={`${styles2.directoryshell} mt-3`}>
                   {docs &&
                     docs.map((item) => {
                       return (
