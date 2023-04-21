@@ -75,25 +75,29 @@
   justify-content: space-between;
   padding-top: 20px;
   flex-wrap: wrap;
+  min-height: 100vh !important;
 
   gap: 20px;
 }
 
 .directorycard {
-  box-shadow: 0 3px 15px rgb(187, 194, 199);
+  box-shadow: 5px 6px 20px rgba(37, 43, 51, 0.265);
   width: 23rem;
+  /* height: 15.5rem; */
+  border-top: 4px solid rgb(0, 220, 220);
+
   height: fit-content;
   /* min-height: 13rem; */
   position: relative;
   overflow: hidden;
-  padding-left: 15px;
-  padding-bottom: 10px;
+  padding-left: 5px;
   border-radius: 8px;
   text-align: left;
   font-size: 0.9rem;
   transition: 0.4s all;
 
-  background: url("/back3.png");
+  /* background: url("/back3.png"); */
+  /* border-left: 8px solid rgb(3, 203, 222); */
   background-repeat: no-repeat;
   background-position: top;
   background-size: cover;
@@ -109,26 +113,39 @@
   font-weight: bold;
   border-radius: 24px;
   font-size: 1rem;
-  padding: 7px;
-  padding-left: 10px;
-  margin-bottom: 6px;
-  margin-left: -10px;
-  border-bottom: 3px solid #009af4;
+  padding: 7px 0px;
+  /* border-bottom: 3px solid #009af4; */
 }
 
 .showmore {
-  color: #009af4;
+  color: #008187;
+
   font-size: small;
   cursor: pointer;
   font-weight: bold;
   width: 8rem;
   text-align: right;
 }
+.carddeatilbox {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 
 .carddeatilbox div {
-  margin-top: 3px;
-  padding-left: 25px;
+  padding: 5px;
+  border-radius: 3px;
+  /* border: 1px solid red; */
+  /* background-color: rgba(237, 234, 234, 0.505); */
+  border-left: 3px solid rgb(0, 220, 220);
+  /* padding-left: 25px; */
   /* bot */
+}
+
+.carddeatilbox div:nth-last-child(2) {
+  /* background-color: white; */
+  border: none;
 }
 .nsmimg {
   width: 45px;

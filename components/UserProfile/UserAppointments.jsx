@@ -13,6 +13,7 @@ const UserAppointments = () => {
   const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getuser`;
   const [appointment, setappointment] = useState("");
   const [loading, setloading] = useState(false);
+  const [message, setmessage] = useState("");
   useEffect(() => {
     setloading(true);
 
@@ -70,11 +71,18 @@ const UserAppointments = () => {
               appointmentDate.setHours(0, 0, 0, 0);
               today.setHours(0, 0, 0, 0);
 
+              const timeDiffInMs = today.getTime() - appointmentDate.getTime();
+              const timeDiffInDays = timeDiffInMs / (1000 * 60 * 60 * 24);
+
               return (
                 <>
                   <div key={data._id}>
                     <div>{appointmentDate.getTime() < today.getTime()}</div>
-                    <Appointment key={data._id} data={data} />
+                    <Appointment
+                      key={data._id}
+                      data={data}
+                      timeDiffInDays={timeDiffInDays}
+                    />
                   </div>
                 </>
               );
