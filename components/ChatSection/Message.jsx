@@ -70,16 +70,7 @@ const Message = (props) => {
       setloadimg(true);
       if (props.msgval.includes("google.com/maps/search/")) {
         setisurl(true);
-        const url = props.msgval.replace("/maps/search/", "/maps/place/");
-        const apiUrl = `http://localhost:3000/api/screenshot?url=${encodeURIComponent(
-          url
-        )}`;
-        const response = await fetch(apiUrl);
-        const blob = await response.blob();
-        const snapshotUrl = URL.createObjectURL(blob);
-        // setSnapshot(snapshotUrl);
 
-        setImageUrl(snapshotUrl);
         setloadimg(false);
       }
     }
@@ -97,13 +88,17 @@ const Message = (props) => {
                 href={`${props.msgval}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-cyan-100 rounded-lg"
+                className="p-2 rounded-lg bg-cyan-100 rounded-lg relative w-[200px] h-[200px]"
               >
                 <Image
-                  src={imageUrl}
+                  src={"/mapthumb.jpeg"}
                   alt={`Preview of ${props.msgval}`}
                   width={300}
-                  height={200}
+                  layout="fill"
+                  className="rounded-lg "
+                  objectFit="cover"
+                  objectPosition={"center"}
+                  height={300}
                 />
               </a>
               <a
