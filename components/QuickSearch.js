@@ -8,6 +8,7 @@ import ReactGA from "react-ga";
 
 const QuickSearch = () => {
   const router = useRouter();
+
   const [key, setkey] = useState(null);
   const dispatch = useDispatch();
   const [showmore, setshow] = useState(false);
@@ -37,7 +38,7 @@ const QuickSearch = () => {
         width: "98%",
         margin: "auto",
       }}
-      className="grid lg:grid-cols-8 md:grid-cols-4 max-[760px]:grid-cols-4 gap-4 p-4"
+      className="grid  lg:grid-cols-8 md:grid-cols-4 max-[760px]:grid-cols-4 gap-4 p-4"
     >
       <div
         onClick={(e) => qSearch(e)}
@@ -105,7 +106,13 @@ const QuickSearch = () => {
       </div>
       <div
         // value="Kideny"
-        onClick={() => setshow(!showmore)}
+        onClick={() => {
+          if (router.pathname == "/Category/Category") {
+            setshow(!showmore);
+          } else {
+            router.push("/Category/Category");
+          }
+        }}
         // data="kideny"
         className={`${styles.showbtn} `}
       >
@@ -152,6 +159,15 @@ const QuickSearch = () => {
           >
             {" "}
             <span className={`${styles.divtext}`}>Cancer</span>{" "}
+          </div>
+          <div
+            onClick={(e) => qSearch(e)}
+            value="children pedia"
+            className={` ${styles.btn8} `}
+            // className="bg-gray-100 p-4"
+          >
+            {" "}
+            <span className={`${styles.divtext}`}>Children</span>{" "}
           </div>
         </>
       )}

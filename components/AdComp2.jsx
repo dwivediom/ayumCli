@@ -45,7 +45,7 @@ const Slider = () => {
     if (!isPaused) {
       intervalRef.current = setInterval(() => {
         setActiveIndex((prevIndex) => (prevIndex + 1) % slidesData.length);
-      }, 4000);
+      }, 3000);
     } else {
       clearInterval(intervalRef.current);
     }
@@ -91,7 +91,7 @@ const Slider = () => {
           </div>
         ))}
       </div>
-      <div
+      {/* <div
         className={`${styles.manualcontrol}`}
         onMouseEnter={handleAutoSlide}
         onMouseLeave={handleAutoSlide}
@@ -108,7 +108,7 @@ const Slider = () => {
             <span></span>
           </label>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

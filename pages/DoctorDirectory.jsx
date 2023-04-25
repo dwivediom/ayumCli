@@ -5,6 +5,7 @@ import { directorydata } from "../routes/data";
 import { getDoc, SearchDoc, showMore } from "../routes/directory";
 import styles from "../styles/Phonebook.module.css";
 import styles1 from "../styles/Searchinput.module.css";
+import Slider from "../components/AdComp2";
 
 const DoctorDirectory = () => {
   const [docs, setdocs] = useState([]);
@@ -81,6 +82,7 @@ const DoctorDirectory = () => {
             </button>
           </div>
         </form>
+        <Slider />
 
         <div className={`${styles.directoryshell}`}>
           {loading ? (
@@ -105,6 +107,7 @@ const DoctorDirectory = () => {
             })
           )}
         </div>
+
         <div className="pb-20 ">
           {full ? (
             <div
