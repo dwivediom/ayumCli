@@ -48,23 +48,21 @@ const RCcontainer = ({ mobile }) => {
           />
         </div>
       ) : (
-        <div className=" h-full w-full shadow">
-          <div className={`${styles.usercontainer}`}>
-            {usermenu &&
-              alluser &&
-              alluser.data.map((user) => {
-                if (user.sub != admin.sub) {
-                  return (
-                    <User
-                      mobile={mobile}
-                      key={user.email}
-                      name={user.name}
-                      user={user}
-                    />
-                  );
-                }
-              })}
-          </div>
+        <div className={`${styles.usercontainer}`}>
+          {usermenu &&
+            alluser &&
+            alluser.data.map((user) => {
+              if (user.sub != admin.sub) {
+                return (
+                  <User
+                    mobile={mobile}
+                    key={user.email}
+                    name={user.name}
+                    user={user}
+                  />
+                );
+              }
+            })}
         </div>
       )}
     </>

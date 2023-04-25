@@ -10,7 +10,7 @@ import Image from "next/image";
 import { setDocDataAction } from "../../redux/actions/userActions";
 import { SearchDoc } from "../../routes/directory";
 import DirectoryCard from "../../components/DirectoryCard";
-import Footer from "../../components/Footer";
+import Slider from "../../components/AdComp2";
 
 const Search = () => {
   const [data, setdata] = useState(null);
@@ -77,7 +77,7 @@ const Search = () => {
 
   return (
     <>
-      <div className="m-4">
+      <div className="p-4 absolute w-full pb-[8rem]">
         <form className={`${styles.searchform}`} onSubmit={(e) => onSearch(e)}>
           <div className="relative">
             <input
@@ -97,6 +97,8 @@ const Search = () => {
             </button>
           </div>
         </form>
+
+        <Slider />
 
         {loading ? (
           <div
@@ -139,7 +141,7 @@ const Search = () => {
               </div>
             ) : (
               <>
-                <div className={`${styles2.doccontainer} mt-3`}>
+                <div className={`${styles2.doccontainer} `}>
                   {data &&
                     data.data.map((doctor) => {
                       console.log(
@@ -162,7 +164,7 @@ const Search = () => {
                       );
                     })}
                 </div>
-                <div className={`${styles2.directoryshell} mt-3`}>
+                <div className={`${styles2.directoryshell} `}>
                   {docs &&
                     docs.map((item) => {
                       return (

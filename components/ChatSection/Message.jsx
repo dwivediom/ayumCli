@@ -61,6 +61,75 @@ const Message = (props) => {
     console.log(formattedTime); // output: "10:21, 19 February 2023"
   }, []);
 
+  const [isurl, setisurl] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
+  const [loadimg, setloadimg] = useState(false);
+
+  useEffect(() => {
+    async function checkmsg() {
+      setloadimg(true);
+      if (props.msgval.includes("google.com/maps/search/")) {
+        setisurl(true);
+        const url = props.msgval.replace("/maps/search/", "/maps/place/");
+        const apiUrl = `http://localhost:3000/api/screenshot?url=${encodeURIComponent(
+          url
+        )}`;
+        const response = await fetch(apiUrl);
+        const blob = await response.blob();
+        const snapshotUrl = URL.createObjectURL(blob);
+        // setSnapshot(snapshotUrl);
+
+        setImageUrl(snapshotUrl);
+        setloadimg(false);
+      }
+    }
+
+    checkmsg();
+  }, []);
+
+  if (isurl) {
+    return (
+      <>
+        <div className="d-flex flex-col " style={senderstyle}>
+          {!loadimg ? (
+            <>
+              <a
+                href={`${props.msgval}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-cyan-100 rounded-lg"
+              >
+                <Image
+                  src={imageUrl}
+                  alt={`Preview of ${props.msgval}`}
+                  width={300}
+                  height={200}
+                />
+              </a>
+              <a
+                href={`${props.msgval}`}
+                target="_blank"
+                rel="noreferrer"
+                className="message-content font-bold text-sm text-blue-600 underline"
+              >
+                Click for Location
+              </a>
+            </>
+          ) : (
+            <div className="p-2">
+              <Image
+                src={"/loader.svg"}
+                width={30}
+                height={30}
+                alt="Loading..."
+              />
+            </div>
+          )}
+        </div>
+      </>
+    );
+  }
+
   if (props.datatype == "file") {
     if (props.msgval.includes(".pdf") || props.msgval.includes(".txt")) {
       return (
@@ -89,23 +158,28 @@ const Message = (props) => {
     } else {
       return (
         <>
-          <div className="d-flex flex-col" style={senderstyle}>
+          <div className="d-flex flex-col " style={senderstyle}>
             <div style={childstyle}>
-              <div>
-                <Image
-                  width={300}
-                  height={300}
-                  src={`${props.msgval}`}
-                  alt={"message"}
-                  style={{
-                    objectFit: "cover",
-                    display: "block",
-                    backgroundPosition: "top",
-                    borderRadius: "8px",
-                  }}
-                />
+              <div
+                style={{
+                  overflow: "hidden",
+                }}
+                className="relative w-[15rem] "
+              >
+                <div className="relative  h-[8rem]">
+                  <Image
+                    width={300}
+                    height={300}
+                    src={`${props.msgval}`}
+                    alt={"message"}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition={"center"}
+                  />
+                </div>
+
                 <a style={{ display: "block" }} href={props.msgval}>
-                  {props.msgval.split("file-").pop()}{" "}
+                  {props.msgval.split("file-").pop()}
                 </a>
 
                 <FileDownloadIcon

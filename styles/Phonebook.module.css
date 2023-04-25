@@ -72,12 +72,12 @@
 .directoryshell {
   display: flex;
   width: 100%;
-  justify-content: space-between;
   padding-top: 20px;
+
   flex-wrap: wrap;
   min-height: 100vh !important;
-
   gap: 20px;
+  justify-content: center;
 }
 
 .directorycard {
@@ -119,7 +119,6 @@
 
 .showmore {
   color: #008187;
-
   font-size: small;
   cursor: pointer;
   font-weight: bold;
