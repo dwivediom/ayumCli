@@ -7,6 +7,8 @@ import { uploadFile } from "../../routes/file";
 import styles from "../../styles/chat.module.css";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import FileCopyRoundedIcon from "@mui/icons-material/FileCopyRounded";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { notify } from "../../routes/notify";
 
 const MsgInputSection = () => {
@@ -24,7 +26,9 @@ const MsgInputSection = () => {
   const [input, setinput] = useState("");
   const [file, setfile] = useState("");
   const [image, setimage] = useState("");
+  const [options, showoptions] = useState("");
   const [inputholder, setinputholder] = useState("");
+  const [location, setLocation] = useState();
 
   useEffect(() => {
     const localStoragedata = JSON.parse(localStorage.getItem("labuser"));
@@ -46,7 +50,7 @@ const MsgInputSection = () => {
   };
 
   const sendmsg = async (e) => {
-    e.preventDefault();
+    e && e.preventDefault();
     if (input == "") {
       return;
     }
@@ -107,7 +111,7 @@ const MsgInputSection = () => {
           text: newfile,
           type: "file",
         };
-        setmsgchange(msg)
+        setmsgchange(msg);
         await setmessage(msg);
         socket.current.emit("sendMessage", msg);
         setinput("");
@@ -116,16 +120,17 @@ const MsgInputSection = () => {
         setfile("");
       }
 
-      let holdinput = input  ;
-      setinputholder('') 
+      let holdinput = input;
+      setinputholder("");
       setinput(" ");
-      
-     await notify(
-      {auth:person.user.auth,
-      endpoint:person.user.endpoint,
-      p256dh:person.user.p256dh,
-       sender:account.name , 
-       message:holdinput});
+
+      await notify({
+        auth: person.user.auth,
+        endpoint: person.user.endpoint,
+        p256dh: person.user.p256dh,
+        sender: account.name,
+        message: holdinput,
+      });
     }
   };
 
@@ -135,40 +140,116 @@ const MsgInputSection = () => {
     console.log("first file ", file);
     setinput(e.target.files[0].name);
   };
+
+  const getLocation = () => {
+    navigator.geolocation.watchPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        console.log(latitude, longitude);
+      },
+      (error) => {
+        alert(`Failed to get your location: ${error.message}`);
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 10000,
+      }
+    );
+  };
+
+  function shareLocation() {
+    navigator.permissions
+      .query({ name: "geolocation" })
+      .then((permissionStatus) => {
+        if (permissionStatus.state === "granted") {
+          navigator.geolocation.getCurrentPosition((position) => {
+            const { latitude, longitude } = position.coords;
+
+            console.log(latitude, longitude);
+
+            const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}&zoom=14`;
+            setinput(url);
+            sendmsg();
+          });
+        } else if (permissionStatus.state === "prompt") {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}&zoom=14`;
+              setinput(url);
+              sendmsg();
+            },
+            () => {},
+            { enableHighAccuracy: true }
+          );
+        }
+      });
+  }
   return (
     <>
-      <div>
-        <div className={`${styles.chatinputbox}`}>
-          <div>
-            <form action="#" onSubmit={(e) => sendmsg(e)}>
-              <input
-                type="text"
-                onChange={(e) => setinput(e.target.value)}
-                value={input}
-                placeholder="Send Message ..."
-              />
-            </form>
-          </div>
-
-          <div>
-            <div className={`${styles.sendbtn}`} onClick={sendmsg}>
-              <SendRoundedIcon style={{ color: "white" }} />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="fileinput" className={`${styles.sendbtn}`}>
-              <FileCopyRoundedIcon style={{ color: "white" }} />
-            </label>
+      <div
+        onMouseLeave={() => showoptions(false)}
+        className={`${styles.chatinputbox}`}
+      >
+        <div>
+          <form action="#" onSubmit={(e) => sendmsg(e)}>
             <input
-              onChange={(e) => {
-                onfilechange(e);
-              }}
-              type="file"
-              id="fileinput"
-              className=" hidden  "
+              type="text"
+              onChange={(e) => setinput(e.target.value)}
+              value={input}
+              placeholder="Send Message ..."
             />
+          </form>
+        </div>
+
+        <div>
+          <div className={`${styles.sendbtn}`} onClick={sendmsg}>
+            <SendRoundedIcon style={{ color: "white" }} />
           </div>
         </div>
+        {/* <div>
+          <label htmlFor="fileinput" className={`${styles.sendbtn}`}>
+            <FileCopyRoundedIcon style={{ color: "white" }} />
+          </label>
+          <input
+            onChange={(e) => {
+              onfilechange(e);
+            }}
+            type="file"
+            id="fileinput"
+            className=" hidden  "
+          />
+        </div> */}
+        <div onClick={() => showoptions(!options)}>
+          <label className={`${styles.sendbtn}`}>
+            <AttachFileIcon style={{ color: "white" }} />
+          </label>
+        </div>
+        {options && (
+          <div
+            className={`absolute top-[-5rem] rounded-md bg-blue-800 flex gap-3 w-full px-2 py-5 ${styles.choosebox}`}
+          >
+            <div>
+              <label htmlFor="fileinput" className={`${styles.sendbtn}`}>
+                <FileCopyRoundedIcon style={{ color: "white" }} />
+              </label>
+              <input
+                onChange={(e) => {
+                  onfilechange(e);
+                }}
+                type="file"
+                id="fileinput"
+                className=" hidden  "
+              />
+            </div>
+            <div onClick={() => shareLocation()}>
+              <label htmlFor="location" className={`${styles.sendbtn}`}>
+                <LocationOnIcon style={{ color: "white" }} />
+              </label>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

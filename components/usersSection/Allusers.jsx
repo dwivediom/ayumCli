@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { searchApi } from "../../routes/search";
 import SignOutbtn from "./SignOutbtn";
 
-const Allusers = ({ mobile }) => {
+const Allusers = React.memo(({ mobile }) => {
   const [alluser, setalluser] = useState(null);
   const [doctormenu, setdoctormenu] = useState(false);
   const [usermenu, setusermenu] = useState(true);
@@ -51,109 +51,95 @@ const Allusers = ({ mobile }) => {
 
   return (
     <>
-      <div className=" h-full w-full  rounded-lg shadow">
-        {admin && (
-          <div className={`${styles.chathead1}  `}>
-            <div className={`${styles.chatheaddetail}  `}>
-              <Image
-                // onClick={() => setthreedotmodal(!threedotmodal)}
-                style={{
-                  borderRadius: "50%",
-                }}
-                src={admin ? admin.picture : "/deafaultpro.jpg"}
-                width={40}
-                height={38}
-                alt="Profile Pic"
-              />
-              <div>
-                <span> {admin.name}</span>
-                <span className="text-sm text-gray-400"> {admin.email}</span>
-              </div>
-            </div>
-
-            {/* <div
-              onClick={() => setthreedotmodal(!threedotmodal)}
-              className={`${styles.threedot}`}
-            >
-              <Image
-                src={"/threedot.png"}
-                width={25}
-                height={25}
-                alt={"Three Dots"}
-              />
-            </div> */}
-            {/* Popup */}
-            {/* <div
-              style={{
-                display: !threedotmodal && "none",
-              }}
-              className={`${styles.popup}`}
-            >
-              <div onClick={(e) => gotoupdatepage(e)}>Update Profile</div>
-              <SignOutbtn />
-            </div> */}
-          </div>
-        )}
+      <div className="  pb-10 w-full  ">
         <div className={`${styles.mainusercontainer}`}>
-          <div className={`${styles.useritems}`}>
-            <div
-              style={{
-                borderBottom: usermenu ? "3px solid #111827 " : "none",
-                color: usermenu && "#111827",
-              }}
-              onClick={() => {
-                setusermenu(true);
-                setdoctormenu(false);
-              }}
-            >
-              Chats
-            </div>{" "}
-            <div
-              ref={searchRef}
-              style={{
-                borderBottom: doctormenu ? "3px solid #111827 " : "none",
-                color: doctormenu && "#111827",
-              }}
-              onClick={() => {
-                console.log(" menue clicked ");
-                setusermenu(false);
-                setdoctormenu(true);
-              }}
-            >
-              Search
-            </div>
-          </div>
+          {admin && (
+            <>
+              <div className={`${styles.chatheadshell}  `}>
+                <div className={`${styles.chathead1}  `}>
+                  <div className={`${styles.chatheaddetail}  `}>
+                    <Image
+                      // onClick={() => setthreedotmodal(!threedotmodal)}
+                      style={{
+                        borderRadius: "50%",
+                      }}
+                      src={admin ? admin.picture : "/deafaultpro.jpg"}
+                      width={40}
+                      height={38}
+                      alt="Profile Pic"
+                    />
+                    <div>
+                      <span> {admin.name}</span>
+                      <span className="text-sm text-gray-400">
+                        {" "}
+                        {admin.email}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className={`${styles.useritems}`}>
+                  <div
+                    style={{
+                      borderBottom: usermenu ? "3px solid #111827 " : "none",
+                      color: usermenu && "#111827",
+                    }}
+                    onClick={() => {
+                      setusermenu(true);
+                      setdoctormenu(false);
+                    }}
+                  >
+                    Chats
+                  </div>{" "}
+                  <div
+                    ref={searchRef}
+                    style={{
+                      borderBottom: doctormenu ? "3px solid #111827 " : "none",
+                      color: doctormenu && "#111827",
+                    }}
+                    onClick={() => {
+                      console.log(" menue clicked ");
+                      setusermenu(false);
+                      setdoctormenu(true);
+                    }}
+                  >
+                    Search
+                  </div>
+                </div>
 
-          <div
-            onClick={() => searchRef.current.click()}
-            className={`${styles.chatsearch}`}
-          >
-            <form action="#" onSubmit={(e) => handleSearch(e)}>
-              <input
-                type="search"
-                value={input}
-                onChange={(e) => {
-                  setinput(e.target.value);
-                }}
-                placeholder="Search User's Email "
-              />
-              <button
-                disabled={input == "" ? true : false}
-                className={`${styles.searchbtn2}`}
-                type="submit"
-                onClick={(e) => handleSearch(e)}
-              >
-                <img
-                  style={{
-                    width: "25px",
-                    height: "25px",
-                  }}
-                  src="https://img.icons8.com/sf-regular/48/FFFFFF/search.png"
-                  alt="search"
-                />
-              </button>
-            </form>
-          </div>
+                <div
+                  onClick={() => searchRef.current.click()}
+                  className={`${styles.chatsearch}`}
+                >
+                  <form action="#" onSubmit={(e) => handleSearch(e)}>
+                    <input
+                      type="search"
+                      value={input}
+                      onChange={(e) => {
+                        setinput(e.target.value);
+                      }}
+                      placeholder="Search User's Email "
+                    />
+                    <button
+                      disabled={input == "" ? true : false}
+                      className={`${styles.searchbtn2}`}
+                      type="submit"
+                      onClick={(e) => handleSearch(e)}
+                    >
+                      <img
+                        style={{
+                          width: "25px",
+                          height: "25px",
+                        }}
+                        src="https://img.icons8.com/sf-regular/48/FFFFFF/search.png"
+                        alt="search"
+                      />
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </>
+          )}
+
           {doctormenu && <Search searcheddata={searchdata} admin={admin} />}
 
           {usermenu && <RCcontainer mobile={mobile} />}
@@ -161,6 +147,6 @@ const Allusers = ({ mobile }) => {
       </div>
     </>
   );
-};
-
+});
+Allusers.displayName = "Allusers";
 export default Allusers;

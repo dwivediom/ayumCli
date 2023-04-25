@@ -6,6 +6,7 @@ import Message from "./Message";
 import styles from "../../styles/chat.module.css";
 import Image from "next/image";
 import SendPrivatebtn from "./SendPrivatebtn";
+import MsgInputSection from "./MsgInputSection";
 
 const ChatBox = ({ mobile }) => {
   const {
@@ -50,7 +51,7 @@ const ChatBox = ({ mobile }) => {
         JSON.parse(localStorage.getItem("labuser")).sub,
         person.user.sub
       );
-      
+
       if (data) {
         console.log(data.data);
         let allmessage = await getAllMessages(data.data && data.data._id);
@@ -99,19 +100,21 @@ const ChatBox = ({ mobile }) => {
 
   return (
     <>
-      <div className={`${styles.chathead}`}>
-        {person.user.picture && (
-          <Image
-            className={`${styles.chatheadimg}`}
-            width={40}
-            height={40}
-            src={`${person.user.picture}`}
-            alt="person pic"
-          />
-        )}
+      <div className={`${styles.chatheadshell}`}>
+        <div className={`${styles.chathead1}`}>
+          {person.user.picture && (
+            <Image
+              className={`${styles.chatheadimg}`}
+              width={40}
+              height={40}
+              src={`${person.user.picture}`}
+              alt="person pic"
+            />
+          )}
 
-        <span className="text-lg font-bold">{person.name}</span>
-        <SendPrivatebtn />
+          <span className="text-lg font-bold">{person.name}</span>
+          <SendPrivatebtn />
+        </div>
       </div>
 
       {loading ? (
@@ -156,6 +159,7 @@ const ChatBox = ({ mobile }) => {
                 );
               }
             })}
+          <MsgInputSection />
         </div>
       )}
     </>
