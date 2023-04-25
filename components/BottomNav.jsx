@@ -4,9 +4,12 @@ import Link from "next/link";
 const BottomNav = () => {
   return (
     <>
-      <div className="w-full h-screen">
+      <div className=" w-full h-screen ">
         {/* <!-- <section id="bottom-navigation" className="md:hidden block fixed inset-x-0 bottom-0 z-10 bg-white shadow"> // if shown only tablet/mobile--> */}
         <section
+          style={{
+            zIndex: 22,
+          }}
           id="bottom-navigation"
           className=" gird grid-cols-5 bg-gray-900  text-white block fixed  inset-x-0 bottom-0 z-10  shadow"
         >

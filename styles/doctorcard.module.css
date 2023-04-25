@@ -8,12 +8,13 @@
 .directoryshell {
   display: flex;
   width: 100%;
-  justify-content: space-between;
   padding-top: 20px;
-  flex-wrap: wrap;
-  min-height: 100vh !important;
 
+  flex-wrap: wrap;
+  /* min-height: 100vh !important; */
   gap: 20px;
+  justify-content: left;
+  align-items: flex-start;
 }
 
 .doctorcard {
