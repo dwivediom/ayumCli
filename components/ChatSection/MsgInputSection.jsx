@@ -170,7 +170,7 @@ const MsgInputSection = () => {
 
             const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}&zoom=14`;
             setinput(url);
-            sendmsg();
+            // sendmsg();
           });
         } else if (permissionStatus.state === "prompt") {
           navigator.geolocation.getCurrentPosition(
@@ -178,7 +178,7 @@ const MsgInputSection = () => {
               const { latitude, longitude } = position.coords;
               const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}&zoom=14`;
               setinput(url);
-              sendmsg();
+              // sendmsg();
             },
             () => {},
             { enableHighAccuracy: true }
@@ -208,19 +208,7 @@ const MsgInputSection = () => {
             <SendRoundedIcon style={{ color: "white" }} />
           </div>
         </div>
-        {/* <div>
-          <label htmlFor="fileinput" className={`${styles.sendbtn}`}>
-            <FileCopyRoundedIcon style={{ color: "white" }} />
-          </label>
-          <input
-            onChange={(e) => {
-              onfilechange(e);
-            }}
-            type="file"
-            id="fileinput"
-            className=" hidden  "
-          />
-        </div> */}
+
         <div onClick={() => showoptions(!options)}>
           <label className={`${styles.sendbtn}`}>
             <AttachFileIcon style={{ color: "white" }} />
@@ -228,7 +216,7 @@ const MsgInputSection = () => {
         </div>
         {options && (
           <div
-            className={`absolute top-[-5rem] rounded-md bg-blue-800 flex gap-3 w-full px-2 py-5 ${styles.choosebox}`}
+            className={`absolute top-[-5rem] rounded-md flex gap-3 w-full px-2 py-5 ${styles.choosebox}`}
           >
             <div>
               <label htmlFor="fileinput" className={`${styles.sendbtn}`}>
