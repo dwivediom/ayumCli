@@ -403,6 +403,7 @@
 .testformbox > div > div {
   /* border: 1px solid red; */
   padding: 5px;
+
   border-radius: 8px;
   background-color: rgba(238, 239, 240, 0.568);
 }
@@ -445,5 +446,29 @@
   .testformbox {
     height: 57vh;
     border: none;
+  }
+}
+
+.submitanimation {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: transparent !important;
+  animation: animatesubmit 0.5s linear forwards;
+  text-align: center;
+  font-weight: bold;
+  color: rgb(0, 177, 53);
+}
+
+@keyframes animatesubmit {
+  0% {
+    transform: translateX(-150px) skew(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) skew(0deg);
+    opacity: 1;
   }
 }
