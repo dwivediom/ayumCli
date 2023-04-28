@@ -2,14 +2,11 @@
   height: 13rem;
   overflow: hidden;
   width: 98vw !important;
-
   width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
-
   margin: auto;
-  /* margin-top: rem; */
   padding: 1rem;
 }
 

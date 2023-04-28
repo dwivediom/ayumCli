@@ -59,7 +59,6 @@ const Allusers = React.memo(({ mobile }) => {
                 <div className={`${styles.chathead1}  `}>
                   <div className={`${styles.chatheaddetail}  `}>
                     <Image
-                      // onClick={() => setthreedotmodal(!threedotmodal)}
                       style={{
                         borderRadius: "50%",
                       }}
