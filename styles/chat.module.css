@@ -52,7 +52,7 @@
 }
 .chathead {
   height: 60px;
-  background-color: #111827;
+  background-color: #081c3f;
   display: flex;
   align-items: center;
   transition: 0.5s all;
@@ -67,10 +67,10 @@
 
 .chatmsgs {
   padding: 10px;
-  /* max-height: 10; */
-  background-color: white;
-  height: 63vh;
 
+  background: white;
+  height: 63vh;
+  padding-bottom: 1rem;
   overflow: auto;
 }
 
@@ -113,8 +113,9 @@
   position: absolute;
   bottom: 33px;
   margin-left: -10px;
-  background-color: white;
-
+  background-color: rgba(255, 255, 255, 0.137);
+  backdrop-filter: blur(10px);
+  width: 100%;
   padding: 10px;
 
   /* margin-bottom: 40px; */
@@ -123,10 +124,9 @@
 @media (max-width: 700px) {
   .chatinputbox {
     margin-left: -11px;
-    bottom: 58px;
+    bottom: 78px;
 
     width: 100vw !important;
-    background-color: rgb(255, 255, 255);
   }
 
   .usercontainer {
@@ -138,6 +138,7 @@
   }
   .chatmsgs {
     height: 71vh;
+    padding-bottom: 4rem;
     max-width: 100vw;
     overflow-x: hidden;
   }
@@ -177,10 +178,11 @@
   position: sticky;
   top: 0;
 
-  background-color: #111827;
+  background-color: #081c3f;
   display: flex;
   align-items: center;
-  border-top: 2px solid rgba(155, 155, 155, 0.523);
+  /* border-top: 2px solid rgba(155, 155, 155, 0.523); */
+  /* box-shadow: 0 0 10px rgb(210, 210, 210) !important; */
   padding: 10px;
   color: rgb(255, 255, 255);
   gap: 1rem;
@@ -377,15 +379,17 @@
 
 .testformbox {
   width: 100%;
-  border-bottom: 2px solid rgb(203, 203, 203);
+  /* border-bottom: 2px solid rgb(203, 203, 203); */
+  box-shadow: 0 0 10px rgba(103, 100, 100, 0.326);
   display: flex;
   align-items: flex-start;
-  padding-top: 2rem;
+  padding: 1rem;
   justify-content: center;
-  height: 100vh;
+  min-height: 80vh;
+  margin-bottom: 1rem;
 }
 .testformbox > div {
-  box-shadow: 0 3px 15px rgb(207, 205, 205);
+  box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.18);
 }
 .testformbox div input {
   border: none;
@@ -442,10 +446,8 @@
   .chatinputbox input {
     width: 100%;
   }
-
   .testformbox {
-    height: 57vh;
-    border: none;
+    min-height: 70vh;
   }
 }
 
