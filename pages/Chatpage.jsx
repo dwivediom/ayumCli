@@ -123,7 +123,7 @@ export default function Chatpage() {
         <>
           <div className={`${styles.chatpagecontainer}`}>
             <section id="section1" className={`${styles.testformbox}`}>
-              <div className="w-[22rem] py-7 px-4 gap-3  flex flex-col rounded-md">
+              <div className="w-[22rem] py-7 px-4 gap-1  flex flex-col rounded-md">
                 <h1 className="text-center font-bold text-lg pt-3">
                   Book Your Test
                 </h1>
@@ -204,7 +204,7 @@ export default function Chatpage() {
                 )}
 
                 {filldetail && (
-                  <span className="text-sm text-center text-red-500 mt-3">
+                  <span className="text-sm text-center text-red-500 mt-1">
                     Enter Complete and Valid Details
                   </span>
                 )}

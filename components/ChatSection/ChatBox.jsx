@@ -153,14 +153,6 @@ const ChatBox = ({ mobile }) => {
         </div>
       ) : (
         <div className={`${styles.chatmsgs}`} ref={scrollRef}>
-          {mobile && (
-            <button
-              className={`${styles.backbtn}`}
-              onClick={() => setmsgopened(false)}
-            >
-              {"\u2190"} Back
-            </button>
-          )}
           {usermessage.length > 0 &&
             usermessage.map((msg) => {
               if (msg) {
