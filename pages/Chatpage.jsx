@@ -41,8 +41,9 @@ export default function Chatpage() {
   const [inputdata, setinputdata] = useState({
     name: "",
     phone: "",
+    city: "",
   });
-  const [loading, setloading] = useState(false);
+  const [sent, setsent] = useState(false);
   const handleChange = useCallback((e) => {
     e.preventDefault();
     setfilldetail(false);
@@ -59,7 +60,7 @@ export default function Chatpage() {
       let socketmsg = {
         senderId: account.sub,
         reciverId: "115971436675659419788",
-        text: `Name : ${inputdata.name} ,  Phone : ${inputdata.phone}`,
+        text: `Name : ${inputdata.name} ,  Phone : ${inputdata.phone} , city: ${inputdata.city}`,
         type: "text",
       };
       setmsgchange(socketmsg);
@@ -73,7 +74,7 @@ export default function Chatpage() {
         conversationId: data.data._id,
         senderId: account.sub,
         reciverId: "115971436675659419788",
-        text: `Name : ${inputdata.name} ,  Phone : ${inputdata.phone}`,
+        text: `Name : ${inputdata.name} ,  Phone : ${inputdata.phone} , city: ${inputdata.city}`,
         type: "text",
       };
       await setmessage(msg);
@@ -94,6 +95,7 @@ export default function Chatpage() {
     // });
   };
   const [filldetail, setfilldetail] = useState(false);
+  const [loading, setloading] = useState(false);
 
   const SubmitTestForm = async (e) => {
     e.preventDefault();
@@ -104,12 +106,14 @@ export default function Chatpage() {
       inputdata.phone.length > 10
     ) {
       setfilldetail(true);
+      setsent(false);
       setloading(false);
       return;
     } else {
       console.log(inputdata);
-      sendmsg();
+      await sendmsg();
       setloading(false);
+      setsent(!sent);
     }
   };
 
@@ -151,13 +155,53 @@ export default function Chatpage() {
                     placeholder="Enter Phone Number"
                   />
                 </div>
+                <div className="flex items-center w-full ">
+                  <img
+                    className="w-[35px] h-[35px]"
+                    src="https://img.icons8.com/ios-filled/50/4D4D4D/city.png"
+                    alt="city"
+                  />
+                  <input
+                    type="text"
+                    name="city"
+                    value={inputdata.city}
+                    onChange={(e) => handleChange(e)}
+                    className="rounded-md m-2 border-none shadow-md p-3 w-full"
+                    placeholder="Enter Your City"
+                  />
+                </div>
 
-                <button
-                  onClick={(e) => SubmitTestForm(e)}
-                  className="mt-4 bg-red-400 p-2 rounded font-bold text-white "
-                >
-                  {loading ? "Submitting..." : "Submit"}
-                </button>
+                {sent ? (
+                  <div className={`${styles.submitanimation}`}>
+                    <span>Request Sent Successfully </span> <br />
+                    <img
+                      className="w-[35px] h-[35px]"
+                      src="https://img.icons8.com/ios-filled/50/40C057/instagram-check-mark.png"
+                      alt="success"
+                    />
+                  </div>
+                ) : (
+                  <button
+                    style={{
+                      background: loading && "white",
+                    }}
+                    onClick={(e) => SubmitTestForm(e)}
+                    className="mt-4 bg-red-400 p-2 rounded font-bold text-white "
+                  >
+                    {loading ? (
+                      <span>
+                        <Image
+                          src={"/loader.svg"}
+                          width={25}
+                          height={25}
+                          alt={"loader img"}
+                        />
+                      </span>
+                    ) : (
+                      <span>Submit</span>
+                    )}
+                  </button>
+                )}
 
                 {filldetail && (
                   <span className="text-sm text-center text-red-500 mt-3">
