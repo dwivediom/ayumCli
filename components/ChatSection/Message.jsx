@@ -55,10 +55,11 @@ const Message = (props) => {
     }
   }, []);
   useEffect(() => {
+    console.log(props.time, "Time yhh h");
     const timestamp = new Date(props.time);
     const formattedTime = formatTimestamp(timestamp);
     settime(formattedTime);
-    console.log(formattedTime); // output: "10:21, 19 February 2023"
+    // console.log(formattedTime); // output: "10:21, 19 February 2023"
   }, []);
 
   const [isurl, setisurl] = useState(false);
@@ -109,6 +110,9 @@ const Message = (props) => {
               >
                 Click for Location
               </a>
+              <span style={{ fontSize: "0.6rem" }} className="text-gray-400 ">
+                {time && time}
+              </span>{" "}
             </>
           ) : (
             <div className="p-2">

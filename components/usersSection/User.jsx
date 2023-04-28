@@ -10,6 +10,9 @@ const User = (props) => {
   const onclick = async (e) => {
     setmsgopened(true);
     // setmobilevalue()
+    const username = props.user.name;
+    const stateObj = { username };
+    window.history.pushState(stateObj, null, null);
     const reciverid = props.user.sub;
     const senderId = JSON.parse(localStorage.getItem("labuser")).sub;
     localStorage.setItem("person", JSON.stringify(props));
@@ -18,13 +21,14 @@ const User = (props) => {
     await setConversation(senderId, reciverid);
   };
   console.log("pros.user ", props.user.picture);
+
   return (
     <>
       <div
         onClick={(e) => {
-          // props.mobile && setmsgopened(true);
           console.log(props.mobile, "Mobile hai ya nahi");
-          setmsgopened(true);
+
+          // setmsgopened(true);
           onclick(e);
         }}
         className={`${styles.usercard}`}

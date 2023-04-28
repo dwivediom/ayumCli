@@ -38,6 +38,7 @@ const RCcontainer = ({ mobile }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
           }}
         >
           <Image
@@ -46,6 +47,7 @@ const RCcontainer = ({ mobile }) => {
             height={40}
             alt={"loader img"}
           />
+          <br /> <h2>Loading Chats.. 💙</h2>
         </div>
       ) : (
         <div className={`${styles.usercontainer}`}>

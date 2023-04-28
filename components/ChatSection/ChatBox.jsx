@@ -98,6 +98,23 @@ const ChatBox = ({ mobile }) => {
     }
   }, [msgchange]);
 
+  useEffect(() => {
+    const handlePopstate = (event) => {
+      const stateObj = event.state;
+      if (stateObj) {
+        const username = stateObj.username;
+        console.log(username);
+        // set display property of conversation component to 'none'
+        setmsgopened(false);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopstate);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopstate);
+    };
+  }, []);
   return (
     <>
       <div className={`${styles.chatheadshell}`}>
@@ -147,12 +164,13 @@ const ChatBox = ({ mobile }) => {
           {usermessage.length > 0 &&
             usermessage.map((msg) => {
               if (msg) {
+                console.log(msg, "Message ");
                 return (
                   <div key={msg._id}>
                     <Message
                       senderId={msg.senderId}
                       msgval={msg.text && msg.text}
-                      time={msg.createdAt}
+                      time={msg.updatedAt}
                       datatype={msg.type}
                     />
                   </div>
