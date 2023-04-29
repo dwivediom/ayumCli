@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import ChatBox from "../components/ChatSection/ChatBox";
-import MsgInputSection from "../components/ChatSection/MsgInputSection";
 import Allusers from "../components/usersSection/Allusers";
 import { AccountContext } from "../context/AccountProvider";
 import styles from "../styles/chat.module.css";
@@ -181,26 +180,36 @@ export default function Chatpage() {
                     />
                   </div>
                 ) : (
-                  <button
-                    style={{
-                      background: loading && "white",
-                    }}
-                    onClick={(e) => SubmitTestForm(e)}
-                    className="mt-4 bg-red-400 p-2 rounded font-bold text-white "
-                  >
-                    {loading ? (
-                      <span>
-                        <Image
-                          src={"/loader.svg"}
-                          width={25}
-                          height={25}
-                          alt={"loader img"}
-                        />
-                      </span>
-                    ) : (
-                      <span>Submit</span>
-                    )}
-                  </button>
+                  <>
+                    <button
+                      style={{
+                        background: loading && "white",
+                      }}
+                      onClick={(e) => SubmitTestForm(e)}
+                      className="mt-4 bg-red-400 p-2 rounded font-bold text-white "
+                    >
+                      {loading ? (
+                        <span>
+                          <Image
+                            src={"/loader.svg"}
+                            width={25}
+                            height={25}
+                            alt={"loader img"}
+                          />
+                        </span>
+                      ) : (
+                        <span>Submit</span>
+                      )}
+                    </button>
+
+                    <h3 className="w-full text-center mt-1 relative">
+                      <span> Scroll Down For Chats </span>{" "}
+                      <span className={`${styles.scrollanimate}`}>
+                        {" "}
+                        &uarr; &uarr; &uarr;
+                      </span>{" "}
+                    </h3>
+                  </>
                 )}
 
                 {filldetail && (
