@@ -130,7 +130,10 @@
   }
 
   .usercontainer {
-    overflow: visible;
+    /* overflow: visible; */
+    height: 100%;
+    padding-bottom: 3rem;
+    border: 2px solid red;
   }
   .chatbox {
     position: fixed;
@@ -464,6 +467,14 @@
   color: rgb(0, 177, 53);
 }
 
+.scrollanimate {
+  font-weight: bold;
+
+  animation: animatescroll 1.3s linear forwards;
+  animation-iteration-count: 7;
+  position: absolute;
+  right: 0;
+}
 @keyframes animatesubmit {
   0% {
     transform: translateX(-150px) skew(90deg);
@@ -472,5 +483,16 @@
   100% {
     transform: translateX(0) skew(0deg);
     opacity: 1;
+  }
+}
+@keyframes animatescroll {
+  0% {
+    transform: translateY(20px);
+    color: blue;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+    color: black;
   }
 }
