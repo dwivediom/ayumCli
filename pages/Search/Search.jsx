@@ -10,7 +10,8 @@ import Image from "next/image";
 import { setDocDataAction } from "../../redux/actions/userActions";
 import { SearchDoc } from "../../routes/directory";
 import DirectoryCard from "../../components/DirectoryCard";
-import Slider from "../../components/AdComp2";
+
+import Slider2 from "../../components/AdComp3";
 
 const Search = () => {
   const [data, setdata] = useState(null);
@@ -24,6 +25,8 @@ const Search = () => {
   const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
   useEffect(() => {
     console.log("sedata", sdata);
+
+    onSearch();
     if (localStorage.skey && reload) {
       setinput(localStorage.skey);
       input && onloadSearch(input);
@@ -47,9 +50,17 @@ const Search = () => {
   };
 
   const onSearch = async (e) => {
+    if (e) {
+      e.preventDefault();
+    }
     if (input == "") {
-      setdata(null);
-      return setviewsearchill(true);
+      setviewsearchill(false);
+      setloading(true);
+      setreload(false);
+      const getdata = await SearchDoc("D");
+      setdocs(getdata.data);
+      setloading(false);
+      return;
     }
     setviewsearchill(false);
     setloading(true);
@@ -86,7 +97,6 @@ const Search = () => {
               id="default-search"
               className={`${styles.searchinput}`}
               placeholder="Search Doctors, Specialist , Clinics..."
-              required
             />
             <button
               type="button"
@@ -98,7 +108,7 @@ const Search = () => {
           </div>
         </form>
 
-        <Slider />
+        <Slider2 />
 
         {loading ? (
           <div
@@ -106,20 +116,21 @@ const Search = () => {
               width: "100vw",
               height: "50vh",
               display: "flex",
-              alignItems: "center",
+              alignItems: "flex-start",
               justifyContent: "center",
               margin: "auto",
+              marginTop: "1rem",
             }}
           >
             <Image
               src={"/loader.svg"}
-              width={40}
-              height={40}
+              width={30}
+              height={30}
               alt="Loading..."
             />
           </div>
         ) : (
-          <div className={`${styles2.doccontainer} mt-6`}>
+          <div className={`${styles2.doccontainer} `}>
             {data && data.data.length == 0 && docs && docs.length == 0 ? (
               <div
                 style={{
@@ -163,6 +174,9 @@ const Search = () => {
                         />
                       );
                     })}
+                </div>
+                <div className="shadow-lg p-1 w-full text-center font-bold rounded-lg">
+                  {"Search Doctor's information "}
                 </div>
                 <div className={`${styles2.directoryshell} `}>
                   {docs &&
