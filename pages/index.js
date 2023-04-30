@@ -129,7 +129,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="absolute">
+      <div className="absolute w-full overflow-hidden">
         <SearchBox />
         <QuickSearch />
         <div className={styles.directorycontainer}>

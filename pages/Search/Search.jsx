@@ -88,7 +88,7 @@ const Search = () => {
 
   return (
     <>
-      <div className="p-4 absolute w-full pb-[8rem]">
+      <div className="p-4 absolute w-[98vw] overflow-hidden pb-[8rem]">
         <form className={`${styles.searchform}`} onSubmit={(e) => onSearch(e)}>
           <div className="relative">
             <input
