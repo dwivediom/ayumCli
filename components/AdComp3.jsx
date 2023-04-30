@@ -16,7 +16,7 @@ const slidesData = [
 
   {
     id: 2,
-    imageSrc: "https://i.ibb.co/QK3ckfy/Ayum-1.jpg",
+    imageSrc: "https://i.ibb.co/f22BMwT/Ayum-3.jpg",
     title: "Slide 2",
   },
   {

@@ -5,7 +5,8 @@ import { directorydata } from "../routes/data";
 import { getDoc, SearchDoc, showMore } from "../routes/directory";
 import styles from "../styles/Phonebook.module.css";
 import styles1 from "../styles/Searchinput.module.css";
-import Slider from "../components/AdComp2";
+
+import Slider2 from "../components/AdComp3";
 
 const DoctorDirectory = () => {
   const [docs, setdocs] = useState([]);
@@ -58,7 +59,7 @@ const DoctorDirectory = () => {
 
   return (
     <>
-      <div className={`${styles.directorypage}  p-5`}>
+      <div className={`${styles.directorypage}  p-5z`}>
         <form
           onSubmit={(e) => handleSubmit(e)}
           className={`${styles1.searchform}`}
@@ -82,7 +83,7 @@ const DoctorDirectory = () => {
             </button>
           </div>
         </form>
-        <Slider />
+        <Slider2 />
 
         <div className={`${styles.directoryshell}`}>
           {loading ? (
