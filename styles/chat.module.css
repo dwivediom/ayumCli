@@ -37,10 +37,6 @@
   background-color: #ffffff;
   border-left: 0.5px solid #383838;
 }
-.usercontainer {
-  max-height: 55vh;
-  overflow: auto;
-}
 
 .chatbox {
   width: 100%;
@@ -120,6 +116,13 @@
 
   /* margin-bottom: 40px; */
 }
+@media (min-width: 970px) {
+  .usercontainer {
+    max-height: 60vh;
+    overflow: auto;
+    padding-bottom: 6rem;
+  }
+}
 
 @media (max-width: 700px) {
   .chatinputbox {
@@ -130,10 +133,7 @@
   }
 
   .usercontainer {
-    /* overflow: visible; */
-    height: 100%;
-    padding-bottom: 3rem;
-    border: 2px solid red;
+    padding-bottom: 6rem;
   }
   .chatbox {
     position: fixed;
@@ -442,9 +442,6 @@
   .chatshell {
     height: 100vh;
   }
-  .usercontainer {
-    max-height: 100vh;
-  }
 
   .chatinputbox input {
     width: 100%;
@@ -469,9 +466,7 @@
 
 .scrollanimate {
   font-weight: bold;
-
-  animation: animatescroll 1.3s linear forwards;
-  animation-iteration-count: 7;
+  animation: animatescroll 1.3s linear infinite;
   position: absolute;
   right: 0;
 }
@@ -494,5 +489,19 @@
     transform: translateY(0);
     opacity: 0;
     color: black;
+  }
+}
+
+.scrollanimatetxt {
+  animation: animatescrolltxt 7s linear forwards;
+  animation-timing-function: ease-in;
+}
+
+@keyframes animatescrolltxt {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }

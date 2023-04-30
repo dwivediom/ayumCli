@@ -203,7 +203,10 @@ export default function Chatpage() {
                     </button>
 
                     <h3 className="w-full text-center mt-1 relative">
-                      <span> Scroll Down For Chats </span>{" "}
+                      <span className={`${styles.scrollanimatetxt}`}>
+                        {" "}
+                        Scroll Down For Chats{" "}
+                      </span>
                       <span className={`${styles.scrollanimate}`}>
                         {" "}
                         &uarr; &uarr; &uarr;
