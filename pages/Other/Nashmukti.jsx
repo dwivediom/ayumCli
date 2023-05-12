@@ -1,8 +1,28 @@
 import React from "react";
+import { AccountContext } from "../../context/AccountProvider";
+import { useContext } from "react";
+import { useEffect } from "react";
 
 const Nashamukti = () => {
+  const { setscrollbox } = useContext(AccountContext);
+  useEffect(() => {
+    let indexbox = document.getElementById("nashamuktipage");
+    // console.log(indexbox.scrollTop);
+    indexbox.addEventListener("scroll", () => {
+      let scrollTop = indexbox.scrollTop;
+      if (scrollTop > 0) {
+        setscrollbox(false);
+      } else {
+        setscrollbox(true);
+      }
+    });
+  }, []);
   return (
-    <div style={{ userSelect: "none" }} className="absolute pb-20">
+    <div
+      id="nashamuktipage"
+      style={{ userSelect: "none" }}
+      className="absolute h-[100vh] overflow-scroll pb-20"
+    >
       <h1
         style={{
           fontSize: "1.5rem",

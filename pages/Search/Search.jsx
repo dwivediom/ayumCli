@@ -12,6 +12,8 @@ import { SearchDoc } from "../../routes/directory";
 import DirectoryCard from "../../components/DirectoryCard";
 
 import Slider2 from "../../components/AdComp3";
+import { useContext } from "react";
+import { AccountContext } from "../../context/AccountProvider";
 
 const Search = () => {
   const [data, setdata] = useState(null);
@@ -86,9 +88,25 @@ const Search = () => {
     setinput(val);
   };
 
+  const { setscrollbox } = useContext(AccountContext);
+  useEffect(() => {
+    let indexbox = document.getElementById("searchpage");
+    // console.log(indexbox.scrollTop);
+    indexbox.addEventListener("scroll", () => {
+      let scrollTop = indexbox.scrollTop;
+      if (scrollTop > 0) {
+        setscrollbox(false);
+      } else {
+        setscrollbox(true);
+      }
+    });
+  }, []);
   return (
     <>
-      <div className="p-4 absolute w-[98vw] overflow-hidden pb-[8rem]">
+      <div
+        id="searchpage"
+        className={`p-4 absolute w-[98vw] h-[100vh] overflow-x-hidden overflow-y-scroll pb-[8rem] ${styles.searchpage}`}
+      >
         <form className={`${styles.searchform}`} onSubmit={(e) => onSearch(e)}>
           <div className="relative">
             <input

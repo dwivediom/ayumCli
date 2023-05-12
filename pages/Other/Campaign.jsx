@@ -2,11 +2,28 @@ import React from "react";
 import styles from "../../styles/BloodPage.module.css";
 import Image from "next/image";
 import Footer from "../../components/Footer";
+import { useContext } from "react";
+import { AccountContext } from "../../context/AccountProvider";
+import { useEffect } from "react";
 
 const Campaign = () => {
+  const { setscrollbox } = useContext(AccountContext);
+  useEffect(() => {
+    let indexbox = document.getElementById("campaignpage");
+    // console.log(indexbox.scrollTop);
+    indexbox.addEventListener("scroll", () => {
+      let scrollTop = indexbox.scrollTop;
+      if (scrollTop > 0) {
+        setscrollbox(false);
+      } else {
+        setscrollbox(true);
+      }
+    });
+  }, []);
+
   return (
     <>
-      <div className="absolute">
+      <div id="campaignpage" className=" h-[100vh] overflow-scroll absolute">
         <div
           style={{
             display: "flex",

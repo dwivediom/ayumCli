@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import styles2 from "../styles/demo.module.css";
 import dynamic from "next/dynamic";
 import axios from "axios";
 import ThankyouCard from "../components/ThankyouCard";
@@ -12,6 +13,9 @@ import Nashmukti from "../components/Nashmuktibtn";
 import BloodDonatebtn from "../components/BloodDonatebtn";
 import Slider from "../components/AdComp2";
 import ReactGA from "react-ga";
+import Router from "next/router";
+import DemoAd from "../components/DemoAd";
+import HorizontalScroll from "../components/DemoAd";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
@@ -19,7 +23,41 @@ const GetDoctor = dynamic(() => import("../components/GetDoctor"));
 const Footer = dynamic(() => import("../components/Footer"));
 
 export default function Home(props) {
-  const { authstatus, thankmodal, setthankmodal } = useContext(AccountContext);
+  const { authstatus, thankmodal, setthankmodal, setscrollbox } =
+    useContext(AccountContext);
+  function sendNotification(title, options) {
+    // Check if the browser supports notifications
+    if (!("Notification" in window)) {
+      console.log("This browser does not support desktop notifications");
+      return;
+    }
+
+    // Check the current notification permission status
+    if (Notification.permission === "granted") {
+      // If permission is already granted, create the notification
+      var notification = new Notification(title, options);
+    } else if (Notification.permission !== "denied") {
+      // If permission is not denied, request permission from the user
+      Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+          // If permission is granted, create the notification
+          var notification = new Notification(title, options);
+        }
+      });
+    }
+  }
+
+  // useEffect(() => {
+  //   if (!localStorage.getItem("surprisenoti")) {
+  //     setTimeout(() => {
+  //       localStorage.setItem("surprisenoti", false);
+  //       sendNotification("Surprise! Ayum has Something For You", {
+  //         body: "Book Pathology Tests and Get about 30% off Now! ",
+  //         icon: "/barkha.jpg",
+  //       });
+  //     }, 12000);
+  //   }
+  // }, []);
 
   const [isOnline, setIsOnline] = useState(true);
   const [doctors, setdoctors] = useState([]);
@@ -83,6 +121,23 @@ export default function Home(props) {
     setloading(false);
   };
 
+  Router.events.on("routeChangeStart", (url) => {
+    setscrollbox(true);
+  });
+
+  useEffect(() => {
+    let indexbox = document.getElementById("indexbox");
+    // console.log(indexbox.scrollTop);
+    indexbox.addEventListener("scroll", () => {
+      let scrollTop = indexbox.scrollTop;
+      if (scrollTop > 0) {
+        setscrollbox(false);
+      } else {
+        setscrollbox(true);
+      }
+    });
+  }, []);
+
   if (!isOnline) {
     return (
       <>
@@ -129,7 +184,14 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="absolute w-full overflow-hidden">
+      <div
+        id="indexbox"
+        onDrag={() => {
+          console.log("Hello");
+          setscrollbox(false);
+        }}
+        className="absolute w-full h-[100vh]  overflow-scroll"
+      >
         <SearchBox />
         <QuickSearch />
         <div className={styles.directorycontainer}>
@@ -138,9 +200,13 @@ export default function Home(props) {
           <BloodDonatebtn />
         </div>
 
-        <div>
-          <Slider />
-        </div>
+        {/* <div> */}
+        {/* <Slider /> */}
+        {/* <DemoAd /> */}
+
+        <HorizontalScroll />
+
+        {/* </div> */}
 
         {props.newdata ? (
           <main>

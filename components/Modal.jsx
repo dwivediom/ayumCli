@@ -8,7 +8,7 @@ const Modal = () => {
     <>
       <div className={styles.modalback}>
         <div className={styles.modalbox}>
-          <h1>Thankyou For Connecting With Ayum</h1>
+          <h1 className="text-center">Thankyou For Connecting With Ayum</h1>
           <img
             src="https://img.icons8.com/external-fauzidea-flat-fauzidea/64/null/external-success-online-learning-fauzidea-flat-fauzidea.png"
             alt="success"

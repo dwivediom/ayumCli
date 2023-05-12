@@ -8,8 +8,9 @@ import { AccountContext } from "../../context/AccountProvider";
 import { webpushfunc } from "../../utils/notification";
 import { updateuser } from "../../routes/user";
 import { adduser } from "../../routes/user";
+import { useEffect } from "react";
 const UserRegistrationPage = () => {
-  const { setauthstatus, setsignout, setthankmodal } =
+  const { setauthstatus, setsignout, setthankmodal, setscrollbox } =
     useContext(AccountContext);
   const router = useRouter();
 
@@ -99,6 +100,9 @@ const UserRegistrationPage = () => {
     setdata(newdata);
   };
 
+  useEffect(() => {
+    setscrollbox(false);
+  }, []);
   return (
     <>
       <div className={`${styles.authbox}`}>
