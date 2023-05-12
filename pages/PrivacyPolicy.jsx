@@ -1,10 +1,26 @@
 import React from "react";
 
 import styles from "../styles/Home.module.css";
+import { useContext } from "react";
+import { AccountContext } from "../context/AccountProvider";
+import { useEffect } from "react";
 
 const PrivacyPolicy = () => {
+  const { setscrollbox } = useContext(AccountContext);
+  useEffect(() => {
+    let indexbox = document.getElementById("privacybox");
+    // console.log(indexbox.scrollTop);
+    indexbox.addEventListener("scroll", () => {
+      let scrollTop = indexbox.scrollTop;
+      if (scrollTop > 0) {
+        setscrollbox(false);
+      } else {
+        setscrollbox(true);
+      }
+    });
+  }, []);
   return (
-    <div className={` ${styles.privacybox} pb-20 absolute p-3`}>
+    <div id="privacybox" className={` ${styles.privacybox} pb-20 absolute p-3`}>
       <div>
         <h1 className="font-bold mb-2 text-left">Privacy Policy</h1>
         <p className=" text-left">

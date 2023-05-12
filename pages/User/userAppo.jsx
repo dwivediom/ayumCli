@@ -5,11 +5,7 @@ const UserAppointments = dynamic(() =>
 );
 
 const userAppo = () => {
-  return (
-    <div className="p-1 pb-20">
-      <UserAppointments />
-    </div>
-  );
+  return <UserAppointments />;
 };
 
 export default userAppo;

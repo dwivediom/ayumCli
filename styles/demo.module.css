@@ -1,0 +1,21 @@
+.scrollingContainer {
+  border: 2px solid red;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  white-space: nowrap;
+}
+
+.scrollingDiv {
+  display: inline-flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.card {
+  background-color: blue;
+  width: 23rem;
+  height: 10rem;
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}

@@ -116,11 +116,25 @@ export default function Chatpage() {
     }
   };
 
+  const { setscrollbox } = useContext(AccountContext);
+  useEffect(() => {
+    let indexbox = document.getElementById("chatpage");
+    // console.log(indexbox.scrollTop);
+    indexbox.addEventListener("scroll", () => {
+      let scrollTop = indexbox.scrollTop;
+      if (scrollTop > 0) {
+        setscrollbox(false);
+      } else {
+        setscrollbox(true);
+      }
+    });
+  }, []);
+
   return (
     <>
       {!signout && (
         <>
-          <div className={`${styles.chatpagecontainer}`}>
+          <div id="chatpage" className={`${styles.chatpagecontainer}`}>
             <section id="section1" className={`${styles.testformbox}`}>
               <div className="w-[22rem] py-7 px-4 gap-1  flex flex-col rounded-md">
                 <h1 className="text-center font-bold text-lg pt-3">
@@ -201,17 +215,6 @@ export default function Chatpage() {
                         <span>Submit</span>
                       )}
                     </button>
-
-                    <h3 className="w-full text-center mt-1 relative">
-                      <span className={`${styles.scrollanimatetxt}`}>
-                        {" "}
-                        Scroll Down For Chats{" "}
-                      </span>
-                      <span className={`${styles.scrollanimate}`}>
-                        {" "}
-                        &uarr; &uarr; &uarr;
-                      </span>{" "}
-                    </h3>
                   </>
                 )}
 

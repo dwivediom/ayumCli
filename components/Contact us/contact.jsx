@@ -4,9 +4,25 @@ import emailjs from "@emailjs/browser";
 import { useRef } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useContext } from "react";
+import { AccountContext } from "../../context/AccountProvider";
+import { useEffect } from "react";
 const Footer = dynamic(() => import("../Footer"));
 
 const Contact = () => {
+  const { setscrollbox } = useContext(AccountContext);
+  useEffect(() => {
+    let indexbox = document.getElementById("contactpage");
+    // console.log(indexbox.scrollTop);
+    indexbox.addEventListener("scroll", () => {
+      let scrollTop = indexbox.scrollTop;
+      if (scrollTop > 0) {
+        setscrollbox(false);
+      } else {
+        setscrollbox(true);
+      }
+    });
+  }, []);
   const form = useRef();
   const [loading, setloading] = useState(false);
 
@@ -32,7 +48,7 @@ const Contact = () => {
   };
   return (
     <>
-      <div className={`${styles.maincontact}`}>
+      <div id="contactpage" className={`${styles.maincontact}`}>
         <div className={`${styles.contactimg}`}>
           <img src="/contact2.jpg" alt="" />
           <h2>Health and healing, strengthened by partnership</h2>

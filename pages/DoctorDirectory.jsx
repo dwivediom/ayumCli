@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DirectoryCard from "../components/DirectoryCard";
 import { directorydata } from "../routes/data";
 import { getDoc, SearchDoc, showMore } from "../routes/directory";
@@ -7,6 +7,7 @@ import styles from "../styles/Phonebook.module.css";
 import styles1 from "../styles/Searchinput.module.css";
 
 import Slider2 from "../components/AdComp3";
+import { AccountContext } from "../context/AccountProvider";
 
 const DoctorDirectory = () => {
   const [docs, setdocs] = useState([]);
@@ -16,6 +17,8 @@ const DoctorDirectory = () => {
   const [input, setinput] = useState({
     val: "",
   });
+
+  const { setscrollbox } = useContext(AccountContext);
 
   useEffect(() => {
     async function getalldoc() {
@@ -57,9 +60,24 @@ const DoctorDirectory = () => {
     setdocs(getdata.data);
   };
 
+  useEffect(() => {
+    let indexbox = document.getElementById("directorypage");
+    // console.log(indexbox.scrollTop);
+    indexbox.addEventListener("scroll", () => {
+      let scrollTop = indexbox.scrollTop;
+      if (scrollTop > 0) {
+        setscrollbox(false);
+      } else {
+        setscrollbox(true);
+      }
+    });
+  }, []);
   return (
     <>
-      <div className={`${styles.directorypage}  p-5z`}>
+      <div
+        id="directorypage"
+        className={`${styles.directorypage} h-[100vh] overflow-auto p-5z`}
+      >
         <form
           onSubmit={(e) => handleSubmit(e)}
           className={`${styles1.searchform}`}
@@ -92,6 +110,7 @@ const DoctorDirectory = () => {
                 width: "100%",
                 display: "flex",
                 justifyContent: "center",
+                alignItems: "flex-start",
               }}
             >
               <Image

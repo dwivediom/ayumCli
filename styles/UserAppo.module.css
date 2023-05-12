@@ -1,9 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
 
 .userappocontainer {
-  /* width: 100%; */
+  overflow: hidden;
+  /* border: 2px solid red; */
   position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
   margin: auto;
+}
+
+.userappocontainer::-webkit-scrollbar {
+  display: none;
 }
 .userappocontainer h1 {
   text-align: center;
@@ -16,13 +24,13 @@
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  gap: 2rem;
+  gap: 2.5rem;
   flex-wrap: wrap;
   padding-bottom: 100px;
 }
 .userappocard {
-  width: 23rem;
-  padding: 10px;
+  width: 22rem;
+  padding: 5px;
   position: relative;
   color: #36395a;
   background-color: #f8f8ff !important;
@@ -30,11 +38,11 @@
   border-top-left-radius: 0;
   box-shadow: 5px 15px 20px rgba(37, 43, 51, 0.265);
   font-family: "Poppins", sans-serif;
-  margin: 5px;
+  margin: auto;
   border-top: 4px solid rgb(1, 197, 197);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 .userappocard h2 {
   text-align: center;
@@ -78,6 +86,9 @@
   align-items: center;
   background-color: rgb(13, 0, 255) !important;
   cursor: pointer;
+  padding: 3px;
+  width: 5rem !important;
+  height: 2rem;
   transition: 0.2s all;
 }
 .crnrefresh:active {
@@ -98,4 +109,10 @@
   left: 0px;
   font-size: small;
   font-weight: bold;
+}
+
+@media (max-width: 370px) {
+  .userappocard {
+    width: 20rem;
+  }
 }

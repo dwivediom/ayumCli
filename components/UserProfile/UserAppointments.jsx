@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Appointment from "./Appointment";
 import styles from "../../styles/UserAppo.module.css";
 import axios from "axios";
@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { AccountContext } from "../../context/AccountProvider";
 
 const UserAppointments = () => {
   const router = useRouter();
@@ -40,10 +41,22 @@ const UserAppointments = () => {
   }, []);
 
   console.log("patitent ", appointment && appointment);
-
+  const { setscrollbox } = useContext(AccountContext);
+  useEffect(() => {
+    let indexbox = document.getElementById("userappocontainer");
+    // console.log(indexbox.scrollTop);
+    indexbox.addEventListener("scroll", () => {
+      let scrollTop = indexbox.scrollTop;
+      if (scrollTop > 0) {
+        setscrollbox(false);
+      } else {
+        setscrollbox(true);
+      }
+    });
+  }, []);
   return (
     <>
-      <div className={`${styles.userappocontainer}`}>
+      <div id="userappocontainer" className={`${styles.userappocontainer}`}>
         <h1 className="font-bold">Your Appointments</h1>
         <div className={`${styles.userapposhell}`}>
           {loading ? (
@@ -77,7 +90,7 @@ const UserAppointments = () => {
               return (
                 <>
                   <div key={data._id}>
-                    <div>{appointmentDate.getTime() < today.getTime()}</div>
+                    {/* <div>{appointmentDate.getTime() < today.getTime()}</div> */}
                     <Appointment
                       key={data._id}
                       data={data}
