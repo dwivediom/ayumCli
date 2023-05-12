@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../styles/quickSearch.module.css";
 import { quickSearchaction } from "../redux/actions/searchAction";
 import { useDispatch } from "react-redux";
@@ -31,6 +31,12 @@ const QuickSearch = () => {
     dispatch(quickSearchaction(val));
     router.push("/Search/Search");
   };
+
+  useEffect(() => {
+    if (router.pathname == "/Category/Category") {
+      setshow(true);
+    }
+  }, []);
 
   return (
     <div
@@ -104,23 +110,25 @@ const QuickSearch = () => {
       >
         <span className={`${styles.divtext}`}>Ortho</span>{" "}
       </div>
-      <div
-        // value="Kideny"
-        onClick={() => {
-          if (router.pathname == "/Category/Category") {
-            setshow(!showmore);
-          } else {
-            router.push("/Category/Category");
-          }
-        }}
-        // data="kideny"
-        className={`${styles.showbtn} `}
-      >
-        <span className={`${styles.divtext}`}>
-          {" "}
-          {showmore ? "Hide" : "Show More"}{" "}
-        </span>{" "}
-      </div>
+      {router.pathname != "/Category/Category" && (
+        <div
+          // value="Kideny"
+          onClick={() => {
+            if (router.pathname == "/Category/Category") {
+              setshow(!showmore);
+            } else {
+              router.push("/Category/Category");
+            }
+          }}
+          // data="kideny"
+          className={`${styles.showbtn} `}
+        >
+          <span className={`${styles.divtext}`}>
+            {" "}
+            {showmore ? "Hide" : "Show More"}{" "}
+          </span>{" "}
+        </div>
+      )}
 
       {showmore && (
         <>

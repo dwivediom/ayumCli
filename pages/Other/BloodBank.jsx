@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import DirectoryCard from "../../components/DirectoryCard";
 import { SearchDoc } from "../../routes/directory";
 import styles from "../../styles/BloodPage.module.css";
+import { useContext } from "react";
+import { AccountContext } from "../../context/AccountProvider";
 
 const BloodBank = () => {
   const [data, setdata] = useState();
@@ -17,13 +19,21 @@ const BloodBank = () => {
     }
     searchblood();
   }, []);
+
+  const { setscrollbox } = useContext(AccountContext);
+  useEffect(() => {
+    setscrollbox(false);
+  }, []);
   return (
     <>
       <div
+        className=" w-full m-auto mt-[-1rem] absolute overflow-scroll"
+        id="bloodpage"
         style={{
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "left",
           alignItems: "center",
+
           flexDirection: "column",
         }}
       >

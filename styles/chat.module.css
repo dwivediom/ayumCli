@@ -2,12 +2,16 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  height: 100vh;
+  overflow: scroll;
   width: 100%;
   position: absolute;
   background-color: #ffffff;
   top: 4rem;
 }
-
+.chatpagecontainer::-webkit-scrollbar {
+  display: none;
+}
 .chatshell {
   display: flex;
   padding-bottom: 3.5rem;

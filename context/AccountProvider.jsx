@@ -17,6 +17,7 @@ const AccountProvider = ({ children }) => {
   const [msgprivate, setmsgprivate] = useState(false);
   const [signout, setsignout] = useState(false);
   const [collapseopen, setcollapse] = useState(false);
+  const [scrollbox, setscrollbox] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem("thankmodal") == false) {
@@ -38,6 +39,8 @@ const AccountProvider = ({ children }) => {
     <AccountContext.Provider
       value={{
         signout,
+        scrollbox,
+        setscrollbox,
         setsignout,
         authstatus,
         setauthstatus,

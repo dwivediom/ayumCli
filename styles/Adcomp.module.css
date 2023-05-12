@@ -1,13 +1,13 @@
 .adcontainer {
   height: 13rem;
-  overflow: hidden;
-  width: 97vw !important;
-  width: 100%;
+  overflow: scroll;
+  /* width: 400vw !important; */
+  width: 100vw;
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   margin: auto;
-  padding: 1rem;
 }
 
 .adshell {
@@ -29,7 +29,6 @@
 
 .passbox {
   width: 22rem;
-
   height: 100%;
   display: flex;
   align-items: center;
@@ -55,4 +54,21 @@
   width: 100vw;
   gap: 20px;
   padding-left: 10px;
+}
+
+.scrollingContainer {
+  overflow-x: scroll;
+
+  scroll-behavior: smooth;
+  white-space: nowrap;
+}
+
+.scrollingContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollingDiv {
+  display: inline-flex;
+  gap: 1rem;
+  padding: 0.8rem;
 }

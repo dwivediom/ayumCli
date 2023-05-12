@@ -121,7 +121,7 @@ const Appointment = (props) => {
             <div
               onClick={() => setruncrn(!runcrn)}
               className={`${styles.crnrefresh} `}
-              style={{ width: "30%" }}
+              // style={{ width: "30%" }}
             >
               Refresh
             </div>
