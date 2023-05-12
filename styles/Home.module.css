@@ -378,6 +378,12 @@
 .privacybox {
   color: #191021 !important;
   box-shadow: 0 0 20px rgba(99, 105, 104, 0.251);
+  height: 100vh;
+  overflow: scroll;
+}
+
+.privacybox::-webkit-scrollbar {
+  display: none;
 }
 .directorycontainer {
   display: flex;

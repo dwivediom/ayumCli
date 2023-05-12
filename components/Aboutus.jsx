@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Footer from "./Footer";
 import styles from "../styles/newAbout.module.css";
 import Image from "next/image";
+import { AccountContext } from "../context/AccountProvider";
 
 const Aboutus = () => {
+  const { setscrollbox } = useContext(AccountContext);
+  useEffect(() => {
+    let indexbox = document.getElementById("aboutpage");
+    // console.log(indexbox.scrollTop);
+    indexbox.addEventListener("scroll", () => {
+      let scrollTop = indexbox.scrollTop;
+      if (scrollTop > 0) {
+        setscrollbox(false);
+      } else {
+        setscrollbox(true);
+      }
+    });
+  }, []);
   return (
     <>
-      <div className={`${styles.aboutbox}`}>
+      <div id="aboutpage" className={`${styles.aboutbox}`}>
         <section
           style={{ height: "80vh" }}
           className="text-black bg-white body-font"
@@ -291,8 +305,8 @@ const Aboutus = () => {
               </div>
             </div>
           </div>
+          <Footer />
         </div>
-        <Footer />
       </div>
     </>
   );
