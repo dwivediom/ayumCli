@@ -5,10 +5,15 @@ import { useContext } from "react";
 import { AccountContext } from "../context/AccountProvider";
 
 const BottomNav = () => {
-  const { scrollbox } = useContext(AccountContext);
+  const { msgopened, scrollbox } = useContext(AccountContext);
   return (
     <>
-      <div className=" w-full h-screen ">
+      <div
+        className=" w-full  "
+        style={{
+          display: msgopened && "none",
+        }}
+      >
         {/* <!-- <section id="bottom-navigation" className="md:hidden block fixed inset-x-0 bottom-0 z-10 bg-white shadow"> // if shown only tablet/mobile--> */}
         <section
           style={{
@@ -154,7 +159,7 @@ const BottomNav = () => {
                 <span className="tab tab-explore block text-xs">Search</span>
               </a>
             </Link>
-            <Link href={"/Chatpage"}>
+            <Link href={"/ChatSection"}>
               <a
                 style={{
                   display: "flex",

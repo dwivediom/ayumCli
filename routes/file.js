@@ -5,8 +5,8 @@ const host = process.env.NEXT_PUBLIC_B_PORT_CHAT;
 export const uploadFile = async (data) => {
   try {
     let url = `${host}/file/upload`;
-    const filedata = await axios.post(url, data);
     console.log("filedata ", filedata);
+    const filedata = await axios.post(url, data);
     return filedata;
   } catch (err) {
     console.log("error in while uploading the  file ", err.message);

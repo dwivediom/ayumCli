@@ -2,7 +2,8 @@ import Image from "next/image";
 import React, { useContext } from "react";
 import { AccountContext } from "../../context/AccountProvider";
 import { setConversation } from "../../routes/user";
-import styles from "../../styles/chat.module.css";
+// import styles from "../../styles/chat.module.css";
+import styles from "../../styles/newchat.module.css";
 const User = (props) => {
   const { setperson, account, setmsgopened, setmobilevalue } =
     useContext(AccountContext);
@@ -31,13 +32,16 @@ const User = (props) => {
           // setmsgopened(true);
           onclick(e);
         }}
-        className={`${styles.usercard}`}
+        className={`${styles.usercard} shadow-lg`}
       >
         <div className={`${styles.userimage}`}>
           <Image
             alt="profile pic"
-            width={60}
-            height={60}
+            width={50}
+            height={50}
+            style={{
+              borderRadius: "50%",
+            }}
             src={props.user.picture ? props.user.picture : "/deafaultpro.jpg"}
           />
         </div>
@@ -50,4 +54,4 @@ const User = (props) => {
   );
 };
 
-export default User;
+export default React.memo(User);
