@@ -21,19 +21,18 @@ const Message = (props) => {
     alignItems: "flex-end",
   };
   const reciverChildstyle = {
-    backgroundColor: "#E4E6EB",
+    backgroundColor: "rgb(226, 255, 255)",
     width: "max-content",
-    maxWidth: "70%",
+    maxWidth: "100%",
     padding: "5px",
     borderRadius: "8px",
     marginTop: "10px",
     // color: "white",
   };
   const senderChildelement = {
-    backgroundColor: "#0084FF",
-    width: "max-content",
+    backgroundColor: "	rgb(0,128,128)",
+    maxWidth: "100%",
     color: "white",
-    maxWidth: "70%",
     padding: "5px",
     borderRadius: "8px",
     marginTop: "10px",
@@ -69,7 +68,7 @@ const Message = (props) => {
   useEffect(() => {
     async function checkmsg() {
       setloadimg(true);
-      if (props.msgval.includes("google.com/maps/search/")) {
+      if (props.msgval && props.msgval.includes("google.com/maps/search/")) {
         setisurl(true);
 
         setloadimg(false);
@@ -117,7 +116,7 @@ const Message = (props) => {
           ) : (
             <div className="p-2">
               <Image
-                src={"/loader.svg"}
+                src={"/loader4.svg"}
                 width={30}
                 height={30}
                 alt="Loading..."
@@ -130,7 +129,10 @@ const Message = (props) => {
   }
 
   if (props.datatype == "file") {
-    if (props.msgval.includes(".pdf") || props.msgval.includes(".txt")) {
+    if (
+      (props.msgval && props.msgval.includes(".pdf")) ||
+      (props.msgval && props.msgval.includes(".txt"))
+    ) {
       return (
         <div className="d-flex flex-col" style={senderstyle}>
           <div style={childstyle} className={`${styles.chatpdf}`}>
@@ -138,7 +140,7 @@ const Message = (props) => {
               style={{ width: "30px", height: "40px" }}
             ></PictureAsPdfIcon>
             <a style={{ display: "block" }} href={props.msgval}>
-              {props.msgval.split("file-").pop()}{" "}
+              {props.msgval && props.msgval.split("file-").pop()}{" "}
             </a>
             <br />
 
@@ -161,15 +163,15 @@ const Message = (props) => {
             <div style={childstyle}>
               <div
                 style={{
-                  overflow: "hidden",
+                  overflow: "hidden !important",
                 }}
                 className="relative w-[15rem] "
               >
                 <div className="relative  h-[8rem]">
                   <Image
-                    width={300}
-                    height={300}
-                    src={`${props.msgval}`}
+                    width={200}
+                    height={200}
+                    src={props.msgval && `${props.msgval}`}
                     alt={"message"}
                     layout="fill"
                     objectFit="cover"
@@ -178,7 +180,7 @@ const Message = (props) => {
                 </div>
 
                 <a style={{ display: "block" }} href={props.msgval}>
-                  {props.msgval.split("file-").pop()}
+                  {props.msgval && props.msgval.split("file-").pop()}
                 </a>
 
                 <FileDownloadIcon
@@ -220,8 +222,8 @@ const Message = (props) => {
             </p>
           ) : (
             <p>
-              {props.msgval.substring(0, 200)} <br />
-              {props.msgval.length >= 200 && (
+              {props.msgval && props.msgval.substring(0, 200)} <br />
+              {props.msgval && props.msgval.length >= 200 && (
                 <a
                   className="cursor-pointer text-black font-bold text-sm"
                   onClick={() => handleToggleMessage()}
