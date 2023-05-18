@@ -4,7 +4,7 @@ import { AccountContext } from "../../context/AccountProvider";
 import { setmessage } from "../../routes/message";
 import { uploadFile } from "../../routes/file";
 // import upload
-import styles from "../../styles/chat.module.css";
+import styles from "../../styles/newchat.module.css";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import FileCopyRoundedIcon from "@mui/icons-material/FileCopyRounded";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -22,8 +22,9 @@ const MsgInputSection = () => {
     setuplodedmsg,
     uplodedmsg,
     msgprivate,
+    msgopened,
   } = useContext(AccountContext);
-  const [input, setinput] = useState("");
+  const [input, setinput] = useState();
   const [file, setfile] = useState("");
   const [image, setimage] = useState("");
   const [options, showoptions] = useState("");
@@ -40,7 +41,7 @@ const MsgInputSection = () => {
       let data = new FormData();
       data.append("name", file.name);
       data.append("file", file);
-      console.log(" getcost workking ");
+      console.log(" getcost workking ", data);
       const filedata = await uploadFile(data);
       console.log("filedata", filedata);
       setimage(filedata.data);
@@ -55,6 +56,7 @@ const MsgInputSection = () => {
       return;
     }
     setinputholder(input);
+    setinput("");
 
     if (!file) {
       let socketmsg = {
@@ -81,11 +83,12 @@ const MsgInputSection = () => {
       };
       if (msgprivate) {
         setmsgchange(nomsg);
-        setinput("");
+        setinput(null);
         setimage("");
         setfile("");
       } else {
         setmsgchange(socketmsg);
+        setinput(null);
       }
     }
 
@@ -114,7 +117,7 @@ const MsgInputSection = () => {
         setmsgchange(msg);
         await setmessage(msg);
         socket.current.emit("sendMessage", msg);
-        setinput("");
+        setinput(null);
         setimage("");
         setuplodedmsg(!uplodedmsg);
         setfile("");
@@ -122,7 +125,7 @@ const MsgInputSection = () => {
 
       let holdinput = input;
       setinputholder("");
-      setinput(" ");
+      setinput(null);
 
       await notify({
         auth: person.user.auth,
@@ -134,6 +137,16 @@ const MsgInputSection = () => {
     }
   };
 
+  const [mobile, setmobile] = useState(false);
+  useEffect(() => {
+    console.log(screen.width, "screen width hai");
+    console.log(window.innerWidth, "windows width hai");
+    if (window.innerWidth < 650) {
+      setmobile(true);
+    }
+
+    return;
+  }, []);
   const onfilechange = (e) => {
     console.log(e.target.files[0]);
     setfile(e.target.files[0]);
@@ -189,52 +202,67 @@ const MsgInputSection = () => {
   return (
     <>
       <div
-        onMouseLeave={() => showoptions(false)}
+        // onMouseLeave={() => showoptions(false)}
+        style={{
+          position: msgopened && mobile && "absolute",
+        }}
         className={`${styles.chatinputbox}`}
       >
-        <div>
+        <div className={`${styles.chatinput}`}>
           <form action="#" onSubmit={(e) => sendmsg(e)}>
             <input
               type="text"
+              placeholder={"Send messages and reports..."}
               onChange={(e) => setinput(e.target.value)}
               value={input}
-              placeholder="Send Message ..."
             />
           </form>
         </div>
-
-        <div>
-          <div className={`${styles.sendbtn}`} onClick={sendmsg}>
-            <SendRoundedIcon style={{ color: "white" }} />
+        <div className={`${styles.sendactions}`}>
+          <div onClick={() => sendmsg()}>
+            <img
+              width="64"
+              height="64"
+              src="https://img.icons8.com/external-anggara-glyph-anggara-putra/64/4D4D4D/external-sent-communication-anggara-glyph-anggara-putra.png"
+              alt="external-sent-communication-anggara-glyph-anggara-putra"
+            />
+          </div>
+          <div onClick={() => showoptions(!options)}>
+            <AttachFileIcon
+              style={{
+                color: "black",
+                width: "30px",
+                height: "30px",
+                display: options && "none",
+              }}
+            />
+            <img
+              style={{
+                display: !options && "none",
+              }}
+              width="30"
+              height="30"
+              src="https://img.icons8.com/ios-glyphs/30/FA5252/macos-close.png"
+              alt="macos-close"
+            />
           </div>
         </div>
-
-        <div onClick={() => showoptions(!options)}>
-          <label className={`${styles.sendbtn}`}>
-            <AttachFileIcon style={{ color: "white" }} />
-          </label>
-        </div>
         {options && (
-          <div
-            className={`absolute top-[-5rem] rounded-md flex gap-3 w-full px-2 py-5 ${styles.choosebox}`}
-          >
-            <div>
-              <label htmlFor="fileinput" className={`${styles.sendbtn}`}>
-                <FileCopyRoundedIcon style={{ color: "white" }} />
-              </label>
+          <div className={` ${styles.choosebox}`}>
+            <label htmlFor="fileinput">
+              <FileCopyRoundedIcon style={{ color: "black" }} />
+
               <input
                 onChange={(e) => {
                   onfilechange(e);
                 }}
                 type="file"
                 id="fileinput"
-                className=" hidden  "
+                className="hidden"
               />
-            </div>
+            </label>
             <div onClick={() => shareLocation()}>
-              <label htmlFor="location" className={`${styles.sendbtn}`}>
-                <LocationOnIcon style={{ color: "white" }} />
-              </label>
+              <LocationOnIcon style={{ color: "black" }} />
             </div>
           </div>
         )}

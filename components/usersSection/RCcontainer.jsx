@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import User from "./User";
 import { getRecentChat } from "../../routes/user";
-import styles from "../../styles/chat.module.css";
+// import styles from "../../styles/chat.module.css";
+import styles from "../../styles/newchat.module.css";
 import Image from "next/image";
 
 const RCcontainer = ({ mobile }) => {
@@ -42,7 +43,7 @@ const RCcontainer = ({ mobile }) => {
           }}
         >
           <Image
-            src={"/loader.svg"}
+            src={"/loader4.svg"}
             width={40}
             height={40}
             alt={"loader img"}
@@ -71,4 +72,4 @@ const RCcontainer = ({ mobile }) => {
   );
 };
 
-export default RCcontainer;
+export default React.memo(RCcontainer);
