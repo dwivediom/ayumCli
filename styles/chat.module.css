@@ -4,8 +4,10 @@
   flex-direction: column;
   height: 100vh;
   overflow: scroll;
-  width: 100%;
+  width: 100vw;
   position: absolute;
+
+  border: 2px solid red;
   background-color: #ffffff;
   top: 4rem;
 }
@@ -14,7 +16,9 @@
 }
 .chatshell {
   display: flex;
+  border: 2px solid red;
   padding-bottom: 3.5rem;
+  /* overflow: hidden; */
   position: relative;
   max-height: 90vh;
   background-color: #ffffff;
@@ -34,6 +38,7 @@
 
 .msgcontainer {
   width: 70%;
+  border: 2px solid red;
   height: 80vh;
   display: flex;
   flex-direction: column;

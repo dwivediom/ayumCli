@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import User from "./User";
-import styles from "../../styles/chat.module.css";
+import styles from "../../styles/newchat.module.css";
 
 const Search = ({ mobile, searcheddata, admin }) => {
   console.log(searcheddata, "search data");
 
   if (searcheddata && searcheddata.length === 0) {
-    return <h2 className="text-center mt-3">Not Found</h2>;
+    return (
+      <h2 className="text-center mt-3 text-green-800 font-bold">Not Found</h2>
+    );
   }
   return (
     <>

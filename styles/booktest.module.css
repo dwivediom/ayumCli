@@ -1,0 +1,167 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap");
+
+.reportcontainer {
+  width: 100%;
+  padding-bottom: 5rem;
+  height: fit-content;
+  background: white;
+  display: flex;
+  top: 0;
+
+  /* position: absolute; */
+  /* align-items: flex-start; */
+  padding-top: 40px;
+  justify-content: center;
+  font-family: "Nunito", sans-serif !important;
+  /* border: 1px solid red; */
+}
+
+.reportform {
+  /* height: 80%; */
+
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  /* background-color: rgba(150, 248, 217, 0.24); */
+  gap: 20px;
+  border-radius: 12px;
+  transition: 0.4s all;
+  /* border: 2px solid teal; */
+}
+.reportshell {
+  width: 20rem;
+  padding: 10px;
+  height: fit-content;
+  min-height: 20rem;
+  display: flex;
+  transition: 0.4s all;
+  flex-direction: column;
+  /* gap: 20px; */
+  background-color: rgba(150, 248, 217, 0.24);
+  border-radius: 12px;
+}
+.reportform h1 {
+  font-size: 1.2rem;
+  padding: 5px;
+  color: #075a32;
+  font-weight: bold;
+  line-height: 20px;
+}
+.reportform div {
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: 5px;
+}
+.reportform img {
+  width: 28px;
+  height: 28px;
+  left: 10px;
+  position: absolute;
+}
+.reportform input {
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 24px;
+}
+.submitbtn {
+  background: rgb(135, 252, 180);
+  background: linear-gradient(
+    90deg,
+    rgba(135, 252, 180, 1) 0%,
+    rgba(0, 199, 110, 1) 36%,
+    rgba(0, 199, 110, 1) 42%,
+    rgba(0, 199, 110, 1) 100%,
+    rgba(9, 121, 52, 1) 100%
+  );
+  padding: 5px 10px;
+  border-radius: 24px;
+  color: white;
+  font-weight: bold;
+
+  /* margin-top: 1rem; */
+}
+.submitbtn:hover {
+  /* background: rgb(135, 252, 180); */
+
+  animation-name: gradientChange;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+.exitbtn {
+  margin-top: 1rem;
+
+  background: rgb(135, 252, 180);
+  background: linear-gradient(
+    90deg,
+    rgba(135, 252, 180, 1) 0%,
+    rgba(0, 199, 110, 1) 36%,
+    rgba(0, 199, 110, 1) 42%,
+    rgba(0, 199, 110, 1) 100%,
+    rgba(9, 121, 52, 1) 100%
+  );
+
+  animation: exitbtnanimate 0.3s linear forwards;
+  height: 40px;
+
+  border-radius: 24px;
+}
+.exitbtn div {
+  border-radius: 50%;
+}
+.exitbtn img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.exittxt {
+  padding: 10px;
+  background: white;
+  width: 80%;
+  border-radius: 12px;
+  color: #075a32;
+  font-weight: bold;
+  animation: exittxtanimate 0.3s linear forwards;
+}
+
+@keyframes exitbtnanimate {
+  0% {
+    /* transform: scale(1); */
+    width: 100%;
+    /* height: 40px; */
+    margin-top: 1rem;
+    background: #009653;
+  }
+  100% {
+    /* transform: scale(0); */
+    height: 50px;
+    width: 50px;
+    margin-top: 0rem;
+    background: white;
+  }
+}
+@keyframes exittxtanimate {
+  0% {
+    opacity: 0;
+    font-size: 0.5rem;
+  }
+  100% {
+    opacity: 1;
+    font-size: medium;
+  }
+}
+
+@keyframes gradientChange {
+  0% {
+    background-color: rgb(183, 255, 210);
+  }
+  100% {
+    background: rgb(0, 150, 83);
+  }
+}
+.reportform input:focus {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
