@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import Footer from "./Footer";
 import styles from "../styles/newAbout.module.css";
-import Image from "next/image";
 import { AccountContext } from "../context/AccountProvider";
+import English from "../public/locales/en/index";
+import Hindi from "../public/locales/hi/index";
 
 const Aboutus = () => {
-  const { setscrollbox } = useContext(AccountContext);
+  const { setscrollbox, lang } = useContext(AccountContext);
   useEffect(() => {
     let indexbox = document.getElementById("aboutpage");
     // console.log(indexbox.scrollTop);
@@ -28,34 +29,13 @@ const Aboutus = () => {
           <div className="container px-5 py-24 mx-auto">
             <div className="flex flex-col text-center w-full mb-20">
               <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-black">
-                We are Team Ayum
+                {lang == "en" ? English.weareayum : Hindi.weareayum}
               </h1>
               <p className="lg:w-2/3 mx-auto ">
                 <div className="text-cyan-600 text-center mb-3">
-                  Welcome to Ayum - your go-to platform for convenient
-                  healthcare
+                  {lang == "en" ? English.welcomeayum : Hindi.welcomeayum}
                 </div>
-                Our company was founded with a mission to revolutionize the way
-                people approach healthcare by providing a comprehensive and
-                user-friendly platform for booking doctor appointments, managing
-                patient information, and accessing essential medical resources.
-                With Ayum, users can easily schedule appointments with qualified
-                doctors and healthcare professionals from the comfort of their
-                own home, without having to deal with the hassle of long wait
-                times or scheduling conflicts. Our platform also allows doctors
-                to manage patient information and streamline their practice,
-                making it easier than ever to provide high-quality care. In
-                addition to appointment scheduling, Ayum also provides access to
-                important medical resources such as blood bank information, lab
-                reports, and pathology reports. Our app allows users to access
-                these resources directly from their phone, making it more
-                convenient than ever to stay on top of their health and
-                wellness. At Ayum, we are committed to providing our users with
-                the highest level of convenience and accessibility when it comes
-                to healthcare. We are constantly innovating and improving our
-                platform to ensure that our users have access to the best
-                possible care. Join us today and experience the future of
-                healthcare.
+                {lang == "en" ? English.aboutpara : Hindi.aboutpara}
               </p>
             </div>
           </div>
@@ -64,7 +44,7 @@ const Aboutus = () => {
           <div className="container px-5 py-24 mx-auto">
             <div className="text-center mb-5">
               <h1 className="sm:text-3xl text-2xl font-medium text-center title-font text-black mb-4">
-                What We Provide
+                {lang == "en" ? English.weprovide : Hindi.weprovide}
               </h1>
             </div>
             <div className="flex flex-wrap lg:w-4/5 sm:mx-auto sm:mb-2 -mx-2">

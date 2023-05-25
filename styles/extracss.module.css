@@ -1,0 +1,45 @@
+.languagediv {
+  position: absolute;
+  width: 100%;
+  height: 110%;
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.445);
+  z-index: 200;
+  margin-top: -5rem;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.languagemodal {
+  width: 20rem;
+  height: 22rem;
+  margin-top: 10rem;
+  background-color: white;
+  border-radius: 12px;
+  display: flex;
+  border: 4px solid rgb(252, 225, 255);
+  padding: 10px;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.languagemodal h1 {
+  font-size: 1.1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.languagebtns {
+  width: 80%;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 8px;
+  /* background-color: aliceblue; */
+  background: linear-gradient(125deg, rgb(144, 244, 255), rgb(78, 228, 255));
+  /* border: 2px solid red; */
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(216, 216, 216, 0.457);
+}

@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import { Provider as ReduxProvider } from "react-redux";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { store } from "../redux/store/store";
 import dynamic from "next/dynamic";
 import { useContext, useEffect } from "react";

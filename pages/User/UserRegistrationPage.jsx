@@ -9,8 +9,10 @@ import { webpushfunc } from "../../utils/notification";
 import { updateuser } from "../../routes/user";
 import { adduser } from "../../routes/user";
 import { useEffect } from "react";
+import English from "../../public/locales/en/index";
+import Hindi from "../../public/locales/hi/index";
 const UserRegistrationPage = () => {
-  const { setauthstatus, setsignout, setthankmodal, setscrollbox } =
+  const { setauthstatus, setsignout, setthankmodal, setscrollbox, lang } =
     useContext(AccountContext);
   const router = useRouter();
 
@@ -107,11 +109,11 @@ const UserRegistrationPage = () => {
     <>
       <div className={`${styles.authbox}`}>
         <div className={`${styles.authdiv}`}>
-          <div className="w-[65%]">
-            <h1 className="text-lg text-center font-bold">
-              Hello, Welcome To Ayum <br />{" "}
+          <div className="w-[75%]">
+            <h1 className="text-lg text-center  font-bold">
+              {lang == "en" ? English.loginwelcome : Hindi.loginwelcome} <br />{" "}
               <span className="text-sm ">
-                Making Health Care More Convenient
+                {lang == "en" ? English.logintagline : Hindi.logintagline}
               </span>{" "}
             </h1>
           </div>
