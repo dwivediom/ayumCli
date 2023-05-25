@@ -18,6 +18,8 @@ const AccountProvider = ({ children }) => {
   const [signout, setsignout] = useState(false);
   const [collapseopen, setcollapse] = useState(false);
   const [scrollbox, setscrollbox] = useState(true);
+  const [langmodal, setlangmodal] = useState(false);
+  const [lang, setlang] = useState("en");
 
   useEffect(() => {
     if (localStorage.getItem("thankmodal") == false) {
@@ -33,6 +35,15 @@ const AccountProvider = ({ children }) => {
   const socket = useRef();
   useEffect(() => {
     socket.current = io("wss://www.chatsocket.ayum.in");
+  }, []);
+
+  useEffect(() => {
+    const locale = localStorage.getItem("locale");
+    if (locale) {
+      setlang(locale);
+    } else {
+      setlangmodal(true);
+    }
   }, []);
 
   return (
@@ -67,6 +78,10 @@ const AccountProvider = ({ children }) => {
         setmsgprivate,
         collapseopen,
         setcollapse,
+        lang,
+        setlang,
+        langmodal,
+        setlangmodal,
       }}
     >
       {children}

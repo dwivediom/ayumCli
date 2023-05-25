@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "../styles/quickSearch.module.css";
 import { quickSearchaction } from "../redux/actions/searchAction";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import ReactGA from "react-ga";
+import { AccountContext } from "../context/AccountProvider";
+import English from "../public/locales/en/search";
+import Hindi from "../public/locales/hi/search";
 
 const QuickSearch = () => {
   const router = useRouter();
-
+  const { lang } = useContext(AccountContext);
   const [key, setkey] = useState(null);
   const dispatch = useDispatch();
   const [showmore, setshow] = useState(false);
@@ -53,7 +56,9 @@ const QuickSearch = () => {
         // className="bg-gray-100 p-4"
       >
         {" "}
-        <span className={`${styles.divtext}`}>Kideny</span>
+        <span className={`${styles.divtext}`}>
+          {lang == "en" ? English.kidney : Hindi.kidney}
+        </span>
       </div>
       <div
         onClick={(e) => qSearch(e)}
@@ -62,7 +67,10 @@ const QuickSearch = () => {
         // className="bg-gray-100 p-4"
       >
         {" "}
-        <span className={`${styles.divtext}`}>Dentist</span>
+        <span className={`${styles.divtext}`}>
+          {" "}
+          {lang == "en" ? English.dentist : Hindi.dentist}
+        </span>
       </div>
 
       <div
@@ -72,7 +80,10 @@ const QuickSearch = () => {
         // className="bg-gray-100 p-4"
       >
         {" "}
-        <span className={`${styles.divtext}`}>Skin</span>
+        <span className={`${styles.divtext}`}>
+          {" "}
+          {lang == "en" ? English.skin : Hindi.skin}
+        </span>
       </div>
       <div
         // value="Kideny"
@@ -81,7 +92,10 @@ const QuickSearch = () => {
         className={`${styles.btn1} `}
       >
         {" "}
-        <span className={`${styles.divtext}`}>Blood Bank</span>{" "}
+        <span className={`${styles.divtext}`}>
+          {" "}
+          {lang == "en" ? English.bloodbank : Hindi.bloodbank}
+        </span>{" "}
       </div>
 
       <div
@@ -91,7 +105,10 @@ const QuickSearch = () => {
         // className="bg-gray-100 p-4"
       >
         {" "}
-        <span className={`${styles.divtext}`}>Gynae</span>{" "}
+        <span className={`${styles.divtext}`}>
+          {" "}
+          {lang == "en" ? English.gynae : Hindi.gynae}
+        </span>{" "}
       </div>
       <div
         onClick={(e) => qSearch(e)}
@@ -100,7 +117,10 @@ const QuickSearch = () => {
         // className="bg-gray-100 p-4"
       >
         {" "}
-        <span className={`${styles.divtext}`}>Medicine</span>
+        <span className={`${styles.divtext}`}>
+          {" "}
+          {lang == "en" ? English.medicine : Hindi.medicine}
+        </span>
       </div>
       <div
         onClick={(e) => qSearch(e)}
@@ -108,7 +128,10 @@ const QuickSearch = () => {
         className={`${styles.btn6} `}
         // className="bg-gray-100 p-4"
       >
-        <span className={`${styles.divtext}`}>Ortho</span>{" "}
+        <span className={`${styles.divtext}`}>
+          {" "}
+          {lang == "en" ? English.bone : Hindi.bone}
+        </span>{" "}
       </div>
       {router.pathname != "/Category/Category" && (
         <div
@@ -123,10 +146,11 @@ const QuickSearch = () => {
           // data="kideny"
           className={`${styles.showbtn} `}
         >
-          <span className={`${styles.divtext}`}>
-            {" "}
-            {showmore ? "Hide" : "Show More"}{" "}
-          </span>{" "}
+          {showmore ? (
+            <span> {lang == "en" ? English.hide : Hindi.hide}</span>
+          ) : (
+            <span> {lang == "en" ? English.showmore : Hindi.showmore}</span>
+          )}
         </div>
       )}
 
@@ -139,7 +163,10 @@ const QuickSearch = () => {
             // className="bg-gray-100 p-4"
           >
             {" "}
-            <span className={`${styles.divtext}`}>surgery</span>{" "}
+            <span className={`${styles.divtext}`}>
+              {" "}
+              {lang == "en" ? English.surgery : Hindi.surgery}
+            </span>{" "}
           </div>
           <div
             onClick={(e) => qSearch(e)}
@@ -148,7 +175,10 @@ const QuickSearch = () => {
             // className="bg-gray-100 p-4"
           >
             {" "}
-            <span className={`${styles.divtext}`}>neuro</span>{" "}
+            <span className={`${styles.divtext}`}>
+              {" "}
+              {lang == "en" ? English.neuro : Hindi.neuro}
+            </span>{" "}
           </div>
           <div
             onClick={(e) => qSearch(e)}
@@ -157,7 +187,10 @@ const QuickSearch = () => {
             // className="bg-gray-100 p-4"
           >
             {" "}
-            <span className={`${styles.divtext}`}>Physician</span>{" "}
+            <span className={`${styles.divtext}`}>
+              {" "}
+              {lang == "en" ? English.physician : Hindi.physician}
+            </span>{" "}
           </div>
           <div
             onClick={(e) => qSearch(e)}
@@ -166,7 +199,10 @@ const QuickSearch = () => {
             // className="bg-gray-100 p-4"
           >
             {" "}
-            <span className={`${styles.divtext}`}>Cancer</span>{" "}
+            <span className={`${styles.divtext}`}>
+              {" "}
+              {lang == "en" ? English.cancer : Hindi.cancer}
+            </span>{" "}
           </div>
           <div
             onClick={(e) => qSearch(e)}
@@ -175,7 +211,10 @@ const QuickSearch = () => {
             // className="bg-gray-100 p-4"
           >
             {" "}
-            <span className={`${styles.divtext}`}>Children</span>{" "}
+            <span className={`${styles.divtext}`}>
+              {" "}
+              {lang == "en" ? English.children : Hindi.children}
+            </span>{" "}
           </div>
         </>
       )}

@@ -11,6 +11,8 @@ import { getuserId } from "../routes/user";
 import { searchApi } from "../routes/search";
 import Image from "next/image";
 import Search from "../components/usersSection/Search";
+import English from "../public/locales/en/labtest";
+import Hindi from "../public/locales/hi/labtest";
 
 const ChatSection = () => {
   const [searchimg, setsearchimg] = useState(false);
@@ -24,6 +26,7 @@ const ChatSection = () => {
     setuplodedmsg,
     uplodedmsg,
     setscrollbox,
+    lang,
   } = useContext(AccountContext);
   useEffect(() => {
     const localStoragedata = JSON.parse(localStorage.getItem("labuser"));
@@ -211,6 +214,8 @@ const ChatSection = () => {
     });
   }, []);
 
+  console.log(lang, "language h");
+
   return (
     <>
       <div className={`${styles.chatpage}`} id="chatpage">
@@ -220,21 +225,27 @@ const ChatSection = () => {
               <div>
                 {time === 0 ? (
                   <p className="text-center font-bold mt-3 mb-[5rem] leading-loose">
-                    Hope you recieved the call <br />{" "}
+                    {lang == "en" ? English.hopecall : Hindi.hopecall}
+                    <br />{" "}
                     <span className="text-red-600">
                       {" "}
-                      If not then we are really sorry!!
+                      {lang == "en" ? English.ifnot : Hindi.ifnot}
                     </span>{" "}
-                    <br /> Book by calling <br />
+                    <br /> {lang == "en" ? English.bookcall : Hindi.bookcall}{" "}
+                    <br />
                     <span className="text-xl ">9425681022</span>
                   </p>
                 ) : (
                   <div>
                     <h1 className="text-center text-lg font-bold  text-green-900">
-                      Thankyou For Submitting Your Request{" "}
+                      {lang == "en"
+                        ? English.thankforrequest
+                        : Hindi.thankforrequest}{" "}
                     </h1>
                     <h2 className="text-center font-bold mt-3">
-                      We are Connecting with you Before
+                      {lang == "en"
+                        ? English.weareconnecting
+                        : Hindi.weareconnecting}
                     </h2>
 
                     <p className="text-center mt-8 mb-8 text-[2rem] font-bold text-green-800">
@@ -253,10 +264,10 @@ const ChatSection = () => {
                   }}
                 >
                   <h1>
-                    Book lab tests <br /> From here!
+                    {lang == "en" ? English.bookfromhome : Hindi.bookfromhome}
                   </h1>
                   <p className="text-sm ml-1">
-                    *Book and get upto 30% off on lab reports
+                    {lang == "en" ? English.book30off : Hindi.book30off}
                   </p>
                 </div>
 
@@ -280,7 +291,13 @@ const ChatSection = () => {
                     onFocus={() => setinputactive(1)}
                     onBlur={() => setinputactive(0)}
                     placeholder={
-                      inputactive == 1 ? "Enter name..." : "         Enter name"
+                      inputactive == 1
+                        ? lang == "en"
+                          ? English.entername
+                          : Hindi.entername
+                        : lang == "en"
+                        ? `        ${English.entername}`
+                        : `        ${Hindi.entername}`
                     }
                   />
                 </div>
@@ -305,8 +322,12 @@ const ChatSection = () => {
                     onBlur={() => setinputactive(0)}
                     placeholder={
                       inputactive == 2
-                        ? "Enter number..."
-                        : "         Enter number"
+                        ? lang == "en"
+                          ? English.enterphone
+                          : Hindi.enterphone
+                        : lang == "en"
+                        ? `        ${English.enterphone}`
+                        : `        ${Hindi.enterphone}`
                     }
                   />
                 </div>
@@ -330,7 +351,13 @@ const ChatSection = () => {
                     onFocus={() => setinputactive(3)}
                     onBlur={() => setinputactive(0)}
                     placeholder={
-                      inputactive == 3 ? "Enter city..." : "         Enter city"
+                      inputactive == 3
+                        ? lang == "en"
+                          ? English.entercity
+                          : Hindi.entercity
+                        : lang == "en"
+                        ? `        ${English.entercity}`
+                        : `        ${Hindi.entercity}`
                     }
                   />
                 </div>
@@ -346,7 +373,10 @@ const ChatSection = () => {
                         src="https://img.icons8.com/external-creatype-glyph-colourcreatype/64/009653/external-check-essential-ui-v1-creatype-glyph-colourcreatype.png"
                         alt="external-check-essential-ui-v1-creatype-glyph-colourcreatype"
                       />{" "}
-                      <span> Uploaded </span>
+                      <span>
+                        {" "}
+                        {lang == "en" ? English.uploaded : Hindi.uploaded}{" "}
+                      </span>
                     </div>
                   ) : (
                     <>
@@ -362,11 +392,11 @@ const ChatSection = () => {
                           alt="external-Upload-networking-smashingstocks-glyph-smashing-stocks"
                         />{" "}
                         <span className="ml-[2.5rem]">
-                          Upload Prescription{" "}
+                          {lang == "en" ? English.uploadpre : Hindi.uploadpre}
                         </span>
                         <span className="text-sm text-gray-500">
                           {" "}
-                          (optional)
+                          ( {lang == "en" ? English.optional : Hindi.optional})
                         </span>
                       </label>
                       <input
@@ -397,7 +427,7 @@ const ChatSection = () => {
                 </div>
               ) : fields ? (
                 <p className="text-center text-red-500 font-bold">
-                  Fill Neccessary details!
+                  {lang == "en" ? English.fillnecessary : Hindi.fillnecessary}
                 </p>
               ) : (
                 <button
@@ -406,7 +436,7 @@ const ChatSection = () => {
                     handleSubmit();
                   }}
                 >
-                  Submit
+                  {lang == "en" ? English.submit : Hindi.submit}
                 </button>
               )
             ) : (
@@ -439,7 +469,7 @@ const ChatSection = () => {
                     </div>
                   </button>
                   <div className={`${styles1.exittxt} shadow-lg`}>
-                    Request Sent Sucessfully!
+                    {lang == "en" ? English.reqsent : Hindi.reqsent}
                   </div>
                 </div>
               </>
@@ -468,7 +498,7 @@ const ChatSection = () => {
                 src="https://img.icons8.com/external-glyph-geotatah/64/006666/external-health-workmen-compensation-glyph-glyph-geotatah.png"
                 alt="external-health-workmen-compensation-glyph-glyph-geotatah"
               />
-              <h1>Lab-Reports</h1>
+              <h1> {lang == "en" ? English.labtests : Hindi.labtests}</h1>
             </div>
             <div className={styles.chatdiv1search}>
               <form action="#" onSubmit={(e) => handleSearch(e)}>
@@ -497,8 +527,12 @@ const ChatSection = () => {
                   value={input}
                   placeholder={
                     searchimg
-                      ? "search emailid..."
-                      : "      search and send reports..."
+                      ? lang == "en"
+                        ? English.searchemail
+                        : Hindi.searchemail
+                      : lang == "en"
+                      ? `        ${English.searchandsendrep}`
+                      : `        ${Hindi.searchandsendrep}`
                   }
                 />
               </form>
@@ -522,7 +556,7 @@ const ChatSection = () => {
                   <div className=" relative h-[60vh] w-full  flex-col  flex justify-left items-center pt-6">
                     <span className="font-bold text-green-800">
                       {" "}
-                      Search email-id
+                      {lang == "en" ? English.searchemail : Hindi.searchemail}
                     </span>{" "}
                     <Image
                       style={{
@@ -567,7 +601,9 @@ const ChatSection = () => {
                 src="https://img.icons8.com/external-becris-solid-becris/64/006666/external-home-literary-genres-becris-solid-becris.png"
                 alt="external-home-literary-genres-becris-solid-becris"
               />
-              <p>Physical Reports Delivery at Home</p>
+              <p>
+                {lang == "en" ? English.reportdelivery : Hindi.reportdelivery}
+              </p>
             </div>
             <div className="shadow-lg">
               <img
@@ -576,7 +612,9 @@ const ChatSection = () => {
                 src="https://img.icons8.com/ios-filled/50/006666/android.png"
                 alt="android"
               />
-              <p>Online Reports Deliver in Ayum app</p>
+              <p>
+                {lang == "en" ? English.onlinedeliver : Hindi.onlinedeliver}
+              </p>
             </div>
             <div className="shadow-lg">
               <img
@@ -585,7 +623,7 @@ const ChatSection = () => {
                 src="https://img.icons8.com/pastel-glyph/64/006666/sale--v2.png"
                 alt="sale--v2"
               />
-              <p>30% Price Drop on Booking from Ayum app</p>
+              <p>{lang == "en" ? English.book30off : Hindi.book30off}</p>
             </div>
             <div className="shadow-lg">
               <img
@@ -594,7 +632,7 @@ const ChatSection = () => {
                 src="https://img.icons8.com/ios/50/006666/running--v1.png"
                 alt="running--v1"
               />
-              <p>Fast Response and health Support!</p>
+              <p>{lang == "en" ? English.servicefast : Hindi.servicefast}</p>
             </div>
           </div>
         </div>
