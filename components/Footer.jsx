@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "../styles/footer.module.css";
 import Image from "next/image";
+import { AccountContext } from "../context/AccountProvider";
+import English from "../public/locales/en/index";
+import Hindi from "../public/locales/hi/index";
+import Router from "next/router";
 const Footer = () => {
+  const { lang } = useContext(AccountContext);
   return (
     <>
       <div className={styles.footercontainer}>
         <div className={styles.footc1}></div>
         <div className={styles.footc2}></div>
         <div className={styles.footerboxes}>
-          <h2>Socials</h2>
+          <h2>{lang == "en" ? English.socials : Hindi.socials}</h2>
           <div>
             <Image
               width={30}
@@ -21,7 +26,7 @@ const Footer = () => {
               href="https://www.instagram.com/ayum_health/"
               target={"_blank"}
             >
-              <span>Instagram</span>
+              <span>{lang == "en" ? English.instagram : Hindi.instagram}</span>
             </a>
           </div>
           <div>
@@ -36,7 +41,7 @@ const Footer = () => {
               href="https://www.instagram.com/ayum_health/"
               target={"_blank"}
             >
-              <span>Facebook</span>
+              <span>{lang == "en" ? English.facebook : Hindi.facebook}</span>
             </a>
           </div>
           <div>
@@ -51,7 +56,7 @@ const Footer = () => {
               href="https://twitter.com/ayum_health"
               target={"_blank"}
             >
-              <span>Twitter</span>{" "}
+              <span>{lang == "en" ? English.twitter : Hindi.twitter}</span>{" "}
             </a>
           </div>
           <div>
@@ -65,12 +70,12 @@ const Footer = () => {
               rel="noreferrer"
               href="https://www.linkedin.com/in/ayum-in-263828257/"
             >
-              <span>Linkedin</span>
+              <span>{lang == "en" ? English.linkedin : Hindi.linkedin}</span>
             </a>
           </div>
         </div>
         <div className={styles.footerboxes}>
-          <h2>Our Services</h2>
+          <h2>{lang == "en" ? English.ourservice : Hindi.ourservice}</h2>
           <div>
             <Image
               width={30}
@@ -78,7 +83,7 @@ const Footer = () => {
               alt="Online Appointment"
               src="https://img.icons8.com/external-justicon-flat-gradient-justicon/64/null/external-appointment-telemedicine-justicon-flat-gradient-justicon.png"
             />
-            <span>Online Appointment</span>
+            <span>{lang == "en" ? English.onlineappo : Hindi.onlineappo}</span>
           </div>
           <div>
             <Image
@@ -87,16 +92,20 @@ const Footer = () => {
               alt="Patient Management"
               src="https://img.icons8.com/fluency/96/null/appointment-scheduling.png"
             />
-            <span>Patient Management</span>
+            <span>
+              {lang == "en" ? English.patientmanage : Hindi.patientmanage}
+            </span>
           </div>
-          <div>
+          <div onClick={() => Router.push("/ChatSection")}>
             <Image
               width={30}
               height={30}
               alt="Online Lab Tests"
               src="https://img.icons8.com/external-flat-berkahicon/64/null/external-Lab-Test-healthcare-flat-berkahicon.png"
             />
-            <span>Online Lab Test</span>
+            <span>
+              {lang == "en" ? English.onlinelabtest : Hindi.onlinelabtest}
+            </span>
           </div>
         </div>
       </div>

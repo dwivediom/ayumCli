@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "../styles/Searchinput.module.css";
 import { useRouter } from "next/router";
+import { AccountContext } from "../context/AccountProvider";
+import English from "../public/locales/en/search";
+import Hindi from "../public/locales/hi/search";
 
 const SearchBox = () => {
   const router = useRouter();
+  const { lang } = useContext(AccountContext);
 
   const clickserch = () => {
     router.push("/Search/Search");
@@ -24,10 +28,10 @@ const SearchBox = () => {
             type="search"
             id="default-search"
             className={`${styles.searchinput}`}
-            placeholder="Search Doctors, Specialist , Clinics..."
+            placeholder={lang == "en" ? English.placeholder : Hindi.placeholder}
           />
           <button type="button" className={`${styles.searchbtn}`}>
-            Search
+            {lang == "en" ? English.search : Hindi.search}
           </button>
         </div>
       </form>

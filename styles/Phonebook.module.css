@@ -76,7 +76,13 @@
   width: 100%;
   height: 100vh;
   overflow: scroll;
+  overscroll-behavior: smooth;
   position: absolute;
+  padding: 0px 10px;
+}
+
+.directorypage::-webkit-scrollbar {
+  display: none;
 }
 .searchdoc {
   width: 80%;

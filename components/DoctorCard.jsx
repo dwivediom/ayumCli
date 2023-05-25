@@ -5,10 +5,15 @@ import { setDocDataAction } from "../redux/actions/userActions";
 import styles from "../styles/doctorcard.module.css";
 import Router from "next/router";
 import Image from "next/image";
+import { useContext } from "react";
+import { AccountContext } from "../context/AccountProvider";
+import English from "../public/locales/en/index";
+import Hindi from "../public/locales/hi/index";
 
 const DoctorCard = (props) => {
   const { name, specialist, location, fees, phone, timing, docid, pic } = props;
   console.log(pic, "Picture hai");
+  const { lang } = useContext(AccountContext);
   const [docpic, setdocpic] = useState();
   useEffect(() => {
     if (pic && pic.includes("googleusercontent.com")) {
@@ -66,7 +71,7 @@ const DoctorCard = (props) => {
           </div>
         </div>
         <button onClick={(e) => Click(e)} className={`${styles.bookslot}`}>
-          Book Slot
+          {lang == "en" ? English.bookslotbtn : Hindi.bookslotbtn}
         </button>
       </div>
     </div>

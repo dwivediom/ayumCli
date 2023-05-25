@@ -10,6 +10,8 @@ import FileCopyRoundedIcon from "@mui/icons-material/FileCopyRounded";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { notify } from "../../routes/notify";
+import English from "../../public/locales/en/labtest";
+import Hindi from "../../public/locales/hi/labtest";
 
 const MsgInputSection = () => {
   const {
@@ -22,6 +24,7 @@ const MsgInputSection = () => {
     setuplodedmsg,
     uplodedmsg,
     msgprivate,
+    lang,
     msgopened,
   } = useContext(AccountContext);
   const [input, setinput] = useState();
@@ -212,7 +215,9 @@ const MsgInputSection = () => {
           <form action="#" onSubmit={(e) => sendmsg(e)}>
             <input
               type="text"
-              placeholder={"Send messages and reports..."}
+              placeholder={
+                lang == "en" ? English.sendmsgandrep : Hindi.sendmsgandrep
+              }
               onChange={(e) => setinput(e.target.value)}
               value={input}
             />

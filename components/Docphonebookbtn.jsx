@@ -1,9 +1,12 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import styles from "../styles/Phonebook.module.css";
-
+import { AccountContext } from "../context/AccountProvider";
+import English from "../public/locales/en/index";
+import Hindi from "../public/locales/hi/index";
 const Docphonebookbtn = () => {
   const router = useRouter();
+  const { lang } = useContext(AccountContext);
   return (
     <div
       onClick={() => router.push("/DoctorDirectory")}
@@ -16,7 +19,7 @@ const Docphonebookbtn = () => {
             alt="phone"
           />
         </div>
-        Doctors PhoneBook
+        {lang == "en" ? English.docbtntxt : Hindi.docbtntxt}
       </div>
     </div>
   );

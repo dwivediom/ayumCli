@@ -6,6 +6,8 @@ import Router, { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 import { useEffect } from "react";
 import Image from "next/image";
+import English from "../public/locales/en/index";
+import Hindi from "../public/locales/hi/index";
 import { AccountContext } from "../context/AccountProvider";
 import SignOutbtn from "./usersSection/SignOutbtn";
 const Navbar = () => {
@@ -13,7 +15,7 @@ const Navbar = () => {
   const [profilepic, setprofilepic] = useState();
   const [loggedemail, setloggedemail] = useState();
   const [name, setname] = useState();
-
+  const { lang, setlang } = useContext(AccountContext);
   const [mobile, setmobile] = useState(false);
   useEffect(() => {
     console.log(screen.width, "screen width hai");
@@ -108,6 +110,7 @@ const Navbar = () => {
     }
   };
 
+  const [langbox, setlangbox] = useState(false);
   return (
     <>
       <Head>
@@ -203,7 +206,7 @@ const Navbar = () => {
                     className=" text-white px-2 py-1 rounded-md text-sm font-medium hover:bg-sky-500 hover:border-gray-300"
                     aria-current="page"
                   >
-                    Contact Us
+                    {lang == "en" ? English.contactus : Hindi.contactus}
                   </div>
                 </div>
               </div>
@@ -223,7 +226,7 @@ const Navbar = () => {
                     className=" text-white px-2 py-1 rounded-md text-sm font-medium hover:text-white  hover:bg-sky-500 hover:border-gray-300"
                     aria-current="page"
                   >
-                    About Us
+                    {lang == "en" ? English.aboutus : Hindi.aboutus}
                   </div>
                 </div>
               </div>
@@ -251,7 +254,7 @@ const Navbar = () => {
                     href={"https://www.doctor.ayum.in/"}
                     className={`${styles.doctorbtn} text-white rounded-md  font-medium`}
                   >
-                    Ayum Doctor
+                    {lang == "en" ? English.ayumdoc : Hindi.ayumdoc}
                   </a>
                 </div>
               </div>
@@ -311,34 +314,61 @@ const Navbar = () => {
                     onMouseLeave={() => setthreedotmodal(false)}
                     style={{
                       display: !threedotmodal && "none",
+                      minWidth: "7rem",
                     }}
                     className={`${styles.popup}`}
                   >
                     {!signout && <div className="text-cyan-400">{name} </div>}
+
                     {!signout && (
                       <div className="text-cyan-400">
                         {loggedemail && loggedemail}{" "}
                       </div>
                     )}
+
+                    <div
+                      onClick={() => {
+                        localStorage.setItem("locale", "hi");
+                        setlang("hi");
+                        setthreedotmodal(false);
+                      }}
+                      className="text-sm w-full text-white"
+                    >
+                      हिंदी
+                    </div>
+
+                    <div
+                      onClick={() => {
+                        localStorage.setItem("locale", "en");
+                        setlang("en");
+                        setthreedotmodal(false);
+                      }}
+                      className="text-sm w-full text-white"
+                    >
+                      English
+                    </div>
+
                     {!signout && (
                       <div
                         onClick={() => Router.push("/PrivacyPolicy")}
                         className="text-sm text-white w-full"
                       >
-                        Terms & Condition
+                        {lang == "en" ? English.terms : Hindi.terms}
                       </div>
                     )}
 
                     {!signout ? (
-                      <SignOutbtn />
+                      <SignOutbtn
+                        text={lang == "en" ? English.signout : Hindi.signout}
+                      />
                     ) : (
                       <div
                         onClick={() =>
                           Router.push("/User/UserRegistrationPage")
                         }
-                        className="text-sm text-white"
+                        className="text-sm w-full text-white bg-cyan-600"
                       >
-                        Log In
+                        {lang == "en" ? English.login : Hindi.login}
                       </div>
                     )}
                   </div>
@@ -379,7 +409,7 @@ const Navbar = () => {
                     className={`${styles.doctorbtn} text-white rounded-md text-sm font-medium`}
                     aria-current="page"
                   >
-                    Ayum Doctor
+                    {lang == "en" ? English.ayumdoc : Hindi.ayumdoc}
                   </a>
                 </div>
               </div>
@@ -395,7 +425,7 @@ const Navbar = () => {
                     setcollapse(false);
                   }}
                 >
-                  Contact Us
+                  {lang == "en" ? English.contactus : Hindi.contactus}
                 </a>
               </div>
               <div className={`${styles.mobilecoll} `}>
@@ -409,7 +439,7 @@ const Navbar = () => {
                     setcollapse(false);
                   }}
                 >
-                  About Us
+                  {lang == "en" ? English.aboutus : Hindi.aboutus}
                 </a>
               </div>
             </>

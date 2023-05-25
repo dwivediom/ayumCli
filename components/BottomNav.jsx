@@ -3,9 +3,11 @@ import Link from "next/link";
 import styles from "../styles/footer.module.css";
 import { useContext } from "react";
 import { AccountContext } from "../context/AccountProvider";
+import English from "../public/locales/en/index";
+import Hindi from "../public/locales/hi/index";
 
 const BottomNav = () => {
-  const { msgopened, scrollbox } = useContext(AccountContext);
+  const { msgopened, scrollbox, lang } = useContext(AccountContext);
   return (
     <>
       <div
@@ -82,10 +84,56 @@ const BottomNav = () => {
                   </g>
                 </svg>
                 <span className="tab tab-home text-white block text-xs">
-                  Home
+                  {lang == "en" ? English.home : Hindi.home}
                 </span>
               </a>
             </Link>
+            <Link href={"/ChatSection"}>
+              <a
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  gap: "3px",
+                }}
+                className="w-full focus:text-cyan-500 hover:text-cyan-500 justify-center inline-block text-center pt-2 pb-1"
+              >
+                <img
+                  style={{ width: "25px", height: "25px" }}
+                  alt="Lab Test"
+                  src="https://img.icons8.com/external-vectorslab-glyph-vectorslab/53/FFFFFF/external-Injection-medical-and-corona-virus-vectorslab-glyph-vectorslab.png"
+                />
+
+                <span className="tab tab-whishlist  block text-xs">
+                  {lang == "en" ? English.labtest : Hindi.labtest}
+                </span>
+              </a>
+            </Link>
+            <Link href={"/Search/Search"}>
+              <a className="w-full focus:text-cyan-500 hover:text-cyan-500 justify-center inline-block text-center pt-2 pb-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className=" text-center inline w-6  h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                  />
+                </svg>
+
+                <span className="tab tab-explore block text-xs">
+                  {" "}
+                  {lang == "en" ? English.search : Hindi.search}
+                </span>
+              </a>
+            </Link>
+
             <Link href={"/Category/Category"}>
               <a className="w-full focus:text-cyan-500 hover:text-cyan-500 justify-center inline-block text-center pt-2 pb-1">
                 <svg
@@ -136,48 +184,9 @@ const BottomNav = () => {
                     </g>
                   </g>
                 </svg>
-                <span className="tab tab-kategori block text-xs">Category</span>
-              </a>
-            </Link>
-            <Link href={"/Search/Search"}>
-              <a className="w-full focus:text-cyan-500 hover:text-cyan-500 justify-center inline-block text-center pt-2 pb-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className=" text-center inline w-6  h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
-                </svg>
-
-                <span className="tab tab-explore block text-xs">Search</span>
-              </a>
-            </Link>
-            <Link href={"/ChatSection"}>
-              <a
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  gap: "3px",
-                }}
-                className="w-full focus:text-cyan-500 hover:text-cyan-500 justify-center inline-block text-center pt-2 pb-1"
-              >
-                <img
-                  style={{ width: "25px", height: "25px" }}
-                  alt="Lab Test"
-                  src="https://img.icons8.com/external-vectorslab-glyph-vectorslab/53/FFFFFF/external-Injection-medical-and-corona-virus-vectorslab-glyph-vectorslab.png"
-                />
-
-                <span className="tab tab-whishlist  block text-xs">
-                  Lab Tests
+                <span className="tab tab-kategori block text-xs">
+                  {" "}
+                  {lang == "en" ? English.category : Hindi.category}
                 </span>
               </a>
             </Link>
@@ -198,7 +207,10 @@ const BottomNav = () => {
                   />
                 </svg>
 
-                <span className="tab tab-account block text-xs">User Ap.</span>
+                <span className="tab tab-account block text-xs">
+                  {" "}
+                  {lang == "en" ? English.userapp : Hindi.userapp}
+                </span>
               </a>
             </Link>
           </div>
