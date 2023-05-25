@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import styles2 from "../styles/demo.module.css";
 import dynamic from "next/dynamic";
 import axios from "axios";
 import ThankyouCard from "../components/ThankyouCard";
@@ -11,53 +10,22 @@ import Modal from "../components/Modal";
 import Docphonebookbtn from "../components/Docphonebookbtn";
 import Nashmukti from "../components/Nashmuktibtn";
 import BloodDonatebtn from "../components/BloodDonatebtn";
-import Slider from "../components/AdComp2";
 import ReactGA from "react-ga";
-import Router from "next/router";
-import DemoAd from "../components/DemoAd";
+import Router, { useRouter } from "next/router";
 import HorizontalScroll from "../components/DemoAd";
 
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
 const GetDoctor = dynamic(() => import("../components/GetDoctor"));
 const Footer = dynamic(() => import("../components/Footer"));
+import English from "../public/locales/en/index";
+import Hindi from "../public/locales/hi/index";
+import LanguageModal from "../components/LanguageModal";
+// import Hindi from "/locales/hi/index";
 
 export default function Home(props) {
-  const { authstatus, thankmodal, setthankmodal, setscrollbox } =
+  const { thankmodal, setthankmodal, setscrollbox, setlang, lang, langmodal } =
     useContext(AccountContext);
-  function sendNotification(title, options) {
-    // Check if the browser supports notifications
-    if (!("Notification" in window)) {
-      console.log("This browser does not support desktop notifications");
-      return;
-    }
-
-    // Check the current notification permission status
-    if (Notification.permission === "granted") {
-      // If permission is already granted, create the notification
-      var notification = new Notification(title, options);
-    } else if (Notification.permission !== "denied") {
-      // If permission is not denied, request permission from the user
-      Notification.requestPermission().then(function (permission) {
-        if (permission === "granted") {
-          // If permission is granted, create the notification
-          var notification = new Notification(title, options);
-        }
-      });
-    }
-  }
-
-  // useEffect(() => {
-  //   if (!localStorage.getItem("surprisenoti")) {
-  //     setTimeout(() => {
-  //       localStorage.setItem("surprisenoti", false);
-  //       sendNotification("Surprise! Ayum has Something For You", {
-  //         body: "Book Pathology Tests and Get about 30% off Now! ",
-  //         icon: "/barkha.jpg",
-  //       });
-  //     }, 12000);
-  //   }
-  // }, []);
 
   const [isOnline, setIsOnline] = useState(true);
   const [doctors, setdoctors] = useState([]);
@@ -138,6 +106,10 @@ export default function Home(props) {
     });
   }, []);
 
+  const handlelangchange = (lang) => {
+    localStorage.setItem("locale", lang);
+    setlang(lang);
+  };
   if (!isOnline) {
     return (
       <>
@@ -157,7 +129,7 @@ export default function Home(props) {
             alt="Offline animation"
           />
           <h2 style={{ fontWeight: "bold", color: "red" }}>
-            Please Connect To Internet !
+            {lang == "en" ? English.online : Hindi.online}
           </h2>
         </div>
       </>
@@ -184,14 +156,8 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div
-        id="indexbox"
-        onDrag={() => {
-          console.log("Hello");
-          setscrollbox(false);
-        }}
-        className="absolute w-full h-[100vh]  overflow-scroll"
-      >
+      {langmodal && <LanguageModal />}
+      <div id="indexbox" className={styles.mainshell}>
         <SearchBox />
         <QuickSearch />
         <div className={styles.directorycontainer}>
@@ -200,13 +166,7 @@ export default function Home(props) {
           <BloodDonatebtn />
         </div>
 
-        {/* <div> */}
-        {/* <Slider /> */}
-        {/* <DemoAd /> */}
-
         <HorizontalScroll />
-
-        {/* </div> */}
 
         {props.newdata ? (
           <main>
@@ -232,19 +192,25 @@ export default function Home(props) {
             )}
           </main>
         ) : (
-          <p className="text-center">Loading...</p>
+          <p className="text-center">
+            {lang == "en" ? English.loading : Hindi.loading}
+          </p>
         )}
 
         {full ? (
           <div className="m-auto p-2 border border-gray-700 w-[14rem] text-center mt-9 text-cyan-600  font-bold  ">
-            Thats All For Now!
+            {lang == "en" ? English.thatsit : Hindi.thatsit}
           </div>
         ) : (
           <div
             onClick={() => !loading && Loadmore()}
             className="m-auto p-2 border border-gray-700 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer "
           >
-            {loading ? "Loading..." : "Show More"}
+            {loading ? (
+              <span> {lang == "en" ? English.loading : Hindi.loading}</span>
+            ) : (
+              <span> {lang == "en" ? English.showmore : Hindi.showmore}</span>
+            )}
           </div>
         )}
 

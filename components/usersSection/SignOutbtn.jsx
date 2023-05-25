@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import { AccountContext } from "../../context/AccountProvider";
 
-const SignOutbtn = () => {
+const SignOutbtn = ({ text }) => {
   const { setsignout } = useContext(AccountContext);
   const router = useRouter();
   const signOut = () => {
@@ -12,8 +12,11 @@ const SignOutbtn = () => {
   };
   return (
     <>
-      <div className="text-red-500 w-full" onClick={(e) => signOut(e)}>
-        Sign Out
+      <div
+        className="text-orange-500 font-bold w-full"
+        onClick={(e) => signOut(e)}
+      >
+        {text}
       </div>
     </>
   );

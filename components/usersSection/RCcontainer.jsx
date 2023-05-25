@@ -4,6 +4,9 @@ import { getRecentChat } from "../../routes/user";
 // import styles from "../../styles/chat.module.css";
 import styles from "../../styles/newchat.module.css";
 import Image from "next/image";
+import { AccountContext } from "../../context/AccountProvider";
+import English from "../../public/locales/en/labtest";
+import Hindi from "../../public/locales/hi/labtest";
 
 const RCcontainer = ({ mobile }) => {
   const [alluser, setalluser] = useState(null);
@@ -11,6 +14,7 @@ const RCcontainer = ({ mobile }) => {
   const [usermenu, setusermenu] = useState(true);
   const [loading, setloading] = useState(false);
   const [admin, setadmin] = useState();
+  const { lang } = useContext(AccountContext);
   useEffect(() => {
     setloading(true);
     const users = async () => {
@@ -48,7 +52,10 @@ const RCcontainer = ({ mobile }) => {
             height={40}
             alt={"loader img"}
           />
-          <br /> <h2>Loading Chats.. 💙</h2>
+          <br />{" "}
+          <h2>
+            {lang == "en" ? English.loadingchats : Hindi.loadingchats}... 💘
+          </h2>
         </div>
       ) : (
         <div className={`${styles.usercontainer}`}>

@@ -10,7 +10,8 @@ import Image from "next/image";
 import { setDocDataAction } from "../../redux/actions/userActions";
 import { SearchDoc } from "../../routes/directory";
 import DirectoryCard from "../../components/DirectoryCard";
-
+import English from "../../public/locales/en/search";
+import Hindi from "../../public/locales/hi/search";
 import Slider2 from "../../components/AdComp3";
 import { useContext } from "react";
 import { AccountContext } from "../../context/AccountProvider";
@@ -88,7 +89,7 @@ const Search = () => {
     setinput(val);
   };
 
-  const { setscrollbox } = useContext(AccountContext);
+  const { setscrollbox, lang } = useContext(AccountContext);
   useEffect(() => {
     let indexbox = document.getElementById("searchpage");
     // console.log(indexbox.scrollTop);
@@ -114,14 +115,16 @@ const Search = () => {
               onChange={(e) => handleChange(e)}
               id="default-search"
               className={`${styles.searchinput}`}
-              placeholder="Search Doctors, Specialist , Clinics..."
+              placeholder={
+                lang == "en" ? English.placeholder : Hindi.placeholder
+              }
             />
             <button
               type="button"
               onClick={(e) => onSearch(e)}
               className={`${styles.searchbtn}`}
             >
-              Search
+              {lang == "en" ? English.search : Hindi.search}
             </button>
           </div>
         </form>
@@ -142,8 +145,8 @@ const Search = () => {
           >
             <Image
               src={"/loader.svg"}
-              width={30}
-              height={30}
+              width={40}
+              height={40}
               alt="Loading..."
             />
           </div>
@@ -194,7 +197,7 @@ const Search = () => {
                     })}
                 </div>
                 <div className="shadow-lg p-1 w-full text-center font-bold rounded-lg">
-                  {"Search Doctor's information "}
+                  {lang == "en" ? English.searcdocinfo : Hindi.searcdocinfo}
                 </div>
                 <div className={`${styles2.directoryshell} `}>
                   {docs &&
