@@ -11,7 +11,7 @@ module.exports = {
   bloodbank: "रक्त-बैंक",
   gynae: "स्त्रीरोग",
   medicine: "दवा",
-  bone: "हड्डी-डॉक्टर",
+  bone: "हड्डी डॉक्टर",
   neuro: "मस्तिष्क (न्यूरो)",
   physician: "फिजिशियन",
   cancer: "कैंसर",
