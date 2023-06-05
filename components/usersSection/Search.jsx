@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import User from "./User";
 import styles from "../../styles/newchat.module.css";
 
-const Search = ({ mobile, searcheddata, admin }) => {
+const Search = ({ searcheddata, admin }) => {
   console.log(searcheddata, "search data");
 
   if (searcheddata && searcheddata.length === 0) {
@@ -17,14 +17,7 @@ const Search = ({ mobile, searcheddata, admin }) => {
           {searcheddata &&
             searcheddata.map((user) => {
               if (user.sub != admin.sub) {
-                return (
-                  <User
-                    mobile={mobile}
-                    key={user.email}
-                    name={user.name}
-                    user={user}
-                  />
-                );
+                return <User key={user.email} name={user.name} user={user} />;
               }
             })}
         </div>
