@@ -33,13 +33,14 @@
 
 .languagebtns {
   width: 80%;
+  color: rgb(255, 255, 255);
   font-weight: bold;
   cursor: pointer;
   padding: 10px;
   border-radius: 8px;
   /* background-color: aliceblue; */
-  background: linear-gradient(125deg, rgb(144, 244, 255), rgb(78, 228, 255));
+  background: linear-gradient(125deg, rgb(3, 181, 201), rgb(0, 201, 191));
   /* border: 2px solid red; */
   text-align: center;
-  box-shadow: 0 3px 10px rgba(216, 216, 216, 0.457);
+  box-shadow: 0 3px 10px rgba(179, 179, 179, 0.557);
 }

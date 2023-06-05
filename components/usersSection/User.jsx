@@ -9,8 +9,8 @@ const User = (props) => {
     useContext(AccountContext);
   console.log(props, "Person Hai Yeh");
   const onclick = async (e) => {
-    setmsgopened(true);
     // setmobilevalue()
+    setmsgopened(true);
     const username = props.user.name;
     const stateObj = { username };
     window.history.pushState(stateObj, null, null);
@@ -27,8 +27,6 @@ const User = (props) => {
     <>
       <div
         onClick={(e) => {
-          console.log(props.mobile, "Mobile hai ya nahi");
-
           // setmsgopened(true);
           onclick(e);
         }}
