@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <circle cx="32" cy="32" r="28" fill="#FF6B6B" />
+  <path d="M32 8a3 3 0 0 0-3 3v3H12a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h40a3 3 0 0 0 3-3V17a3 3 0 0 0-3-3H35V11a3 3 0 0 0-3-3zm0 8h10v10H32V16zm0 14h10v10H32V30zm-10 0h6v10h-6V30zm0-14h6v10h-6V16zm20 10h-6v10h6V26zm-10 0h6v10h-6V26zm-10 0h6v10h-6V26zm0 12h10v10H32V38zm0-14h10v10H32V24zm0 20v6h-6v-6h6z" fill="#FFF" />
+  <circle cx="24" cy="22" r="2" fill="#FFABAB" />
+  <circle cx="32" cy="22" r="2" fill="#FFABAB" />
+  <circle cx="40" cy="22" r="2" fill="#FFABAB" />
+  <circle cx="24" cy="36" r="2" fill="#FFABAB" />
+  <circle cx="32" cy="36" r="2" fill="#FFABAB" />
+  <circle cx="40" cy="36" r="2" fill="#FFABAB" />
+</svg>

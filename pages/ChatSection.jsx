@@ -517,11 +517,11 @@ const ChatSection = () => {
                     setsearchactive(true);
                     setsearchimg(true);
                   }}
-                  onBlur={() => {
-                    setsearchactive(false);
-                    setinput("");
-                    setsearchimg(false);
-                  }}
+                  // onBlur={() => {
+                  //   setsearchactive(false);
+                  //   setinput("");
+                  //   setsearchimg(false);
+                  // }}
                   onChange={(e) => handleSearchChange(e)}
                   type="text"
                   value={input}
@@ -541,7 +541,14 @@ const ChatSection = () => {
               <div>
                 {searcheddata && searcheddata.length > 0 ? (
                   <div>
-                    <div className="w-full shadow p-1 pl-3  flex items-center gap-2">
+                    <div
+                      onClick={() => {
+                        setsearchactive(false);
+                        setinput("");
+                        setsearchimg(false);
+                      }}
+                      className="w-full shadow p-1 pl-3  flex items-center gap-2"
+                    >
                       <Image
                         src={"/close.svg"}
                         width={25}

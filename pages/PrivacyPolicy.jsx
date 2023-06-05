@@ -1,10 +1,8 @@
 import React from "react";
-
 import styles from "../styles/Home.module.css";
 import { useContext } from "react";
 import { AccountContext } from "../context/AccountProvider";
 import { useEffect } from "react";
-
 const PrivacyPolicy = () => {
   const { setscrollbox } = useContext(AccountContext);
   useEffect(() => {
