@@ -26,8 +26,11 @@ function MyApp({ Component, pageProps, AccountContext }) {
   }, []);
 
   // Send pageview with a custom path
-ReactGA.send({ hitType: "pageview", page: window.location.pathname+window.location.search, title: `${window.location.href} Page` });
 
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname+window.location.search, title: "Home Page" });
+
+  }, []);
 
   useEffect(() => {
     // Check if the Web Push API is supported
