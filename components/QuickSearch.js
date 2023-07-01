@@ -4,7 +4,7 @@ import { quickSearchaction } from "../redux/actions/searchAction";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 import { AccountContext } from "../context/AccountProvider";
 import English from "../public/locales/en/search";
 import Hindi from "../public/locales/hi/search";
@@ -26,6 +26,8 @@ const QuickSearch = () => {
       label: val,
       value: val,
     });
+    
+
     localStorage.setItem("skey", val);
     console.log("key data ", val);
 

@@ -10,7 +10,7 @@ import Modal from "../components/Modal";
 import Docphonebookbtn from "../components/Docphonebookbtn";
 import Nashmukti from "../components/Nashmuktibtn";
 import BloodDonatebtn from "../components/BloodDonatebtn";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 import Router, { useRouter } from "next/router";
 import HorizontalScroll from "../components/DemoAd";
 
@@ -33,7 +33,8 @@ export default function Home(props) {
   const [loading, setloading] = useState(false);
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname+window.location.search, title: "Home Page" });
+
   }, []);
 
   useEffect(() => {
@@ -155,6 +156,15 @@ export default function Home(props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+{/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-5Y9LBBR5S9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5Y9LBBR5S9');
+</script> */}
 
       {langmodal && <LanguageModal />}
       <div id="indexbox" className={styles.mainshell}>
