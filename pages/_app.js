@@ -11,9 +11,9 @@ import Navbar from "../components/Navbar";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AccountProvider, { AccountContext } from "../context/AccountProvider";
 import { webpushfunc } from "../utils/notification";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
-const TRACKING_ID = "UA-247960197-1";
+const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
 function MyApp({ Component, pageProps, AccountContext }) {
   const [loading, setLoading] = useState(true);
@@ -24,6 +24,10 @@ function MyApp({ Component, pageProps, AccountContext }) {
     };
     relod();
   }, []);
+
+  // Send pageview with a custom path
+ReactGA.send({ hitType: "pageview", page: window.location.pathname+window.location.search, title: `${window.location.href} Page` });
+
 
   useEffect(() => {
     // Check if the Web Push API is supported

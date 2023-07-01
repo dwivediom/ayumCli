@@ -14,6 +14,7 @@ import English from "../../public/locales/en/search";
 import Hindi from "../../public/locales/hi/search";
 import Slider2 from "../../components/AdComp3";
 import { useContext } from "react";
+import ReactGA from 'react-ga4'
 import { AccountContext } from "../../context/AccountProvider";
 
 const Search = () => {
@@ -31,6 +32,7 @@ const Search = () => {
 
     onSearch();
     if (localStorage.skey && reload) {
+
       setinput(localStorage.skey);
       input && onloadSearch(input);
     }
@@ -74,7 +76,12 @@ const Search = () => {
 
     console.log(sdata);
     const searchdata = await axios.get(url);
-
+  ReactGA.event({
+      category: "Search Box Input",
+      action: "searched",
+      label: input,
+      value: input,
+    });
     const getdata = await SearchDoc(input);
     setdocs(getdata.data);
     setdata(searchdata);
