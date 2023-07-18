@@ -15,10 +15,10 @@ const QuickSearch = () => {
   const [key, setkey] = useState(null);
   const dispatch = useDispatch();
   const [showmore, setshow] = useState(false);
-  const qSearch = (e) => {
-    e.preventDefault();
+  const qSearch = (val) => {
+    // e.preventDefault();
 
-    let val = e.target.value;
+    // let val = e.target.value;
 
     ReactGA.event({
       category: "quick search button",
@@ -26,7 +26,6 @@ const QuickSearch = () => {
       label: val,
       value: val,
     });
-    
 
     localStorage.setItem("skey", val);
     console.log("key data ", val);
@@ -52,7 +51,7 @@ const QuickSearch = () => {
       className="grid lg:grid-cols-8 md:grid-cols-4 max-[760px]:grid-cols-4 gap-2 p-1 py-4"
     >
       <div
-        onClick={(e) => qSearch(e)}
+        onClick={() => qSearch(English.kidney)}
         value="Kidney "
         className={`${styles.btn6} p-3 rounded-lg shadow-md text-center `}
         // className="bg-gray-100 p-4"
@@ -63,7 +62,7 @@ const QuickSearch = () => {
         </span>
       </div>
       <div
-        onClick={(e) => qSearch(e)}
+        onClick={() => qSearch(English.dentist)}
         value="Dentist "
         className={`${styles.btn2} p-3 rounded-lg shadow-md text-center`}
         // className="bg-gray-100 p-4"
@@ -76,7 +75,7 @@ const QuickSearch = () => {
       </div>
 
       <div
-        onClick={(e) => qSearch(e)}
+        onClick={() => qSearch(English.skin)}
         value="Skin    "
         // className="p-3 shadow-md text-center"
         className={`${styles.btn5} p-3 rounded-lg shadow-md text-center`}
@@ -103,7 +102,7 @@ const QuickSearch = () => {
       </div>
 
       <div
-        onClick={(e) => qSearch(e)}
+        onClick={() => qSearch(English.gynae)}
         value="Gynae"
         className={`${styles.btn7} p-3 rounded-lg shadow-md text-center `}
         // className="bg-gray-100 p-4"
@@ -116,7 +115,7 @@ const QuickSearch = () => {
         </span>{" "}
       </div>
       <div
-        onClick={(e) => qSearch(e)}
+        onClick={() => qSearch(English.medicine)}
         value="Medicine"
         className={`${styles.btn8} p-3 rounded-lg shadow-md text-center `}
         // className="bg-gray-100 p-4"
@@ -129,7 +128,7 @@ const QuickSearch = () => {
         </span>
       </div>
       <div
-        onClick={(e) => qSearch(e)}
+        onClick={() => qSearch(English.bone)}
         value="ortho bone"
         className={`${styles.btn6} p-3 rounded-lg shadow-md text-center `}
         // className="bg-gray-100 p-4"
@@ -165,7 +164,7 @@ const QuickSearch = () => {
       {showmore && (
         <>
           <div
-            onClick={(e) => qSearch(e)}
+            onClick={() => qSearch(English.surgery)}
             value="surgery"
             className={`${styles.btn4} p-3 rounded-lg shadow-md text-center `}
             // className="bg-gray-100 p-4"
@@ -178,7 +177,7 @@ const QuickSearch = () => {
             </span>{" "}
           </div>
           <div
-            onClick={(e) => qSearch(e)}
+            onClick={() => qSearch(English.neuro)}
             value="neuro"
             className={` ${styles.btn3} p-3 rounded-lg shadow-md text-center `}
             // className="bg-gray-100 p-4"
@@ -191,7 +190,7 @@ const QuickSearch = () => {
             </span>{" "}
           </div>
           <div
-            onClick={(e) => qSearch(e)}
+            onClick={() => qSearch(English.physician)}
             value="physician"
             className={` ${styles.btn2} p-3 rounded-lg shadow-md text-center`}
             // className="bg-gray-100 p-4"
@@ -204,7 +203,7 @@ const QuickSearch = () => {
             </span>{" "}
           </div>
           <div
-            onClick={(e) => qSearch(e)}
+            onClick={() => qSearch(English.cancer)}
             value="cancer oncologist"
             className={` ${styles.btn7} p-3 rounded-lg shadow-md text-center `}
             // className="bg-gray-100 p-4"
@@ -217,7 +216,7 @@ const QuickSearch = () => {
             </span>{" "}
           </div>
           <div
-            onClick={(e) => qSearch(e)}
+            onClick={() => qSearch(English.children)}
             value="children pedia"
             className={` ${styles.btn8} p-3 rounded-lg shadow-md text-center `}
             // className="p-3 shadow-md text-center"
