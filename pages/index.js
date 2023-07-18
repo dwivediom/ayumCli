@@ -33,8 +33,11 @@ export default function Home(props) {
   const [loading, setloading] = useState(false);
 
   useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: window.location.pathname+window.location.search, title: "Home Page" });
-
+    ReactGA.send({
+      hitType: "pageview",
+      page: window.location.pathname + window.location.search,
+      title: "Home Page",
+    });
   }, []);
 
   useEffect(() => {
@@ -157,7 +160,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-{/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-5Y9LBBR5S9"></script>
+      {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-5Y9LBBR5S9"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments)}
