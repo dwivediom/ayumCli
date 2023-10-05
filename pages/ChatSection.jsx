@@ -219,6 +219,10 @@ const ChatSection = () => {
   return (
     <>
       <div className={`${styles.chatpage}`} id="chatpage">
+        <div className={`${styles.chatnav}`}>
+          <div>General</div>
+          <div>Chats</div>
+        </div>
         <div id="component1" className={styles1.reportcontainer}>
           <div className={`${styles1.reportshell} shadow-xl`}>
             {submitted ? (
