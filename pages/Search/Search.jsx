@@ -14,8 +14,9 @@ import English from "../../public/locales/en/search";
 import Hindi from "../../public/locales/hi/search";
 import Slider2 from "../../components/AdComp3";
 import { useContext } from "react";
-import ReactGA from 'react-ga4'
+import ReactGA from "react-ga4";
 import { AccountContext } from "../../context/AccountProvider";
+import { useRouter } from "next/router";
 
 const Search = () => {
   const [data, setdata] = useState(null);
@@ -27,14 +28,13 @@ const Search = () => {
   const [reload, setreload] = useState(true);
   const [viewsearchill, setviewsearchill] = useState(true);
   const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
+  const router = useRouter();
   useEffect(() => {
     console.log("sedata", sdata);
 
     onSearch();
-    if (localStorage.skey && reload) {
-
-      setinput(localStorage.skey);
-      input && onloadSearch(input);
+    if (router.query.type && input == "") {
+      onloadSearch(router.query.type);
     }
   }, [sdata, reload, input]);
 
@@ -76,7 +76,7 @@ const Search = () => {
 
     console.log(sdata);
     const searchdata = await axios.get(url);
-  ReactGA.event({
+    ReactGA.event({
       category: "Search Box Input",
       action: "searched",
       label: input,

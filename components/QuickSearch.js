@@ -12,28 +12,17 @@ import Hindi from "../public/locales/hi/search";
 const QuickSearch = () => {
   const router = useRouter();
   const { lang } = useContext(AccountContext);
-  const [key, setkey] = useState(null);
   const dispatch = useDispatch();
   const [showmore, setshow] = useState(false);
   const qSearch = (val) => {
-    // e.preventDefault();
-
-    // let val = e.target.value;
-
     ReactGA.event({
       category: "quick search button",
       action: "clicked",
       label: val,
       value: val,
     });
-
-    localStorage.setItem("skey", val);
-    console.log("key data ", val);
-
-    setkey(val);
-
-    dispatch(quickSearchaction(val));
-    router.push("/Search/Search");
+    // dispatch(quickSearchaction(val));
+    router.push(`/Search/Search?type=${val}`);
   };
 
   useEffect(() => {
