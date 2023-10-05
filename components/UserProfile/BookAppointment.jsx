@@ -85,6 +85,9 @@ const BookAppointment = ({ reqdata }) => {
     setempty(false);
     const newdata = { ...data };
     newdata[e.target.id] = e.target.value;
+    if (newdata.age > 150 || newdata.phone.length > 10) {
+      return;
+    }
     setdata(newdata);
   };
 
@@ -119,8 +122,11 @@ const BookAppointment = ({ reqdata }) => {
             </label>
             <input
               type="number"
-              onChange={(e) => handlechange(e)}
+              onChange={(e) => {
+                handlechange(e);
+              }}
               id="age"
+              value={data.age}
               className="   text-black text-sm  w-full  rounded  "
               required
             />
@@ -132,8 +138,11 @@ const BookAppointment = ({ reqdata }) => {
             </label>
             <input
               type="number"
-              onChange={(e) => handlechange(e)}
+              onChange={(e) => {
+                handlechange(e);
+              }}
               id="phone"
+              value={data.phone}
               className="  text-black text-sm  w-full  rounded  "
               required
             />
