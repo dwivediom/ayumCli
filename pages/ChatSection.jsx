@@ -33,7 +33,10 @@ const ChatSection = () => {
     setAccount(localStoragedata);
   }, []);
   const router = useRouter();
+
+  const [tab, settab] = useState(0);
   const [inputactive, setinputactive] = useState(0);
+
   const [submitted, setsubmitted] = useState(false);
   const [searchactive, setsearchactive] = useState(false);
 
@@ -220,433 +223,452 @@ const ChatSection = () => {
     <>
       <div className={`${styles.chatpage}`} id="chatpage">
         <div className={`${styles.chatnav}`}>
-          <div>General</div>
-          <div>Chats</div>
+          <div
+            style={{ borderBottom: tab == 0 && "4px solid rgb(1, 207, 207)" }}
+            onClick={() => settab(0)}
+          >
+            General
+          </div>
+          <div
+            style={{ borderBottom: tab == 1 && "4px solid rgb(1, 207, 207)" }}
+            onClick={() => settab(1)}
+          >
+            Chats
+          </div>
         </div>
-        <div id="component1" className={styles1.reportcontainer}>
-          <div className={`${styles1.reportshell} shadow-xl`}>
-            {submitted ? (
-              <div>
-                {time === 0 ? (
-                  <p className="text-center font-bold mt-3 mb-[5rem] leading-loose">
-                    {lang == "en" ? English.hopecall : Hindi.hopecall}
-                    <br />{" "}
-                    <span className="text-red-600">
-                      {" "}
-                      {lang == "en" ? English.ifnot : Hindi.ifnot}
-                    </span>{" "}
-                    <br /> {lang == "en" ? English.bookcall : Hindi.bookcall}{" "}
-                    <br />
-                    <span className="text-xl ">9425681022</span>
-                  </p>
-                ) : (
-                  <div>
-                    <h1 className="text-center text-lg font-bold  text-green-900">
-                      {lang == "en"
-                        ? English.thankforrequest
-                        : Hindi.thankforrequest}{" "}
-                    </h1>
-                    <h2 className="text-center font-bold mt-3">
-                      {lang == "en"
-                        ? English.weareconnecting
-                        : Hindi.weareconnecting}
-                    </h2>
+        {tab == 0 && (
+          <div id="component1" className={styles1.reportcontainer}>
+            <div className={`${styles1.reportshell} shadow-xl`}>
+              {submitted ? (
+                <div>
+                  {time === 0 ? (
+                    <p className="text-center font-bold mt-3 mb-[5rem] leading-loose">
+                      {lang == "en" ? English.hopecall : Hindi.hopecall}
+                      <br />{" "}
+                      <span className="text-red-600">
+                        {" "}
+                        {lang == "en" ? English.ifnot : Hindi.ifnot}
+                      </span>{" "}
+                      <br /> {lang == "en" ? English.bookcall : Hindi.bookcall}{" "}
+                      <br />
+                      <span className="text-xl ">9425681022</span>
+                    </p>
+                  ) : (
+                    <div>
+                      <h1 className="text-center text-lg font-bold  text-green-900">
+                        {lang == "en"
+                          ? English.thankforrequest
+                          : Hindi.thankforrequest}{" "}
+                      </h1>
+                      <h2 className="text-center font-bold mt-3">
+                        {lang == "en"
+                          ? English.weareconnecting
+                          : Hindi.weareconnecting}
+                      </h2>
 
-                    <p className="text-center mt-8 mb-8 text-[2rem] font-bold text-green-800">
-                      {Math.floor(time / 60)}:{time % 60 < 10 ? "0" : ""}
-                      {time % 60} min
+                      <p className="text-center mt-8 mb-8 text-[2rem] font-bold text-green-800">
+                        {Math.floor(time / 60)}:{time % 60 < 10 ? "0" : ""}
+                        {time % 60} min
+                      </p>
+                    </div>
+                  )}
+                  {/* <button onClick={() => handleStart()}>Start</button> */}
+                </div>
+              ) : (
+                <div className={`${styles1.reportform} `}>
+                  <div
+                    style={{
+                      display: "block",
+                    }}
+                  >
+                    <h1>
+                      {lang == "en" ? English.bookfromhome : Hindi.bookfromhome}
+                    </h1>
+                    <p className="text-sm ml-1">
+                      {lang == "en" ? English.book30off : Hindi.book30off}
                     </p>
                   </div>
-                )}
-                {/* <button onClick={() => handleStart()}>Start</button> */}
-              </div>
-            ) : (
-              <div className={`${styles1.reportform} `}>
-                <div
-                  style={{
-                    display: "block",
-                  }}
-                >
-                  <h1>
-                    {lang == "en" ? English.bookfromhome : Hindi.bookfromhome}
-                  </h1>
-                  <p className="text-sm ml-1">
-                    {lang == "en" ? English.book30off : Hindi.book30off}
-                  </p>
-                </div>
 
-                <div>
-                  <img
-                    style={{
-                      display:
-                        (inputactive == 1 || inputdata.name != "") && "none",
-                    }}
-                    width="64"
-                    height="64"
-                    src="https://img.icons8.com/pastel-glyph/64/075a32/name.png"
-                    alt="name"
-                  />
-                  <input
-                    type="text"
-                    onChange={(e) => handleChange(e)}
-                    value={inputdata.name}
-                    name="name"
-                    className="shadow-md "
-                    onFocus={() => setinputactive(1)}
-                    onBlur={() => setinputactive(0)}
-                    placeholder={
-                      inputactive == 1
-                        ? lang == "en"
-                          ? English.entername
-                          : Hindi.entername
-                        : lang == "en"
-                        ? `        ${English.entername}`
-                        : `        ${Hindi.entername}`
-                    }
-                  />
-                </div>
-                <div>
-                  <img
-                    style={{
-                      display:
-                        (inputactive == 2 || inputdata.phone != "") && "none",
-                    }}
-                    width="50"
-                    height="50"
-                    src="https://img.icons8.com/ios/50/075a32/apple-phone.png"
-                    alt="apple-phone"
-                  />
-                  <input
-                    type="number"
-                    className="shadow-md"
-                    name="phone"
-                    value={inputdata.phone}
-                    onChange={(e) => handleChange(e)}
-                    onFocus={() => setinputactive(2)}
-                    onBlur={() => setinputactive(0)}
-                    placeholder={
-                      inputactive == 2
-                        ? lang == "en"
-                          ? English.enterphone
-                          : Hindi.enterphone
-                        : lang == "en"
-                        ? `        ${English.enterphone}`
-                        : `        ${Hindi.enterphone}`
-                    }
-                  />
-                </div>
-                <div>
-                  <img
-                    style={{
-                      display:
-                        (inputactive == 3 || inputdata.city != "") && "none",
-                    }}
-                    width="50"
-                    height="50"
-                    src="https://img.icons8.com/ios-filled/50/075a32/environmental-planning.png"
-                    alt="environmental-planning"
-                  />
-                  <input
-                    type="text"
-                    className="shadow-md"
-                    name="city"
-                    value={inputdata.city}
-                    onChange={(e) => handleChange(e)}
-                    onFocus={() => setinputactive(3)}
-                    onBlur={() => setinputactive(0)}
-                    placeholder={
-                      inputactive == 3
-                        ? lang == "en"
-                          ? English.entercity
-                          : Hindi.entercity
-                        : lang == "en"
-                        ? `        ${English.entercity}`
-                        : `        ${Hindi.entercity}`
-                    }
-                  />
-                </div>
-                <div>
-                  {uploaded ? (
-                    <div className="w-full p-2 bg-white rounded-xl  text-green-900 font-bold shadow-md">
-                      <img
-                        width="64"
-                        style={{
-                          marginLeft: "5rem",
-                        }}
-                        height="64"
-                        src="https://img.icons8.com/external-creatype-glyph-colourcreatype/64/009653/external-check-essential-ui-v1-creatype-glyph-colourcreatype.png"
-                        alt="external-check-essential-ui-v1-creatype-glyph-colourcreatype"
-                      />{" "}
-                      <span>
-                        {" "}
-                        {lang == "en" ? English.uploaded : Hindi.uploaded}{" "}
-                      </span>
-                    </div>
-                  ) : (
-                    <>
-                      {" "}
-                      <label
-                        htmlFor="prescription"
-                        className="w-full cursor-pointer text-center p-2 bg-white rounded-xl text-green-900 font-bold shadow-md"
-                      >
-                        <img
-                          width="66"
-                          height="66"
-                          src="https://img.icons8.com/external-smashingstocks-glyph-smashing-stocks/66/009653/external-Upload-networking-smashingstocks-glyph-smashing-stocks.png"
-                          alt="external-Upload-networking-smashingstocks-glyph-smashing-stocks"
-                        />{" "}
-                        <span className="ml-[2.5rem]">
-                          {lang == "en" ? English.uploadpre : Hindi.uploadpre}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                          {" "}
-                          ( {lang == "en" ? English.optional : Hindi.optional})
-                        </span>
-                      </label>
-                      <input
-                        type="file"
-                        onChange={(e) => {
-                          onfilechange(e);
-                        }}
-                        className="hidden"
-                        id="prescription"
-                        name="prescription"
-                      />{" "}
-                    </>
-                  )}
-                </div>
-              </div>
-            )}
-            {!submitted ? (
-              loading ? (
-                <div className="h-[2.5rem] w-full">
-                  <img
-                    style={{
-                      width: "30px",
-                      height: "30px",
-                    }}
-                    src="/loader4.svg"
-                    alt="loading"
-                  />
-                </div>
-              ) : fields ? (
-                <p className="text-center text-red-500 font-bold">
-                  {lang == "en" ? English.fillnecessary : Hindi.fillnecessary}
-                </p>
-              ) : (
-                <button
-                  className={`${styles1.submitbtn} shadow-md`}
-                  onClick={() => {
-                    handleSubmit();
-                  }}
-                >
-                  {lang == "en" ? English.submit : Hindi.submit}
-                </button>
-              )
-            ) : (
-              <>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center ",
-                    position: "relative",
-                  }}
-                  className="w-full "
-                >
-                  <button className={`${styles1.exitbtn} shadow-lg`}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center ",
-                        position: "relative",
-                      }}
-                      className="w-full h-full "
-                    >
-                      <img
-                        width="64"
-                        height="64"
-                        src="https://img.icons8.com/external-creatype-glyph-colourcreatype/64/009653/external-check-essential-ui-v1-creatype-glyph-colourcreatype.png"
-                        alt="external-check-essential-ui-v1-creatype-glyph-colourcreatype"
-                      />
-                    </div>
-                  </button>
-                  <div className={`${styles1.exittxt} shadow-lg`}>
-                    {lang == "en" ? English.reqsent : Hindi.reqsent}
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-        <div
-          id="component2"
-          style={{
-            position: msgopened && mobile && "fixed",
-            top: msgopened && mobile && "4rem",
-            padding: msgopened && mobile && "0",
-          }}
-          className={styles.chatcontainer}
-        >
-          <div
-            style={{
-              display: msgopened && mobile && "none",
-            }}
-            className={styles.chatdiv1}
-          >
-            <div className={styles.chatdiv1head}>
-              <img
-                width="64"
-                height="64"
-                src="https://img.icons8.com/external-glyph-geotatah/64/006666/external-health-workmen-compensation-glyph-glyph-geotatah.png"
-                alt="external-health-workmen-compensation-glyph-glyph-geotatah"
-              />
-              <h1> {lang == "en" ? English.labtests : Hindi.labtests}</h1>
-            </div>
-            <div className={styles.chatdiv1search}>
-              <form action="#" onSubmit={(e) => handleSearch(e)}>
-                <img
-                  style={{
-                    display: searchimg && "none",
-                  }}
-                  width="48"
-                  height="48"
-                  src="https://img.icons8.com/fluency-systems-regular/48/4D4D4D/search--v1.png"
-                  alt="search--v1"
-                />
-
-                <input
-                  onFocus={() => {
-                    setsearchactive(true);
-                    setsearchimg(true);
-                  }}
-                  // onBlur={() => {
-                  //   setsearchactive(false);
-                  //   setinput("");
-                  //   setsearchimg(false);
-                  // }}
-                  onChange={(e) => handleSearchChange(e)}
-                  type="text"
-                  value={input}
-                  placeholder={
-                    searchimg
-                      ? lang == "en"
-                        ? English.searchemail
-                        : Hindi.searchemail
-                      : lang == "en"
-                      ? `        ${English.searchandsendrep}`
-                      : `        ${Hindi.searchandsendrep}`
-                  }
-                />
-              </form>
-            </div>
-            {searchactive ? (
-              <div>
-                {searcheddata && searcheddata.length > 0 ? (
                   <div>
-                    <div
-                      onClick={() => {
-                        setsearchactive(false);
-                        setinput("");
-                        setsearchimg(false);
-                      }}
-                      className="w-full shadow p-1 pl-3  flex items-center gap-2"
-                    >
-                      <Image
-                        src={"/close.svg"}
-                        width={25}
-                        height={25}
-                        alt="close"
-                      />{" "}
-                    </div>
-
-                    <Search searcheddata={searcheddata} admin={account} />
-                  </div>
-                ) : (
-                  <div className=" relative h-[60vh] w-full  flex-col  flex justify-left items-center pt-6">
-                    <span className="font-bold text-green-800">
-                      {" "}
-                      {lang == "en" ? English.searchemail : Hindi.searchemail}
-                    </span>{" "}
-                    <Image
+                    <img
                       style={{
-                        position: "absolute",
+                        display:
+                          (inputactive == 1 || inputdata.name != "") && "none",
                       }}
-                      className={styles.heartimg}
-                      src={"/heart.svg"}
-                      width={200}
-                      height={80}
-                      alt="search user mail id"
+                      width="64"
+                      height="64"
+                      src="https://img.icons8.com/pastel-glyph/64/075a32/name.png"
+                      alt="name"
+                    />
+                    <input
+                      type="text"
+                      onChange={(e) => handleChange(e)}
+                      value={inputdata.name}
+                      name="name"
+                      className="shadow-md "
+                      onFocus={() => setinputactive(1)}
+                      onBlur={() => setinputactive(0)}
+                      placeholder={
+                        inputactive == 1
+                          ? lang == "en"
+                            ? English.entername
+                            : Hindi.entername
+                          : lang == "en"
+                          ? `        ${English.entername}`
+                          : `        ${Hindi.entername}`
+                      }
                     />
                   </div>
-                )}
-              </div>
-            ) : (
-              <div style={{ minHeight: "60vh" }}>
-                <RCcontainer />
-              </div>
-            )}
+                  <div>
+                    <img
+                      style={{
+                        display:
+                          (inputactive == 2 || inputdata.phone != "") && "none",
+                      }}
+                      width="50"
+                      height="50"
+                      src="https://img.icons8.com/ios/50/075a32/apple-phone.png"
+                      alt="apple-phone"
+                    />
+                    <input
+                      type="number"
+                      className="shadow-md"
+                      name="phone"
+                      value={inputdata.phone}
+                      onChange={(e) => handleChange(e)}
+                      onFocus={() => setinputactive(2)}
+                      onBlur={() => setinputactive(0)}
+                      placeholder={
+                        inputactive == 2
+                          ? lang == "en"
+                            ? English.enterphone
+                            : Hindi.enterphone
+                          : lang == "en"
+                          ? `        ${English.enterphone}`
+                          : `        ${Hindi.enterphone}`
+                      }
+                    />
+                  </div>
+                  <div>
+                    <img
+                      style={{
+                        display:
+                          (inputactive == 3 || inputdata.city != "") && "none",
+                      }}
+                      width="50"
+                      height="50"
+                      src="https://img.icons8.com/ios-filled/50/075a32/environmental-planning.png"
+                      alt="environmental-planning"
+                    />
+                    <input
+                      type="text"
+                      className="shadow-md"
+                      name="city"
+                      value={inputdata.city}
+                      onChange={(e) => handleChange(e)}
+                      onFocus={() => setinputactive(3)}
+                      onBlur={() => setinputactive(0)}
+                      placeholder={
+                        inputactive == 3
+                          ? lang == "en"
+                            ? English.entercity
+                            : Hindi.entercity
+                          : lang == "en"
+                          ? `        ${English.entercity}`
+                          : `        ${Hindi.entercity}`
+                      }
+                    />
+                  </div>
+                  <div>
+                    {uploaded ? (
+                      <div className="w-full p-2 bg-white rounded-xl  text-green-900 font-bold shadow-md">
+                        <img
+                          width="64"
+                          style={{
+                            marginLeft: "5rem",
+                          }}
+                          height="64"
+                          src="https://img.icons8.com/external-creatype-glyph-colourcreatype/64/009653/external-check-essential-ui-v1-creatype-glyph-colourcreatype.png"
+                          alt="external-check-essential-ui-v1-creatype-glyph-colourcreatype"
+                        />{" "}
+                        <span>
+                          {" "}
+                          {lang == "en"
+                            ? English.uploaded
+                            : Hindi.uploaded}{" "}
+                        </span>
+                      </div>
+                    ) : (
+                      <>
+                        {" "}
+                        <label
+                          htmlFor="prescription"
+                          className="w-full cursor-pointer text-center p-2 bg-white rounded-xl text-green-900 font-bold shadow-md"
+                        >
+                          <img
+                            width="66"
+                            height="66"
+                            src="https://img.icons8.com/external-smashingstocks-glyph-smashing-stocks/66/009653/external-Upload-networking-smashingstocks-glyph-smashing-stocks.png"
+                            alt="external-Upload-networking-smashingstocks-glyph-smashing-stocks"
+                          />{" "}
+                          <span className="ml-[2.5rem]">
+                            {lang == "en" ? English.uploadpre : Hindi.uploadpre}
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            {" "}
+                            ( {lang == "en" ? English.optional : Hindi.optional}
+                            )
+                          </span>
+                        </label>
+                        <input
+                          type="file"
+                          onChange={(e) => {
+                            onfilechange(e);
+                          }}
+                          className="hidden"
+                          id="prescription"
+                          name="prescription"
+                        />{" "}
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+              {!submitted ? (
+                loading ? (
+                  <div className="h-[2.5rem] w-full">
+                    <img
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                      }}
+                      src="/loader4.svg"
+                      alt="loading"
+                    />
+                  </div>
+                ) : fields ? (
+                  <p className="text-center text-red-500 font-bold">
+                    {lang == "en" ? English.fillnecessary : Hindi.fillnecessary}
+                  </p>
+                ) : (
+                  <button
+                    className={`${styles1.submitbtn} shadow-md`}
+                    onClick={() => {
+                      handleSubmit();
+                    }}
+                  >
+                    {lang == "en" ? English.submit : Hindi.submit}
+                  </button>
+                )
+              ) : (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center ",
+                      position: "relative",
+                    }}
+                    className="w-full "
+                  >
+                    <button className={`${styles1.exitbtn} shadow-lg`}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center ",
+                          position: "relative",
+                        }}
+                        className="w-full h-full "
+                      >
+                        <img
+                          width="64"
+                          height="64"
+                          src="https://img.icons8.com/external-creatype-glyph-colourcreatype/64/009653/external-check-essential-ui-v1-creatype-glyph-colourcreatype.png"
+                          alt="external-check-essential-ui-v1-creatype-glyph-colourcreatype"
+                        />
+                      </div>
+                    </button>
+                    <div className={`${styles1.exittxt} shadow-lg`}>
+                      {lang == "en" ? English.reqsent : Hindi.reqsent}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
+        )}
+        {tab == 1 && (
           <div
-            // style={{
-            //   display: msgopened && mobile && "block",
-            //   width: "100%",
-            // }}
-            className={styles.chatdiv2}
+            id="component2"
+            style={{
+              position: msgopened && mobile && "fixed",
+              top: msgopened && mobile && "4rem",
+              padding: msgopened && mobile && "0",
+            }}
+            className={styles.chatcontainer}
           >
-            {person && (
-              <div
-                style={mobile ? { display: !msgopened ? "none" : "block" } : {}}
-              >
-                <ChatBox />
+            <div
+              style={{
+                display: msgopened && mobile && "none",
+              }}
+              className={styles.chatdiv1}
+            >
+              <div className={styles.chatdiv1head}>
+                <img
+                  width="64"
+                  height="64"
+                  src="https://img.icons8.com/external-glyph-geotatah/64/006666/external-health-workmen-compensation-glyph-glyph-geotatah.png"
+                  alt="external-health-workmen-compensation-glyph-glyph-geotatah"
+                />
+                <h1> {lang == "en" ? English.labtests : Hindi.labtests}</h1>
               </div>
-            )}
+              <div className={styles.chatdiv1search}>
+                <form action="#" onSubmit={(e) => handleSearch(e)}>
+                  <img
+                    style={{
+                      display: searchimg && "none",
+                    }}
+                    width="48"
+                    height="48"
+                    src="https://img.icons8.com/fluency-systems-regular/48/4D4D4D/search--v1.png"
+                    alt="search--v1"
+                  />
+
+                  <input
+                    onFocus={() => {
+                      setsearchactive(true);
+                      setsearchimg(true);
+                    }}
+                    // onBlur={() => {
+                    //   setsearchactive(false);
+                    //   setinput("");
+                    //   setsearchimg(false);
+                    // }}
+                    onChange={(e) => handleSearchChange(e)}
+                    type="text"
+                    value={input}
+                    placeholder={
+                      searchimg
+                        ? lang == "en"
+                          ? English.searchemail
+                          : Hindi.searchemail
+                        : lang == "en"
+                        ? `        ${English.searchandsendrep}`
+                        : `        ${Hindi.searchandsendrep}`
+                    }
+                  />
+                </form>
+              </div>
+              {searchactive ? (
+                <div>
+                  {searcheddata && searcheddata.length > 0 ? (
+                    <div>
+                      <div
+                        onClick={() => {
+                          setsearchactive(false);
+                          setinput("");
+                          setsearchimg(false);
+                        }}
+                        className="w-full shadow p-1 pl-3  flex items-center gap-2"
+                      >
+                        <Image
+                          src={"/close.svg"}
+                          width={25}
+                          height={25}
+                          alt="close"
+                        />{" "}
+                      </div>
+
+                      <Search searcheddata={searcheddata} admin={account} />
+                    </div>
+                  ) : (
+                    <div className=" relative h-[60vh] w-full  flex-col  flex justify-left items-center pt-6">
+                      <span className="font-bold text-green-800">
+                        {" "}
+                        {lang == "en" ? English.searchemail : Hindi.searchemail}
+                      </span>{" "}
+                      <Image
+                        style={{
+                          position: "absolute",
+                        }}
+                        className={styles.heartimg}
+                        src={"/heart.svg"}
+                        width={200}
+                        height={80}
+                        alt="search user mail id"
+                      />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div style={{ minHeight: "60vh" }}>
+                  <RCcontainer />
+                </div>
+              )}
+            </div>
+            <div
+              // style={{
+              //   display: msgopened && mobile && "block",
+              //   width: "100%",
+              // }}
+              className={styles.chatdiv2}
+            >
+              {person && (
+                <div
+                  style={
+                    mobile ? { display: !msgopened ? "none" : "block" } : {}
+                  }
+                >
+                  <ChatBox />
+                </div>
+              )}
+            </div>
+            <div className={styles.chatdiv3}>
+              <div className={`${styles.chatdiv3head} shadow-md`}></div>
+              <div className="shadow-lg">
+                <img
+                  width="64"
+                  height="64"
+                  src="https://img.icons8.com/external-becris-solid-becris/64/006666/external-home-literary-genres-becris-solid-becris.png"
+                  alt="external-home-literary-genres-becris-solid-becris"
+                />
+                <p>
+                  {lang == "en" ? English.reportdelivery : Hindi.reportdelivery}
+                </p>
+              </div>
+              <div className="shadow-lg">
+                <img
+                  width="50"
+                  height="50"
+                  src="https://img.icons8.com/ios-filled/50/006666/android.png"
+                  alt="android"
+                />
+                <p>
+                  {lang == "en" ? English.onlinedeliver : Hindi.onlinedeliver}
+                </p>
+              </div>
+              <div className="shadow-lg">
+                <img
+                  width="64"
+                  height="64"
+                  src="https://img.icons8.com/pastel-glyph/64/006666/sale--v2.png"
+                  alt="sale--v2"
+                />
+                <p>{lang == "en" ? English.book30off : Hindi.book30off}</p>
+              </div>
+              <div className="shadow-lg">
+                <img
+                  width="50"
+                  height="50"
+                  src="https://img.icons8.com/ios/50/006666/running--v1.png"
+                  alt="running--v1"
+                />
+                <p>{lang == "en" ? English.servicefast : Hindi.servicefast}</p>
+              </div>
+            </div>
           </div>
-          <div className={styles.chatdiv3}>
-            <div className={`${styles.chatdiv3head} shadow-md`}></div>
-            <div className="shadow-lg">
-              <img
-                width="64"
-                height="64"
-                src="https://img.icons8.com/external-becris-solid-becris/64/006666/external-home-literary-genres-becris-solid-becris.png"
-                alt="external-home-literary-genres-becris-solid-becris"
-              />
-              <p>
-                {lang == "en" ? English.reportdelivery : Hindi.reportdelivery}
-              </p>
-            </div>
-            <div className="shadow-lg">
-              <img
-                width="50"
-                height="50"
-                src="https://img.icons8.com/ios-filled/50/006666/android.png"
-                alt="android"
-              />
-              <p>
-                {lang == "en" ? English.onlinedeliver : Hindi.onlinedeliver}
-              </p>
-            </div>
-            <div className="shadow-lg">
-              <img
-                width="64"
-                height="64"
-                src="https://img.icons8.com/pastel-glyph/64/006666/sale--v2.png"
-                alt="sale--v2"
-              />
-              <p>{lang == "en" ? English.book30off : Hindi.book30off}</p>
-            </div>
-            <div className="shadow-lg">
-              <img
-                width="50"
-                height="50"
-                src="https://img.icons8.com/ios/50/006666/running--v1.png"
-                alt="running--v1"
-              />
-              <p>{lang == "en" ? English.servicefast : Hindi.servicefast}</p>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </>
   );

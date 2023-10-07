@@ -5,11 +5,28 @@
   width: 100% !important;
   position: absolute !important;
   overflow: scroll !important;
+  position: relative;
 }
 .chatpage::-webkit-scrollbar {
   display: none !important;
+ 
 }
-
+.chatnav{
+  /* border-top: 2px solid rgb(230, 230, 230); */
+  display: flex;
+ gap: 1rem;
+ padding: 10px;
+ justify-content: space-between;
+}
+.chatnav div{
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 3px 10px rgba(200, 200, 200, 0.532) !important;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
 .chatcontainer {
   /* width: 100vw; */
   max-height: 100vh;
@@ -19,10 +36,20 @@
   padding: 10px;
   padding-bottom: 0;
   /* padding-top: 0; */
+  animation: fadeanimate 0.5s linear forwards;
   display: grid;
   grid-template-columns: 3fr 6fr 3fr;
   gap: 10px;
   font-family: "Nunito", sans-serif !important;
+}
+
+@keyframes fadeanimate{
+  0%{
+    transform: translateY(100px);
+  }
+  100%{
+    transform: translateY(0px);
+  }
 }
 
 .chatdiv1 {
