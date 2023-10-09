@@ -21,7 +21,12 @@ module.exports = {
   loadingchats: "चैट्स लोड हो रहे हैं",
   entername: "नाम दर्ज करें",
   enterphone: "फ़ोन नंबर दर्ज करें",
+  enterage: "आयु दर्ज करें ",
   entercity: "शहर दर्ज करें",
+  respondblood: "साथ जुड़े और प्रदान करें एक नया जीवन ",
   sendmsgandrep: "संदेश और रिपोर्ट भेजें...",
   private: "प्राइवेट",
+  reqblood: "आयुम परिवार से ब्लड रिक्वेस्ट करें ",
+  enterhospital: "अस्पताल का नाम दर्ज करें ",
+  enterbloodgrp: "ब्लड ग्रुप दर्ज करें ",
 };
