@@ -101,6 +101,30 @@
   animation-timing-function: ease-in-out;
 }
 
+.submitbtnblood{
+  background: rgb(135, 252, 180);
+  background: linear-gradient(
+    90deg,
+    rgb(252, 143, 135) 0%,
+    rgb(199, 0, 0) 36%,
+    rgb(199, 0, 0) 42%,
+    rgb(199, 0, 0) 100%,
+    rgb(121, 9, 9) 100%
+  );
+  padding: 5px 10px;
+  border-radius: 24px;
+  color: white;
+  font-weight: bold;
+}
+
+.submitbtnblood:hover{
+  
+  animation-name: gradientChangeblood;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
 .exitbtn {
   margin-top: 1rem;
 
@@ -170,6 +194,14 @@
   }
   100% {
     background: rgb(0, 150, 83);
+  }
+}
+@keyframes gradientChangeblood {
+  0% {
+    background-color: rgb(255, 183, 183);
+  }
+  100% {
+    background: rgb(150, 0, 0);
   }
 }
 .reportform input:focus {
