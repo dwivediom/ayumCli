@@ -99,7 +99,7 @@ const Bloodrecieve = () => {
               <h1
                 style={{
                   color: "rgb(162, 6, 6)",
-                  fontSize: "1.1rem",
+                  fontSize: "1rem",
                   textAlign: "center",
                 }}
               >
@@ -112,6 +112,7 @@ const Bloodrecieve = () => {
                   display: "flex",
                   flexDirection: "column",
                   marginTop: "-20px",
+                  fontSize: "14px",
                 }}
               >
                 <p>Blood Group Needed - {reqData.bloodgroup}</p>

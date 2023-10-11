@@ -46,6 +46,7 @@ const LanguageModal = () => {
 
   const handleClick = (e, lang) => {
     e.preventDefault();
+    setlangchanged(true);
     setlang(lang);
   };
   const [number, setnumber] = useState("");
@@ -75,6 +76,8 @@ const LanguageModal = () => {
       }
     }
   };
+
+  const [langchanged, setlangchanged] = useState(false);
   return (
     <div className={`${styles.languagediv}`}>
       <div className={`${styles.languagemodal}`}>
@@ -137,29 +140,36 @@ const LanguageModal = () => {
             English
           </div>
         </div>
-        <div style={{ width: "100%" }}>
-          <input
-            placeholder="Enter Your Number"
-            value={number}
-            className={`${styles.phoneinput}`}
-            type="number"
-            onChange={(e) => handleChange(e)}
-          />
-          {validerr && (
-            <p style={{ marginTop: "10px", color: "red" }}>
-              *Enter Valid Phone Number
-            </p>
-          )}
-          {validphone && (
-            <p style={{ marginTop: "10px", color: "green" }}>
-              *Phone number is valid
-            </p>
-          )}
-        </div>
+        {langchanged && (
+          <div className={`${styles.numberinput}`} style={{ width: "100%" }}>
+            <input
+              placeholder="Enter Your Number"
+              value={number}
+              className={`${styles.phoneinput}`}
+              type="number"
+              onChange={(e) => handleChange(e)}
+            />
+            {validerr && (
+              <p style={{ marginTop: "10px", color: "red" }}>
+                *Enter Valid Phone Number
+              </p>
+            )}
+            {validphone && (
+              <p style={{ marginTop: "10px", color: "green" }}>
+                *Phone number is valid
+              </p>
+            )}
+          </div>
+        )}
 
-        <div onClick={() => handleSubmit()} className={`${styles.submitintro}`}>
-          Submit
-        </div>
+        {number != "" && (
+          <div
+            onClick={() => handleSubmit()}
+            className={`${styles.submitintro}`}
+          >
+            Submit
+          </div>
+        )}
       </div>
     </div>
   );
