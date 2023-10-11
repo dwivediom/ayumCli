@@ -24,14 +24,14 @@ const BottomNav = () => {
           id="bottom-navigation"
           className=" gird grid-cols-5 bg-gray-900  text-white block fixed  inset-x-0 bottom-0 z-10  shadow"
         >
-          {scrollbox && (
+          {/* {scrollbox && (
             <div className={styles.scrollanimation}>
               <img
                 src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/FFFFFF/external-Down-arrows-tanah-basah-glyph-tanah-basah-5.png"
                 alt="down"
               />
             </div>
-          )}
+          )} */}
           <div id="tabs" className="flex justify-between">
             <Link href={"/"}>
               <a className="w-full focus:text-cyan-500 hover:text-cyan-500 justify-center inline-block text-center pt-2 pb-1">
