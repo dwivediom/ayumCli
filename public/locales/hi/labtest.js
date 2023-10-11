@@ -29,4 +29,5 @@ module.exports = {
   reqblood: "आयुम परिवार से ब्लड रिक्वेस्ट करें ",
   enterhospital: "अस्पताल का नाम दर्ज करें ",
   enterbloodgrp: "ब्लड ग्रुप दर्ज करें ",
+  patientname: "मरीज़ का नाम दर्ज करें ",
 };

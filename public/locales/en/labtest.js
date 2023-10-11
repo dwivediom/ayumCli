@@ -13,6 +13,7 @@ module.exports = {
   submit: "Submit",
   reqsent: "Request Sent Sucessfully!",
   labtests: "Lab-Reports",
+  patientname: "Enter Patient Name",
   searchemail: "search emailid",
   searchandsendrep: "search and send reports",
   reportdelivery: "Physical Reports Delivery at Home",

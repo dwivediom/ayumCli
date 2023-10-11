@@ -4,7 +4,7 @@ module.exports = {
   showmore: "और दिखाएं",
   online: "कृपया मोबाइल डाटा आन करें ...",
   docbtntxt: "डॉक्टरों का नंबर",
-  bloodbtntxt: "रक्तदान अभियान",
+  bloodbtntxt: "ब्लड रिक्वेस्ट करें ",
   bookslotbtn: "स्लॉट बुक करें",
   contactus: "संपर्क करें",
   aboutus: "हमारे बारे में",

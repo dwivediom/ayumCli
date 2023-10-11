@@ -28,6 +28,7 @@ const BloodRequest = () => {
     hospital: "",
     bloodgroup: "",
     acceptterm: false,
+    patientname: "",
   });
   const handleChange = (e) => {
     console.log(e.target.value);
@@ -97,6 +98,18 @@ const BloodRequest = () => {
                 name="name"
                 className="shadow-md "
                 placeholder={lang == "en" ? English.entername : Hindi.entername}
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                onChange={(e) => handleChange(e)}
+                value={inputdata.patientname}
+                name="patientname"
+                className="shadow-md "
+                placeholder={
+                  lang == "en" ? English.patientname : Hindi.patientname
+                }
               />
             </div>
             <div>

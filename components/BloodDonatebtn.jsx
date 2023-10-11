@@ -12,7 +12,7 @@ const BloodDonatebtn = () => {
   const { lang } = useContext(AccountContext);
   return (
     <div
-      onClick={() => router.push("/Other/Campaign")}
+      onClick={() => router.push("/Other/BloodRequest")}
       className={`${styles.docphonebookbtn3}`}
       //   className="grid grid-cols-3"
     >
