@@ -51,7 +51,7 @@ const QuickSearch = () => {
         </span>
       </div>
       <div
-        onClick={() => qSearch(English.dentist)}
+        onClick={() => qSearch("dentist,orthodontics,oral")}
         value="Dentist "
         className={`${styles.btn2} p-3 rounded-lg shadow-md text-center`}
         // className="bg-gray-100 p-4"
@@ -64,8 +64,8 @@ const QuickSearch = () => {
       </div>
 
       <div
-        onClick={() => qSearch(English.skin)}
-        value="Skin    "
+        onClick={() => qSearch("skin,derma")}
+        value="Skin"
         // className="p-3 shadow-md text-center"
         className={`${styles.btn5} p-3 rounded-lg shadow-md text-center`}
         // className="bg-gray-100 p-4"
@@ -91,7 +91,7 @@ const QuickSearch = () => {
       </div>
 
       <div
-        onClick={() => qSearch(English.gynae)}
+        onClick={() => qSearch("gynae,gyno")}
         value="Gynae"
         className={`${styles.btn7} p-3 rounded-lg shadow-md text-center `}
         // className="bg-gray-100 p-4"
@@ -104,7 +104,7 @@ const QuickSearch = () => {
         </span>{" "}
       </div>
       <div
-        onClick={() => qSearch(English.medicine)}
+        onClick={() => qSearch("md,medicine")}
         value="Medicine"
         className={`${styles.btn8} p-3 rounded-lg shadow-md text-center `}
         // className="bg-gray-100 p-4"
@@ -117,7 +117,7 @@ const QuickSearch = () => {
         </span>
       </div>
       <div
-        onClick={() => qSearch(English.bone)}
+        onClick={() => qSearch("bone,ortho")}
         value="ortho bone"
         className={`${styles.btn6} p-3 rounded-lg shadow-md text-center `}
         // className="bg-gray-100 p-4"
@@ -153,7 +153,7 @@ const QuickSearch = () => {
       {showmore && (
         <>
           <div
-            onClick={() => qSearch(English.surgery)}
+            onClick={() => qSearch("surgery,operation")}
             value="surgery"
             className={`${styles.btn4} p-3 rounded-lg shadow-md text-center `}
             // className="bg-gray-100 p-4"
@@ -179,7 +179,7 @@ const QuickSearch = () => {
             </span>{" "}
           </div>
           <div
-            onClick={() => qSearch(English.physician)}
+            onClick={() => qSearch("physio,physician")}
             value="physician"
             className={` ${styles.btn2} p-3 rounded-lg shadow-md text-center`}
             // className="bg-gray-100 p-4"
@@ -205,7 +205,7 @@ const QuickSearch = () => {
             </span>{" "}
           </div>
           <div
-            onClick={() => qSearch(English.children)}
+            onClick={() => qSearch("children,paed")}
             value="children pedia"
             className={` ${styles.btn8} p-3 rounded-lg shadow-md text-center `}
             // className="p-3 shadow-md text-center"

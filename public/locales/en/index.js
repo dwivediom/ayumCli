@@ -4,7 +4,7 @@ module.exports = {
   showmore: "Show More",
   online: "Please Connect to Internet...",
   docbtntxt: "Doctor's Phonebook",
-  bloodbtntxt: "Raise Blood Request",
+  bloodbtntxt: "Blood Request",
   bookslotbtn: "Book Slot",
   contactus: "Contact Us",
   aboutus: "About Us",

@@ -31,12 +31,11 @@ const Search = () => {
   const router = useRouter();
   useEffect(() => {
     console.log("sedata", sdata);
-
-    onSearch();
+    // onSearch();
     if (router.query.type && input == "") {
       onloadSearch(router.query.type);
     }
-  }, [sdata, reload, input]);
+  }, [sdata, reload]);
 
   const onloadSearch = async (input) => {
     setloading(true);
@@ -58,15 +57,15 @@ const Search = () => {
     if (e) {
       e.preventDefault();
     }
-    if (input == "") {
-      setviewsearchill(false);
-      setloading(true);
-      setreload(false);
-      const getdata = await SearchDoc("D");
-      setdocs(getdata.data);
-      setloading(false);
-      return;
-    }
+    // if (input == "") {
+    //   setviewsearchill(false);
+    //   setloading(true);
+    //   setreload(false);
+    //   const getdata = await SearchDoc("D");
+    //   setdocs(getdata.data);
+    //   setloading(false);
+    //   return;
+    // }
     setviewsearchill(false);
     setloading(true);
     setreload(false);
