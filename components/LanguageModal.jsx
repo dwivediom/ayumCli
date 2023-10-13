@@ -51,8 +51,16 @@ const LanguageModal = () => {
   };
   const [number, setnumber] = useState("");
   const handleChange = (e) => {
-    setvaliderr(false);
-    setvalidphone(false);
+    // setvaliderr(false);
+    // setvalidphone(false);
+    const validphone = validatePhoneNumber(e.target.value);
+    if (!validphone) {
+      setvaliderr(true);
+      setvalidphone(false);
+    } else {
+      setvalidphone(true);
+      setvaliderr(false);
+    }
     setnumber(e.target.value);
   };
 
@@ -89,7 +97,7 @@ const LanguageModal = () => {
             onClick={(e) => handleClick(e, "hi")}
             className={`${styles.languagebtns}`}
           >
-            {lang == "hi" && (
+            {lang == "hi" && langchanged && (
               <div className={`${styles.checksvg}`}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +124,7 @@ const LanguageModal = () => {
             onClick={(e) => handleClick(e, "en")}
             className={`${styles.languagebtns}`}
           >
-            {lang == "en" && (
+            {lang == "en" && langchanged && (
               <div className={`${styles.checksvg}`}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +170,7 @@ const LanguageModal = () => {
           </div>
         )}
 
-        {number != "" && (
+        {number != "" && validphone && (
           <div
             onClick={() => handleSubmit()}
             className={`${styles.submitintro}`}
