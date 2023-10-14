@@ -21,7 +21,7 @@ const Bloodrecieve = () => {
   const [reqData, setreqData] = useState();
   const { lang } = useContext(AccountContext);
   const router = useRouter()
- 
+ const [donaterequest, setdonaterequest] = useState(false)
   useEffect(() => {
     console.log("requestdata",router.query.reqid);
     if (router.query.reqid) {
@@ -35,7 +35,7 @@ const Bloodrecieve = () => {
             if (data.data) {
               
               setreqData(data.data.requestitem);
-              getreqsterData(reqData.userID)
+              
               console.log("requestdata",data);
              
             }
@@ -73,7 +73,8 @@ const Bloodrecieve = () => {
         )
         .then((data) => {
           console.log(data);
-          
+          setdonaterequest(true)
+          getreqsterData(reqData.userID)
           if (data.data.id) {
             setrequestsent(true);
             
@@ -96,7 +97,7 @@ const Bloodrecieve = () => {
   }
 
    const getreqsterData = async(Email)=>{ 
-    console.log("requesterdata1")
+    console.log("requesterdata13")
   
        let requesterdata =   await  searchApi (Email)
         if(requesterdata.data){ 
@@ -105,7 +106,7 @@ const Bloodrecieve = () => {
             endpoint: requesterdata.data[0].endpoint,
             p256dh: requesterdata.data[0].p256dh,
             sender: inputdata.name,
-            message: `${inputdata.name}wants to  donate blood `,
+            message: `${inputdata.name} wants to  donate blood`,
           });
         
       
@@ -211,7 +212,7 @@ const Bloodrecieve = () => {
                 handleSubmit();
               }}
             >
-              {lang == "en" ? English.submit : Hindi.submit}
+              {donaterequest ? "submitted ":lang == "en" ? English.submit : Hindi.submit}
             </button>
           </div>
         </div>
