@@ -9,6 +9,8 @@ import { AccountContext } from "../../context/AccountProvider";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { searchApi } from "../../routes/search";
+import { notify } from "../../routes/notify";
 
 const Bloodrecieve = () => {
   const [inputdata, setinputdata] = useState({
@@ -18,7 +20,10 @@ const Bloodrecieve = () => {
   });
   const [reqData, setreqData] = useState();
   const { lang } = useContext(AccountContext);
+  const router = useRouter()
+ 
   useEffect(() => {
+    console.log("requestdata",router.query.reqid);
     if (router.query.reqid) {
       const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/getbloodreq/${router.query.reqid}`;
       console.log(url);
@@ -26,9 +31,13 @@ const Bloodrecieve = () => {
         axios
           .post(url)
           .then((data) => {
-            console.log(data);
+          
             if (data.data) {
+              
               setreqData(data.data.requestitem);
+              getreqsterData(reqData.userID)
+              console.log("requestdata",data);
+             
             }
           })
           .catch((err) => {
@@ -38,14 +47,14 @@ const Bloodrecieve = () => {
         console.log(error, "Err");
       }
     }
-  }, []);
+  }, [router]);
 
   const handleChange = (e) => {
     console.log(e.target.value);
     e.preventDefault();
     setinputdata({ ...inputdata, [e.target.name]: e.target.value });
   };
-  const router = useRouter();
+  ;
   // return <div>{router.query.reqid}</div>;
   const handleSubmit = async () => {
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/bloodreq/respond/${router.query.reqid}`;
@@ -64,8 +73,10 @@ const Bloodrecieve = () => {
         )
         .then((data) => {
           console.log(data);
+          
           if (data.data.id) {
             setrequestsent(true);
+            
           }
         })
         .catch((err) => {
@@ -83,6 +94,25 @@ const Bloodrecieve = () => {
     const day = dateParts[2];
     return `${day}/${month}/${year}`;
   }
+
+   const getreqsterData = async(Email)=>{ 
+    console.log("requesterdata1")
+  
+       let requesterdata =   await  searchApi (Email)
+        if(requesterdata.data){ 
+          await notify({
+            auth: requesterdata.data[0].auth,
+            endpoint: requesterdata.data[0].endpoint,
+            p256dh: requesterdata.data[0].p256dh,
+            sender: inputdata.name,
+            message: `${inputdata.name}wants to  donate blood `,
+          });
+        
+      
+        }
+
+   }
+
   return (
     <div className={`${styles.chatpage}`} id="chatpage">
       <div id="component1" className={styles1.reportcontainer}>
@@ -114,10 +144,11 @@ const Bloodrecieve = () => {
                   marginTop: "-20px",
                   fontSize: "14px",
                 }}
-              >
+              > 
+                <p>Requested by - {reqData.name}</p>
                 <p>Blood Group Needed - {reqData.bloodgroup}</p>
-                <p>Location - {reqData.hospital}</p>
-                <p>Contact Number - {reqData.phoneNumber}</p>
+                <p>Hospital - {reqData.hospital}</p>
+                <p>Patient Name  - {reqData.patientname}</p>
                 <p>Requested Date - {formatDate(reqData.createdAt)}</p>
               </div>
             )}

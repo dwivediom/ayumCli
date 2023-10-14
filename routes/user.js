@@ -27,14 +27,16 @@ export const getuser = async () => {
 export const setConversation = async (senderId, reciverId) => {
   try {
     let url = `${host}/conversation/set`;
-    await axios.post(url, {
+    let conversationdata =  await axios.post(url, {
       data: {
         SenderId: senderId,
         ReciverId: reciverId,
       },
     });
+    return conversationdata
   } catch (error) {
     console.log(error.message);
+     
   }
 };
 

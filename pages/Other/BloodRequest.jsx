@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { WhatsappShareButton, WhatsappIcon } from "next-share";
+import { setmessage } from "../../routes/message";
+import { getuserId, setConversation } from "../../routes/user";
 
 const BloodRequest = () => {
   const [tab, settab] = useState(0);
@@ -27,7 +29,7 @@ const BloodRequest = () => {
     return;
   }, [tab]);
 
-  const { lang } = useContext(AccountContext);
+  const { lang , account} = useContext(AccountContext);
   const [requestsent, setrequestsent] = useState(false);
   const [inputdata, setinputdata] = useState({
     name: "",
@@ -42,6 +44,10 @@ const BloodRequest = () => {
     e.preventDefault();
     setinputdata({ ...inputdata, [e.target.name]: e.target.value });
   };
+
+
+  
+
 
   const handleSubmit = async () => {
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/bloodreq`;
@@ -64,10 +70,12 @@ const BloodRequest = () => {
             // let forwardurl = `/Other/Bloodrecieve?reqid=${data.data.id}`;
             // router.push(forwardurl);
             setrequestsent(true);
+            sendtextmsg(data.data.id)
             setTimeout(() => {
               settab(1);
             }, 8000);
           }
+          
         })
         .catch((err) => {
           console.log(err);
@@ -94,7 +102,8 @@ const BloodRequest = () => {
         )
         .then((data) => {
           console.log(data);
-          setmyrequests(data.data.myrequests);
+          setmyrequests(data.data.myrequests.reverse());
+          
         })
         .catch((err) => {
           console.log(err);
@@ -123,6 +132,30 @@ const BloodRequest = () => {
       }
     );
   };
+
+  async function sendtextmsg(reqId) {
+    console.log(inputdata);
+    await setConversation(JSON.parse(localStorage.getItem("labuser")).sub , "115971436675659419788")
+    let data = await getuserId(JSON.parse(localStorage.getItem("labuser")).sub , "115971436675659419788");
+    console.log("message",data , account ,JSON.parse(localStorage.getItem("labuser")).sub )
+     
+    let msg = {};
+    msg = {
+      conversationId: data.data._id,
+      senderId: JSON.parse(localStorage.getItem("labuser")).sub,
+      reciverId: "115971436675659419788",
+      text: `Name : ${inputdata.name} ,  Phone : ${inputdata.phoneNumber} , hospital: ${inputdata.hospital}
+              Patient Name : ${inputdata.patientname}, Blood Group : ${inputdata.bloodgroup} 
+              click the link to save the life : https://ayum.in/Other/Bloodrecieve?reqid=${reqId}`,
+      type: "text",
+    };
+    await setmessage(msg);
+  }
+
+
+
+
+
   return (
     <div className={`${styles.chatpage}`} id="chatpage">
       <div style={{ marginTop: "-1rem" }} className={`${styles.chatnav}`}>
@@ -282,9 +315,11 @@ const BloodRequest = () => {
       {tab == 1 && (
         <div className={`${styles1.myreqcontainer} `}>
           {myrequests && myrequests.length > 0
-            ? myrequests.map((item) => {
+             
+            ? myrequests.map((item,index) => {
                 return (
                   <div
+                  key={index}
                     style={{
                       display: "flex",
                       flexDirection: "column",
