@@ -17,10 +17,13 @@ const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
 function MyApp({ Component, pageProps, AccountContext }) {
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
+    
     const relod = async () => {
-      await webpushfunc();
+
+
+      // await webpushfunc();
     };
     relod();
   }, []);
