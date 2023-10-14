@@ -12,11 +12,40 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import AccountProvider, { AccountContext } from "../context/AccountProvider";
 import { webpushfunc } from "../utils/notification";
 import ReactGA from "react-ga4";
+import { firebaseApp } from "../firebase.config";
+import useFcmToken from "../push-notification";
+import { getMessaging, onMessage } from "firebase/messaging";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
 function MyApp({ Component, pageProps, AccountContext }) {
   const [loading, setLoading] = useState(true);
+  const { fcmToken,notificationPermissionStatus } = useFcmToken();
+  // Use the token as needed
+  useEffect(()=>{ 
+     if(fcmToken){ 
+       localStorage.setItem("fcmToken",fcmToken)
+       console.log(fcmToken)
+     }
+  },[fcmToken,])
+
+
+  useEffect(() => {
+    console.log("entring1")
+    if ( 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window) {
+      
+    console.log("entring2")
+      const messaging = getMessaging(firebaseApp);
+      const unsubscribe = onMessage(messaging, (payload) => {
+        console.log('Foreground push notification received:', payload);
+        // Handle the received push notification while the app is in the foreground
+        // You can display a notification or update the UI based on the payload
+      });
+      return () => {
+        unsubscribe(); // Unsubscribe from the onMessage event
+      };
+    }
+  }, []);
   
   useEffect(() => {
     

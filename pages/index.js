@@ -26,9 +26,7 @@ import LanguageModal from "../components/LanguageModal";
 
 
 
-import { firebaseApp } from "../firebase.config";
-import useFcmToken from "../push-notification";
-import { getMessaging, onMessage } from "firebase/messaging";
+
 
 export default function Home(props) {
   const { thankmodal, setthankmodal, setscrollbox, setlang, lang, langmodal } =
@@ -38,27 +36,7 @@ export default function Home(props) {
   const [doctors, setdoctors] = useState([]);
   const [full, setfull] = useState(false);
   const [loading, setloading] = useState(false);
-  const { fcmToken,notificationPermissionStatus } = useFcmToken();
-  // Use the token as needed
-  fcmToken && console.log('FCM token:', fcmToken);
-
-
-  useEffect(() => {
-    console.log("entring1")
-    if ( 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window) {
-      
-    console.log("entring2")
-      const messaging = getMessaging(firebaseApp);
-      const unsubscribe = onMessage(messaging, (payload) => {
-        console.log('Foreground push notification received:', payload);
-        // Handle the received push notification while the app is in the foreground
-        // You can display a notification or update the UI based on the payload
-      });
-      return () => {
-        unsubscribe(); // Unsubscribe from the onMessage event
-      };
-    }
-  }, []);
+  
 
   useEffect(() => {
     ReactGA.send({
