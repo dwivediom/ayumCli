@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getMessaging, getToken } from 'firebase/messaging';
+import { getMessaging, getToken , onMessage } from 'firebase/messaging';
 import { firebaseApp } from './firebase.config';
 
 const useFcmToken = () => {
@@ -47,3 +47,24 @@ const useFcmToken = () => {
 };
 
 export default useFcmToken;
+
+
+
+
+
+export const  notificationRequest=async () =>{ 
+  console.log("entring1")
+  if ( 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window) {
+    
+  console.log("entring2")
+    const messaging = getMessaging(firebaseApp);
+    const unsubscribe = onMessage(messaging, (payload) => {
+      console.log('Foreground push notification received:', payload);
+      // Handle the received push notification while the app is in the foreground
+      // You can display a notification or update the UI based on the payload
+    });
+    return () => {
+      unsubscribe(); // Unsubscribe from the onMessage event
+    };
+  }
+}
