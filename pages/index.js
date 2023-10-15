@@ -21,12 +21,8 @@ const Footer = dynamic(() => import("../components/Footer"));
 import English from "../public/locales/en/index";
 import Hindi from "../public/locales/hi/index";
 import LanguageModal from "../components/LanguageModal";
+import Carousel2 from "../components/Carousel2";
 // import Hindi from "/locales/hi/index";
-
-
-
-
-
 
 export default function Home(props) {
   const { thankmodal, setthankmodal, setscrollbox, setlang, lang, langmodal } =
@@ -36,7 +32,6 @@ export default function Home(props) {
   const [doctors, setdoctors] = useState([]);
   const [full, setfull] = useState(false);
   const [loading, setloading] = useState(false);
-  
 
   useEffect(() => {
     ReactGA.send({
@@ -186,6 +181,7 @@ export default function Home(props) {
         </div>
 
         <HorizontalScroll />
+        {/* <Carousel2 /> */}
 
         {props.newdata ? (
           <main>
