@@ -50,7 +50,7 @@ const UserRegistrationPage = () => {
           // setauthstatus(true);
           setthankmodal(true);
 
-          router.push("/");
+          
 
           await updateuser(res.credential, {
             endpoint: localStorage.endpoint,
@@ -58,8 +58,10 @@ const UserRegistrationPage = () => {
             p256dh: localStorage.p256dh,
             picture: decodedjwt.picture,
             name: decodedjwt.name,
+            FCMtoken:localStorage.fcmToken
           });
-          const data = await webpushfunc();
+          router.push("/");
+          // const data = await webpushfunc();
         }
         router.push("/");
       }
@@ -82,6 +84,7 @@ const UserRegistrationPage = () => {
               endpoint: localStorage.endpoint,
               auth: localStorage.keys.auth,
               p256dh: localStorage.keys.p256dh,
+              FCMtoken:localStorage.fcmToken
             });
           }
 

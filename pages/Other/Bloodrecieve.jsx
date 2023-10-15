@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { searchApi } from "../../routes/search";
-import { notify } from "../../routes/notify";
+import { notify, sendnotification } from "../../routes/notify";
 
 const Bloodrecieve = () => {
   const [inputdata, setinputdata] = useState({
@@ -108,6 +108,13 @@ const Bloodrecieve = () => {
             sender: inputdata.name,
             message: `${inputdata.name} wants to  donate blood`,
           });
+          await sendnotification({ 
+            title: `${inputdata.name} ने स्वीकार किया आपका रक्तदान अनुरोध!`, 
+            body: "आयुम हमेशा आपके साथ है",
+            click_action: 'https://ayum.in/Other/BloodRequest' ,
+            icon: "https://ayum.in/icons/icon-96x96.png",
+            to: requesterdata.data[0].FCMtoken
+          })
         
       
         }

@@ -80,6 +80,7 @@ export const updateuser = async (jwt, data) => {
       endpoint: data.endpoint,
       auth: data.auth,
       p256dh: data.p256dh,
+      FCMtoken:data.FCMtoken
     });
     console.log(" updated userd", userData);
     return userData;

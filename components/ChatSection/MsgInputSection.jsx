@@ -9,7 +9,7 @@ import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import FileCopyRoundedIcon from "@mui/icons-material/FileCopyRounded";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { notify } from "../../routes/notify";
+import { notify , sendnotification } from "../../routes/notify";
 import English from "../../public/locales/en/labtest";
 import Hindi from "../../public/locales/hi/labtest";
 
@@ -130,13 +130,20 @@ const MsgInputSection = () => {
       setinputholder("");
       setinput(null);
 
-      await notify({
-        auth: person.user.auth,
-        endpoint: person.user.endpoint,
-        p256dh: person.user.p256dh,
-        sender: account.name,
-        message: holdinput,
-      });
+      // await notify({
+      //   auth: person.user.auth,
+      //   endpoint: person.user.endpoint,
+      //   p256dh: person.user.p256dh,
+      //   sender: account.name,
+      //   message: holdinput,
+      // });
+      await sendnotification({ 
+        title: `Message from ${account.name} `, 
+        body: holdinput,
+        click_action: 'https://ayum.in/ChatSection' ,
+        icon: "https://ayum.in/icons/icon-96x96.png",
+        to: person.user.FCMtoken
+      })
     }
   };
 
