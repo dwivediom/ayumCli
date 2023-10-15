@@ -29,7 +29,7 @@ const BloodRequest = () => {
     return;
   }, [tab]);
 
-  const { lang , account} = useContext(AccountContext);
+  const { lang, account } = useContext(AccountContext);
   const [requestsent, setrequestsent] = useState(false);
   const [inputdata, setinputdata] = useState({
     name: "",
@@ -44,10 +44,6 @@ const BloodRequest = () => {
     e.preventDefault();
     setinputdata({ ...inputdata, [e.target.name]: e.target.value });
   };
-
-
-  
-
 
   const handleSubmit = async () => {
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/bloodreq`;
@@ -70,12 +66,11 @@ const BloodRequest = () => {
             // let forwardurl = `/Other/Bloodrecieve?reqid=${data.data.id}`;
             // router.push(forwardurl);
             setrequestsent(true);
-            sendtextmsg(data.data.id)
+            sendtextmsg(data.data.id);
             setTimeout(() => {
               settab(1);
             }, 8000);
           }
-          
         })
         .catch((err) => {
           console.log(err);
@@ -103,7 +98,6 @@ const BloodRequest = () => {
         .then((data) => {
           console.log(data);
           setmyrequests(data.data.myrequests.reverse());
-          
         })
         .catch((err) => {
           console.log(err);
@@ -135,10 +129,21 @@ const BloodRequest = () => {
 
   async function sendtextmsg(reqId) {
     console.log(inputdata);
-    await setConversation(JSON.parse(localStorage.getItem("labuser")).sub , "115971436675659419788")
-    let data = await getuserId(JSON.parse(localStorage.getItem("labuser")).sub , "115971436675659419788");
-    console.log("message",data , account ,JSON.parse(localStorage.getItem("labuser")).sub )
-     
+    await setConversation(
+      JSON.parse(localStorage.getItem("labuser")).sub,
+      "115971436675659419788"
+    );
+    let data = await getuserId(
+      JSON.parse(localStorage.getItem("labuser")).sub,
+      "115971436675659419788"
+    );
+    console.log(
+      "message",
+      data,
+      account,
+      JSON.parse(localStorage.getItem("labuser")).sub
+    );
+
     let msg = {};
     msg = {
       conversationId: data.data._id,
@@ -151,10 +156,6 @@ const BloodRequest = () => {
     };
     await setmessage(msg);
   }
-
-
-
-
 
   return (
     <div className={`${styles.chatpage}`} id="chatpage">
@@ -315,11 +316,10 @@ const BloodRequest = () => {
       {tab == 1 && (
         <div className={`${styles1.myreqcontainer} `}>
           {myrequests && myrequests.length > 0
-             
-            ? myrequests.map((item,index) => {
+            ? myrequests.map((item, index) => {
                 return (
                   <div
-                  key={index}
+                    key={index}
                     style={{
                       display: "flex",
                       flexDirection: "column",
@@ -332,7 +332,7 @@ const BloodRequest = () => {
                     <p>Patient Name - {item.patientname}</p>
                     <p>Location - {item.hospital}</p>
                     <p>Contact Number - {item.phoneNumber}</p>
-                    <p>Requested Date - {formatDate(item.createdAt)}</p>
+                    <p>Request Date - {formatDate(item.createdAt)}</p>
                     <div className={`${styles1.shareurlbox} `}>
                       <p>Share Your Request</p>
                       <div className={`${styles1.shareurloptions} `}>
@@ -370,6 +370,30 @@ const BloodRequest = () => {
                           </WhatsappShareButton>
                         </div>
                       </div>
+                    </div>
+                    <div className={`${styles1.responsebox} `}>
+                      <span>Respones</span>
+                      {item.response ? (
+                        item.response.map((res) => {
+                          return (
+                            <div className={`${styles1.responsecard} `}>
+                              <div>Name - {res.name}</div>
+                              <div>Phone - {res.phoneNumber}</div>
+                              <div>Age - {res.age}</div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "rgb(171, 171, 171)",
+                          }}
+                          className="text-center  "
+                        >
+                          No Response Found!
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

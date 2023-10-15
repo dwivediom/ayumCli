@@ -5,6 +5,7 @@
   justify-content: left;
   padding-left: 10px;
 }
+
 .docphonebookbtn2 {
   display: flex;
   width: 20rem;
@@ -170,6 +171,22 @@
   border-left: 3px solid rgb(0, 220, 220);
   /* padding-left: 25px; */
   /* bot */
+}
+
+.imagefade{
+  animation: animateimg 0.4s linear forwards !important;
+}
+
+@keyframes animateimg{
+  0%{
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateX(0px);
+
+  }
 }
 
 .carddeatilbox div:nth-last-child(2) {
