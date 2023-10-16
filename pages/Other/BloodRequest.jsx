@@ -16,7 +16,13 @@ import { getuserId, setConversation } from "../../routes/user";
 
 const BloodRequest = () => {
   const [tab, settab] = useState(0);
+
   const router = useRouter();
+  useEffect(() => {
+    if (router.query.tab == 1) {
+      settab(1);
+    }
+  }, []);
   useEffect(() => {
     if (!localStorage.usertoken || !localStorage.labuser) {
       router.push("/User/UserRegistrationPage");
@@ -158,7 +164,11 @@ const BloodRequest = () => {
   }
 
   return (
-    <div className={`${styles.chatpage}`} id="chatpage">
+    <div
+      style={{ paddingBottom: "5rem" }}
+      className={`${styles.chatpage}`}
+      id="chatpage"
+    >
       <div style={{ marginTop: "-1rem" }} className={`${styles.chatnav}`}>
         <div
           style={{ borderBottom: tab == 0 && "4px solid rgb(1, 207, 207)" }}

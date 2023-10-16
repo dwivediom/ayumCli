@@ -1,6 +1,6 @@
 module.exports = {
   hopecall: "Hope you recieved the call",
-  ifnot: "If not then we are really sorry!!",
+  ifnot: "If not ,then we are really sorry!!",
   bookcall: " Please Book by calling",
   thankforrequest: "Thankyou For Submitting Your Request",
   weareconnecting: "We are Connecting with you in",
@@ -30,4 +30,6 @@ module.exports = {
   sendmsgandrep: "Send messages and reports",
   private: "Private",
   reqblood: "Request Blood From Ayum Family",
+  reqrecieved:
+    "Thankyou For Your Heartwarming Gesture, Keep Helping The Humanity",
 };

@@ -222,7 +222,12 @@ const ChatSection = () => {
   return (
     <>
       <div className={`${styles.chatpage}`} id="chatpage">
-        <div className={`${styles.chatnav}`}>
+        <div
+          style={{
+            marginTop: "-1rem",
+          }}
+          className={`${styles.chatnav}`}
+        >
           <div
             style={{ borderBottom: tab == 0 && "4px solid rgb(1, 207, 207)" }}
             onClick={() => settab(0)}
@@ -297,7 +302,7 @@ const ChatSection = () => {
                       }}
                       width="64"
                       height="64"
-                      src="https://img.icons8.com/pastel-glyph/64/075a32/name.png"
+                      src="https://img.icons8.com/pastel-glyph/64/008890/name.png"
                       alt="name"
                     />
                     <input
@@ -327,7 +332,7 @@ const ChatSection = () => {
                       }}
                       width="50"
                       height="50"
-                      src="https://img.icons8.com/ios/50/075a32/apple-phone.png"
+                      src="https://img.icons8.com/ios/50/008890/apple-phone.png"
                       alt="apple-phone"
                     />
                     <input
@@ -357,7 +362,7 @@ const ChatSection = () => {
                       }}
                       width="50"
                       height="50"
-                      src="https://img.icons8.com/ios-filled/50/075a32/environmental-planning.png"
+                      src="https://img.icons8.com/ios-filled/100/008890/environmental-planning.png"
                       alt="environmental-planning"
                     />
                     <input
@@ -408,7 +413,7 @@ const ChatSection = () => {
                           <img
                             width="66"
                             height="66"
-                            src="https://img.icons8.com/external-smashingstocks-glyph-smashing-stocks/66/009653/external-Upload-networking-smashingstocks-glyph-smashing-stocks.png"
+                            src="https://img.icons8.com/metro/52/008890/upload-to-cloud.png"
                             alt="external-Upload-networking-smashingstocks-glyph-smashing-stocks"
                           />{" "}
                           <span className="ml-[2.5rem]">
@@ -484,7 +489,7 @@ const ChatSection = () => {
                         <img
                           width="64"
                           height="64"
-                          src="https://img.icons8.com/external-creatype-glyph-colourcreatype/64/009653/external-check-essential-ui-v1-creatype-glyph-colourcreatype.png"
+                          src="https://img.icons8.com/glyph-neue/64/008890/ok--v1.png"
                           alt="external-check-essential-ui-v1-creatype-glyph-colourcreatype"
                         />
                       </div>
