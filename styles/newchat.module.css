@@ -3,7 +3,7 @@
 .chatpage {
   height: 100vh !important;
   width: 100% !important;
-  position: absolute !important;
+  position: absolute !important; 
   overflow: scroll !important;
   position: relative;
 }
