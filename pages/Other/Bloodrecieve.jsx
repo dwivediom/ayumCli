@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { searchApi } from "../../routes/search";
 import { notify, sendnotification } from "../../routes/notify";
+import Image from "next/image";
 
 const Bloodrecieve = () => {
   const [inputdata, setinputdata] = useState({
@@ -20,10 +21,10 @@ const Bloodrecieve = () => {
   });
   const [reqData, setreqData] = useState();
   const { lang } = useContext(AccountContext);
-  const router = useRouter()
- const [donaterequest, setdonaterequest] = useState(false)
+  const router = useRouter();
+  const [donaterequest, setdonaterequest] = useState(false);
   useEffect(() => {
-    console.log("requestdata",router.query.reqid);
+    console.log("requestdata", router.query.reqid);
     if (router.query.reqid) {
       const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/getbloodreq/${router.query.reqid}`;
       console.log(url);
@@ -31,13 +32,10 @@ const Bloodrecieve = () => {
         axios
           .post(url)
           .then((data) => {
-          
             if (data.data) {
-              
               setreqData(data.data.requestitem);
-              
-              console.log("requestdata",data);
-             
+
+              console.log("requestdata", data);
             }
           })
           .catch((err) => {
@@ -54,7 +52,6 @@ const Bloodrecieve = () => {
     e.preventDefault();
     setinputdata({ ...inputdata, [e.target.name]: e.target.value });
   };
-  ;
   // return <div>{router.query.reqid}</div>;
   const handleSubmit = async () => {
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/bloodreq/respond/${router.query.reqid}`;
@@ -73,12 +70,8 @@ const Bloodrecieve = () => {
         )
         .then((data) => {
           console.log(data);
-          setdonaterequest(true)
-          getreqsterData(reqData.userID)
-          if (data.data.id) {
-            setrequestsent(true);
-            
-          }
+          getreqsterData(reqData.userID);
+          setdonaterequest(true);
         })
         .catch((err) => {
           console.log(err);
@@ -96,103 +89,122 @@ const Bloodrecieve = () => {
     return `${day}/${month}/${year}`;
   }
 
-   const getreqsterData = async(Email)=>{ 
-    console.log("requesterdata13")
-  
-       let requesterdata =   await  searchApi (Email)
-        if(requesterdata.data){ 
-          await notify({
-            auth: requesterdata.data[0].auth,
-            endpoint: requesterdata.data[0].endpoint,
-            p256dh: requesterdata.data[0].p256dh,
-            sender: inputdata.name,
-            message: `${inputdata.name} wants to  donate blood`,
-          });
-          await sendnotification({ 
-            title: `${inputdata.name} ने स्वीकार किया आपका रक्तदान अनुरोध!`, 
-            body: "आयुम हमेशा आपके साथ है",
-            click_action: 'https://ayum.in/Other/BloodRequest' ,
-            icon: "https://ayum.in/icons/icon-96x96.png",
-            to: requesterdata.data[0].FCMtoken
-          })
-        
-      
-        }
+  const getreqsterData = async (Email) => {
+    console.log("requesterdata13");
 
-   }
+    let requesterdata = await searchApi(Email);
+    if (requesterdata.data) {
+      await notify({
+        auth: requesterdata.data[0].auth,
+        endpoint: requesterdata.data[0].endpoint,
+        p256dh: requesterdata.data[0].p256dh,
+        sender: inputdata.name,
+        message: `${inputdata.name} wants to  donate blood`,
+      });
+      await sendnotification({
+        title: `${inputdata.name} ने स्वीकार किया आपका रक्तदान अनुरोध!`,
+        body: "आयुम हमेशा आपके साथ है",
+        click_action: "https://ayum.in/Other/BloodRequest?tab=1",
+        icon: "https://ayum.in/icons/icon-96x96.png",
+        to: requesterdata.data[0].FCMtoken,
+      });
+    }
+  };
 
   return (
     <div className={`${styles.chatpage}`} id="chatpage">
       <div id="component1" className={styles1.reportcontainer}>
-        <div
-          style={{ backgroundColor: " rgba(248, 157, 150, 0.15)" }}
-          className={`${styles1.reportshell} shadow-xl`}
-        >
-          <div className={`${styles1.reportform} `}>
+        {donaterequest ? (
+          <div className={`${styles1.reportshell} shadow-xl`}>
+            <Image src={"/success.svg"} width={45} height={45} alt="Sucess" />
+            <div style={{ textAlign: "center", marginTop: "1rem" }}>
+              {lang == "en" ? English.reqrecieved : Hindi.reqrecieved} ❤
+            </div>
             <div
               style={{
-                display: "block",
+                marginTop: "2rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
+              onClick={() => router.push("/")}
             >
-              <h1
-                style={{
-                  color: "rgb(162, 6, 6)",
-                  fontSize: "1rem",
-                  textAlign: "center",
-                }}
-              >
-                {lang == "en" ? English.respondblood : Hindi.respondblood}
-              </h1>
+              <Image
+                src={"/ayumTranparent.png"}
+                width={100}
+                height={30}
+                alt="Ayum"
+              />
             </div>
-            {reqData && (
+          </div>
+        ) : (
+          <div className={`${styles1.reportshell} shadow-xl`}>
+            <div className={`${styles1.reportform} `}>
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  marginTop: "-20px",
-                  fontSize: "14px",
+                  display: "block",
                 }}
-              > 
-                <p>Requested by - {reqData.name}</p>
-                <p>Blood Group Needed - {reqData.bloodgroup}</p>
-                <p>Hospital - {reqData.hospital}</p>
-                <p>Patient Name  - {reqData.patientname}</p>
-                <p>Requested Date - {formatDate(reqData.createdAt)}</p>
+              >
+                <h1
+                  style={{
+                    fontSize: "1rem",
+                    textAlign: "center",
+                  }}
+                >
+                  {lang == "en" ? English.respondblood : Hindi.respondblood}
+                </h1>
               </div>
-            )}
-            <div>
-              <input
-                type="text"
-                onChange={(e) => handleChange(e)}
-                value={inputdata.name}
-                name="name"
-                className="shadow-md "
-                placeholder={lang == "en" ? English.entername : Hindi.entername}
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                onChange={(e) => handleChange(e)}
-                value={inputdata.phone}
-                name="phoneNumber"
-                className="shadow-md "
-                placeholder={
-                  lang == "en" ? English.enterphone : Hindi.enterphone
-                }
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                onChange={(e) => handleChange(e)}
-                value={inputdata.age}
-                name="age"
-                className="shadow-md "
-                placeholder={lang == "en" ? English.enterage : Hindi.enterage}
-              />
-            </div>
-            {/* <div style={{ fontSize: "small", color: "rgb(162, 6, 6)" }}>
+              {reqData && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginTop: "-20px",
+                    fontSize: "14px",
+                  }}
+                >
+                  <p>Requested by - {reqData.name}</p>
+                  <p>Blood Group Needed - {reqData.bloodgroup}</p>
+                  <p>Hospital - {reqData.hospital}</p>
+                  <p>Patient Name - {reqData.patientname}</p>
+                  <p>Requested Date - {formatDate(reqData.createdAt)}</p>
+                </div>
+              )}
+              <div>
+                <input
+                  type="text"
+                  onChange={(e) => handleChange(e)}
+                  value={inputdata.name}
+                  name="name"
+                  className="shadow-md "
+                  placeholder={
+                    lang == "en" ? English.entername : Hindi.entername
+                  }
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  onChange={(e) => handleChange(e)}
+                  value={inputdata.phone}
+                  name="phoneNumber"
+                  className="shadow-md "
+                  placeholder={
+                    lang == "en" ? English.enterphone : Hindi.enterphone
+                  }
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  onChange={(e) => handleChange(e)}
+                  value={inputdata.age}
+                  name="age"
+                  className="shadow-md "
+                  placeholder={lang == "en" ? English.enterage : Hindi.enterage}
+                />
+              </div>
+              {/* <div style={{ fontSize: "small", color: "rgb(162, 6, 6)" }}>
               <input
                 style={{
                   width: "20px",
@@ -213,16 +225,17 @@ const Bloodrecieve = () => {
                 Agree this information for marketing outreach.
               </label>
             </div> */}
-            <button
-              className={`${styles1.submitbtnblood} shadow-md`}
-              onClick={() => {
-                handleSubmit();
-              }}
-            >
-              {donaterequest ? "submitted ":lang == "en" ? English.submit : Hindi.submit}
-            </button>
+              <button
+                className={`${styles1.submitbtn} shadow-md`}
+                onClick={() => {
+                  handleSubmit();
+                }}
+              >
+                {lang == "en" ? English.submit : Hindi.submit}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

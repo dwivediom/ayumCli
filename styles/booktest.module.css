@@ -47,13 +47,13 @@
   transition: 0.4s all;
   flex-direction: column;
   /* gap: 20px; */
-  background-color: rgba(150, 248, 217, 0.24);
+  background-color: rgba(150, 242, 248, 0.24);
   border-radius: 12px;
 }
 .reportform h1 {
   font-size: 1.2rem;
   padding: 5px;
-  color: #075a32;
+  color: #075a5a;
   font-weight: bold;
   line-height: 20px;
 }
@@ -76,14 +76,14 @@
   border-radius: 24px;
 }
 .submitbtn {
-  background: rgb(135, 252, 180);
+  background: rgb(135, 242, 252);
   background: linear-gradient(
     90deg,
-    rgba(135, 252, 180, 1) 0%,
-    rgba(0, 199, 110, 1) 36%,
-    rgba(0, 199, 110, 1) 42%,
-    rgba(0, 199, 110, 1) 100%,
-    rgba(9, 121, 52, 1) 100%
+    rgb(135, 252, 250) 0%,
+    rgb(0, 196, 199) 36%,
+    rgb(0, 199, 196) 42%,
+    rgb(0, 199, 192) 100%,
+    rgb(9, 121, 116) 100%
   );
   padding: 5px 10px;
   border-radius: 24px;
@@ -156,7 +156,7 @@
   background: white;
   width: 80%;
   border-radius: 12px;
-  color: #075a32;
+  color: #07525a;
   font-weight: bold;
   animation: exittxtanimate 0.3s linear forwards;
 }
@@ -190,10 +190,10 @@
 
 @keyframes gradientChange {
   0% {
-    background-color: rgb(183, 255, 210);
+    background-color: rgb(183, 255, 255);
   }
   100% {
-    background: rgb(0, 150, 83);
+    background: rgb(0, 140, 150);
   }
 }
 @keyframes gradientChangeblood {
@@ -228,7 +228,7 @@ height: fit-content;
 .myrequestcard p{
   margin-bottom: 7px;
   padding: 6px;
-  border-radius: 12px;
+  border-radius: 24px;
   text-align: center;
   box-shadow: 0 3px 8px rgba(203, 203, 203, 0.582);
 }
@@ -238,13 +238,14 @@ height: fit-content;
   justify-content: center;
   gap: 1rem;
   padding: 1rem;
-  height: 100vh;
+  height: 100%;
   overflow: auto;
+  padding-bottom: 5rem;
 }
 
 .responsebox{
   box-shadow: 0 2px 8px rgba(203, 203, 203, 0.571);
-  border-radius: 12px;
+  border-radius: 24px;
   padding: 10px;
 
 }
@@ -267,12 +268,13 @@ margin-bottom: 10px;
 }
 .shareurlbox{
   /* border: 2px solid rgb(241, 241, 241); */
-  border-radius: 4px;
+  border-radius: 24px;
   margin-top: 0.5rem;
   display: flex;
   box-shadow: 0 3px 8px rgba(203, 203, 203, 0.582);
   flex-direction: column;
-  padding: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 .shareurlbox p{
   text-align: center;
