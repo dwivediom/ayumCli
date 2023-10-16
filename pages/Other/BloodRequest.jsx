@@ -193,21 +193,28 @@ const BloodRequest = () => {
                 alignItems: "center",
                 gap: "0.5rem",
               }}
+              className={`${styles1.reportshell} shadow-xl`}
             >
               <Image
-                src={"/success.gif"}
+                src={"/success.svg"}
                 width={60}
                 height={60}
                 alt="Success"
               />
-              <p>
-                Request Initiated Successfully , We will verify and Share this
-                with our Life savers very soon
+              <p
+                style={{
+                  textAlign: "center",
+                  fontSize: "15px",
+                  fontWeight: "bold",
+                }}
+              >
+                Request Initiated Successfully , We will verify & <br /> Share
+                this with our Life savers very soon
               </p>
             </div>
           ) : (
             <div
-              style={{ backgroundColor: " rgba(248, 157, 150, 0.15)" }}
+              // style={{ backgroundColor: " rgba(248, 157, 150, 0.15)" }}
               className={`${styles1.reportshell} shadow-xl`}
             >
               <div className={`${styles1.reportform} `}>
@@ -218,7 +225,7 @@ const BloodRequest = () => {
                 >
                   <h1
                     style={{
-                      color: "rgb(162, 6, 6)",
+                      // color: "rgb(162, 6, 6)",
                       fontSize: "1.1rem",
                       textAlign: "center",
                     }}
@@ -286,7 +293,7 @@ const BloodRequest = () => {
                     }
                   />
                 </div>
-                <div style={{ fontSize: "small", color: "rgb(162, 6, 6)" }}>
+                <div style={{ fontSize: "small" }}>
                   <input
                     style={{
                       width: "20px",
@@ -311,7 +318,7 @@ const BloodRequest = () => {
                   </label>
                 </div>
                 <button
-                  className={`${styles1.submitbtnblood} shadow-md`}
+                  className={`${styles1.submitbtn} shadow-md`}
                   onClick={() => {
                     handleSubmit();
                   }}
