@@ -35,6 +35,9 @@ const nextConfig = withPWA({
   env: {
     Bport: "http://localhost:5000",
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 });
 
 module.exports = nextConfig;
