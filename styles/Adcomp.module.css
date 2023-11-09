@@ -58,7 +58,6 @@
 
 .scrollingContainer {
   overflow-x: scroll;
-
   scroll-behavior: smooth;
   white-space: nowrap;
 }
@@ -71,4 +70,58 @@
   display: inline-flex;
   gap: 1rem;
   padding: 0.8rem;
+
+}
+
+
+
+
+.mobilecarousel{
+  padding: 1rem 0;
+  display: flex;
+}
+
+.controlbtn{
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+background-color: rgba(213, 213, 213, 0.361);
+padding: 5px;
+border-radius: 12px;
+color: rgba(0, 0, 0, 0.696);
+}
+
+.sldiercount{
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+ 
+  width: 100%;
+}
+
+.sldiercount div{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(82, 82, 82, 0.311);
+  background: white;
+}
+
+.forwardanimate{
+  animation: forwardanimate 0.8s linear forwards;
+}
+
+@keyframes forwardanimate{
+  0%{
+transform: translateX(100px);
+opacity: 0;
+  }
+  100%{
+transform: translateX(0px);
+opacity: 1;
+  }
 }
