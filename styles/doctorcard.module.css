@@ -123,10 +123,11 @@
   border-radius: 4px;
   font-weight: bold;
   color: white;
-  background: #294af3;
+  background:#00acae;
   cursor: pointer !important;
   transition: 0.2s all !important;
-  box-shadow: rgba(0, 41, 247, 0.653) 0 2px 4px;
+  /* box-shadow: rgba(0, 149, 175, 0.379) 0 2px 4px; */
+  box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.18);
 }
 
 .bookslot:hover {

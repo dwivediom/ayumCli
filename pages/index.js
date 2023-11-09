@@ -60,6 +60,7 @@ export default function Home(props) {
     };
   }, []);
   useEffect(() => {
+    console.log(props.newdata, "newdata");
     if (props.newdata) {
       setdoctors(props.newdata && props.newdata);
     } else {
@@ -71,7 +72,7 @@ export default function Home(props) {
       setTimeout(() => {
         localStorage.setItem("thankmodal", false);
         setthankmodal(false);
-      }, 3000);
+      }, 2500);
       // setauthstatus(false);
     }
   }, []);
@@ -141,6 +142,13 @@ export default function Home(props) {
     );
   }
 
+  let [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    let mobile = window && window.matchMedia("(max-width: 550px)");
+    setIsMobile(mobile.matches);
+  }, []);
+
   return (
     <>
       <Head>
@@ -180,8 +188,7 @@ export default function Home(props) {
           <BloodDonatebtn />
         </div>
 
-        <HorizontalScroll />
-        {/* <Carousel2 /> */}
+        {isMobile ? <Carousel2 /> : <HorizontalScroll />}
 
         {props.newdata ? (
           <main>
@@ -244,12 +251,20 @@ export async function getServerSideProps(context) {
 
   try {
     const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_B_PORT}/api/profile`
+      `${process.env.NEXT_PUBLIC_B_PORT}/api/profile`,
+      {
+        headers: {
+          "x-auth-token": localStorage.usertoken,
+          home: true,
+        },
+      }
     );
 
     newdata = data;
+    console.log(newdata, "datatada");
   } catch (error) {
-    newdata = "error";
+    console.log(error, "Eror");
+    newdata = error && error.response?.msg ? error.response.msg : "error";
   }
 
   return (
