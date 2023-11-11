@@ -11,10 +11,13 @@ import { adduser } from "../../routes/user";
 import { useEffect } from "react";
 import English from "../../public/locales/en/index";
 import Hindi from "../../public/locales/hi/index";
+import { setCookie } from "../utils/Utils";
 const UserRegistrationPage = () => {
   const { setauthstatus, setsignout, setthankmodal, setscrollbox, lang } =
     useContext(AccountContext);
   const router = useRouter();
+
+  const [expired, setexpired] = useState(false);
 
   const [otpmsg, setotpmsg] = useState(null);
   const [data, setdata] = useState({
@@ -38,6 +41,7 @@ const UserRegistrationPage = () => {
     console.log("decoded jwt ", decodedjwt);
     if (logindata.data) {
       localStorage.setItem("usertoken", logindata.data.token);
+      setCookie("usertoken", logindata.data.token, 7);
       localStorage.setItem("labuser", JSON.stringify(decodedjwt));
       localStorage.setItem("authStatus", true);
       console.log("Labsuser aur Usertoken set kro");
@@ -50,15 +54,13 @@ const UserRegistrationPage = () => {
           // setauthstatus(true);
           setthankmodal(true);
 
-          
-
           await updateuser(res.credential, {
             endpoint: localStorage.endpoint,
             auth: localStorage.auth,
             p256dh: localStorage.p256dh,
             picture: decodedjwt.picture,
             name: decodedjwt.name,
-            FCMtoken:localStorage.fcmToken
+            FCMtoken: localStorage.fcmToken,
           });
           router.push("/");
           // const data = await webpushfunc();
@@ -72,6 +74,8 @@ const UserRegistrationPage = () => {
       if (registerData.data) {
         localStorage.setItem("labuser", JSON.stringify(decodedjwt));
         localStorage.setItem("usertoken", registerData.data.token);
+        setCookie("usertoken", registerData.data.token, 7);
+
         if (decodedjwt) {
           const logined = await adduser(decodedjwt);
           if (logined === "useradded") {
@@ -84,7 +88,7 @@ const UserRegistrationPage = () => {
               endpoint: localStorage.endpoint,
               auth: localStorage.keys.auth,
               p256dh: localStorage.keys.p256dh,
-              FCMtoken:localStorage.fcmToken
+              FCMtoken: localStorage.fcmToken,
             });
           }
 
@@ -106,6 +110,9 @@ const UserRegistrationPage = () => {
   };
 
   useEffect(() => {
+    if (router.query?.type == "newses") {
+      setexpired(true);
+    }
     setscrollbox(false);
   }, []);
   return (
@@ -113,6 +120,9 @@ const UserRegistrationPage = () => {
       <div className={`${styles.authbox}`}>
         <div className={`${styles.authdiv}`}>
           <div className="w-[75%]">
+            <div className={`${styles.expiremodal}`}>
+              {expired && "Session Expired Login "}
+            </div>
             <h1 className="text-lg text-center  font-bold">
               {lang == "en" ? English.loginwelcome : Hindi.loginwelcome} <br />{" "}
               <span className="text-sm ">

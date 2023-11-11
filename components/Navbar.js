@@ -117,7 +117,7 @@ const Navbar = () => {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <nav className={`${bgSecColor} fixed top-0 z-10 w-full  `}>
+      <nav className={`${bgSecColor}  z-10 w-full  `}>
         <div className=" mx-auto max-w-7xl px-1 sm:px-2  lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -170,25 +170,30 @@ const Navbar = () => {
               <div onClick={() => router.push("/")}>
                 <div className="flex flex-shrink-0 items-center">
                   <span className="block h-10 mr-6  lg:hidden lg:m-0 lg:h-0 lg:w-0">
-                    <Image
+                    {/* <Image
                       width={100}
-                      height={35}
-                      style={{
-                        marginTop: "-10px",
-                      }}
+                      height={75}
+                      layout="fill"
+                      objectFit="contain"
+                      className={styles.logoimg}
                       src={`/ayumTranparent.png`}
                       loading="eager"
                       alt="Ayum"
-                    />
+                    /> */}
+                    <div className={styles.logoimg}></div>
                   </span>
                   <span className="hidden h-8 w-auto lg:block cursor-pointer">
-                    <Image
-                      width={"100px"}
-                      height={"30px"}
+                    {/* <Image
+                      width={100}
+                      height={70}
+                      layout="fill"
+                      objectFit="contain"
+                      className={styles.logoimg}
                       src={`/ayumTranparent.png`}
                       alt="Ayum"
                       loading="eager"
-                    />
+                    /> */}
+                    <div className={styles.logoimg}></div>
                   </span>
                 </div>
               </div>

@@ -8,9 +8,9 @@ const Nashmukti = () => {
   return (
     <div
       onClick={() => router.push("/Other/Nashmukti")}
-      className={`${styles.docphonebookbtn2}`}
+      className={`${styles.docphonebookbtn2} `}
     >
-      <div className={`${styles.nsmimgbtn}`}>
+      <div className={`${styles.nsmimgbtn}  rounded-lg shadow-md text-center`}>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <div className={`${styles.nsmimg}`}></div>
           नशा मुक्ति अभियान
