@@ -16,7 +16,7 @@ const BloodDonatebtn = () => {
       className={`${styles.docphonebookbtn3}`}
       //   className="grid grid-cols-3"
     >
-      <div className={`${styles.bloodimgbtn}`}>
+      <div className={`${styles.bloodimgbtn} rounded-lg shadow-md text-center`}>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <div className={`${styles.bloodimg}`}></div>
           {lang == "en" ? English.bloodbtntxt : Hindi.bloodbtntxt}

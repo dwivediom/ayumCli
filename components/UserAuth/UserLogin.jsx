@@ -27,6 +27,7 @@ const UserLogin = () => {
       setresponce(userdata);
       console.log(response);
       localStorage.setItem("usertoken", userdata.data.token);
+      setCookie("usertoken", userdata.data.token, 7);
 
       if (docdata != null && localStorage.usertoken) {
         router.push("/User/BookAppointmentPage");
