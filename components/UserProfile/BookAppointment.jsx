@@ -94,7 +94,7 @@ const BookAppointment = ({ reqdata }) => {
   return (
     <div>
       <div>
-        <h2 className="m-auto text-center text-cyan-500 font-bold mt-4">
+        <h2 className="m-auto text-center text-cyan-600 font-bold mt-4">
           Book Your Appointment
         </h2>
         <form className={`${styles.bookform} `} action="#">
@@ -183,7 +183,12 @@ const BookAppointment = ({ reqdata }) => {
               onClick={(e) => submit(e)}
               className={`${styles.bookformsubmit}`}
             >
-              Submit
+              Submit{" "}
+              <img
+                style={{ width: "20px", height: "30px", marginLeft: "5px" }}
+                src="/leftside.gif"
+                alt="Animated GIF"
+              />
             </button>
           )}
         </form>

@@ -31,9 +31,10 @@ const SelectClinicComp = ({ docid }) => {
         style={{
           position: "absolute",
           width: "100%",
+          paddingTop: "1rem",
         }}
       >
-        <h1 className="text-center font-bold text-lg text-cyan-500">
+        <h1 className="text-center font-bold text-lg text-cyan-600">
           Select The Clinic
         </h1>
         <div className={`${styles.cardcontainer}`}>
@@ -147,7 +148,16 @@ const SelectClinicComp = ({ docid }) => {
                       }}
                       className={`${styles.continuebox}`}
                     >
-                      Continue
+                      Continue{" "}
+                      <img
+                        style={{
+                          width: "20px",
+                          height: "30px",
+                          marginLeft: "5px",
+                        }}
+                        src="/leftside.gif"
+                        alt="Animated GIF"
+                      />
                     </div>
                   ) : (
                     <div className="text-center mt-2 text-sm text-red-500 font-bold ">

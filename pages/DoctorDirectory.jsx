@@ -76,7 +76,7 @@ const DoctorDirectory = () => {
     <>
       <div
         id="directorypage"
-        className={`${styles.directorypage} h-[100vh] overflow-auto p-5z`}
+        className={`${styles.directorypage} h-[100vh] overflow-auto p-5`}
       >
         <form
           onSubmit={(e) => handleSubmit(e)}

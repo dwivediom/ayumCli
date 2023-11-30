@@ -27,6 +27,7 @@ const UserLogin = () => {
       setresponce(userdata);
       console.log(response);
       localStorage.setItem("usertoken", userdata.data.token);
+      setCookie("usertoken", userdata.data.token, 7);
 
       if (docdata != null && localStorage.usertoken) {
         router.push("/User/BookAppointmentPage");
@@ -51,7 +52,7 @@ const UserLogin = () => {
     <div>
       <div className="lg:w-[60%] m-auto">
         <form className="m-2">
-          <h2 className="m-auto text-center text-cyan-500 font-bold">
+          <h2 className="m-auto text-center text-cyan-600 font-bold">
             User Login
           </h2>
 
