@@ -320,6 +320,7 @@ const Navbar = () => {
                     style={{
                       display: !threedotmodal && "none",
                       minWidth: "7rem",
+                      zIndex: "10",
                     }}
                     className={`${styles.popup}`}
                   >

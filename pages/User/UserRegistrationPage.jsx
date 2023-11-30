@@ -12,6 +12,13 @@ import { useEffect } from "react";
 import English from "../../public/locales/en/index";
 import Hindi from "../../public/locales/hi/index";
 import { setCookie } from "../utils/Utils";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+} from "@mui/material";
 const UserRegistrationPage = () => {
   const { setauthstatus, setsignout, setthankmodal, setscrollbox, lang } =
     useContext(AccountContext);
@@ -34,7 +41,6 @@ const UserRegistrationPage = () => {
     localStorage.setItem("userjwt", res.credential);
     console.log(decodedjwt);
     setdata(decodedjwt);
-
     console.log("data ", data);
     const logindata = await loginInitate(decodedjwt);
     console.log("logindata ", logindata);
@@ -110,7 +116,8 @@ const UserRegistrationPage = () => {
   };
 
   useEffect(() => {
-    if (router.query?.type == "newses") {
+    console.log(router.query);
+    if (router.query?.session == "expired") {
       setexpired(true);
     }
     setscrollbox(false);
@@ -120,9 +127,6 @@ const UserRegistrationPage = () => {
       <div className={`${styles.authbox}`}>
         <div className={`${styles.authdiv}`}>
           <div className="w-[75%]">
-            <div className={`${styles.expiremodal}`}>
-              {expired && "Session Expired Login "}
-            </div>
             <h1 className="text-lg text-center  font-bold">
               {lang == "en" ? English.loginwelcome : Hindi.loginwelcome} <br />{" "}
               <span className="text-sm ">
@@ -136,8 +140,29 @@ const UserRegistrationPage = () => {
             <span className="text-orange-500 text-lg font-bold"> Google </span>
           </div>
 
-          <GoogleLogin onSuccess={onLoginSucess} onError={onLoginError} />
+          <GoogleLogin
+            onSuccess={(res) => onLoginSucess(res)}
+            onError={(res) => onLoginError(res)}
+          />
         </div>
+
+        <Dialog
+          open={expired}
+          onClose={() => setexpired(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* Session Expired! Please Login Again. */}
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <span className="text-red-600"> Session Expired!</span> Please
+              Login Again.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setexpired(false)}>Close</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </>
   );

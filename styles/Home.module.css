@@ -256,7 +256,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #f5faff;
+  background: transparent;
 }
 .mobilecoll {
   animation: 0.6s animateup forwards;

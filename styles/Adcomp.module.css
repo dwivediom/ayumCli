@@ -117,7 +117,7 @@ color: rgba(0, 0, 0, 0.696);
 
 @keyframes forwardanimate{
   0%{
-transform: translateX(100px);
+transform: translateX(150px);
 opacity: 0;
   }
   100%{

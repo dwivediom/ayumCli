@@ -35,4 +35,6 @@ module.exports = {
   search: "Search",
   category: "Category",
   userapp: "User Ap.",
+  twoclickmsg: "Get all healthcare services in just 2 clicks",
+  thankmsg: "Thankyou for connecting with Ayum",
 };
