@@ -13,6 +13,7 @@ import Image from "next/image";
 import { WhatsappShareButton, WhatsappIcon } from "next-share";
 import { setmessage } from "../../routes/message";
 import { getuserId, setConversation } from "../../routes/user";
+import { getCookie } from "../utils/Utils";
 
 const BloodRequest = () => {
   const [tab, settab] = useState(0);
@@ -87,17 +88,18 @@ const BloodRequest = () => {
   };
   const [myrequests, setmyrequests] = useState();
 
-  const fetchMyRequests = () => {
+  const fetchMyRequests = async () => {
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/mybloodreq`;
     try {
       const UserData = JSON.parse(localStorage.getItem("labuser"));
+      const token = await getCookie("usertoken");
       axios
         .post(
           url,
           { ...inputdata, userID: UserData?.email },
           {
             headers: {
-              "x-auth-token": localStorage.usertoken,
+              "x-auth-token": token,
             },
           }
         )
@@ -125,7 +127,7 @@ const BloodRequest = () => {
   const copyUrlToClipboard = (copyurl) => {
     navigator.clipboard.writeText(copyurl).then(
       () => {
-        alert("URL copied to clipboard: " + copyurl);
+        alert("Your Sharing Url is Copied to Clipboard ");
       },
       () => {
         console.error("Unable to copy to clipboard. Please try again.");
@@ -165,7 +167,7 @@ const BloodRequest = () => {
 
   return (
     <div
-      style={{ paddingBottom: "5rem" }}
+      style={{ padding: "0.5rem 0rem" }}
       className={`${styles.chatpage}`}
       id="chatpage"
     >

@@ -22,30 +22,25 @@ const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
 function MyApp({ Component, pageProps, AccountContext }) {
   const [loading, setLoading] = useState(true);
-  const { fcmToken,notificationPermissionStatus } = useFcmToken();
+  const { fcmToken, notificationPermissionStatus } = useFcmToken();
   // Use the token as needed
-  useEffect(()=>{ 
-     if(fcmToken){ 
-
-        if(localStorage.fcmToken != fcmToken &&localStorage.userjwt){ 
-           updateuser( localStorage.userjwt , {FCMtoken:fcmToken})
-             console.log("Fcm updated ")
-        }else{ 
-          localStorage.setItem("fcmToken",fcmToken)
-        }
-       
-       console.log(fcmToken)
-     }
-  },[fcmToken,])
-
-
-
-  
   useEffect(() => {
-    
+    if (fcmToken) {
+      if (localStorage.fcmToken != fcmToken && localStorage.userjwt) {
+        updateuser(localStorage.userjwt, { FCMtoken: fcmToken });
+        console.log("Fcm updated ");
+      } else {
+        localStorage.setItem("fcmToken", fcmToken);
+      }
+
+      console.log(fcmToken);
+    }
+  }, [fcmToken]);
+
+  useEffect(() => {
     const relod = async () => {
-        await notificationRequest()
-        
+      await notificationRequest();
+
       // await webpushfunc();
     };
     relod();
@@ -54,8 +49,11 @@ function MyApp({ Component, pageProps, AccountContext }) {
   // Send pageview with a custom path
 
   useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: window.location.pathname+window.location.search, title: "Home Page" });
-
+    ReactGA.send({
+      hitType: "pageview",
+      page: window.location.pathname + window.location.search,
+      title: "Home Page",
+    });
   }, []);
 
   useEffect(() => {
@@ -81,7 +79,6 @@ function MyApp({ Component, pageProps, AccountContext }) {
   Router.events.on("routeChangeComplete", (url) => {
     setLoading(false);
   });
-
 
   return (
     <>

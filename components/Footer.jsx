@@ -118,7 +118,7 @@ const Footer = () => {
         }}
         className="text-center  text-sm  "
       >
-        &#169; 2023 Ayum.in , Inc. All rights are Reserved
+        &#169; 2023 Ayum Healthcare , Inc. All rights are Reserved
       </div>
     </>
   );

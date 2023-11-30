@@ -11,10 +11,20 @@ import { adduser } from "../../routes/user";
 import { useEffect } from "react";
 import English from "../../public/locales/en/index";
 import Hindi from "../../public/locales/hi/index";
+import { setCookie } from "../utils/Utils";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+} from "@mui/material";
 const UserRegistrationPage = () => {
   const { setauthstatus, setsignout, setthankmodal, setscrollbox, lang } =
     useContext(AccountContext);
   const router = useRouter();
+
+  const [expired, setexpired] = useState(false);
 
   const [otpmsg, setotpmsg] = useState(null);
   const [data, setdata] = useState({
@@ -31,13 +41,13 @@ const UserRegistrationPage = () => {
     localStorage.setItem("userjwt", res.credential);
     console.log(decodedjwt);
     setdata(decodedjwt);
-
     console.log("data ", data);
     const logindata = await loginInitate(decodedjwt);
     console.log("logindata ", logindata);
     console.log("decoded jwt ", decodedjwt);
     if (logindata.data) {
       localStorage.setItem("usertoken", logindata.data.token);
+      setCookie("usertoken", logindata.data.token, 7);
       localStorage.setItem("labuser", JSON.stringify(decodedjwt));
       localStorage.setItem("authStatus", true);
       console.log("Labsuser aur Usertoken set kro");
@@ -50,15 +60,13 @@ const UserRegistrationPage = () => {
           // setauthstatus(true);
           setthankmodal(true);
 
-          
-
           await updateuser(res.credential, {
             endpoint: localStorage.endpoint,
             auth: localStorage.auth,
             p256dh: localStorage.p256dh,
             picture: decodedjwt.picture,
             name: decodedjwt.name,
-            FCMtoken:localStorage.fcmToken
+            FCMtoken: localStorage.fcmToken,
           });
           router.push("/");
           // const data = await webpushfunc();
@@ -72,6 +80,8 @@ const UserRegistrationPage = () => {
       if (registerData.data) {
         localStorage.setItem("labuser", JSON.stringify(decodedjwt));
         localStorage.setItem("usertoken", registerData.data.token);
+        setCookie("usertoken", registerData.data.token, 7);
+
         if (decodedjwt) {
           const logined = await adduser(decodedjwt);
           if (logined === "useradded") {
@@ -84,7 +94,7 @@ const UserRegistrationPage = () => {
               endpoint: localStorage.endpoint,
               auth: localStorage.keys.auth,
               p256dh: localStorage.keys.p256dh,
-              FCMtoken:localStorage.fcmToken
+              FCMtoken: localStorage.fcmToken,
             });
           }
 
@@ -106,6 +116,10 @@ const UserRegistrationPage = () => {
   };
 
   useEffect(() => {
+    console.log(router.query);
+    if (router.query?.session == "expired") {
+      setexpired(true);
+    }
     setscrollbox(false);
   }, []);
   return (
@@ -126,8 +140,29 @@ const UserRegistrationPage = () => {
             <span className="text-orange-500 text-lg font-bold"> Google </span>
           </div>
 
-          <GoogleLogin onSuccess={onLoginSucess} onError={onLoginError} />
+          <GoogleLogin
+            onSuccess={(res) => onLoginSucess(res)}
+            onError={(res) => onLoginError(res)}
+          />
         </div>
+
+        <Dialog
+          open={expired}
+          onClose={() => setexpired(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          {/* Session Expired! Please Login Again. */}
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <span className="text-red-600"> Session Expired!</span> Please
+              Login Again.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setexpired(false)}>Close</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </>
   );

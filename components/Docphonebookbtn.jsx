@@ -10,9 +10,11 @@ const Docphonebookbtn = () => {
   return (
     <div
       onClick={() => router.push("/DoctorDirectory")}
-      className={`${styles.docphonebookbtn1}`}
+      className={`${styles.docphonebookbtn1}  `}
     >
-      <div className={`${styles.phonebookbtn}`}>
+      <div
+        className={`${styles.phonebookbtn} rounded-lg shadow-md text-center`}
+      >
         <div className={`${styles.callimg}`}>
           <img
             src="https://img.icons8.com/ios-filled/50/FFFFFF/phone.png"

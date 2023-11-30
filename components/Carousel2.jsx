@@ -1,155 +1,156 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import Swipe from "react-easy-swipe";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import styles from "../styles/Phonebook.module.css";
-export default function Carousel() {
-  const images = [
+import React, { useEffect, useRef } from "react";
+import { useState } from "react";
+import styles from "../styles/Adcomp.module.css";
+
+const Carousel2 = () => {
+  const slidesData = [
     {
-      id: 1,
+      id: 0,
       imageSrc: "https://i.ibb.co/ZXcC6Gp/Ayum-6.png",
       title: "Slide 1",
     },
     {
-      id: 2,
+      id: 1,
       imageSrc: "https://i.ibb.co/R4xmXHw/Ayum-7.png",
       title: "Slide 2",
     },
     {
-      id: 3,
+      id: 2,
       imageSrc: "https://i.ibb.co/5MKMQt7/Ayum-1.png",
       title: "Slide 3",
     },
     {
-      id: 4,
+      id: 3,
       imageSrc: "https://i.ibb.co/HndrXXQ/Ayum-2.png",
       title: "Slide 4",
     },
     {
-      id: 5,
+      id: 4,
       imageSrc: "https://i.ibb.co/WpW5vS6/Ayum-4.png",
       title: "Slide 5",
     },
     {
-      id: 6,
+      id: 5,
       imageSrc: "https://i.ibb.co/XSh3b0d/Ayum.png",
       title: "Slide 6",
     },
   ];
-  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const handleNextSlide = () => {
-    let newSlide = currentSlide === images.length - 1 ? 0 : currentSlide + 1;
-    setCurrentSlide(newSlide);
+  const [imgurl, setimgurl] = useState("https://i.ibb.co/ZXcC6Gp/Ayum-6.png");
+  const [imgid, setimgid] = useState(0);
+  const ChangeImages = (index) => {
+    console.log(index, "img");
+    setimgurl(slidesData[index].imageSrc);
+  };
+  const [timeoutId, setTimeoutId] = useState(null);
+  const timeoutRef = useRef();
+
+  const [forward, setforward] = useState(true);
+  const startScroll = () => {
+    const id = setTimeout(() => {
+      if (imgid < slidesData.length - 1) {
+        setforward(true);
+        setimgid(imgid + 1);
+        ChangeImages(imgid + 1);
+      } else {
+        setforward(true);
+        setimgid(0);
+        ChangeImages(0);
+      }
+    }, 4000);
+
+    setTimeoutId(id);
+
+    // Alternatively, store the timeout ID in the ref
+    timeoutRef.current = id;
   };
 
-  const handlePrevSlide = () => {
-    let newSlide = currentSlide === 0 ? images.length - 1 : currentSlide - 1;
-    setCurrentSlide(newSlide);
-  };
+  const stopTimeout = () => {
+    // Clear the timeout using the stored ID
+    clearTimeout(timeoutId);
 
-  const changeSlide = () => {
-    setTimeout(() => {
-      handleNextSlide();
-    }, 3500);
+    // Alternatively, clear the timeout using the ref
+    clearTimeout(timeoutRef.current);
+
+    // Reset the timeout ID in state
+    setTimeoutId(null);
   };
 
   useEffect(() => {
-    changeSlide();
-  }, [currentSlide]);
+    startScroll();
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [imgid]);
+
   return (
-    <div style={{ height: "300px" }} className="relative">
-      {/* <AiOutlineLeft
-        style={{
-          position: "absolute",
-          top: "2rem",
-          background: "rgba(25,255,255,0.5)",
-          height: "35px",
-          width: "35px",
-          borderRadius: "50%",
-        }}
-        onClick={handlePrevSlide}
-        className="absolute left-0 m-auto text-5xl inset-y-1/2 cursor-pointer text-gray-400 z-20"
-      /> */}
-      <div className="w-full h-[50vh] flex overflow-hidden relative m-auto">
-        <Swipe
-          onSwipeLeft={handleNextSlide}
-          onSwipeRight={handlePrevSlide}
-          className="relative z-10 w-full h-full"
-          style={{
-            margin: "5px",
-            borderRadius: "24px",
-            border: "2px solid rgba(245,245,245,0.4)",
-            overflow: "hidden",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "265px",
-            marginTop: "15px",
-            boxShadow: "0 1px 12px rgba(190, 193, 203, 0.882)",
+    <>
+      <div className={`${styles.mobilecarousel} `}>
+        <div
+          className={`${styles.controlbtn} `}
+          onClick={() => {
+            stopTimeout();
+            if (imgid > 0) {
+              setimgid(imgid - 1);
+              ChangeImages(imgid - 1);
+            } else {
+              setimgid(slidesData.length - 1);
+              ChangeImages(slidesData.length - 1);
+            }
           }}
         >
-          {images.map((image, index) => {
-            if (index === currentSlide) {
-              return (
-                <Image
-                  height={320}
-                  width={500}
-                  key={image.id}
-                  style={{
-                    borderRadius: "12px",
-                    boxShadow: "0 3px 8px rgba(203, 203, 203, 0.582)",
-                  }}
-                  src={image.imageSrc}
-                  layout="fill"
-                  //   objectFit="contain"
-                  className={`${styles.imagefade}`}
-                />
-              );
+          {"<"}
+        </div>
+        <div key={imgurl} className={`${styles.passimg}  `}>
+          <Image
+            style={{
+              borderRadius: "8px",
+            }}
+            className={`${forward && styles.forwardanimate}`}
+            layout="fill"
+            objectPosition={
+              imgid == 0 || imgid == 1 || imgid == 2 || imgid == 3
+                ? `center 30%`
+                : `center 17%`
             }
-          })}
-        </Swipe>
+            objectFit="cover"
+            src={imgurl && imgurl}
+            alt="ad"
+          />
+        </div>
+        <div
+          className={`${styles.controlbtn} `}
+          onClick={() => {
+            stopTimeout();
+            if (imgid < slidesData.length - 1) {
+              setimgid(imgid + 1);
+              ChangeImages(imgid + 1);
+            } else {
+              setimgid(0);
+              ChangeImages(0);
+            }
+          }}
+        >
+          {">"}
+        </div>
       </div>
-      {/* <AiOutlineRight
-        onClick={handleNextSlide}
-        style={{
-          position: "absolute",
-          top: "2rem",
-          background: "rgba(25,255,255,0.5)",
-          height: "35px",
-          width: "35px",
-          borderRadius: "50%",
-        }}
-        className="absolute right-0 m-auto text-5xl inset-y-1/2 cursor-pointer text-gray-400 z-20"
-      /> */}
-
-      <div
-        style={{
-          position: "absolute",
-          top: "18.5rem",
-          zIndex: 500,
-          left: "50%",
-          transform: "translate(-50%,-50%)",
-        }}
-        className="relative flex justify-center p-2"
-      >
-        {images.map((_, index) => {
+      <div className={`${styles.sldiercount} `}>
+        {slidesData.map((x) => {
           return (
             <div
-              className={
-                index === currentSlide
-                  ? "h-4 w-4 bg-gray-700 rounded-full mx-2 mb-2 cursor-pointer"
-                  : "h-4 w-4 bg-gray-300 rounded-full mx-2 mb-2 cursor-pointer"
-              }
-              style={{ width: "10px", height: "10px" }}
-              key={index}
-              onClick={() => {
-                setCurrentSlide(index);
+              style={{
+                backgroundColor: x.id == imgid ? " rgb(9, 229, 225)" : "white",
               }}
-            />
+            ></div>
           );
         })}
       </div>
-    </div>
+    </>
   );
-}
+};
+
+export default Carousel2;
