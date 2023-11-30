@@ -11,7 +11,7 @@ import { adduser } from "../../routes/user";
 import { useEffect } from "react";
 import English from "../../public/locales/en/index";
 import Hindi from "../../public/locales/hi/index";
-import { setCookie } from "../utils/Utils";
+// import { setCookie } from "../utils/Utils";
 import {
   Button,
   Dialog,
@@ -19,6 +19,7 @@ import {
   DialogContent,
   DialogContentText,
 } from "@mui/material";
+import { setCookie } from "../../public/utils/Utils";
 const UserRegistrationPage = () => {
   const { setauthstatus, setsignout, setthankmodal, setscrollbox, lang } =
     useContext(AccountContext);
