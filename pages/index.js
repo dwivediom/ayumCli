@@ -22,8 +22,9 @@ import English from "../public/locales/en/index";
 import Hindi from "../public/locales/hi/index";
 import LanguageModal from "../components/LanguageModal";
 import Carousel2 from "../components/Carousel2";
-import { getCookie } from "./utils/Utils";
+// import { getCookie } from "./utils/Utils";
 import ThankModal from "../components/Modal";
+import { getCookie } from "../public/utils/Utils";
 // import Hindi from "/locales/hi/index";
 
 export async function getServerSideProps(context) {

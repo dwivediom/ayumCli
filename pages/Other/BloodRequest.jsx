@@ -13,7 +13,8 @@ import Image from "next/image";
 import { WhatsappShareButton, WhatsappIcon } from "next-share";
 import { setmessage } from "../../routes/message";
 import { getuserId, setConversation } from "../../routes/user";
-import { getCookie } from "../utils/Utils";
+import { getCookie } from "../../public/utils/Utils";
+// import { getCookie } from "../utils/Utils";
 
 const BloodRequest = () => {
   const [tab, settab] = useState(0);
