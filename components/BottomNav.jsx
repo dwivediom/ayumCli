@@ -34,7 +34,7 @@ const BottomNav = () => {
           )} */}
           <div id="tabs" className="flex justify-between">
             <Link href={"/"}>
-              <a className="w-full focus:text-cyan-500 hover:text-cyan-500 justify-center inline-block text-center pt-2 pb-1">
+              <a className="w-full focus:text-cyan-600 hover:text-cyan-600 justify-center inline-block text-center pt-2 pb-1">
                 <svg
                   width="25"
                   height="25"
@@ -97,7 +97,7 @@ const BottomNav = () => {
                   flexDirection: "column",
                   gap: "3px",
                 }}
-                className="w-full focus:text-cyan-500 hover:text-cyan-500 justify-center inline-block text-center pt-2 pb-1"
+                className="w-full focus:text-cyan-600 hover:text-cyan-600 justify-center inline-block text-center pt-2 pb-1"
               >
                 <img
                   style={{ width: "25px", height: "25px" }}
@@ -111,7 +111,7 @@ const BottomNav = () => {
               </a>
             </Link>
             <Link href={"/Search/Search"}>
-              <a className="w-full focus:text-cyan-500 hover:text-cyan-500 justify-center inline-block text-center pt-2 pb-1">
+              <a className="w-full focus:text-cyan-600 hover:text-cyan-600 justify-center inline-block text-center pt-2 pb-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -135,7 +135,7 @@ const BottomNav = () => {
             </Link>
 
             <Link href={"/Category/Category"}>
-              <a className="w-full focus:text-cyan-500 hover:text-cyan-500 justify-center inline-block text-center pt-2 pb-1">
+              <a className="w-full focus:text-cyan-600 hover:text-cyan-600 justify-center inline-block text-center pt-2 pb-1">
                 <svg
                   width="25"
                   height="25"
@@ -191,7 +191,7 @@ const BottomNav = () => {
               </a>
             </Link>
             <Link href={"/User/userAppo"}>
-              <a className="w-full focus:text-cyan-500 hover:text-cyan-500 text-center justify-center inline-block text-center pt-2 pb-1">
+              <a className="w-full focus:text-cyan-600 hover:text-cyan-600 text-center justify-center inline-block text-center pt-2 pb-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

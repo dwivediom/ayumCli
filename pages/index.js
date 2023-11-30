@@ -23,6 +23,7 @@ import Hindi from "../public/locales/hi/index";
 import LanguageModal from "../components/LanguageModal";
 import Carousel2 from "../components/Carousel2";
 import { getCookie } from "./utils/Utils";
+import ThankModal from "../components/Modal";
 // import Hindi from "/locales/hi/index";
 
 export async function getServerSideProps(context) {
@@ -45,8 +46,6 @@ export async function getServerSideProps(context) {
         },
       }
     );
-
-    console.log(data, "databrodata");
 
     return {
       props: {
@@ -71,10 +70,14 @@ export async function getServerSideProps(context) {
   }
 }
 export default function Home(props) {
+  const router = useRouter();
   useEffect(() => {
     async function firstcall() {
       if (props.error && props.error == "invalid") {
-        window.location.href = "/User/UserRegistrationPage?type=newses";
+        localStorage.removeItem("usertoken");
+        localStorage.removeItem("labuser");
+        router.push("/User/UserRegistrationPage?session=expired");
+        // window.location.href = "/User/UserRegistrationPage?type=newses";
       }
       const userToken = await getCookie("usertoken");
       console.log("usertoken", userToken);
@@ -307,7 +310,7 @@ export default function Home(props) {
         </div>
       )}
       <Footer />
-      {thankmodal && <Modal />}
+      {thankmodal && <ThankModal />}
     </>
   );
 }

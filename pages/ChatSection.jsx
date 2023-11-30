@@ -223,9 +223,11 @@ const ChatSection = () => {
     <>
       <div className={`${styles.chatpage}`} id="chatpage">
         <div
-          style={{
-            marginTop: "-1rem",
-          }}
+          style={
+            {
+              // marginTop: "-1rem",
+            }
+          }
           className={`${styles.chatnav}`}
         >
           <div
