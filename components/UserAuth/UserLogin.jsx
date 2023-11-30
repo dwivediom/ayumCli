@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { setCookie } from "../../public/utils/Utils";
 
 const UserLogin = () => {
   const docdata = useSelector((state) => state.setdocDataReducer);

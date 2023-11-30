@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { getCookie } from "../utils/Utils";
+import { getCookie } from "../../public/utils/Utils";
+// import { getCookie } from "../utils/Utils";
 
 const MyRequests = () => {
   useEffect(() => {
