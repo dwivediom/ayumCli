@@ -1,10 +1,11 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/Bookappo.module.css";
-import Router from "next/router";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const SelectClinicComp = ({ docid }) => {
+  const router = useRouter();
   console.log(docid && docid, "Doctor id from select clinic");
   const [clinic, setclinic] = useState();
   const [loading, setloading] = useState(false);
@@ -12,7 +13,7 @@ const SelectClinicComp = ({ docid }) => {
   useEffect(() => {
     setloading(true);
     if (!docid) {
-      Router.push("/");
+      router.push("/");
     }
     async function getdoctordata() {
       const doctordata = await axios.get(
@@ -136,7 +137,7 @@ const SelectClinicComp = ({ docid }) => {
                   {item.bookingStatus ? (
                     <div
                       onClick={() => {
-                        Router.push({
+                        router.push({
                           pathname: "/User/BookAppointmentPage",
                           query: {
                             data: JSON.stringify({

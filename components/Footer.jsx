@@ -4,8 +4,9 @@ import Image from "next/image";
 import { AccountContext } from "../context/AccountProvider";
 import English from "../public/locales/en/index";
 import Hindi from "../public/locales/hi/index";
-import Router from "next/router";
+import { useRouter } from "next/router";
 const Footer = () => {
+  const router = useRouter();
   const { lang } = useContext(AccountContext);
   return (
     <>
@@ -96,7 +97,7 @@ const Footer = () => {
               {lang == "en" ? English.patientmanage : Hindi.patientmanage}
             </span>
           </div>
-          <div onClick={() => Router.push("/ChatSection")}>
+          <div onClick={() => router.push("/ChatSection")}>
             <Image
               width={30}
               height={30}

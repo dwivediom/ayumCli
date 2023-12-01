@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setDocDataAction } from "../redux/actions/userActions";
 import styles from "../styles/doctorcard.module.css";
-import Router from "next/router";
 import Image from "next/image";
 import { useContext } from "react";
 import { AccountContext } from "../context/AccountProvider";
@@ -11,6 +10,7 @@ import English from "../public/locales/en/index";
 import Hindi from "../public/locales/hi/index";
 
 const DoctorCard = (props) => {
+  const router = useRouter();
   const { name, specialist, location, fees, phone, timing, docid, pic } = props;
   console.log(pic, "Picture hai");
   const { lang } = useContext(AccountContext);
@@ -32,14 +32,14 @@ const DoctorCard = (props) => {
     dispatch(setDocDataAction(props));
 
     if (localStorage.usertoken) {
-      Router.push({
+      router.push({
         pathname: "/User/SelectClinic",
         query: {
           did: docid,
         },
       });
     } else {
-      Router.push("/User/UserRegistrationPage");
+      router.push("/User/UserRegistrationPage");
     }
   };
   return (
