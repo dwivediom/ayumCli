@@ -13,15 +13,14 @@ const style = {
   top: "40%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "21rem",
   // bgcolor:
   //   "linear-gradient(90deg, rgba(0,172,89,1) 0%, rgba(0,162,71,1) 35%, rgba(0,255,179,1) 100%)",
   borderRadius: "12px",
-  border: "3px solid rgba(255,255,255,0.5)",
   color: "white",
   boxShadow: "none",
   outline: "none",
-  borderTop: "3px solid #00FF00",
+  boxShadow: "0 0 20px rgba(0, 255, 255, 0.236)",
 
   // background: "linear-gradient(to right,  rgba(255,255,255,1),  #cfcfcf)",
   background: "#fff",
@@ -64,7 +63,7 @@ const ThankModal = () => {
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "column",
-              color: "green",
+              color: "teal",
               fontWeight: "bold",
               fontSize: "18px",
             }}

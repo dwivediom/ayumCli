@@ -40,23 +40,18 @@ const UserRegistrationPage = () => {
   const onLoginSucess = async (res) => {
     const decodedjwt = jwt_decode(res.credential);
     localStorage.setItem("userjwt", res.credential);
-    console.log(decodedjwt);
     setdata(decodedjwt);
     console.log("data ", data);
     const logindata = await loginInitate(decodedjwt);
-    console.log("logindata ", logindata);
-    console.log("decoded jwt ", decodedjwt);
+
     if (logindata.data) {
       localStorage.setItem("usertoken", logindata.data.token);
       setCookie("usertoken", logindata.data.token, 7);
       localStorage.setItem("labuser", JSON.stringify(decodedjwt));
       localStorage.setItem("authStatus", true);
-      console.log("Labsuser aur Usertoken set kro");
       if (decodedjwt) {
         const logined = await adduser(decodedjwt);
-        console.log(logined, "Logine hai ");
-        if (logined.msg === "useradded") {
-          setsignout(false);
+        if (logined?.msg === "useradded" || "user already exist") {
           localStorage.setItem("thankmodal", true);
           // setauthstatus(true);
           setthankmodal(true);
@@ -69,6 +64,9 @@ const UserRegistrationPage = () => {
             name: decodedjwt.name,
             FCMtoken: localStorage.fcmToken,
           });
+
+          setsignout(false);
+
           router.push("/");
           // const data = await webpushfunc();
         }
