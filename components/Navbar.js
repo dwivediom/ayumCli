@@ -56,7 +56,7 @@ const Navbar = () => {
       setloggedemail(UserData.email);
       setname(UserData.name);
     }
-  }, []);
+  }, [signout]);
 
   useEffect(() => {
     if (
@@ -167,7 +167,15 @@ const Navbar = () => {
             <div
               className={` ${styles.navbarpc} flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start`}
             >
-              <div onClick={() => router.push("/")}>
+              <div
+                onClick={() => {
+                  console.log("Home");
+                  router.push("/");
+                }}
+                style={{
+                  zIndex: 30,
+                }}
+              >
                 <div className="flex flex-shrink-0 items-center">
                   <span className="block h-10 mr-6  lg:hidden lg:m-0 lg:h-0 lg:w-0">
                     {/* <Image
@@ -200,7 +208,7 @@ const Navbar = () => {
               <div className={`  ${styles.navbtns}  hidden md:block sm:block `}>
                 <div>
                   <div
-                    onClick={() => Router.push("/Contact")}
+                    onClick={() => router.push("/Contact")}
                     style={{
                       border: "1px solid rgba(39, 239, 245, 0.3)",
                       cursor: "pointer",
@@ -221,7 +229,7 @@ const Navbar = () => {
               >
                 <div>
                   <div
-                    onClick={() => Router.push("/About")}
+                    onClick={() => router.push("/About")}
                     style={{
                       border: "1px solid rgba(39, 239, 245, 0.3)",
                       cursor: "pointer",
@@ -356,7 +364,7 @@ const Navbar = () => {
 
                     {!signout && (
                       <div
-                        onClick={() => Router.push("/PrivacyPolicy")}
+                        onClick={() => router.push("/PrivacyPolicy")}
                         className="text-sm text-white w-full"
                       >
                         {lang == "en" ? English.terms : Hindi.terms}
@@ -370,7 +378,7 @@ const Navbar = () => {
                     ) : (
                       <div
                         onClick={() =>
-                          Router.push("/User/UserRegistrationPage")
+                          router.push("/User/UserRegistrationPage")
                         }
                         className="text-sm w-full text-white bg-cyan-600"
                       >

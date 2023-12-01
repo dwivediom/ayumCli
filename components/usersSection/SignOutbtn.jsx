@@ -1,14 +1,19 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import { AccountContext } from "../../context/AccountProvider";
+import { setCookie } from "../../public/utils/Utils";
 
 const SignOutbtn = ({ text }) => {
   const { setsignout } = useContext(AccountContext);
   const router = useRouter();
   const signOut = () => {
-    localStorage.clear();
+    // localStorage.clear();
+    localStorage.removeItem("labuser");
+    localStorage.removeItem("usertoken");
+    localStorage.removeItem("userjwt");
+    setCookie("usertoken", null, 1);
     setsignout(true);
-    router.push("/");
+    router.push("/User/UserRegistrationPage");
   };
   return (
     <>
