@@ -5,7 +5,7 @@ export const AccountContext = createContext(null);
 
 const AccountProvider = ({ children }) => {
   const [authstatus, setauthstatus] = useState(false);
-  const [thankmodal, setthankmodal] = useState(false);
+  const [thankmodal, setthankmodal] = useState(true);
   const [threedotmodal, setthreedotmodal] = useState(false);
   const [msgopened, setmsgopened] = useState(false);
   const [account, setAccount] = useState();
