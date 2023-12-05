@@ -28,14 +28,14 @@
   align-items: center;
 }
 .logoimg{
-  width: 7rem !important;
+  width: 9rem !important;
   /* position: absolute; */
-  height: 3rem;
-  background: url('../public/ayumTranparent.png');
+  height: 6rem;
+  /* border: 2px solid red !important; */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  margin-top: -7px;
+  margin-top: -32px;
 }
 .mainshell {
   
