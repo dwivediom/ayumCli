@@ -178,97 +178,107 @@ const Navbar = () => {
               >
                 <div className="flex flex-shrink-0 items-center">
                   <span className="block h-10 mr-6  lg:hidden lg:m-0 lg:h-0 lg:w-0">
-                    {/* <Image
-                      width={100}
-                      height={75}
-                      layout="fill"
-                      objectFit="contain"
+                    <img
+                      // width={250}
+                      // height={200}
+                      // layout="fill"
+                      // objectFit="contain"
+                      style={{
+                        marginLeft: "-5px",
+                      }}
                       className={styles.logoimg}
-                      src={`/ayumTranparent.png`}
-                      loading="eager"
+                      src={`/ayumtranparent1.svg`}
                       alt="Ayum"
-                    /> */}
-                    <div className={styles.logoimg}></div>
+                      loading="eager"
+                    />
+                    {/* <div className={styles.logoimg}></div> */}
                   </span>
                   <span className="hidden h-8 w-auto lg:block cursor-pointer">
-                    {/* <Image
-                      width={100}
-                      height={70}
-                      layout="fill"
-                      objectFit="contain"
+                    <img
+                      // width={250}
+                      // height={200}
+
+                      // layout="fill"
+                      // objectFit="contain"
                       className={styles.logoimg}
-                      src={`/ayumTranparent.png`}
+                      src={`/ayumtranparent1.svg`}
                       alt="Ayum"
                       loading="eager"
-                    /> */}
-                    <div className={styles.logoimg}></div>
+                    />
+                    {/* <div className={styles.logoimg}></div> */}
                   </span>
                 </div>
               </div>
-              <div className={`  ${styles.navbtns}  hidden md:block sm:block `}>
-                <div>
-                  <div
-                    onClick={() => router.push("/Contact")}
-                    style={{
-                      border: "1px solid rgba(39, 239, 245, 0.3)",
-                      cursor: "pointer",
-                      transition: "0.5s all",
-                      fontSize: "0.75rem",
-                      marginLeft: "30px",
-                    }}
-                    className=" text-white px-2 py-1 rounded-md text-sm font-medium hover:bg-sky-500 hover:border-gray-300"
-                    aria-current="page"
-                  >
-                    {lang == "en" ? English.contactus : Hindi.contactus}
-                  </div>
-                </div>
-              </div>
-
               <div
-                className={`  ${styles.navbtns}  hidden  md:block sm:block `}
+                style={{ marginLeft: "-2.7rem", display: "flex", gap: "10px" }}
               >
-                <div>
-                  <div
-                    onClick={() => router.push("/About")}
-                    style={{
-                      border: "1px solid rgba(39, 239, 245, 0.3)",
-                      cursor: "pointer",
-                      transition: "0.5s all",
-                      fontSize: "0.75rem",
-                    }}
-                    className=" text-white px-2 py-1 rounded-md text-sm font-medium hover:text-white  hover:bg-sky-500 hover:border-gray-300"
-                    aria-current="page"
-                  >
-                    {lang == "en" ? English.aboutus : Hindi.aboutus}
-                  </div>
-                </div>
-              </div>
-              <div className={`${styles.navbtns} hidden md:block sm:block`}>
-                <a
-                  href="https://play.google.com/store/apps/details?id=in.ayum.twa"
-                  className={`${styles.installbtn} text-white  rounded-md text-sm font-medium`}
-                  target="_blank"
-                  rel="noreferrer"
+                <div
+                  className={`  ${styles.navbtns}  hidden md:block sm:block `}
                 >
-                  <Image
-                    src={"/google.svg"}
-                    width={100}
-                    height={25}
-                    alt="Install App"
-                    title="Install App"
-                  />
-                </a>
-              </div>
-              <div
-                className={`  ${styles.navbtns}  hidden  md:block sm:block `}
-              >
-                <div>
+                  <div>
+                    <div
+                      onClick={() => router.push("/Contact")}
+                      style={{
+                        border: "1px solid rgba(39, 239, 245, 0.3)",
+                        cursor: "pointer",
+                        transition: "0.5s all",
+                        fontSize: "0.75rem",
+                        marginLeft: "30px",
+                      }}
+                      className=" text-white px-2 py-1 rounded-md text-sm font-medium hover:bg-sky-500 hover:border-gray-300"
+                      aria-current="page"
+                    >
+                      {lang == "en" ? English.contactus : Hindi.contactus}
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className={`  ${styles.navbtns}  hidden  md:block sm:block `}
+                >
+                  <div>
+                    <div
+                      onClick={() => router.push("/About")}
+                      style={{
+                        border: "1px solid rgba(39, 239, 245, 0.3)",
+                        cursor: "pointer",
+                        transition: "0.5s all",
+                        fontSize: "0.75rem",
+                      }}
+                      className=" text-white px-2 py-1 rounded-md text-sm font-medium hover:text-white  hover:bg-sky-500 hover:border-gray-300"
+                      aria-current="page"
+                    >
+                      {lang == "en" ? English.aboutus : Hindi.aboutus}
+                    </div>
+                  </div>
+                </div>
+                <div className={`${styles.navbtns} hidden md:block sm:block`}>
                   <a
-                    href={"https://www.doctor.ayum.in/"}
-                    className={`${styles.doctorbtn} text-white rounded-md  font-medium`}
+                    href="https://play.google.com/store/apps/details?id=in.ayum.twa"
+                    className={`${styles.installbtn} text-white  rounded-md text-sm font-medium`}
+                    target="_blank"
+                    rel="noreferrer"
                   >
-                    {lang == "en" ? English.ayumdoc : Hindi.ayumdoc}
+                    <Image
+                      src={"/google.svg"}
+                      width={100}
+                      height={25}
+                      alt="Install App"
+                      title="Install App"
+                    />
                   </a>
+                </div>
+                <div
+                  className={`  ${styles.navbtns}  hidden  md:block sm:block `}
+                >
+                  <div>
+                    <a
+                      href={"https://www.doctor.ayum.in/"}
+                      className={`${styles.doctorbtn} text-white rounded-md  font-medium`}
+                    >
+                      {lang == "en" ? English.ayumdoc : Hindi.ayumdoc}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -393,7 +403,11 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="sm:hidden" id="mobile-menu">
+        <div
+          className="sm:hidden"
+          id="mobile-menu"
+          style={{ padding: collapseopen && "1rem" }}
+        >
           {collapseopen && (
             <>
               <div className={`${styles.mobilecoll} mt-4`}>
