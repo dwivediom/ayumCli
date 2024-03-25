@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 const About = () => {
   return (
     <>
-      <Navbar />
+      
       <Head>
         <title>About Us- Ayum</title>
         <meta name="title" content="About Us- Ayum " />

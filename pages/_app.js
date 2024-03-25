@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps, AccountContext }) {
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
   // Use the token as needed
   useEffect(() => {
-    if (fcmToken) {
+    if (fcmToken ) {
       if (localStorage.fcmToken != fcmToken && localStorage.userjwt) {
         updateuser(localStorage.userjwt, { FCMtoken: fcmToken });
         console.log("Fcm updated ");
@@ -37,6 +37,8 @@ function MyApp({ Component, pageProps, AccountContext }) {
     }
   }, [fcmToken]);
 
+
+  
   useEffect(() => {
     const relod = async () => {
       await notificationRequest();
