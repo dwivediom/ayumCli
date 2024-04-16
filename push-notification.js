@@ -42,7 +42,7 @@ const useFcmToken = () => {
 
     retrieveToken();
   }, []);
-
+ 
   return { fcmToken: token, notificationPermissionStatus };
 };
 
