@@ -85,6 +85,27 @@ const PrivacyPolicy = () => {
             Terms and condition page .
           </li>
         </ol>
+
+        <h3> Data Deletion </h3>
+
+<p> <b>User Request Process:</b>
+
+Users can request deletion of their data by emailing our Data Privacy team at contact@ayum.in. In your email, please include your full name and any associated account information (username, email address, etc.) for easy identification.
+
+Data Deletion Timeline:
+
+We aim to respond to all data deletion requests within [30] business days. Once your request is verified, we will delete your data from our systems within an additional [30] business days.
+
+Important Note:
+
+Due to legal or regulatory requirements, we may be required to retain some limited data even after your account deletion. This data will be anonymized and used only for the specified legal or regulatory purpose.
+
+Please note: You can adjust the bracketed values (e.g., [30] for business days) to reflect your specific data deletion timeframe.
+
+This section outlines the user request process, data deletion timeline, and any relevant considerations for data retention. Remember to update the bracketed values with your preferred timeframe. You can also add a link to your privacy policy for further details if you have one.
+     
+</p>   
+     
       </div>
     </div>
   );
