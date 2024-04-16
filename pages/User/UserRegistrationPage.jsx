@@ -153,9 +153,31 @@ const UserRegistrationPage = () => {
         >
           {/* Session Expired! Please Login Again. */}
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              <span className="text-red-600"> Session Expired!</span> Please
-              Login Again.
+            <DialogContentText
+              style={{
+                textAlign: "center",
+              }}
+              id="alert-dialog-description"
+            >
+              <span
+                style={{
+                  color: "black",
+                }}
+                className="font-bold "
+              >
+                {" "}
+                Time For Quick Health Checkup 🩵
+              </span>{" "}
+              <br />{" "}
+              <span
+                style={{
+                  textDecoration: "underline",
+                }}
+                onClick={() => setexpired(false)}
+                className="text-blue-600 "
+              >
+                Please login again!
+              </span>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
