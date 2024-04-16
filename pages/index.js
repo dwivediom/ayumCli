@@ -13,7 +13,7 @@ import BloodDonatebtn from "../components/BloodDonatebtn";
 import ReactGA from "react-ga4";
 import Router, { useRouter } from "next/router";
 import HorizontalScroll from "../components/DemoAd";
-
+const host = process.env.NEXT_PUBLIC_B_PORT;
 const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
 const GetDoctor = dynamic(() => import("../components/GetDoctor"));
@@ -168,7 +168,7 @@ export default function Home(props) {
     setloading(true);
     const newdocdata = await axios({
       method: "get",
-      url: "https://www.server.ayum.in/api/profile/showmoreDoc",
+      url: `${host}/api/profile/showmoreDoc`,
     });
     console.log("Data aa rha hai", newdocdata);
     if (newdocdata.data.length === 0) {
@@ -230,7 +230,19 @@ export default function Home(props) {
   // }
 
   let [isMobile, setIsMobile] = useState(false);
+  const adurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getuserads`;
+  const GetAdsData = async () => {
+    try {
+      let userdata = await axios.get(adurl, {}, { home: true });
+      console.log(userdata, "UserDAta");
+    } catch (error) {
+      console.log(error, "error");
+    }
+  };
 
+  useEffect(() => {
+    GetAdsData();
+  });
   return (
     <>
       <Head>
@@ -250,7 +262,7 @@ export default function Home(props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      {langmodal && <LanguageModal />}
       <div className={styles.mainshell}>
         <SearchBox />
         <QuickSearch />
