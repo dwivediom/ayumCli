@@ -2,11 +2,12 @@ import Head from "next/head";
 import React from "react";
 import Aboutus from "../components/Aboutus";
 import Navbar from "../components/Navbar";
+import NewAboutComp from "../components/NewAboutComp";
 
 const About = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Head>
         <title>About Us- Ayum</title>
         <meta name="title" content="About Us- Ayum " />
@@ -17,8 +18,8 @@ const About = () => {
           tests report in your smartphone..."
         />
       </Head>
-
-      <Aboutus />
+      <NewAboutComp />
+      {/* <Aboutus /> */}
     </>
   );
 };

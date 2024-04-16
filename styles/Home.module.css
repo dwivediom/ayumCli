@@ -366,7 +366,7 @@
   box-shadow: 2px -3px 10px rgba(0, 0, 0, 0.785);
   top: 3rem;
   background-color: #111827;
-  right: 1rem;
+  right: -0.5rem !important;
 }
 .popup div {
   padding: 10px;

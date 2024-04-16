@@ -22,10 +22,7 @@ const Aboutus = () => {
   return (
     <>
       <div id="aboutpage" className={`${styles.aboutbox}`}>
-        <section
-          style={{ height: "80vh" }}
-          className="text-black bg-white body-font"
-        >
+        <section className="text-black bg-white body-font">
           <div className="container px-5 py-24 mx-auto">
             <div className="flex flex-col text-center w-full mb-20">
               <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-black">
