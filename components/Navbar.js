@@ -184,7 +184,7 @@ const Navbar = () => {
                       // layout="fill"
                       // objectFit="contain"
                       style={{
-                        marginLeft: "-5px",
+                        marginLeft: "-15px",
                       }}
                       className={styles.logoimg}
                       src={`/ayumtranparent1.svg`}
