@@ -1,8 +1,58 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/Phonebook.module.css";
+import { Alert, Box, Button, Modal, Snackbar, Typography } from "@mui/material";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CallIcon from "@mui/icons-material/Call";
+import English from "../public/locales/en/index";
+import Hindi from "../public/locales/hi/index";
+import { AccountContext } from "../context/AccountProvider";
+const style = {
+  position: "absolute",
+  top: "40%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "21rem",
+  // bgcolor:
+  //   "linear-gradient(90deg, rgba(0,172,89,1) 0%, rgba(0,162,71,1) 35%, rgba(0,255,179,1) 100%)",
+  borderRadius: "12px",
+  color: "black",
+  boxShadow: "none",
+  outline: "none",
+  boxShadow: "0 0 20px rgba(0, 255, 255, 0.236)",
 
+  // background: "linear-gradient(to right,  rgba(255,255,255,1),  #cfcfcf)",
+  background: "#fff",
+  p: 4,
+};
 const DirectoryCard = ({ item, key }) => {
+  const { lang } = useContext(AccountContext);
+
   const [show, setShow] = useState(false);
+  const [sharemodal, setsharemodal] = useState(false);
+  const [callmodal, setcallmodal] = useState(false);
+  const handleCall = (phoneNumber) => {
+    console.log(phoneNumber, "call");
+    if (!isMobile) {
+      setsnackmsg("This Service is Available For Mobile Devices Only!");
+      setseverity("error");
+      setshowsnackbar(true);
+      return;
+    }
+    window.location.href = `tel:${phoneNumber}`;
+  };
+  const [isMobile, setIsMobile] = useState(false);
+  const [showsnackbar, setshowsnackbar] = useState(false);
+  const [severity, setseverity] = useState("success");
+  const [snackmsg, setsnackmsg] = useState("");
+  const [selectedphones, setselectedphones] = useState([]);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+    };
+
+    checkIsMobile();
+  }, []);
   return (
     <div
       style={{
@@ -11,15 +61,214 @@ const DirectoryCard = ({ item, key }) => {
       key={key}
       className={`${styles.directorycard}`}
     >
-      <div>
-        <div className={`${styles.cardname}`}>{item.name}</div>
+      <Snackbar
+        open={showsnackbar}
+        autoHideDuration={6000}
+        onClose={() => {
+          setshowsnackbar(false);
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        key={"top" + "right"}
+      >
+        <Alert
+          onClose={() => setshowsnackbar(false)}
+          severity={severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackmsg}
+        </Alert>
+      </Snackbar>
+      <Modal
+        open={sharemodal}
+        onClose={() => setsharemodal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        style={{ padding: "0" }}
+      >
+        <Box sx={style}>
+          <Typography
+            style={{
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              color: "teal",
+              fontWeight: "bold",
+              fontSize: "18px",
+            }}
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+          >
+            {lang == "en" ? English.thankmsg : Hindi.thankmsg}
+            <img
+              style={{
+                width: "45px",
+                height: "45px",
+              }}
+              src="https://img.icons8.com/external-fauzidea-flat-fauzidea/64/null/external-success-online-learning-fauzidea-flat-fauzidea.png"
+              alt="success"
+            />
+          </Typography>
+          <Typography
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              color: "black",
+            }}
+            id="modal-modal-description"
+            sx={{ mt: 2 }}
+          >
+            {lang == "en" ? English.twoclickmsg : Hindi.twoclickmsg}
+          </Typography>
+        </Box>
+      </Modal>
+      <Modal
+        open={callmodal}
+        onClose={() => setcallmodal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        style={{ padding: "0" }}
+      >
+        <Box sx={style}>
+          {selectedphones?.length > 0 &&
+            selectedphones.map((item) => {
+              return (
+                item &&
+                item != "" && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                    className={`${styles.callitem}`}
+                  >
+                    <div>{item} </div>
+                    <Button
+                      style={{
+                        background: "rgb(0, 127, 147)",
+                        borderRadius: "4px",
+                        padding: "4px 10px",
+                      }}
+                      variant="contained"
+                      startIcon={<CallIcon style={{ color: "white" }} />}
+                      onClick={() => {
+                        handleCall(item);
+                      }}
+                    >
+                      Call
+                    </Button>{" "}
+                  </div>
+                )
+              );
+            })}
+        </Box>
+      </Modal>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px",
+        }}
+      >
+        {/* <div
+        //   style={{
+        //     display: "flex",
+        //     gap: "2px",
+        //     alignItems: "center",
+        //     background: "rgb(0, 127, 147,0.3)",
+        //     borderRadius: "24px",
+        //     color: "black",
+        //     padding: "3px 8px",
+        //   }}
+        // >
+        
+        //   <svg
+        //     xmlns="http://www.w3.org/2000/svg"
+        //     fill="none"
+        //     viewBox="0 0 26 26"
+        //     stroke-width="1.5"
+        //     stroke="currentColor"
+        //     class="w-6 h-6"
+        //   >
+        //     <path
+        //       stroke-linecap="round"
+        //       stroke-linejoin="round"
+        //       d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+        //     />
+        //     <path
+        //       stroke-linecap="round"
+        //       stroke-linejoin="round"
+        //       d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+        //     />
+        //   </svg>
+        //   {item.city}
+        // </div>{" "} */}
+        <span
+          style={{
+            display: "flex",
+            padding: "3px 10px",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "3px",
+          }}
+          class="bg-cyan-100 text-cyan-900 text-xs font-medium me-2 rounded-full dark:bg-cyan-100 dark:text-cyan-900"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 26 26"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+            />
+          </svg>{" "}
+          {item.city}
+        </span>
+        <span
+          style={{
+            display: "flex",
+            padding: "3px 10px",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "3px",
+          }}
+          class="bg-cyan-100 text-cyan-900 text-xs font-medium me-2 rounded-full dark:bg-cyan-200 dark:text-cyan-900"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            focusable="false"
+            style={{
+              pointerEvents: "none",
+              display: "inherit",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <path d="M15 5.63 20.66 12 15 18.37V14h-1c-3.96 0-7.14 1-9.75 3.09 1.84-4.07 5.11-6.4 9.89-7.1l.86-.13V5.63M14 3v6C6.22 10.13 3.11 15.33 2 21c2.78-3.97 6.44-6 12-6v6l8-9-8-9z" />
+          </svg>
+          Share
+        </span>
       </div>
       <div className={`${styles.carddeatilbox}`}>
-        <div>
-          {" "}
-          <span className="font-bold">City :</span> {item.city}
-        </div>
-
+        <div className={`${styles.cardname}`}>{item.name}</div>
         <div>
           {" "}
           <span className="font-bold">Phone :</span> {item.phone}
@@ -31,15 +280,55 @@ const DirectoryCard = ({ item, key }) => {
         <div>
           <span className="font-bold">Specialist :</span> {item.specialist}{" "}
         </div>
-        <div className={`${styles.showmorebox}`}>
+        {/* <div className={`${styles.showmorebox}`}>
           <span onClick={() => setShow(!show)} className={`${styles.showmore}`}>
             {show ? "Hide details" : "More details..."}{" "}
             <span className="text-lg">&#x2193;</span>
           </span>
-        </div>
+        </div> */}
 
-        <div style={{ display: !show && "none" }}>
+        <div
+        // style={{ display: !show && "none" }}
+        >
           <span className="font-bold">Address :</span> {item.address}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            style={{
+              background: "rgb(0, 127, 147)",
+              borderRadius: "4px",
+              padding: "4px 10px",
+            }}
+            variant="contained"
+            startIcon={<CallIcon style={{ color: "white" }} />}
+            onClick={() => {
+              // handleCall(item?.phone);
+              const splitArray = item?.phone && item?.phone.split(/[,\s]+/);
+              setselectedphones(splitArray);
+              setcallmodal(true);
+            }}
+          >
+            Call
+          </Button>{" "}
+          <Button
+            style={{
+              // background: "rgb(0, 127, 147)",
+              color: "rgb(0, 127, 147)",
+              borderRadius: "4px",
+              padding: "4px 10px",
+              border: "1.5px solid rgb(0, 127, 147 , 0.6)",
+            }}
+            startIcon={<LocationOnIcon style={{ color: "rgb(0, 127, 147)" }} />}
+            variant="outlined"
+          >
+            View On Map
+          </Button>
         </div>
       </div>
     </div>
