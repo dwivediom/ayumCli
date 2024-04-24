@@ -35,7 +35,7 @@ const DoctorDirectory = () => {
   const ShowMoreDoc = async () => {
     setshowload(true);
     const data = await showMore();
-    if (data.data.length == 0) {
+    if (data?.data?.length == 0) {
       setfull(true);
     }
     setdocs(docs.concat(data.data));
@@ -121,7 +121,7 @@ const DoctorDirectory = () => {
               />
             </div>
           ) : (
-            docs.length > 0 &&
+            docs?.length > 0 &&
             docs.map((item) => {
               return <DirectoryCard key={item._id} item={item && item} />;
             })
