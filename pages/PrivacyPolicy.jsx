@@ -86,7 +86,7 @@ const PrivacyPolicy = () => {
           </li>
         </ol>
 
-        <h3> Data Deletion </h3>
+<h3> Data Deletion </h3>
 
 <p> <b>User Request Process:</b>
 

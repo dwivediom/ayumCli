@@ -25,11 +25,20 @@ const style = {
   p: 4,
 };
 const DirectoryCard = ({ item, key }) => {
+  
   const { lang } = useContext(AccountContext);
 
   const [show, setShow] = useState(false);
   const [sharemodal, setsharemodal] = useState(false);
   const [callmodal, setcallmodal] = useState(false);
+  const [location , setlocation ] = useState({ "lat":" " , "lon":" "})
+ 
+
+    
+
+
+
+
   const handleCall = (phoneNumber) => {
     console.log(phoneNumber, "call");
     if (!isMobile) {
@@ -316,6 +325,7 @@ const DirectoryCard = ({ item, key }) => {
           >
             Call
           </Button>{" "}
+          <a href={ `https://www.google.com/maps/search/?api=1&query=${item.location?` ${item.location.lat} , ${item.location.lon }`: ' , '}`} target="_blank" rel="noreferrer" >
           <Button
             style={{
               // background: "rgb(0, 127, 147)",
@@ -326,9 +336,9 @@ const DirectoryCard = ({ item, key }) => {
             }}
             startIcon={<LocationOnIcon style={{ color: "rgb(0, 127, 147)" }} />}
             variant="outlined"
-          >
+          > 
             View On Map
-          </Button>
+          </Button></a>
         </div>
       </div>
     </div>
