@@ -6,6 +6,9 @@ import CallIcon from "@mui/icons-material/Call";
 import English from "../public/locales/en/index";
 import Hindi from "../public/locales/hi/index";
 import { AccountContext } from "../context/AccountProvider";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { useRouter } from "next/router";
 const style = {
   position: "absolute",
   top: "40%",
@@ -25,19 +28,12 @@ const style = {
   p: 4,
 };
 const DirectoryCard = ({ item, key }) => {
-  
   const { lang } = useContext(AccountContext);
 
   const [show, setShow] = useState(false);
   const [sharemodal, setsharemodal] = useState(false);
   const [callmodal, setcallmodal] = useState(false);
-  const [location , setlocation ] = useState({ "lat":" " , "lon":" "})
- 
-
-    
-
-
-
+  const [location, setlocation] = useState({ lat: " ", lon: " " });
 
   const handleCall = (phoneNumber) => {
     console.log(phoneNumber, "call");
@@ -49,11 +45,14 @@ const DirectoryCard = ({ item, key }) => {
     }
     window.location.href = `tel:${phoneNumber}`;
   };
+  const isLocal = process.env.NODE_ENV === "development"; // Check if environment is development (local)
+
   const [isMobile, setIsMobile] = useState(false);
   const [showsnackbar, setshowsnackbar] = useState(false);
   const [severity, setseverity] = useState("success");
   const [snackmsg, setsnackmsg] = useState("");
   const [selectedphones, setselectedphones] = useState([]);
+  const [linktext, setlinktext] = useState("");
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -62,6 +61,24 @@ const DirectoryCard = ({ item, key }) => {
 
     checkIsMobile();
   }, []);
+  const [copied, setcpied] = useState(false);
+  const router = useRouter();
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    setcpied(true);
+  };
+  const shareOnWhatsApp = (name) => {
+    const message = `Get ${name} info on Ayum , Click the link below 👇👇 
+${linktext}`;
+
+    // Construct the WhatsApp share URL with the message
+    const whatsappURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+      message
+    )}`;
+
+    // Open the WhatsApp share URL in a new window
+    window.open(whatsappURL, "_blank");
+  };
   return (
     <div
       style={{
@@ -90,48 +107,36 @@ const DirectoryCard = ({ item, key }) => {
       </Snackbar>
       <Modal
         open={sharemodal}
-        onClose={() => setsharemodal(false)}
+        onClose={() => {
+          setcpied(false);
+          setsharemodal(false);
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         style={{ padding: "0" }}
       >
         <Box sx={style}>
-          <Typography
-            style={{
-              textAlign: "center",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              color: "teal",
-              fontWeight: "bold",
-              fontSize: "18px",
+          <div
+            onClick={() => {
+              shareOnWhatsApp(item?.name);
             }}
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
+            className={`${styles.shareonwhatsapp}`}
           >
-            {lang == "en" ? English.thankmsg : Hindi.thankmsg}
-            <img
-              style={{
-                width: "45px",
-                height: "45px",
-              }}
-              src="https://img.icons8.com/external-fauzidea-flat-fauzidea/64/null/external-success-online-learning-fauzidea-flat-fauzidea.png"
-              alt="success"
+            Share On{" "}
+            <WhatsAppIcon
+              style={{ color: "white", width: "35px", height: "35px" }}
             />
-          </Typography>
-          <Typography
-            style={{
-              textAlign: "center",
-              fontWeight: "bold",
-              color: "black",
-            }}
-            id="modal-modal-description"
-            sx={{ mt: 2 }}
-          >
-            {lang == "en" ? English.twoclickmsg : Hindi.twoclickmsg}
-          </Typography>
+          </div>
+          <div className={`${styles.copylinkdiv}`}>
+            <div className={`${styles.copylink}`}>
+              {" "}
+              <div>{linktext}</div>
+            </div>
+            <span onClick={() => copyToClipboard(linktext)}>
+              <ContentCopyIcon style={{ width: "20px", height: "20px" }} />{" "}
+              {copied ? "Copied" : "Copy"}
+            </span>
+          </div>
         </Box>
       </Modal>
       <Modal
@@ -158,7 +163,7 @@ const DirectoryCard = ({ item, key }) => {
                     <div>{item} </div>
                     <Button
                       style={{
-                        background: "rgb(0, 127, 147)",
+                        background: "#005e6d",
                         borderRadius: "4px",
                         padding: "4px 10px",
                       }}
@@ -255,8 +260,16 @@ const DirectoryCard = ({ item, key }) => {
             alignItems: "center",
             justifyContent: "center",
             gap: "3px",
+            cursor: "pointer",
           }}
-          class="bg-cyan-100 text-cyan-900 text-xs font-medium me-2 rounded-full dark:bg-cyan-200 dark:text-cyan-900"
+          onClick={() => {
+            // let link = isLocal ? "http://localhost:3000" : "https://ayum.in";
+            let link = "https://ayum.in";
+            link = link + "?docid=" + item._id;
+            setlinktext(link);
+            setsharemodal(true);
+          }}
+          class="bg-cyan-100 text-cyan-900 text-xs font-medium me-2 rounded-full dark:bg-cyan-100 dark:text-cyan-900"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -310,7 +323,7 @@ const DirectoryCard = ({ item, key }) => {
         >
           <Button
             style={{
-              background: "rgb(0, 127, 147)",
+              background: "#005e6d",
               borderRadius: "4px",
               padding: "4px 10px",
             }}
@@ -325,20 +338,31 @@ const DirectoryCard = ({ item, key }) => {
           >
             Call
           </Button>{" "}
-          <a href={ `https://www.google.com/maps/search/?api=1&query=${item.location?` ${item.location.lat} , ${item.location.lon }`: ' , '}`} target="_blank" rel="noreferrer" >
-          <Button
-            style={{
-              // background: "rgb(0, 127, 147)",
-              color: "rgb(0, 127, 147)",
-              borderRadius: "4px",
-              padding: "4px 10px",
-              border: "1.5px solid rgb(0, 127, 147 , 0.6)",
-            }}
-            startIcon={<LocationOnIcon style={{ color: "rgb(0, 127, 147)" }} />}
-            variant="outlined"
-          > 
-            View On Map
-          </Button></a>
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${
+              item.location
+                ? ` ${item.location.lat} , ${item.location.lon}`
+                : " , "
+            }`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button
+              style={{
+                // background: "rgb(0, 127, 147)",
+                color: "rgb(0, 127, 147)",
+                borderRadius: "4px",
+                padding: "4px 10px",
+                border: "1.5px solid rgb(0, 127, 147 , 0.6)",
+              }}
+              startIcon={
+                <LocationOnIcon style={{ color: "rgb(0, 127, 147)" }} />
+              }
+              variant="outlined"
+            >
+              View On Map
+            </Button>
+          </a>
         </div>
       </div>
     </div>

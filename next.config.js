@@ -24,6 +24,7 @@ const nextConfig = withPWA({
       "images.pexels.com",
       "i.postimg.cc",
       "img.icons8.com",
+      "icons8.com",
       "lh3.googleusercontent.com",
       "www.chatserver.ayum.in",
       "i.ibb.co",
