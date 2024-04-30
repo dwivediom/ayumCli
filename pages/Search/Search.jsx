@@ -179,7 +179,7 @@ const Search = () => {
               </div>
             ) : (
               <>
-                <div className={`${styles2.doccontainer} `}>
+                {/* <div className={`${styles2.doccontainer} `}>
                   {data &&
                     data.data.map((doctor) => {
                       console.log(
@@ -201,7 +201,7 @@ const Search = () => {
                         />
                       );
                     })}
-                </div>
+                </div> */}
                 <div className="shadow-lg p-1 w-full text-center font-bold rounded-lg">
                   {lang == "en" ? English.searcdocinfo : Hindi.searcdocinfo}
                 </div>
