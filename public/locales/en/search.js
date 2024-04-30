@@ -3,7 +3,7 @@ module.exports = {
   hide: "Hide",
   placeholder: "Search Doctors, Specialist , Clinics...",
   search: "Search",
-  searcdocinfo: "Search Doctor's information",
+  searcdocinfo: "Doctor's information Given Below",
   kidney: "Kidney",
   dentist: "Dentist",
   skin: "Skin",

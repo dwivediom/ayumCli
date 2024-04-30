@@ -3,7 +3,7 @@ module.exports = {
   hide: "छिपाएं",
   placeholder: "डॉक्टरों, विशेषज्ञों, क्लिनिकों की खोज करें...",
   search: "खोजें",
-  searcdocinfo: "डॉक्टर की जानकारी खोजें",
+  searcdocinfo: "डॉक्टर की जानकारी नीचे खोजे",
   kidney: "किडनी",
   dentist: "दंतचिकित्सक",
   skin: "त्वचा",

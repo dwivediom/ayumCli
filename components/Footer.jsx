@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styles from "../styles/footer.module.css";
 import Image from "next/image";
 import { AccountContext } from "../context/AccountProvider";
@@ -7,7 +7,7 @@ import Hindi from "../public/locales/hi/index";
 import { useRouter } from "next/router";
 const Footer = () => {
   const router = useRouter();
-  const { lang } = useContext(AccountContext);
+  const { lang, setadmindialog } = useContext(AccountContext);
   return (
     <>
       <div className={styles.footercontainer}>
@@ -96,6 +96,19 @@ const Footer = () => {
             <span>
               {lang == "en" ? English.patientmanage : Hindi.patientmanage}
             </span>
+          </div>
+          <div
+            onClick={() => {
+              setadmindialog(true);
+            }}
+          >
+            <Image
+              width={30}
+              height={30}
+              alt="Version 0.0"
+              src="https://img.icons8.com/3d-fluency/94/documents.png"
+            />
+            <span>Version 0.0</span>
           </div>
           <div onClick={() => router.push("/ChatSection")}>
             <Image

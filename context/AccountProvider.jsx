@@ -12,6 +12,9 @@ const AccountProvider = ({ children }) => {
   const [person, setperson] = useState(null);
   const [ActiveUsers, setActiveUsers] = useState([]);
   const [msgchange, setmsgchange] = useState("");
+  const [admindialog, setadmindialog] = useState(false);
+  const [adminmode, setadminmode] = useState(false);
+
   const [mobilevalue, setmobilevalue] = useState(false);
   const [uplodedmsg, setuplodedmsg] = useState(true);
   const [msgprivate, setmsgprivate] = useState(false);
@@ -49,6 +52,10 @@ const AccountProvider = ({ children }) => {
   return (
     <AccountContext.Provider
       value={{
+        admindialog,
+        adminmode,
+        setadmindialog,
+        setadminmode,
         signout,
         scrollbox,
         setscrollbox,

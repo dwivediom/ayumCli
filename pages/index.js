@@ -25,6 +25,7 @@ import Carousel2 from "../components/Carousel2";
 // import { getCookie } from "./utils/Utils";
 import ThankModal from "../components/Modal";
 import { getCookie } from "../public/utils/Utils";
+import NewHomePage from "../components/NewHomePage";
 // import Hindi from "/locales/hi/index";
 
 export async function getServerSideProps(context) {
@@ -115,8 +116,15 @@ export default function Home(props) {
     }
     firstcall();
   }, []);
-  const { thankmodal, setthankmodal, setscrollbox, setlang, lang, langmodal } =
-    useContext(AccountContext);
+  const {
+    thankmodal,
+    setthankmodal,
+    setscrollbox,
+    setlang,
+    lang,
+    langmodal,
+    adminmode,
+  } = useContext(AccountContext);
 
   const [isOnline, setIsOnline] = useState(true);
   const [doctors, setdoctors] = useState([]);
@@ -230,6 +238,7 @@ export default function Home(props) {
   // }
 
   let [isMobile, setIsMobile] = useState(false);
+  // const [admin, setadmin] = useState(true);
   const adurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getuserads`;
   const GetAdsData = async () => {
     try {
@@ -263,65 +272,72 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {langmodal && <LanguageModal />}
-      <div className={styles.mainshell}>
-        <SearchBox />
-        <QuickSearch />
-        <div className={styles.directorycontainer}>
-          <Docphonebookbtn />
-          <Nashmukti />
-          <BloodDonatebtn />
-        </div>
-        {isMobile ? <Carousel2 /> : <HorizontalScroll />}
-        {doctors ? (
-          <main>
-            {props.data ? (
-              <GetDoctor getDoctor={doctors} />
+      {!adminmode ? (
+        <NewHomePage />
+      ) : (
+        <div>
+          <div className={styles.mainshell}>
+            <SearchBox />
+            <QuickSearch />
+            <div className={styles.directorycontainer}>
+              <Docphonebookbtn />
+              <Nashmukti />
+              <BloodDonatebtn />
+            </div>
+            {isMobile ? <Carousel2 /> : <HorizontalScroll />}
+            {doctors ? (
+              <main>
+                {props.data ? (
+                  <GetDoctor getDoctor={doctors} />
+                ) : (
+                  <div
+                    style={{
+                      width: "100vw",
+                      height: "50vh",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Image
+                      src={"/loader.svg"}
+                      width={40}
+                      height={40}
+                      alt="Loading..."
+                    />
+                  </div>
+                )}
+              </main>
             ) : (
-              <div
-                style={{
-                  width: "100vw",
-                  height: "50vh",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
+              <p className="text-center">
+                {lang == "en" ? English.loading : Hindi.loading}
+              </p>
+            )}
+          </div>
+          {full ? (
+            <div className="m-auto p-2 border border-gray-700 w-[14rem] text-center mt-9 text-cyan-600  font-bold  ">
+              {lang == "en" ? English.thatsit : Hindi.thatsit}
+            </div>
+          ) : (
+            <div
+              onClick={() => !loading && Loadmore()}
+              className="m-auto p-2 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer shadow-md "
+            >
+              {loading ? (
                 <Image
                   src={"/loader.svg"}
                   width={40}
                   height={40}
                   alt="Loading..."
                 />
-              </div>
-            )}
-          </main>
-        ) : (
-          <p className="text-center">
-            {lang == "en" ? English.loading : Hindi.loading}
-          </p>
-        )}
-      </div>
-      {full ? (
-        <div className="m-auto p-2 border border-gray-700 w-[14rem] text-center mt-9 text-cyan-600  font-bold  ">
-          {lang == "en" ? English.thatsit : Hindi.thatsit}
-        </div>
-      ) : (
-        <div
-          onClick={() => !loading && Loadmore()}
-          className="m-auto p-2 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer shadow-md "
-        >
-          {loading ? (
-            <Image
-              src={"/loader.svg"}
-              width={40}
-              height={40}
-              alt="Loading..."
-            />
-          ) : (
-            <span> {lang == "en" ? English.showmore : Hindi.showmore}</span>
+              ) : (
+                <span> {lang == "en" ? English.showmore : Hindi.showmore}</span>
+              )}
+            </div>
           )}
         </div>
       )}
+
       <Footer />
       {thankmodal && <ThankModal />}
     </>
