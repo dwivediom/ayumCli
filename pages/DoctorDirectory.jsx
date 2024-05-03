@@ -8,70 +8,87 @@ import styles1 from "../styles/Searchinput.module.css";
 
 import Slider2 from "../components/AdComp3";
 import { AccountContext } from "../context/AccountProvider";
+import { useRouter } from "next/router";
 
-const DoctorDirectory = () => {
-  const [docs, setdocs] = useState([]);
+const DoctorDirectory = ({ initialData }) => {
   const [showload, setshowload] = useState();
   const [loading, setloading] = useState(false);
   const [full, setfull] = useState(false);
   const [input, setinput] = useState({
     val: "",
   });
+  const router = useRouter();
+  const { docid } = router.query;
+  // const { setscrollbox } = useContext(AccountContext);
 
-  const { setscrollbox } = useContext(AccountContext);
+  // useEffect(() => {
+  //   async function getalldoc() {
+  //     setloading(true);
+  //     const gotdata = await getDoc();
+  //     console.log(gotdata);
+  //     setdocs(gotdata.data);
+  //     console.log(docs && docs, "All dOcs Data");
+  //     setloading(false);
+  //   }
+  //   getalldoc();
+  // }, []);
 
-  useEffect(() => {
-    async function getalldoc() {
-      setloading(true);
-      const gotdata = await getDoc();
-      console.log(gotdata);
-      setdocs(gotdata.data);
-      console.log(docs && docs, "All dOcs Data");
-      setloading(false);
-    }
-    getalldoc();
-  }, []);
+  // const ShowMoreDoc = async () => {
+  //   setshowload(true);
+  //   const data = await showMore();
+  //   if (data?.data?.length == 0) {
+  //     setfull(true);
+  //   }
+  //   setdocs(docs.concat(data.data));
+  //   console.log(docs);
+  //   setshowload(false);
+  // };
 
-  const ShowMoreDoc = async () => {
-    setshowload(true);
-    const data = await showMore();
-    if (data?.data?.length == 0) {
-      setfull(true);
-    }
-    setdocs(docs.concat(data.data));
-    console.log(docs);
-    setshowload(false);
+  // const handleChange = (e) => {
+  //   setinput({ ...input, [e.target.name]: e.target.value });
+  //   console.log(input);
+  // };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (input.val == "") {
+  //     const gotdata = await getDoc();
+
+  //     return setdocs(gotdata.data);
+  //   }
+  //   const getdata = await SearchDoc(input.val);
+  //   console.log(getdata);
+  //   setdocs(getdata.data);
+  // };
+
+  // useEffect(() => {
+  //   let indexbox = document.getElementById("directorypage");
+  //   // console.log(indexbox.scrollTop);
+  //   indexbox.addEventListener("scroll", () => {
+  //     let scrollTop = indexbox.scrollTop;
+  //     if (scrollTop > 0) {
+  //       setscrollbox(false);
+  //     } else {
+  //       setscrollbox(true);
+  //     }
+  //   });
+  // }, []);
+
+  // const [profileData, setProfileData] = useState(initialProfileData);
+  const [docs, setdocs] = useState(initialData);
+  const [pageNum, setPageNum] = useState(1);
+
+  const fetchMoreDocs = async () => {
+    const nextPageNum = pageNum + 1;
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_B_PORT +
+        "/api/docdirectory/page?pageNum=" +
+        nextPageNum
+    );
+    const newData = await response.json();
+    setdocs([...docs, ...newData]);
+    setPageNum(nextPageNum);
   };
-
-  const handleChange = (e) => {
-    setinput({ ...input, [e.target.name]: e.target.value });
-    console.log(input);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (input.val == "") {
-      const gotdata = await getDoc();
-
-      return setdocs(gotdata.data);
-    }
-    const getdata = await SearchDoc(input.val);
-    console.log(getdata);
-    setdocs(getdata.data);
-  };
-
-  useEffect(() => {
-    let indexbox = document.getElementById("directorypage");
-    // console.log(indexbox.scrollTop);
-    indexbox.addEventListener("scroll", () => {
-      let scrollTop = indexbox.scrollTop;
-      if (scrollTop > 0) {
-        setscrollbox(false);
-      } else {
-        setscrollbox(true);
-      }
-    });
-  }, []);
   return (
     <>
       <div
@@ -123,7 +140,13 @@ const DoctorDirectory = () => {
           ) : (
             docs?.length > 0 &&
             docs.map((item) => {
-              return <DirectoryCard key={item._id} item={item && item} />;
+              return (
+                <DirectoryCard
+                  key={item._id}
+                  item={item && item}
+                  docid={router.query?.docid}
+                />
+              );
             })
           )}
         </div>
@@ -138,7 +161,7 @@ const DoctorDirectory = () => {
             </div>
           ) : (
             <div
-              onClick={() => ShowMoreDoc()}
+              onClick={() => fetchMoreDocs()}
               className="m-auto p-2 border border-gray-700 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer "
             >
               {showload ? "Loading..." : "Show More"}
@@ -151,3 +174,19 @@ const DoctorDirectory = () => {
 };
 
 export default DoctorDirectory;
+
+export async function getServerSideProps({ query }) {
+  // Fetch profile data on server-side
+  const { docid, pageNum } = query;
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_B_PORT +
+      `/api/docdirectory/page?pageNum=${pageNum}&docid=${docid}`
+  );
+  const initialData = await res.json();
+
+  return {
+    props: {
+      initialData,
+    },
+  };
+}
