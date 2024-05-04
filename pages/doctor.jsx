@@ -9,6 +9,8 @@ import styles1 from "../styles/Searchinput.module.css";
 import Slider2 from "../components/AdComp3";
 import { AccountContext } from "../context/AccountProvider";
 import { useRouter } from "next/router";
+import Carousel2 from "../components/Carousel2";
+import HorizontalScroll from "../components/DemoAd";
 
 const Doctors = ({ initialData }) => {
   const [showload, setshowload] = useState();
@@ -89,6 +91,11 @@ const Doctors = ({ initialData }) => {
     setdocs([...docs, ...newData]);
     setPageNum(nextPageNum);
   };
+  let [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    let mobile = window && window.matchMedia("(max-width: 550px)");
+    setIsMobile(mobile.matches);
+  }, []);
   return (
     <>
       <div
@@ -118,8 +125,10 @@ const Doctors = ({ initialData }) => {
             </button>
           </div>
         </form>
-        <Slider2 />
-
+        {/* <Slider2 /> */}
+        <div style={{ marginTop: "1.5rem", width: "100%" }}>
+          {isMobile ? <Carousel2 /> : <HorizontalScroll />}
+        </div>
         <div className={`${styles.directoryshell}`}>
           {loading ? (
             <div
