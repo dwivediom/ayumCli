@@ -84,20 +84,106 @@ ${linktext}`;
     <div>
       {docid && (
         <Head>
-          <title>{`${item.name} - ${item.specialist}`}</title>
+          <title>
+            {`${item.name} , ${item.specialist}`} {"- Ayum"}{" "}
+          </title>
+          <meta
+            name="Title"
+            content={`${item.name} in ${item.address?.slice(0, 20)} - Best ${
+              item.specialist
+            } in ${item.city} ${item.address?.slice(0, 20)} - Ayum`}
+          ></meta>
           <meta
             name="description"
-            content={`${item.name} is a ${
+            content={`${item.name}  in ${item.address?.slice(0, 20)}. Top ${
               item.specialist
-            } , Ayum Directory Contact ${item.phone?.slice(0, 5) + "..."} at ${
-              item.address?.slice(0, 10) + "..."
-            }`}
-          />
-          {/* Meta tags for SEO optimization */}
+            } Doctors ${item.address?.slice(
+              0,
+              20
+            )}.Visiting Time, Contact Number, Clinic Address, Map of ${
+              item.name
+            } ,${item.city} ${item.address?.slice(0, 20)} `}
+          ></meta>
+
           <meta
             name="keywords"
-            content={`${item.name}, ${item.specialist}, doctor, medical, ${item.address}`}
+            content={`${item.name} ${item.city}, Contact number, Phone number, Address, Map,${item.name} ${item.city}, Directions, Official website link, Working hours, Services`}
+          ></meta>
+          <meta
+            name="twitter:title"
+            content={`${item.name} in  ${item.city},${item.address?.slice(
+              0,
+              20
+            )}  - Best ${item.specialist} Doctors in  ${
+              item.city
+            } , ${item.address?.slice(0, 20)}  - Ayum`}
+          ></meta>
+          <meta
+            name="twitter:description"
+            content={`${item.name}  in ${item.address?.slice(0, 20)}. Top ${
+              item.specialist
+            } Doctors ${item.address?.slice(
+              0,
+              20
+            )}.Visiting Time, Contact Number, Clinic Address, Map of ${
+              item.name
+            } ,${item.city} ${item.address?.slice(0, 20)} - Ayum `}
+          ></meta>
+
+          <meta name="twitter:image" content="/ayumTranparent.png" />
+          <meta
+            name="twitter:url"
+            content={`https://ayum.in/doctors?docid=${item._id}`}
           />
+          <meta
+            property="og:title"
+            content={`${item.name}, ${item.city}, ${item.address?.slice(
+              0,
+              20
+            )} - Ayum`}
+          ></meta>
+          <meta property="og:type" content="company"></meta>
+          <meta
+            property="og:url"
+            content={`https://ayum.in/doctors?docid=${item._id}`}
+          ></meta>
+          <meta property="og:image" content="/ayumTranparent.png"></meta>
+          <meta
+            property="og:image:secure_url"
+            content="/ayumTranparent.png"
+          ></meta>
+          <meta property="og:image:width" content="630"></meta>
+          <meta property="og:image:height" content="473"></meta>
+          <meta
+            property="og:description"
+            content={`Get Address, Contact Number, Photos, Maps of ${
+              item.name
+            },  ${item.city}, ${item.address?.slice(
+              0,
+              20
+            )} , ${item.phone?.slice(0, 5)}... on Ayum`}
+          ></meta>
+          <meta name="viewport" content="viewport-fit=cover"></meta>
+          <meta
+            property="al:ios:url"
+            content={`https://ayum.in/doctors?docid=${item._id}`}
+          ></meta>
+          <link
+            rel="alternate"
+            media="only screen and (max-width: 640px)"
+            href={`https://ayum.in/doctors?docid=${item._id} `}
+          ></link>
+          <link
+            rel="alternate"
+            href={`https://ayum.in/doctors?docid=${item._id} `}
+          ></link>
+          <link
+            rel="canonical"
+            href={`https://ayum.in/doctors?docid=${item._id} `}
+          ></link>
+
+          {/* Meta tags for SEO optimization */}
+
           <meta name="author" content={item.name} />
           <meta name="robots" content="index, follow" />
           {/* Add other meta tags as needed */}
@@ -288,7 +374,8 @@ ${linktext}`;
             }}
             onClick={() => {
               // let link = isLocal ? "http://localhost:3000" : "https://ayum.in";
-              let link = "https://ayum.in/DoctorDirectory";
+              let link = "https://ayum.in";
+              link = link + "/doctor";
               link = link + "?docid=" + item._id;
               setlinktext(link);
               setsharemodal(true);

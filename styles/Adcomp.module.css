@@ -77,8 +77,10 @@
 
 
 .mobilecarousel{
-  padding: 1rem 0;
+  padding: 0rem 0;
   display: flex;
+  padding-bottom: 1rem;
+  /* border: 2px solid red; */
 }
 
 .controlbtn{
