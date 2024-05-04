@@ -373,8 +373,9 @@ ${linktext}`;
               cursor: "pointer",
             }}
             onClick={() => {
-              let link = isLocal ? "http://localhost:3000" : "https://ayum.in";
-              link = link + "/doctors";
+              // let link = isLocal ? "http://localhost:3000" : "https://ayum.in";
+              let link = "https://ayum.in";
+              link = link + "/doctor";
               link = link + "?docid=" + item._id;
               setlinktext(link);
               setsharemodal(true);
