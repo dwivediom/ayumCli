@@ -130,7 +130,7 @@ ${linktext}`;
             } ,${item.city} ${item.address?.slice(0, 20)} - Ayum `}
           ></meta>
 
-          <meta name="twitter:image" content="/ayumTranparent.png" />
+          <meta name="twitter:image" content="https://ayum.in/Ayumcover.jpg" />
           <meta
             name="twitter:url"
             content={`https://ayum.in/doctors?docid=${item._id}`}
@@ -142,15 +142,18 @@ ${linktext}`;
               20
             )} - Ayum`}
           ></meta>
-          <meta property="og:type" content="company"></meta>
+          <meta property="og:type" content="website"></meta>
           <meta
             property="og:url"
             content={`https://ayum.in/doctors?docid=${item._id}`}
           ></meta>
-          <meta property="og:image" content="/ayumTranparent.png"></meta>
+          <meta
+            property="og:image"
+            content="https://ayum.in/Ayumcover.jpg"
+          ></meta>
           <meta
             property="og:image:secure_url"
-            content="/ayumTranparent.png"
+            content="https://ayum.in/Ayumcover.jpg"
           ></meta>
           <meta property="og:image:width" content="630"></meta>
           <meta property="og:image:height" content="473"></meta>
@@ -158,12 +161,11 @@ ${linktext}`;
             property="og:description"
             content={`Get Address, Contact Number, Photos, Maps of ${
               item.name
-            },  ${item.city}, ${item.address?.slice(
-              0,
-              20
-            )} , ${item.phone?.slice(0, 5)}... on Ayum`}
+            },Phone-${item.phone?.slice(0, 5)}...  ${
+              item.city
+            }, ${item.address?.slice(0, 20)} ,  on Ayum`}
           ></meta>
-          <meta name="viewport" content="viewport-fit=cover"></meta>
+          {/* <meta name="viewport" content="viewport-fit=cover"></meta> */}
           <meta
             property="al:ios:url"
             content={`https://ayum.in/doctors?docid=${item._id}`}
