@@ -7,7 +7,7 @@ import Hindi from "../public/locales/hi/index";
 import { useRouter } from "next/router";
 const Footer = () => {
   const router = useRouter();
-  const { lang, setadmindialog } = useContext(AccountContext);
+  const { lang, setadminmode } = useContext(AccountContext);
   return (
     <>
       <div className={styles.footercontainer}>
@@ -99,7 +99,8 @@ const Footer = () => {
           </div>
           <div
             onClick={() => {
-              setadmindialog(true);
+              // setadmindialog(true);
+              setadminmode(true);
             }}
           >
             <Image

@@ -10,7 +10,7 @@ const SearchBox = () => {
   const { lang } = useContext(AccountContext);
 
   const clickserch = () => {
-    router.push("/Search/Search");
+    router.push("/DoctorDirectory");
   };
 
   return (

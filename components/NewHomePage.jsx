@@ -46,7 +46,7 @@ const NewHomePage = () => {
   const [code, setcode] = useState("");
   return (
     <div className={styles.mainshell}>
-      <Dialog
+      {/* <Dialog
         open={admindialog}
         onClose={() => {
           setadmindialog(false);
@@ -74,7 +74,7 @@ const NewHomePage = () => {
             Submit
           </button>
         </div>
-      </Dialog>{" "}
+      </Dialog>{" "} */}
       <SearchBox />
       <QuickSearch />
       {isMobile ? <Carousel2 /> : <HorizontalScroll />}
