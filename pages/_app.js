@@ -23,6 +23,10 @@ ReactGA.initialize(TRACKING_ID);
 function MyApp({ Component, pageProps, AccountContext }) {
   const [loading, setLoading] = useState(true);
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
+
+
+
+
   // Use the token as needed
   useEffect(() => {
     if (fcmToken ) {

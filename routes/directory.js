@@ -39,3 +39,18 @@ export const SearchDoc = async (searchkey) => {
     return error.message;
   }
 };
+
+
+// get all doctors for sitemap.xml it return id of all doc in docdirectory 
+//http://localhost:5000/api/docdirectory/getallDoctors
+export const getallDoctors = async()=> { 
+ try { const allIds = await axios({
+   url: `${host}/api/docdirectory/getallDoctors`, 
+   method: 'get'
+ })
+ return allIds
+}catch(error){ 
+  return error.message
+}
+
+}
