@@ -6,7 +6,7 @@ import styles2 from "../../styles/embla.module.css";
 import Autoplay from "embla-carousel-autoplay";
 import styles from "../../styles/Adcomp.module.css";
 import Image from "next/image";
-export default function EmblaCarousel({ slidesData }) {
+export default function EmblaCarouselComp({ slidesData }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ playOnInit: true, delay: 3000 }),
   ]);
