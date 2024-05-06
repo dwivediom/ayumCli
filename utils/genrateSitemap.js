@@ -40,7 +40,7 @@ const generateUrlList = async (idList) => {
   if (Array.isArray(idList) && idList.length > 0) {
     idList.forEach((id) => {
       const urlData = {
-        url: `${hostd}/doctor?n=${id?.name}docid=${id?._id}`,
+        url: `${hostd}/doctor?n=${id?.name}&docid=${id?._id}`,
         changefreq: "weekly",
       };
       allUrlData.push(urlData);
