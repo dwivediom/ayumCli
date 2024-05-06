@@ -17,12 +17,20 @@ export default function EmblaCarouselComp({ slidesData }) {
         {slidesData.map(({ id, imageSrc, title }, index) => {
           return (
             <div
-              onScroll={() => {
+              onMouseEnter={() => {
+                console.log("enter");
+              }}
+              onDrag={() => {
+                console.log("drag");
+              }}
+              onTouchEnd={() => {
+                console.log("touchmove");
                 setTimeout(() => {
                   const autoplay = emblaApi?.plugins()?.autoplay;
                   const play = autoplay.play;
                   play();
-                }, [5000]);
+                  console.log("played");
+                }, [2000]);
               }}
               className={`${styles2.embla__slide}`}
               key={index}

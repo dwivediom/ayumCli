@@ -2,7 +2,7 @@
   height: 13rem;
   overflow: scroll;
   /* width: 400vw !important; */
-  width: 100vw;
+  /* width: 100vw; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +28,7 @@
 }
 
 .passbox {
-  width: 100vw;
+  width: 22rem;
   height: 100%;
   /* border: 2px solid red; */
   display: flex;
