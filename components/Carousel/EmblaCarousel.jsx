@@ -11,35 +11,6 @@ export default function EmblaCarousel({ slidesData }) {
     Autoplay({ playOnInit: true, delay: 3000 }),
   ]);
 
-  // useEffect(() => {
-  //   if (emblaApi) {
-  //     console.log(emblaApi.slideNodes()); // Access API
-  //   }
-  // }, [emblaApi]);
-
-  const [isPlaying, setIsPlaying] = useState(false);
-  const onButtonAutoplayClick = useCallback(
-    (callback) => {
-      const autoplay = emblaApi?.plugins()?.autoplay;
-      if (!autoplay) return;
-
-      const resetOrStop =
-        autoplay.options.stopOnInteraction === false
-          ? autoplay.reset
-          : autoplay.stop;
-
-      resetOrStop();
-      callback();
-    },
-    [emblaApi]
-  );
-  const toggleAutoplay = useCallback(() => {
-    const autoplay = emblaApi?.plugins()?.autoplay;
-    if (!autoplay) return;
-
-    const playOrStop = autoplay.isPlaying() ? autoplay.stop : autoplay.play;
-    playOrStop();
-  }, [emblaApi]);
   return (
     <div className={`${styles2.embla}`} ref={emblaRef}>
       <div className={`${styles2.embla__container}`}>
