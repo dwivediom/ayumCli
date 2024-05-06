@@ -1,0 +1,15 @@
+.embla {
+  overflow: hidden;
+  background: rgba(225, 244, 244, 0.356);
+  border-radius: 12px;
+  padding: 10px;
+}
+.embla__container {
+  display: flex;
+  /* justify-content: center; */
+  
+}
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
