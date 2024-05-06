@@ -9,6 +9,7 @@ import DirectoryCard from "./DirectoryCard";
 import Image from "next/image";
 import { AccountContext } from "../context/AccountProvider";
 import { Dialog, Modal } from "@mui/material";
+import EmblaCarousel from "./Carousel/Emblacarousel";
 
 const NewHomePage = () => {
   let [isMobile, setIsMobile] = useState(false);
@@ -43,7 +44,54 @@ const NewHomePage = () => {
     console.log(docs);
     setshowload(false);
   };
-  const [code, setcode] = useState("");
+  const slidesData = [
+    {
+      id: 1,
+      imageSrc: "https://i.ibb.co/ZXcC6Gp/Ayum-6.png",
+      title: "Slide 1",
+    },
+    {
+      id: 2,
+      imageSrc: "https://i.ibb.co/R4xmXHw/Ayum-7.png",
+      title: "Slide 2",
+    },
+    {
+      id: 3,
+      imageSrc: "https://i.ibb.co/5MKMQt7/Ayum-1.png",
+      title: "Slide 3",
+    },
+    {
+      id: 4,
+      imageSrc: "https://i.ibb.co/HndrXXQ/Ayum-2.png",
+      title: "Slide 4",
+    },
+    {
+      id: 5,
+      imageSrc: "https://i.ibb.co/WpW5vS6/Ayum-4.png",
+      title: "Slide 5",
+    },
+    {
+      id: 6,
+      imageSrc: "https://i.ibb.co/XSh3b0d/Ayum.png",
+      title: "Slide 6",
+    },
+    // {
+    //   id: 7,
+    //   imageSrc: "/contact2.jpg",
+    //   title: "Slide 7",
+    // },
+    // {
+    //   id: 8,
+    //   imageSrc: "/contact2.jpg",
+    //   title: "Slide 8",
+    // },
+    // {
+    //   id: 9,
+    //   imageSrc: "/contact2.jpg",
+    //   title: "Slide 9",
+    // },
+  ];
+
   return (
     <div className={styles.mainshell}>
       {/* <Dialog
@@ -77,7 +125,11 @@ const NewHomePage = () => {
       </Dialog>{" "} */}
       <SearchBox />
       <QuickSearch />
-      {isMobile ? <Carousel2 /> : <HorizontalScroll />}
+      {isMobile ? (
+        <EmblaCarousel slidesData={slidesData} />
+      ) : (
+        <HorizontalScroll />
+      )}
       <div
         style={{
           width: "100%",
