@@ -26,7 +26,7 @@ import Carousel2 from "../components/Carousel2";
 import ThankModal from "../components/Modal";
 import { getCookie } from "../public/utils/Utils";
 import NewHomePage from "../components/NewHomePage";
-import EmblaCarousel from "../components/Carousel/Emblacarousel";
+import EmblaCarousel from "../components/Carousel/EmblaCarouselComp";
 // import Hindi from "/locales/hi/index";
 export async function getServerSideProps(context) {
   try {
