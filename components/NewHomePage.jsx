@@ -9,7 +9,7 @@ import DirectoryCard from "./DirectoryCard";
 import Image from "next/image";
 import { AccountContext } from "../context/AccountProvider";
 import { Dialog, Modal } from "@mui/material";
-import EmblaCarousel from "./Carousel/Emblacarousel";
+import EmblaCarousel from "./Carousel/EmblaCarouselComp";
 
 const NewHomePage = () => {
   let [isMobile, setIsMobile] = useState(false);

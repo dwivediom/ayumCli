@@ -9,7 +9,7 @@ import styles1 from "../styles/Searchinput.module.css";
 import Slider2 from "../components/AdComp3";
 import { AccountContext } from "../context/AccountProvider";
 import { useRouter } from "next/router";
-import EmblaCarousel from "../components/Carousel/Emblacarousel";
+import EmblaCarousel from "../components/Carousel/EmblaCarouselComp";
 
 const DoctorDirectory = () => {
   const [showload, setshowload] = useState();
