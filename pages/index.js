@@ -26,8 +26,8 @@ import Carousel2 from "../components/Carousel2";
 import ThankModal from "../components/Modal";
 import { getCookie } from "../public/utils/Utils";
 import NewHomePage from "../components/NewHomePage";
+import EmblaCarousel from "../components/Carousel/Emblacarousel";
 // import Hindi from "/locales/hi/index";
-
 export async function getServerSideProps(context) {
   try {
     let userToken;
@@ -252,6 +252,10 @@ export default function Home(props) {
   useEffect(() => {
     GetAdsData();
   });
+
+  const OPTIONS = { loop: true, autoplay: true };
+  const SLIDE_COUNT = 5;
+  const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
     <>
       <Head>
@@ -284,7 +288,8 @@ export default function Home(props) {
               <Nashmukti />
               <BloodDonatebtn />
             </div>
-            {isMobile ? <Carousel2 /> : <HorizontalScroll />}
+            {isMobile ? <EmblaCarousel /> : <HorizontalScroll />}
+
             {doctors ? (
               <main>
                 {props.data ? (
