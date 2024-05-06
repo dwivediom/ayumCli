@@ -11,6 +11,8 @@ import { AccountContext } from "../context/AccountProvider";
 import { useRouter } from "next/router";
 import Carousel2 from "../components/Carousel2";
 import HorizontalScroll from "../components/DemoAd";
+import Head from "next/head";
+import EmblaCarouselComp from "../components/Carousel/EmblaCarouselComp";
 
 const Doctors = ({ initialData }) => {
   const [showload, setshowload] = useState();
@@ -80,6 +82,65 @@ const Doctors = ({ initialData }) => {
   const [docs, setdocs] = useState(initialData);
   const [pageNum, setPageNum] = useState(1);
 
+  const jsonLdMarkup = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: initialData.map((doctor, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Doctor",
+        ...doctor,
+      },
+    })),
+  };
+  const slidesData = [
+    {
+      id: 1,
+      imageSrc: "https://i.ibb.co/ZXcC6Gp/Ayum-6.png",
+      title: "Slide 1",
+    },
+    {
+      id: 2,
+      imageSrc: "https://i.ibb.co/R4xmXHw/Ayum-7.png",
+      title: "Slide 2",
+    },
+    {
+      id: 3,
+      imageSrc: "https://i.ibb.co/5MKMQt7/Ayum-1.png",
+      title: "Slide 3",
+    },
+    {
+      id: 4,
+      imageSrc: "https://i.ibb.co/HndrXXQ/Ayum-2.png",
+      title: "Slide 4",
+    },
+    {
+      id: 5,
+      imageSrc: "https://i.ibb.co/WpW5vS6/Ayum-4.png",
+      title: "Slide 5",
+    },
+    {
+      id: 6,
+      imageSrc: "https://i.ibb.co/XSh3b0d/Ayum.png",
+      title: "Slide 6",
+    },
+    // {
+    //   id: 7,
+    //   imageSrc: "/contact2.jpg",
+    //   title: "Slide 7",
+    // },
+    // {
+    //   id: 8,
+    //   imageSrc: "/contact2.jpg",
+    //   title: "Slide 8",
+    // },
+    // {
+    //   id: 9,
+    //   imageSrc: "/contact2.jpg",
+    //   title: "Slide 9",
+    // },
+  ];
   const fetchMoreDocs = async () => {
     const nextPageNum = pageNum + 1;
     const response = await fetch(
@@ -98,6 +159,13 @@ const Doctors = ({ initialData }) => {
   }, []);
   return (
     <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdMarkup) }}
+        />
+        <title>All Doctors</title>
+      </Head>
       <div
         id="directorypage"
         className={`${styles.directorypage} h-[100vh] overflow-auto p-5`}
@@ -127,7 +195,11 @@ const Doctors = ({ initialData }) => {
         </form>
         {/* <Slider2 /> */}
         <div style={{ marginTop: "1.5rem", width: "100%" }}>
-          {isMobile ? <Carousel2 /> : <HorizontalScroll />}
+          {isMobile ? (
+            <EmblaCarouselComp slidesData={slidesData} />
+          ) : (
+            <HorizontalScroll />
+          )}
         </div>
         <div className={`${styles.directoryshell}`}>
           {loading ? (
