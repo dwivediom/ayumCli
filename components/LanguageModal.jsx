@@ -48,6 +48,8 @@ const LanguageModal = () => {
     e.preventDefault();
     setlangchanged(true);
     setlang(lang);
+    localStorage.setItem("locale", lang);
+    setlangmodal(false);
   };
   const [number, setnumber] = useState("");
   const handleChange = (e) => {
@@ -148,7 +150,7 @@ const LanguageModal = () => {
             English
           </div>
         </div>
-        {langchanged && (
+        {/* {langchanged && (
           <div className={`${styles.numberinput}`} style={{ width: "100%" }}>
             <input
               placeholder="Enter Your Number"
@@ -168,16 +170,16 @@ const LanguageModal = () => {
               </p>
             )}
           </div>
-        )}
+        )} */}
 
-        {number != "" && validphone && (
+        {/* {number != "" && validphone && (
           <div
             onClick={() => handleSubmit()}
             className={`${styles.submitintro}`}
           >
             Submit
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -10,6 +10,11 @@
   
 }
 .embla__slide {
+  /* border: 2px solid red; */
   flex: 0 0 100%;
   min-width: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
