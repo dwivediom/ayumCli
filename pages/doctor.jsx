@@ -186,10 +186,10 @@ export default Doctors;
 
 export async function getServerSideProps({ query }) {
   // Fetch profile data on server-side
-  const { docid, pageNum } = query;
+  const { docid, p } = query;
   const res = await fetch(
     process.env.NEXT_PUBLIC_B_PORT +
-      `/api/docdirectory/page?pageNum=${pageNum}&docid=${docid}`
+      `/api/docdirectory/page?pageNum=${p}&docid=${docid}`
   );
   const initialData = await res.json();
 

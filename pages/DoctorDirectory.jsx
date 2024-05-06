@@ -9,6 +9,7 @@ import styles1 from "../styles/Searchinput.module.css";
 import Slider2 from "../components/AdComp3";
 import { AccountContext } from "../context/AccountProvider";
 import { useRouter } from "next/router";
+import EmblaCarousel from "../components/Carousel/Emblacarousel";
 
 const DoctorDirectory = () => {
   const [showload, setshowload] = useState();
@@ -17,6 +18,39 @@ const DoctorDirectory = () => {
   const [input, setinput] = useState({
     val: "",
   });
+  const slidesData = [
+    {
+      id: 6,
+      imageSrc: "https://i.ibb.co/gDQXxJP/Ayum.jpg",
+      title: "Slide 5",
+    },
+    {
+      id: 7,
+      imageSrc: "https://i.ibb.co/r5HHcx0/Ayum-2.jpg",
+      title: "Slide 7",
+    },
+
+    {
+      id: 2,
+      imageSrc: "https://i.ibb.co/f22BMwT/Ayum-3.jpg",
+      title: "Slide 2",
+    },
+    {
+      id: 3,
+      imageSrc: "https://i.ibb.co/HndrXXQ/Ayum-2.png",
+      title: "Slide 3",
+    },
+    {
+      id: 4,
+      imageSrc: "https://i.ibb.co/WpW5vS6/Ayum-4.png",
+      title: "Slide 4",
+    },
+    {
+      id: 5,
+      imageSrc: "https://i.ibb.co/XSh3b0d/Ayum.png",
+      title: "Slide 4",
+    },
+  ];
   const router = useRouter();
   const { docid } = router.query;
   const { setscrollbox } = useContext(AccountContext);
@@ -117,8 +151,17 @@ const DoctorDirectory = () => {
             </button>
           </div>
         </form>
-        <Slider2 />
-
+        <div
+          style={{
+            paddingTop: "0.5rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // marginRight: "2rem",
+          }}
+        >
+          <EmblaCarousel slidesData={slidesData} />
+        </div>
         <div className={`${styles.directoryshell}`}>
           {loading ? (
             <div
