@@ -31,23 +31,24 @@ const getallDoctors = async () => {
 function createRangeArray(n) {
   return Array.from(Array(n).keys(), (x) => x + 1);
 }
-
 const generateUrlList = async (idList) => {
   const hostd = "https://ayum.in";
-  const statPageList = [" ", "Contact", "About"];
+  const statPageList = ["", "Contact", "About"]; // Remove the space in the first element
   const allUrlData = [];
 
   if (Array.isArray(idList) && idList.length > 0) {
     idList.forEach((id) => {
+      console.log(id, "id here");
       const urlData = {
-        url: `${hostd}/doctor?n=${id?.name}&docid=${id?._id}`,
+        url: `${hostd}/doctor?docid=${id?._id}&amp;n=${id?.name}`,
         changefreq: "weekly",
       };
+      console.log(urlData.url, "url here");
       allUrlData.push(urlData);
     });
 
-    let datalenght = idList.length;
-    let pageList = createRangeArray(Math.ceil(datalenght / 10));
+    let datalength = idList.length;
+    let pageList = createRangeArray(Math.ceil(datalength / 10));
 
     pageList.forEach((page) => {
       const urlData = {
@@ -56,8 +57,10 @@ const generateUrlList = async (idList) => {
       };
       allUrlData.push(urlData);
     });
+
     statPageList.forEach((page) => {
-      const urlData = { url: `${hostd}/${page}`, changefreq: "weekly" };
+      const encodedPage = encodeURIComponent(page); // Encode special characters in the page name
+      const urlData = { url: `${hostd}/${encodedPage}`, changefreq: "weekly" };
       allUrlData.push(urlData);
     });
   }
