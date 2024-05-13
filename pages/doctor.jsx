@@ -84,9 +84,9 @@ const Doctors = ({ initialData }) => {
 
   const jsonLdMarkup = {
     "@context": "https://schema.org",
-    "@type": "ItemList",
+    "@type": "Best Doctors",
     itemListElement: initialData.map((doctor, index) => ({
-      "@type": "ListItem",
+      "@type": "Top Doctors",
       position: index + 1,
       item: {
         "@type": "Doctor",
