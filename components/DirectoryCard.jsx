@@ -133,7 +133,7 @@ ${linktext}`;
           <meta name="twitter:image" content="https://ayum.in/Ayumcover.jpg" />
           <meta
             name="twitter:url"
-            content={`https://ayum.in/doctors?docid=${item._id}`}
+            content={`https://www.ayum.in/doctors?docid=${item._id}`}
           />
           <meta
             property="og:title"
@@ -145,11 +145,11 @@ ${linktext}`;
           <meta property="og:type" content="website"></meta>
           <meta
             property="og:url"
-            content={`https://ayum.in/doctors?docid=${item._id}`}
+            content={`https://www.ayum.in/doctors?docid=${item._id}`}
           ></meta>
           <meta
             property="og:image"
-            content="https://ayum.in/Ayumcover.jpg"
+            content="https://www.ayum.in/Ayumcover.jpg"
           ></meta>
           <meta
             property="og:image:secure_url"
@@ -168,20 +168,20 @@ ${linktext}`;
           {/* <meta name="viewport" content="viewport-fit=cover"></meta> */}
           <meta
             property="al:ios:url"
-            content={`https://ayum.in/doctors?docid=${item._id}`}
+            content={`https://www.ayum.in/doctors?docid=${item._id}`}
           ></meta>
           <link
             rel="alternate"
             media="only screen and (max-width: 640px)"
-            href={`https://ayum.in/doctors?docid=${item._id} `}
+            href={`https://www.ayum.in/doctors?docid=${item._id} `}
           ></link>
           <link
             rel="alternate"
-            href={`https://ayum.in/doctors?docid=${item._id} `}
+            href={`https://www.ayum.in/doctors?docid=${item._id} `}
           ></link>
           <link
             rel="canonical"
-            href={`https://ayum.in/doctors?docid=${item._id} `}
+            href={`https://www.ayum.in/doctors?docid=${item._id} `}
           ></link>
 
           {/* Meta tags for SEO optimization */}
@@ -376,7 +376,7 @@ ${linktext}`;
             }}
             onClick={() => {
               // let link = isLocal ? "http://localhost:3000" : "https://ayum.in";
-              let link = "https://ayum.in";
+              let link = "https://www.ayum.in";
               link = link + "/doctor";
               link = link + "?docid=" + item._id;
               setlinktext(link);
