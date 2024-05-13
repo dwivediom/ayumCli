@@ -16,12 +16,15 @@ const SelectClinicComp = ({ docid }) => {
       router.push("/");
     }
     async function getdoctordata() {
-      const doctordata = await axios.get(
+      let doctordata = await axios.get(
         `${process.env.NEXT_PUBLIC_B_PORT}/api/profile/doctor/${docid}`
       );
-      setclinic(doctordata.data.clinic && doctordata.data.clinic);
+      console.log(doctordata, "doctor data ");
+
+      let clinicdata = doctordata?.data?.data[0];
+      console.log(clinicdata, "clinic data ");
+      setclinic(clinicdata?.clinic && clinicdata.clinic);
       setloading(false);
-      console.log(doctordata.data.clinic, " doctor ka data ");
     }
 
     docid && getdoctordata();
