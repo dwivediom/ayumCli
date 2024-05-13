@@ -98,6 +98,9 @@ export default function HorizontalScroll() {
           handleScrollEnd();
         }, 3000);
       }}
+      style={{
+        marginTop: "1rem",
+      }}
     >
       <div className={styles.scrollingDiv}>
         {slidesData.map(({ id, imageSrc, title }) => {
