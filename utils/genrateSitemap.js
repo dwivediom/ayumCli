@@ -32,7 +32,7 @@ function createRangeArray(n) {
   return Array.from(Array(n).keys(), (x) => x + 1);
 }
 const generateUrlList = async (idList) => {
-  const hostd = "https://ayum.in";
+  const hostd = "https://www.ayum.in";
   const statPageList = ["", "Contact", "About"]; // Remove the space in the first element
   const allUrlData = [];
 
