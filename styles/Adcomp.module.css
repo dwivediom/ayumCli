@@ -20,9 +20,10 @@
 }
 .passimg {
   box-shadow: 0 3px 10px rgba(156, 155, 155, 0.539) !important;
-  width: 20rem;
+  width: 21rem;
+  /* width: 100%; */
   margin: auto;
-  height: 10rem;
+  height: 11rem;
   position: relative;
   border-radius: 8px;
 }
@@ -33,6 +34,7 @@
   /* border: 2px solid red; */
   display: flex;
   align-items: center;
+
 
   justify-content: center;
 }
@@ -69,8 +71,9 @@
 
 .scrollingDiv {
   display: inline-flex;
-  /* gap: 1rem; */
-  /* padding: 0.8rem; */
+
+  gap: 1rem;
+  padding:0 0.8rem ;
   /* border: 2px solid rgb(4, 0, 255) !important; */
 
 }

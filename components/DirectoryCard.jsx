@@ -89,15 +89,20 @@ ${linktext}`;
           </title>
           <meta
             name="Title"
-            content={`${item.name} in ${item.address?.slice(0, 20)} - Best ${
-              item.specialist
-            } in ${item.city} ${item.address?.slice(0, 20)} - Ayum`}
+            content={`${item.name} ${item.city} in ${item.address?.slice(
+              0,
+              20
+            )} - Best ${item.specialist} in ${item.city} ${item.address?.slice(
+              0,
+              20
+            )} - Ayum`}
           ></meta>
           <meta
             name="description"
-            content={`${item.name}  in ${item.address?.slice(0, 20)}. Top ${
-              item.specialist
-            } Doctors ${item.address?.slice(
+            content={`${item.name} ${item.city}  in ${item.address?.slice(
+              0,
+              20
+            )}. Top ${item.specialist} Doctors ${item.address?.slice(
               0,
               20
             )}.Visiting Time, Contact Number, Clinic Address, Map of ${
