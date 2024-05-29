@@ -73,7 +73,7 @@ export default function HorizontalScroll() {
       if (index >= 6) {
         index = 0;
       } else {
-        container.scrollLeft = 350 * index;
+        container.scrollLeft = 370 * index;
         index = index + 1;
       }
     }, 3000);
