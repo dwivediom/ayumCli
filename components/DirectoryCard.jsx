@@ -138,7 +138,7 @@ ${linktext}`;
           <meta name="twitter:image" content="https://ayum.in/Ayumcover.jpg" />
           <meta
             name="twitter:url"
-            content={`https://www.ayum.in/doctors?docid=${item._id}`}
+            content={`https://www.ayum.in/doctor?docid=${item._id}`}
           />
           <meta
             property="og:title"
@@ -150,7 +150,7 @@ ${linktext}`;
           <meta property="og:type" content="website"></meta>
           <meta
             property="og:url"
-            content={`https://www.ayum.in/doctors?docid=${item._id}`}
+            content={`https://www.ayum.in/doctor?docid=${item._id}`}
           ></meta>
           <meta
             property="og:image"
@@ -173,20 +173,20 @@ ${linktext}`;
           {/* <meta name="viewport" content="viewport-fit=cover"></meta> */}
           <meta
             property="al:ios:url"
-            content={`https://www.ayum.in/doctors?docid=${item._id}`}
+            content={`https://www.ayum.in/doctor?docid=${item._id}`}
           ></meta>
           <link
             rel="alternate"
             media="only screen and (max-width: 640px)"
-            href={`https://www.ayum.in/doctors?docid=${item._id} `}
+            href={`https://www.ayum.in/doctor?docid=${item._id} `}
           ></link>
           <link
             rel="alternate"
-            href={`https://www.ayum.in/doctors?docid=${item._id} `}
+            href={`https://www.ayum.in/doctor?docid=${item._id} `}
           ></link>
           <link
             rel="canonical"
-            href={`https://www.ayum.in/doctors?docid=${item._id} `}
+            href={`https://www.ayum.in/doctor?docid=${item._id} `}
           ></link>
 
           {/* Meta tags for SEO optimization */}
