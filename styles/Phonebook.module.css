@@ -120,12 +120,12 @@
   flex-wrap: wrap;
   flex-direction: row;
    width: 100%; 
-height: 32rem;
+/* height: 32rem; */
   border-radius: 24px !important;
 justify-content: space-between;
 }
 .reviewshell{
-  height: 32rem;
+  /* height: 32rem; */
   overflow: auto;
 /* border: 2px solid red; */
 border-radius: 24px;
@@ -138,8 +138,12 @@ background-color: #ededed;
 .reviewinput{
   box-shadow:2px 4px 10px rgba(118, 118, 118, 0.341);
   border-radius: 24px !important;
-background: #006267;
+background: #005E6D;
 align-items: center;
+/* color: rgb(245, 245, 245); */
+padding: 0 !important;
+padding-right: 8px !important;
+margin-top: 10px;
 
 
 }
@@ -151,13 +155,14 @@ align-items: center;
   border: none;
   outline: none;
   border-radius: 24px !important;
+  box-shadow:0px 0px 5px rgba(99, 99, 99, 0.337);
 
-  padding: 7px;
+  padding: 10px;
 height: 100%;
 }
 .reviewinput svg{
   width: 27px;
-  color: white;
+  color: rgb(255, 255, 255);
   height: 27px;
 }
 .directorycard {
@@ -166,6 +171,7 @@ height: 100%;
     width: 23rem;
  border-top-left-radius: 24px;
  border-bottom-left-radius: 24px;
+ border-radius: 24px;
   background: rgb(255, 255, 255) !important;
   /* min-height: 13rem; */
   position: relative;
@@ -175,7 +181,7 @@ height: 100%;
   text-align: left;
   font-size: 0.9rem;
   transition: 0.4s all;
-
+min-height: 22.7rem;
   /* background: url("/back3.png"); */
   /* border-left: 8px solid rgb(3, 203, 222); */
   background-repeat: no-repeat;

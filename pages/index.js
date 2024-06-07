@@ -249,9 +249,9 @@ export default function Home(props) {
     }
   };
 
-  useEffect(() => {
-    GetAdsData();
-  });
+  // useEffect(() => {
+  //   GetAdsData();
+  // });
   const slidesData = [
     {
       id: 1,
