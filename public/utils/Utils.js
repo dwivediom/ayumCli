@@ -4,6 +4,11 @@ export const setCookie = async (name, value, days) => {
   const expires = "expires=" + expirationDate.toUTCString();
   document.cookie = name + "=" + value + ";" + expires + ";path=/";
 };
+export const formatDate = (dateString) => {
+  dateString = dateString.slice(0, 10);
+  const [year, month, day] = dateString.split("-");
+  return `${day}-${month}-${year}`;
+};
 
 export const getCookie = async (name) => {
   const cookies = document.cookie.split(";");
