@@ -226,6 +226,8 @@ const Doctors = ({ initialData }) => {
                   key={item._id}
                   item={item && item}
                   docid={router.query?.docid}
+                  isMobile={isMobile}
+                  showreview={true}
                 />
               );
             })
@@ -241,12 +243,14 @@ const Doctors = ({ initialData }) => {
               Thats It
             </div>
           ) : (
-            <div
-              onClick={() => fetchMoreDocs()}
-              className="m-auto p-2 border border-gray-700 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer "
-            >
-              {showload ? "Loading..." : "Show More"}
-            </div>
+            !router.query.docid && (
+              <div
+                onClick={() => fetchMoreDocs()}
+                className="m-auto p-2 border border-gray-700 w-[8rem] text-center mt-9 text-gray-800  font-bold cursor-pointer "
+              >
+                {showload ? "Loading..." : "Show More"}
+              </div>
+            )
           )}
         </div>
       </div>
