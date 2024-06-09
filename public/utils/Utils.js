@@ -9,6 +9,20 @@ export const formatDate = (dateString) => {
   const [year, month, day] = dateString.split("-");
   return `${day}-${month}-${year}`;
 };
+export const calculateAverageRating = (reviews) => {
+  if (reviews.length === 0) {
+    return 0; // If there are no reviews, the average rating is 0
+  }
+
+  // Calculate the sum of all ratings
+  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+
+  // Calculate the average rating
+  const averageRating = totalRating / reviews.length;
+
+  // Round the average rating to one decimal place
+  return Math.round(averageRating * 10) / 10;
+};
 
 export const getCookie = async (name) => {
   const cookies = document.cookie.split(";");
