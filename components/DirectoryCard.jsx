@@ -29,9 +29,10 @@ import StarIcon from "@mui/icons-material/Star";
 import { StarBorder } from "@mui/icons-material";
 import Image from "next/image";
 import axios from "axios";
-import { formatDate } from "../public/utils/Utils";
+import { calculateAverageRating, formatDate } from "../public/utils/Utils";
 import HindiRating from "../public/locales/hi/reviewoption";
 import EnglishRating from "../public/locales/en/reviewoption";
+import LoginPopup from "./UserAuth/LoginPopup";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -78,7 +79,7 @@ const style = {
   p: 4,
 };
 const DirectoryCard = ({ item, key, docid, showreview }) => {
-  const { lang } = useContext(AccountContext);
+  const { lang, openDrawer } = useContext(AccountContext);
 
   const [show, setShow] = useState(false);
   const [sharemodal, setsharemodal] = useState(false);
@@ -195,9 +196,11 @@ ${linktext}`;
     },
   ];
   const [reviews, setReviews] = useState([]);
-  const [reviewgiven, setreviewgiven] = useState(false);
+  const [reviewgiven, setreviewgiven] = useState();
   const [tempreview, settempreview] = useState(false);
+  const [loading, setloading] = useState(false);
   const GetReviews = async () => {
+    setloading(true);
     try {
       const allreviews = await axios({
         url: `${process.env.NEXT_PUBLIC_B_PORT}/api/docdirectory/${docid}/reviews`,
@@ -209,8 +212,10 @@ ${linktext}`;
       const foundReview = allreviews?.data?.reviews?.find((obj) => {
         return obj["patientemail"] === UserData?.email;
       });
-      // setreviewgiven(foundReview);
+      setreviewgiven(foundReview);
+      setloading(false);
     } catch (error) {
+      setloading(false);
       return error.message;
     }
   };
@@ -230,6 +235,7 @@ ${linktext}`;
     const { name, value } = e.target;
     setNewReview({ ...newReview, [name]: value });
   };
+  const [open, setOpen] = useState(true);
 
   const handleSubmit = async () => {
     // e.preventDefault();
@@ -237,7 +243,12 @@ ${linktext}`;
     // setReviews([...reviews, { ...newReview, createdDate: today }]);
     // setNewReview({ rating: "", message: "", username: "" });
     const UserData = JSON.parse(localStorage.getItem("labuser"));
-
+    if (!UserData) {
+      // router.push("/User/UserRegistrationPage");
+      openDrawer();
+      return;
+    }
+    setloading(true);
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/docdirectory/${docid}/reviews`;
 
     try {
@@ -252,10 +263,15 @@ ${linktext}`;
       setsnackmsg("Your Review Saved Sucessfully!");
       setseverity("success");
       setshowsnackbar(true);
+      setloading(false);
+      settempreview(null);
+      GetReviews();
     } catch (error) {
       console.log("Err", error);
       setsnackmsg("Something went wrong..");
       setseverity("error");
+      setloading(false);
+      settempreview(null);
       setshowsnackbar(true);
     }
   };
@@ -393,21 +409,23 @@ ${linktext}`;
         </Alert>
       </Snackbar> */}
       <div
-        style={{
-          minHeight: showreview && "32rem",
-        }}
+        // style={{
+        //   minHeight: showreview && "32rem",
+        // }}
         className={`${styles.directorysubshell}`}
       >
         <div
           style={{
             height: show ? "fit-content" : "100%",
+            minHeight: showreview && "32rem",
+
             width:
               isMobile && showreview
                 ? "100%"
                 : !isMobile && !showreview && "96%",
             margin: isMobile && !showreview && "auto",
             borderBottomLeftRadius: showreview && isMobile && "0",
-            borderBottomRightRadius: showreview && "0px",
+            borderBottomRightRadius: "0px",
             borderTopRightRadius: showreview && isMobile && "24px",
             borderRadius: !showreview && "24px",
             // width: router.query.docid && "95%",
@@ -624,12 +642,39 @@ ${linktext}`;
           </div>
           <div className={`${styles.carddeatilbox}`}>
             <div
+              // style={{ boxShadow: "inset 1px 1px 5px rgba(0,0,0,0.2)" }}
               onClick={() => {
                 if (router.pathname != "/doctor")
                   router.push(`/doctor?docid=${item._id}&n=${item.name}`);
               }}
             >
-              <div className={`${styles.cardname}`}>{item.name}</div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                }}
+              >
+                <div className={`${styles.cardname}`}>{item.name} </div>{" "}
+                {calculateAverageRating(item.reviews ? item.reviews : []) >
+                0 ? (
+                  <span className={`${styles.reviewbadge}`}>
+                    {calculateAverageRating(item.reviews ? item.reviews : [])}{" "}
+                    <StarIcon
+                      style={{
+                        fontSize: "20px",
+                        fill: "white",
+                      }}
+                      fontSize="inherit"
+                    />
+                  </span>
+                ) : (
+                  <span className={`${styles.reviewbadgenotrated}`}>
+                    Not rated yet
+                  </span>
+                )}
+              </div>
               <div>
                 {" "}
                 <span className="font-bold">Phone :</span> {item.phone}
@@ -709,56 +754,81 @@ ${linktext}`;
             {/* <form action="#" onSubmit={() => {}}> */}
 
             {reviewgiven
-              ? showreview && (
+              ? showreview &&
+                (loading ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      paddingTop: "2rem",
+                    }}
+                  >
+                    <Image
+                      src={"/loader.svg"}
+                      width={30}
+                      height={30}
+                      alt="Loading..."
+                    />
+                  </div>
+                ) : (
                   <div
                     style={{
                       marginTop: "1rem",
                       textAlign: "center",
                       fontSize: "1.02rem",
-                      background: "rgba(233, 233, 233,0.5)",
+                      background: "#EDEDED",
                       borderRadius: "8px",
                       padding: "10px 6px",
                       fontWeight: "500",
                       position: "relative",
                     }}
                   >
-                    <span
+                    <div
                       style={{
-                        background: "#008F9F",
-                        padding: "3px",
-                        marginTop: "5px",
-                        borderRadius: "4px",
-                        color: "white",
-                      }}
-                    >
-                      {" "}
-                      You Rated {item.name} With
-                    </span>{" "}
-                    <br />{" "}
-                    <span
-                      style={{
+                        textAlign: "center",
+                        fontWeight: "bold",
                         display: "flex",
-                        fontSize: "1rem",
-                        fontWeight: "600",
+                        flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
-                        background: "green",
-                        gap: "5px",
-                        width: "fit-content",
-                        margin: "auto",
-                        padding: "5px",
-                        marginTop: "10px",
-                        borderRadius: "4px",
-                        color: "white",
+                        color: "rgb(0, 119, 119)",
                       }}
                     >
-                      {reviewgiven.rating}{" "}
-                      <img
-                        style={{ width: "25px", height: "25px" }}
-                        src="data:image/png;base64,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"
-                      ></img>
-                      Rating
-                    </span>{" "}
+                      <span>
+                        {/* {reviewgiven.rating} */}
+                        <StyledRating
+                          name="customized-color"
+                          defaultValue={reviewgiven.rating}
+                          onChange={(e) => {
+                            console.log(e.target.value);
+                            setreviewpayload({
+                              ...reviewpayload,
+                              rating: e.target.value,
+                            });
+                          }}
+                          // getLabelText={(review.rating) =>
+                          //   `value${} Heart${value !== 1 ? "s" : ""}`
+                          // }
+                          precision={0.5}
+                          readOnly
+                          icon={
+                            <StarIcon
+                              style={{ fontSize: "30px" }}
+                              fontSize="inherit"
+                            />
+                          }
+                          emptyIcon={
+                            <StarBorder
+                              style={{ fontSize: "30px" }}
+                              fontSize="inherit"
+                            />
+                          }
+                        />
+                      </span>{" "}
+                      <span>Rating Given By You</span>
+                    </div>
+
                     {!tempreview && (
                       <div
                         style={{
@@ -794,7 +864,7 @@ ${linktext}`;
                       </div>
                     )}
                   </div>
-                )
+                ))
               : showreview && (
                   <div>
                     <p>Review {item?.name}</p>
@@ -1004,6 +1074,7 @@ ${linktext}`;
               minHeight: showreview && "32rem",
               borderRadius: isMobile && "0",
               width: isMobile && "100%",
+              minWidth: !isMobile && "21rem",
             }}
             className={`${styles.reviewshell}`}
           >
@@ -1022,111 +1093,135 @@ ${linktext}`;
               Reviews From Ayum User's
             </h3>
             <Container style={{ background: "rgb(245, 245, 245)" }}>
-              <List>
-                {reviews.length > 0 ? (
-                  reviews.map((review, index) => (
-                    <Paper
-                      key={index}
-                      style={{
-                        padding: "10px",
-                        borderRadius: "18px",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      {/* <ListItem>
+              {loading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    minWidth: "20rem",
+                    width: "100%",
+                    paddingTop: "2rem",
+                  }}
+                >
+                  <Image
+                    src={"/loader.svg"}
+                    width={30}
+                    height={30}
+                    alt="Loading..."
+                  />
+                </div>
+              ) : (
+                <>
+                  <List>
+                    {reviews.length > 0 ? (
+                      reviews.map((review, index) => (
+                        <Paper
+                          key={index}
+                          style={{
+                            padding: "10px",
+                            borderRadius: "18px",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          {/* <ListItem>
             <Typography>
               <strong>Rating:</strong> {review.rating}
             </Typography>
           </ListItem> */}
-                      <StyledRating
-                        name="customized-color"
-                        // defaultValue={2}
-                        value={review.rating}
-                        // getLabelText={(review.rating) =>
-                        //   `value${} Heart${value !== 1 ? "s" : ""}`
-                        // }
-                        precision={0.5}
-                        readOnly
-                        icon={
-                          <StarIcon
-                            style={{ fontSize: "30px" }}
-                            fontSize="inherit"
+                          <StyledRating
+                            name="customized-color"
+                            // defaultValue={2}
+                            value={review.rating}
+                            // getLabelText={(review.rating) =>
+                            //   `value${} Heart${value !== 1 ? "s" : ""}`
+                            // }
+                            precision={0.5}
+                            readOnly
+                            icon={
+                              <StarIcon
+                                style={{ fontSize: "30px" }}
+                                fontSize="inherit"
+                              />
+                            }
+                            emptyIcon={
+                              <StarBorder
+                                style={{ fontSize: "30px" }}
+                                fontSize="inherit"
+                              />
+                            }
                           />
-                        }
-                        emptyIcon={
-                          <StarBorder
-                            style={{ fontSize: "30px" }}
-                            fontSize="inherit"
-                          />
-                        }
-                      />
-                      <ListItem
-                        style={{
-                          display: "flex",
-                          gap: "10px",
-                          textAlign: "left",
-                          justifyContent: "space-between",
-                          width: "100%",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "5px",
-                          }}
-                        >
-                          <img
-                            src={review?.patientprofile || "/deafaultpro.jpg"}
+                          <ListItem
                             style={{
-                              height: "35px",
-                              width: "35px",
-                              borderRadius: "50%",
-                              objectFit: "cover",
+                              display: "flex",
+                              gap: "10px",
+                              textAlign: "left",
+                              justifyContent: "space-between",
+                              width: "100%",
                             }}
-                          />
-                          <Typography>{review?.patientName}</Typography>{" "}
-                        </div>
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "5px",
+                              }}
+                            >
+                              <img
+                                src={
+                                  review?.patientprofile || "/deafaultpro.jpg"
+                                }
+                                style={{
+                                  height: "35px",
+                                  width: "35px",
+                                  borderRadius: "50%",
+                                  objectFit: "cover",
+                                }}
+                              />
+                              <Typography>{review?.patientName}</Typography>{" "}
+                            </div>
 
-                        <Chip
-                          label={formatDate(review?.createdAt)}
-                          color="success"
-                          variant="outlined"
-                        />
-                        {/* <p>{review.createdDate}</p> */}
-                      </ListItem>
+                            <Chip
+                              label={formatDate(review?.createdAt)}
+                              color="success"
+                              variant="outlined"
+                            />
+                            {/* <p>{review.createdDate}</p> */}
+                          </ListItem>
 
-                      {/* <ListItem> */}
-                      <Typography>{review?.comment}</Typography>
-                      {/* </ListItem> */}
+                          {/* <ListItem> */}
+                          <Typography>{review?.comment}</Typography>
+                          {/* </ListItem> */}
 
-                      {/* <ListItem>
+                          {/* <ListItem>
             <Typography>
               <strong>Date:</strong> {review.createdDate}
             </Typography>
           </ListItem> */}
-                    </Paper>
-                  ))
-                ) : (
-                  <div
-                    style={{
-                      width: "20rem",
-                      textAlign: "center",
-                      display: "flex",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                      gap: "10px",
-                      alignItems: "center",
-                    }}
-                  >
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEnElEQVR4nO2ZbUxTVxiAD3aDLPwYsqpDt2xhssQo4oBREwNmOihsCJgIKMOPxA2NZcmWbArbpBCXkMwYxsxm3XADXAF7LvSDUnSt9txOyQbVZR9hIEpBs68skmxLpobBu5xT2mG5wGovt/3RN3mT0/ecc+/z3HtPbu4pQuEIRzjCgXS2FYgjJQjzHyGOdyCODCOOjCGO3EUcD4gjfyBMfkMcfwVxfDviyNuo3b4eqWFRcK8eduS6gSnkfSTmf0SYFAUHXtcTe9/gvqnriZVeADsU4gnwacEQKBVR4CXpBThSJZoAR6qkF8CkQSwBGXfhlOT8sVrLJbEEHm/uuCK5wPJm/a9iCTzR1H5LcoGlWtNtsQTimo13JReIabFMiCWwmB5L6og7bZjMOPExlPFWeO+rc/D55W5wfN8Fg4NmuHm1E8audcK4y8SStmmN9tExdCydU8ZbgR6DHktyASiOB5YjpsCy2H2csIA/Ac6aF+Hghtui3YHK9L+htyYHSRXgrL4JfVUAH+y+B+bEgQ2gUaXPCivYf3wPQJ8awKm+Ia2As3oGIIXTlGfMKjBrv7NaYoHemhwmMayfDPgRcuknKDxcVmdLJuAVGTENBCwwYuyXHNwr4DJ+IoKAJngCo4bnRRDYFDQBJjFiuhAAPAkqPBMYNceDy/i7/4vXeAtuGFeiUAgYNmSAyzjmF/xoZzoKpRg8fyoJhrTzww+1wMGKV19DoRYKZX4jeyF9ewxg4FOA6zoAl8GdtE1rtM9ZDYqsvJ/XZmZGo1CJZ7PztiqU+VNv1PmTjk3L2lKOQiQi0pR5/X4LKPOHUCjEioraQgr0TMGO8W5H/bzwdExywfZxOuext2q3Bo+c7sxhcvFRdR27ok+VV0KiyQL/zAFP++iYlapDbM7Sd4/TT0oHwvZU6cAtliiE+ZMIk0n6PZuw7w0GI6/VsO/bBnJyVgHaR8d4pJ98/bBnY2sCYf5DpPshcmHhtXY5woSf/kGeWPIyg4nW6NjvZR02+LPvyAz4v3qPQJzeysY8XH+azVm1W+W7Q3cJGW3LFga+w/oI4siA745CcsEOBvNgc7e3prY1zRCgNU//Qw16NiepaM/MXQrM9yPtl4vFhQeIQJicFdoSSc3dxmAWtdm8tegOO/z0da0XnrZpzdP/gPYcm5OypVh4qwUTs7gCnH2n70kizpwH+dRipLnkwCFW8/TvPdvmFaBtTz2y0QwJ+93rRpFdAAn734TIpi4BEVIiDrxOJ0OYXPc9gVxVAU8nr4eUzS9AyqYc1qa1/zZsefiu5yhLmafWYoV123Z5pRVTmVS4C2StVt9H6ao4f0Fhx2ah2xyfkcWgz5i6odXYxdrx6Zn3jFF26Vl6fi9/5ygDTty+F6IazRD1WSesKXmF1eIOHxO6C88FLsDx9YICG90CbSYLtBjMboGNWXNuIa4pLWOwMXWN3lpMXROrrS7dJ7Sg3xdDoEcIxvMITU+5qnJOgdTcQgY7/XGRtX7Baqm5RUKL+aIYAr8IwbgXcQW76jRpe/oiFspvBq6x/L91RM8dcGD+zlxQ/qTfApi/E7hAONCCxr8pUjjJRsqE5QAAAABJRU5ErkJggg=="></img>
-                    <h5> No Reviews Found!</h5>
-                    <h6 style={{ color: "#005E6D", fontWeight: "600" }}>
-                      Give your valuable review in just two Clicks
-                    </h6>
-                  </div>
-                )}
-              </List>
+                        </Paper>
+                      ))
+                    ) : (
+                      <div
+                        style={{
+                          width: "20rem",
+                          textAlign: "center",
+                          display: "flex",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          gap: "10px",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEnElEQVR4nO2ZbUxTVxiAD3aDLPwYsqpDt2xhssQo4oBREwNmOihsCJgIKMOPxA2NZcmWbArbpBCXkMwYxsxm3XADXAF7LvSDUnSt9txOyQbVZR9hIEpBs68skmxLpobBu5xT2mG5wGovt/3RN3mT0/ecc+/z3HtPbu4pQuEIRzjCgXS2FYgjJQjzHyGOdyCODCOOjCGO3EUcD4gjfyBMfkMcfwVxfDviyNuo3b4eqWFRcK8eduS6gSnkfSTmf0SYFAUHXtcTe9/gvqnriZVeADsU4gnwacEQKBVR4CXpBThSJZoAR6qkF8CkQSwBGXfhlOT8sVrLJbEEHm/uuCK5wPJm/a9iCTzR1H5LcoGlWtNtsQTimo13JReIabFMiCWwmB5L6og7bZjMOPExlPFWeO+rc/D55W5wfN8Fg4NmuHm1E8audcK4y8SStmmN9tExdCydU8ZbgR6DHktyASiOB5YjpsCy2H2csIA/Ac6aF+Hghtui3YHK9L+htyYHSRXgrL4JfVUAH+y+B+bEgQ2gUaXPCivYf3wPQJ8awKm+Ia2As3oGIIXTlGfMKjBrv7NaYoHemhwmMayfDPgRcuknKDxcVmdLJuAVGTENBCwwYuyXHNwr4DJ+IoKAJngCo4bnRRDYFDQBJjFiuhAAPAkqPBMYNceDy/i7/4vXeAtuGFeiUAgYNmSAyzjmF/xoZzoKpRg8fyoJhrTzww+1wMGKV19DoRYKZX4jeyF9ewxg4FOA6zoAl8GdtE1rtM9ZDYqsvJ/XZmZGo1CJZ7PztiqU+VNv1PmTjk3L2lKOQiQi0pR5/X4LKPOHUCjEioraQgr0TMGO8W5H/bzwdExywfZxOuext2q3Bo+c7sxhcvFRdR27ok+VV0KiyQL/zAFP++iYlapDbM7Sd4/TT0oHwvZU6cAtliiE+ZMIk0n6PZuw7w0GI6/VsO/bBnJyVgHaR8d4pJ98/bBnY2sCYf5DpPshcmHhtXY5woSf/kGeWPIyg4nW6NjvZR02+LPvyAz4v3qPQJzeysY8XH+azVm1W+W7Q3cJGW3LFga+w/oI4siA745CcsEOBvNgc7e3prY1zRCgNU//Qw16NiepaM/MXQrM9yPtl4vFhQeIQJicFdoSSc3dxmAWtdm8tegOO/z0da0XnrZpzdP/gPYcm5OypVh4qwUTs7gCnH2n70kizpwH+dRipLnkwCFW8/TvPdvmFaBtTz2y0QwJ+93rRpFdAAn734TIpi4BEVIiDrxOJ0OYXPc9gVxVAU8nr4eUzS9AyqYc1qa1/zZsefiu5yhLmafWYoV123Z5pRVTmVS4C2StVt9H6ao4f0Fhx2ah2xyfkcWgz5i6odXYxdrx6Zn3jFF26Vl6fi9/5ygDTty+F6IazRD1WSesKXmF1eIOHxO6C88FLsDx9YICG90CbSYLtBjMboGNWXNuIa4pLWOwMXWN3lpMXROrrS7dJ7Sg3xdDoEcIxvMITU+5qnJOgdTcQgY7/XGRtX7Baqm5RUKL+aIYAr8IwbgXcQW76jRpe/oiFspvBq6x/L91RM8dcGD+zlxQ/qTfApi/E7hAONCCxr8pUjjJRsqE5QAAAABJRU5ErkJggg=="></img>
+                        <h5> No Reviews Found!</h5>
+                        <h6 style={{ color: "#005E6D", fontWeight: "600" }}>
+                          Give your valuable review in just two Clicks
+                        </h6>
+                      </div>
+                    )}
+                  </List>
+                </>
+              )}
             </Container>
           </div>
         )}

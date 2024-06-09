@@ -17,6 +17,7 @@ import useFcmToken, { notificationRequest } from "../push-notification";
 import { getMessaging, onMessage } from "firebase/messaging";
 import { sendnotification } from "../routes/notify";
 import { updateuser } from "../routes/user";
+import LoginPopup from "../components/UserAuth/LoginPopup";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
@@ -24,12 +25,9 @@ function MyApp({ Component, pageProps, AccountContext }) {
   const [loading, setLoading] = useState(true);
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
 
-
-
-
   // Use the token as needed
   useEffect(() => {
-    if (fcmToken ) {
+    if (fcmToken) {
       if (localStorage.fcmToken != fcmToken && localStorage.userjwt) {
         updateuser(localStorage.userjwt, { FCMtoken: fcmToken });
         console.log("Fcm updated ");
@@ -41,8 +39,6 @@ function MyApp({ Component, pageProps, AccountContext }) {
     }
   }, [fcmToken]);
 
-
-  
   useEffect(() => {
     const relod = async () => {
       await notificationRequest();
@@ -120,6 +116,7 @@ function MyApp({ Component, pageProps, AccountContext }) {
             >
               <Navbar />
               <Component {...pageProps} />
+              <LoginPopup />
               <BottomNav />
             </div>
           </ReduxProvider>

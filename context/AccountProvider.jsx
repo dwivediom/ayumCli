@@ -49,6 +49,10 @@ const AccountProvider = ({ children }) => {
     }
   }, []);
 
+  const [isLoginDrawerOpen, setIsLoginDrawerOpen] = useState(false);
+
+  const openDrawer = () => setIsLoginDrawerOpen(true);
+  const closeDrawer = () => setIsLoginDrawerOpen(false);
   return (
     <AccountContext.Provider
       value={{
@@ -89,6 +93,9 @@ const AccountProvider = ({ children }) => {
         setlang,
         langmodal,
         setlangmodal,
+        isLoginDrawerOpen,
+        openDrawer,
+        closeDrawer,
       }}
     >
       {children}
