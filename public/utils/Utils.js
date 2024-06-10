@@ -15,12 +15,19 @@ export const calculateAverageRating = (reviews) => {
   }
 
   // Calculate the sum of all ratings
-  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  // const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  let totalRating = 0;
+  for (let i = 0; i < reviews.length; i++) {
+    totalRating += parseInt(reviews[i]?.rating);
+  }
+
+  console.log(totalRating, "andtotal", reviews.length);
 
   // Calculate the average rating
-  const averageRating = totalRating / reviews.length;
+  const averageRating = parseInt(totalRating) / reviews.length;
 
   // Round the average rating to one decimal place
+  // return averageRating;
   return Math.round(averageRating * 10) / 10;
 };
 
