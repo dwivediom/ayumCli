@@ -90,6 +90,7 @@ const LoginPopup = ({ open, setOpen }) => {
         setseverity("success");
         setshowsnackbar(true);
         setloading(false);
+        closeDrawer();
         return;
       }
     }
@@ -122,6 +123,8 @@ const LoginPopup = ({ open, setOpen }) => {
           setsnackmsg("Successfully Logined! ");
           setseverity("success");
           setshowsnackbar(true);
+          closeDrawer();
+
           return;
         }
       }
@@ -134,6 +137,7 @@ const LoginPopup = ({ open, setOpen }) => {
     setseverity("error");
     setshowsnackbar(true);
     setloading(false);
+    closeDrawer();
   };
   const [showsnackbar, setshowsnackbar] = useState(false);
   const [severity, setseverity] = useState("success");

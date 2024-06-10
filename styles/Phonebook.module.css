@@ -131,7 +131,7 @@ justify-content: space-between;
 border-radius: 24px;
 border-top-left-radius: 0px;
 border-bottom-left-radius: 0px;
-/* box-shadow:-2px -4px 15px rgba(118, 118, 118, 0.341); */
+box-shadow:2px 3px 7px rgba(118, 118, 118, 0.341);
 background-color: #ededed;
 
 }
