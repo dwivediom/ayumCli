@@ -283,6 +283,7 @@ display: flex;
 @media (max-width: 300px) {
   .directorycard {
     height: 15rem;
+    width: 20rem !important;
   }
 }
 

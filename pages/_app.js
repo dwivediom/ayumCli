@@ -18,6 +18,7 @@ import { getMessaging, onMessage } from "firebase/messaging";
 import { sendnotification } from "../routes/notify";
 import { updateuser } from "../routes/user";
 import LoginPopup from "../components/UserAuth/LoginPopup";
+import Loader from "../components/Loader";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
@@ -90,22 +91,23 @@ function MyApp({ Component, pageProps, AccountContext }) {
         <AccountProvider>
           <ReduxProvider store={store}>
             {loading && (
-              <div
-                style={{
-                  width: "100vw",
-                  height: "50vh",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Image
-                  src={"/loader.svg"}
-                  width={50}
-                  height={50}
-                  alt="Loading..."
-                />
-              </div>
+              // <div
+              //   style={{
+              //     width: "100vw",
+              //     height: "50vh",
+              //     display: "flex",
+              //     alignItems: "center",
+              //     justifyContent: "center",
+              //   }}
+              // >
+              //   <Image
+              //     src={"/loader.svg"}
+              //     width={50}
+              //     height={50}
+              //     alt="Loading..."
+              //   />
+              // </div>
+              <Loader />
             )}
 
             <div

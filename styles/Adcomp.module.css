@@ -28,6 +28,8 @@
   border-radius: 8px;
 }
 
+
+
 .passbox {
   width: 22rem;
   height: 100%;
@@ -37,6 +39,16 @@
 
 
   justify-content: center;
+}
+
+@media (max-width:450px){
+  .passbox{
+    width: 100%;
+  }
+  .passimg{
+    width: 20rem;
+    margin: 0px 10px;
+  }
 }
 
 .manualcontrol {

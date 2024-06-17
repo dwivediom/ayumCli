@@ -227,7 +227,7 @@ const Doctors = ({ initialData }) => {
                   item={item && item}
                   docid={router.query?.docid}
                   isMobile={isMobile}
-                  showreview={true}
+                  showreview={router.query?.docid ? true : false}
                 />
               );
             })
