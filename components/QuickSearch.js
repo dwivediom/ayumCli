@@ -36,6 +36,7 @@ const QuickSearch = () => {
       style={{
         width: "100%",
         margin: "auto",
+        padding: "12px 14px",
       }}
       className="grid lg:grid-cols-8 md:grid-cols-4 max-[760px]:grid-cols-4 gap-2 p-1 py-4"
     >

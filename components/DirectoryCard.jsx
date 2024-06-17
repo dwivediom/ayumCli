@@ -422,7 +422,7 @@ ${linktext}`;
             width:
               isMobile && showreview
                 ? "100%"
-                : !isMobile && !showreview && "96%",
+                : !isMobile && !showreview && "23rem",
             margin: isMobile && !showreview && "auto",
             borderBottomLeftRadius: showreview && isMobile && "0",
             borderBottomRightRadius: "0px",
@@ -957,30 +957,31 @@ ${linktext}`;
                             })}
                       </div>
                     )}
-                    <div
-                      className={`${styles.reviewinput}`}
-                      style={{ width: "100%", display: "flex" }}
-                    >
-                      <input
-                        onChange={(e) => {
-                          setreviewpayload({
-                            ...reviewpayload,
-                            comment: e.target.value,
-                          });
-                        }}
-                        disabled={!reviewpayload.rating}
-                        value={reviewpayload?.comment || ""}
-                        placeholder="Enter Your Review"
-                      />{" "}
-                      <span
-                        onClick={() => {
-                          if (reviewpayload?.rating) {
-                            handleSubmit();
-                          }
-                        }}
-                        style={{ color: "white", padding: "3px" }}
+                    {reviewpayload.rating && (
+                      <div
+                        className={`${styles.reviewinput}`}
+                        style={{ width: "100%", display: "flex" }}
                       >
-                        {/* <svg
+                        <input
+                          onChange={(e) => {
+                            setreviewpayload({
+                              ...reviewpayload,
+                              comment: e.target.value,
+                            });
+                          }}
+                          // disabled={!reviewpayload.rating}
+                          value={reviewpayload?.comment || ""}
+                          placeholder="Enter Your Review"
+                        />{" "}
+                        <span
+                          onClick={() => {
+                            if (reviewpayload?.rating) {
+                              handleSubmit();
+                            }
+                          }}
+                          style={{ color: "white", padding: "3px" }}
+                        >
+                          {/* <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -994,9 +995,11 @@ ${linktext}`;
                             d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
                           />
                         </svg> */}
-                        Submit
-                      </span>
-                    </div>
+                          Submit
+                        </span>
+                      </div>
+                    )}
+
                     {tempreview && (
                       <div
                         style={{
@@ -1135,6 +1138,33 @@ ${linktext}`;
               <strong>Rating:</strong> {review.rating}
             </Typography>
           </ListItem> */}
+                          <StyledRating
+                            name="customized-color"
+                            // defaultValue={2}
+                            value={review.rating}
+                            // getLabelText={(review.rating) =>
+                            //   `value${} Heart${value !== 1 ? "s" : ""}`
+                            // }
+                            style={{
+                              // width: "40%",
+                              display: "flex",
+                              justifyContent: "left",
+                            }}
+                            precision={0.5}
+                            readOnly
+                            icon={
+                              <StarIcon
+                                style={{ fontSize: "30px" }}
+                                fontSize="inherit"
+                              />
+                            }
+                            emptyIcon={
+                              <StarBorder
+                                style={{ fontSize: "30px" }}
+                                fontSize="inherit"
+                              />
+                            }
+                          />
 
                           <ListItem
                             style={{
@@ -1160,7 +1190,7 @@ ${linktext}`;
                                   display: "flex",
                                   alignItems: "center",
                                   gap: "5px",
-                                  width: "50%",
+                                  width: "100%",
                                 }}
                               >
                                 <img
@@ -1178,39 +1208,15 @@ ${linktext}`;
                                   <Typography style={{ fontSize: "13px" }}>
                                     {review?.patientName}
                                   </Typography>{" "}
-                                  <p style={{ fontSize: "12px" }}>
+                                  <p
+                                    style={{
+                                      fontSize: "10px",
+                                    }}
+                                  >
                                     {formatDate(review?.createdAt)}
                                   </p>
                                 </div>{" "}
                               </div>
-
-                              <StyledRating
-                                name="customized-color"
-                                // defaultValue={2}
-                                value={review.rating}
-                                // getLabelText={(review.rating) =>
-                                //   `value${} Heart${value !== 1 ? "s" : ""}`
-                                // }
-                                style={{
-                                  // width: "40%",
-                                  display: "flex",
-                                  justifyContent: "right",
-                                }}
-                                precision={0.5}
-                                readOnly
-                                icon={
-                                  <StarIcon
-                                    style={{ fontSize: "30px" }}
-                                    fontSize="inherit"
-                                  />
-                                }
-                                emptyIcon={
-                                  <StarBorder
-                                    style={{ fontSize: "30px" }}
-                                    fontSize="inherit"
-                                  />
-                                }
-                              />
                             </div>
 
                             <Typography style={{ fontSize: "14px" }}>
