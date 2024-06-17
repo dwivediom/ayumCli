@@ -17,6 +17,8 @@ import { useContext } from "react";
 import ReactGA from "react-ga4";
 import { AccountContext } from "../../context/AccountProvider";
 import { useRouter } from "next/router";
+import HorizontalScroll from "../../components/DemoAd";
+import EmblaCarousel from "../../components/Carousel/EmblaCarouselComp";
 
 const Search = () => {
   const [data, setdata] = useState(null);
@@ -29,25 +31,21 @@ const Search = () => {
   const [viewsearchill, setviewsearchill] = useState(true);
   const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
   const router = useRouter();
-  useEffect(() => {
-    console.log("sedata", sdata);
-    // onSearch();
-    if (router.query.type && input == "") {
-      onloadSearch(router.query.type);
-    }
-  }, [sdata, reload]);
+  // useEffect(() => {
+  //   if (router.query.type && input == "") {
+  //     onloadSearch(router.query.type);
+  //   }
+  // }, [sdata, reload]);
 
   const onloadSearch = async (input) => {
     setloading(true);
     const newurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
-    console.log(newurl);
     const searchdata = await axios.get(newurl);
-    setdata(searchdata);
-    const getdata = await SearchDoc(input);
-    setdocs(getdata.data);
+    console.log(searchdata, "searchdata");
+    setdocs(searchdata?.data);
     setloading(false);
     setreload(false);
-    if (searchdata.data) {
+    if (searchdata) {
       setviewsearchill(false);
     }
     localStorage.removeItem("skey");
@@ -57,23 +55,12 @@ const Search = () => {
     if (e) {
       e.preventDefault();
     }
-    // if (input == "") {
-    //   setviewsearchill(false);
-    //   setloading(true);
-    //   setreload(false);
-    //   const getdata = await SearchDoc("D");
-    //   setdocs(getdata.data);
-    //   setloading(false);
-    //   return;
-    // }
     setviewsearchill(false);
     setloading(true);
     setreload(false);
     if (e) {
       e.preventDefault();
     }
-
-    console.log(sdata);
     const searchdata = await axios.get(url);
     ReactGA.event({
       category: "Search Box Input",
@@ -81,8 +68,8 @@ const Search = () => {
       label: input,
       value: input,
     });
-    const getdata = await SearchDoc(input);
-    setdocs(getdata.data);
+    // const getdata = await SearchDoc(input);
+    // setdocs(getdata.data);
     setdata(searchdata);
     setloading(false);
   };
@@ -95,10 +82,18 @@ const Search = () => {
     setinput(val);
   };
 
+  let [isMobile, setIsMobile] = useState(false);
+
   const { setscrollbox, lang } = useContext(AccountContext);
   useEffect(() => {
+    let mobile = window && window.matchMedia("(max-width: 550px)");
+    setIsMobile(mobile.matches);
+    if (router.query.type) {
+      onloadSearch(router.query.type);
+    }
     let indexbox = document.getElementById("searchpage");
     // console.log(indexbox.scrollTop);
+
     indexbox.addEventListener("scroll", () => {
       let scrollTop = indexbox.scrollTop;
       if (scrollTop > 0) {
@@ -134,9 +129,11 @@ const Search = () => {
             </button>
           </div>
         </form>
-
-        <Slider2 />
-
+        {isMobile ? (
+          <EmblaCarousel page={"home"} />
+        ) : (
+          <HorizontalScroll page={"home"} />
+        )}
         {loading ? (
           <div
             style={{
@@ -158,7 +155,7 @@ const Search = () => {
           </div>
         ) : (
           <div className={`${styles2.doccontainer} `}>
-            {data && data.data.length == 0 && docs && docs.length == 0 ? (
+            {docs && docs.length == 0 ? (
               <div
                 style={{
                   height: "50vh",
@@ -179,29 +176,6 @@ const Search = () => {
               </div>
             ) : (
               <>
-                {/* <div className={`${styles2.doccontainer} `}>
-                  {data &&
-                    data.data.map((doctor) => {
-                      console.log(
-                        doctor.picture,
-                        doctor,
-                        "Doctor Ka Searchdata"
-                      );
-                      return (
-                        <DoctorCard
-                          key={doctor._id}
-                          pic={doctor.picture}
-                          name={doctor.name}
-                          specialist={doctor.specialist}
-                          location={doctor.location}
-                          phone={doctor.phone}
-                          fees={doctor.fees}
-                          timing={doctor.timing}
-                          docid={doctor._id}
-                        />
-                      );
-                    })}
-                </div> */}
                 <div className="shadow-lg p-1 w-full text-center font-bold rounded-lg">
                   {lang == "en" ? English.searcdocinfo : Hindi.searcdocinfo}
                 </div>

@@ -48,7 +48,13 @@ const Contact = () => {
   };
   return (
     <>
-      <div id="contactpage" className={`${styles.maincontact}`}>
+      <div
+        style={{
+          zIndex: "-10",
+        }}
+        id="contactpage"
+        className={`${styles.maincontact}`}
+      >
         <div className={`${styles.contactimg}`}>
           <img src="/contact2.jpg" alt="" />
           <h2>Health and healing, strengthened by partnership</h2>
