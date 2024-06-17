@@ -21,8 +21,6 @@ export const calculateAverageRating = (reviews) => {
     totalRating += parseInt(reviews[i]?.rating);
   }
 
-  console.log(totalRating, "andtotal", reviews.length);
-
   // Calculate the average rating
   const averageRating = parseInt(totalRating) / reviews.length;
 

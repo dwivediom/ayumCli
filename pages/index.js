@@ -27,6 +27,7 @@ import ThankModal from "../components/Modal";
 import { getCookie } from "../public/utils/Utils";
 import NewHomePage from "../components/NewHomePage";
 import EmblaCarousel from "../components/Carousel/EmblaCarouselComp";
+
 // import Hindi from "/locales/hi/index";
 export async function getServerSideProps(context) {
   try {
@@ -239,48 +240,36 @@ export default function Home(props) {
 
   let [isMobile, setIsMobile] = useState(false);
   // const [admin, setadmin] = useState(true);
-  const adurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getuserads`;
-  const GetAdsData = async () => {
-    try {
-      let userdata = await axios.get(adurl, {}, { home: true });
-      console.log(userdata, "UserDAta");
-    } catch (error) {
-      console.log(error, "error");
-    }
-  };
 
-  // useEffect(() => {
-  //   GetAdsData();
-  // });
   const slidesData = [
     {
-      id: 1,
-      imageSrc: "https://i.ibb.co/ZXcC6Gp/Ayum-6.png",
+      position: 1,
+      image: "https://i.ibb.co/ZXcC6Gp/Ayum-6.png",
       title: "Slide 1",
     },
     {
-      id: 2,
-      imageSrc: "https://i.ibb.co/R4xmXHw/Ayum-7.png",
+      position: 2,
+      image: "https://i.ibb.co/R4xmXHw/Ayum-7.png",
       title: "Slide 2",
     },
     {
-      id: 3,
-      imageSrc: "https://i.ibb.co/5MKMQt7/Ayum-1.png",
+      position: 3,
+      image: "https://i.ibb.co/5MKMQt7/Ayum-1.png",
       title: "Slide 3",
     },
     {
-      id: 4,
-      imageSrc: "https://i.ibb.co/HndrXXQ/Ayum-2.png",
+      position: 4,
+      image: "https://i.ibb.co/HndrXXQ/Ayum-2.png",
       title: "Slide 4",
     },
     {
-      id: 5,
-      imageSrc: "https://i.ibb.co/WpW5vS6/Ayum-4.png",
+      position: 5,
+      image: "https://i.ibb.co/WpW5vS6/Ayum-4.png",
       title: "Slide 5",
     },
     {
-      id: 6,
-      imageSrc: "https://i.ibb.co/XSh3b0d/Ayum.png",
+      position: 6,
+      image: "https://i.ibb.co/XSh3b0d/Ayum.png",
       title: "Slide 6",
     },
     // {
@@ -303,6 +292,7 @@ export default function Home(props) {
   const OPTIONS = { loop: true, autoplay: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+
   return (
     <>
       <Head>
@@ -336,9 +326,9 @@ export default function Home(props) {
               <BloodDonatebtn />
             </div>
             {isMobile ? (
-              <EmblaCarousel slidesData={slidesData} />
+              <EmblaCarousel page={"home"} />
             ) : (
-              <HorizontalScroll />
+              <HorizontalScroll page={"home"} />
             )}
 
             {doctors ? (
