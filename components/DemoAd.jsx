@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "../styles/Adcomp.module.css";
 import Image from "next/image";
+import axios from "axios";
 
 export default function HorizontalScroll({ page }) {
   const [Intervalid, setIntervalid] = useState(null);
@@ -15,9 +16,6 @@ export default function HorizontalScroll({ page }) {
       setslidesData([]);
     }
   };
-  useEffect(() => {
-    GetAdsData();
-  }, []);
 
   const intervalRef = useRef();
   const containerRef = useRef(null);
@@ -48,6 +46,7 @@ export default function HorizontalScroll({ page }) {
   }
 
   useEffect(() => {
+    GetAdsData();
     handleScroll();
     return () => {
       clearInterval(intervalRef.current);
@@ -73,7 +72,7 @@ export default function HorizontalScroll({ page }) {
           }}
         >
           <div className={styles.scrollingDiv}>
-            {slidesData.map(({ id, imageSrc, title }) => {
+            {slidesData.map(({ id, image, title }) => {
               return (
                 <div key={id} className={`${styles.passbox} `}>
                   <div className={`${styles.passimg} `}>
@@ -88,7 +87,7 @@ export default function HorizontalScroll({ page }) {
                           ? `center 30%`
                           : `center 17%`
                       }
-                      src={imageSrc}
+                      src={image}
                       alt="ad"
                     />
                   </div>
