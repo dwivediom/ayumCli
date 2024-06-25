@@ -14,7 +14,7 @@ export default function EmblaCarouselComp(props) {
   ]);
   console.log(slidesData2, "ad data");
   const GetAdsData = async () => {
-    const adurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/ads?page=${props.page}`;
+    const adurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/ads?page=${props?.page}`;
     try {
       let userdata = await axios.get(adurl);
       setslidesData2(userdata?.data);
