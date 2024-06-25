@@ -10,6 +10,7 @@ import Slider2 from "../components/AdComp3";
 import { AccountContext } from "../context/AccountProvider";
 import { useRouter } from "next/router";
 import EmblaCarousel from "../components/Carousel/EmblaCarouselComp";
+import HorizontalScroll from "../components/DemoAd";
 
 const DoctorDirectory = () => {
   const [showload, setshowload] = useState();
@@ -122,6 +123,11 @@ const DoctorDirectory = () => {
     setdocs([...docs, ...newData]);
     setPageNum(nextPageNum);
   };
+  let [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    let mobile = window && window.matchMedia("(max-width: 550px)");
+    setIsMobile(mobile.matches);
+  }, []);
   return (
     <>
       <div
@@ -160,7 +166,11 @@ const DoctorDirectory = () => {
             // marginRight: "2rem",
           }}
         >
-          <EmblaCarousel slidesData={slidesData} />
+          {isMobile ? (
+            <EmblaCarousel page={"home"} />
+          ) : (
+            <HorizontalScroll page={"home"} />
+          )}
         </div>
         <div className={`${styles.directoryshell}`}>
           {loading ? (

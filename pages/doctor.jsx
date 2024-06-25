@@ -141,6 +141,7 @@ const Doctors = ({ initialData }) => {
     //   title: "Slide 9",
     // },
   ];
+
   const fetchMoreDocs = async () => {
     const nextPageNum = pageNum + 1;
     const response = await fetch(
@@ -171,7 +172,7 @@ const Doctors = ({ initialData }) => {
         className={`${styles.directorypage} h-[100vh] overflow-auto p-5`}
       >
         <form
-          onSubmit={(e) => handleSubmit(e)}
+          onSubmit={(e) => {}}
           className={`${styles1.searchform}`}
           action="#"
         >
@@ -182,10 +183,11 @@ const Doctors = ({ initialData }) => {
               name="val"
               className={`${styles1.searchinput}`}
               placeholder="Search Doctor..."
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => {}}
+              onFocus={() => router.push("/DoctorDirectory")}
             />
             <button
-              onClick={(e) => handleSubmit(e)}
+              onClick={(e) => {}}
               type="button"
               className={`${styles1.searchbtn}`}
             >
