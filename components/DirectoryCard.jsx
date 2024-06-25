@@ -21,7 +21,7 @@ import Hindi from "../public/locales/hi/index";
 import { AccountContext } from "../context/AccountProvider";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { styled } from "@mui/material/styles";
 import Head from "next/head";
 import Rating from "@mui/material/Rating";
@@ -726,11 +726,11 @@ ${linktext}`;
                 Call
               </Button>{" "}
               <a
-                href={`https://www.google.com/maps/search/?api=1&query=${
-                  item.location
-                    ? ` ${item.location.lat} , ${item.location.lon}`
-                    : " , "
-                }`}
+                href={
+                  item?.maplinkurl
+                    ? item.maplinkurl
+                    : `https://www.google.com/maps/search/?api=1&query=${`${item.latitude} , ${item.longitude}`}`
+                }
                 target="_blank"
                 rel="noreferrer"
               >
@@ -1079,9 +1079,10 @@ ${linktext}`;
         {showreview && (
           <div
             style={{
-              minHeight: showreview && "32rem",
+              height: showreview && "32rem",
+              overflow: "auto",
               borderRadius: isMobile && "0",
-              width: isMobile && "100%",
+              width: isMobile ? "100%" : "25rem",
               minWidth: !isMobile && "21rem",
             }}
             className={`${styles.reviewshell}`}
