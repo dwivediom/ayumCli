@@ -5,6 +5,7 @@ import { directorydata } from "../routes/data";
 import { getDoc, SearchDoc, showMore } from "../routes/directory";
 import styles from "../styles/Phonebook.module.css";
 import styles1 from "../styles/Searchinput.module.css";
+import styles2 from "../styles/booktest.module.css";
 
 import Slider2 from "../components/AdComp3";
 import { AccountContext } from "../context/AccountProvider";
@@ -93,6 +94,11 @@ const DoctorDirectory = () => {
     }
     const getdata = await SearchDoc(input.val);
     console.log(getdata);
+    if (getdata.data?.length == 0) {
+      setMessage(
+        `Hello team Ayum , please add Doctor ${input.val} , as soon as possible`
+      );
+    }
     setdocs(getdata.data);
   };
 
@@ -128,6 +134,37 @@ const DoctorDirectory = () => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
     setIsMobile(mobile.matches);
   }, []);
+
+  const [phoneNumber, setPhoneNumber] = useState("+919425681022");
+  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("Error Occured");
+
+  const handleClick = () => {
+    // Basic validation to ensure required fields are filled
+    if (!phoneNumber || !message) {
+      setErrorMessage("Please enter both phone number and message.");
+      return;
+    }
+
+    // Format phone number (remove non-numeric characters and prepend country code if needed)
+    const formattedNumber = phoneNumber.replace(/\D/g, "");
+    const whatsappNumber = `+${formattedNumber}`; // Replace with your country code if necessary
+
+    // Encode message for URL inclusion
+    const encodedMessage = encodeURI(message);
+
+    // Construct WhatsApp Web URL
+    const url = `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+
+    try {
+      // Open the URL in a new tab/window
+      window.open(url, "_blank");
+      setErrorMessage(""); // Clear any previous error messages
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again.");
+      console.error("Error opening WhatsApp Web:", error);
+    }
+  };
   return (
     <>
       <div
@@ -189,8 +226,7 @@ const DoctorDirectory = () => {
                 alt={"Loader Img"}
               />
             </div>
-          ) : (
-            docs?.length > 0 &&
+          ) : docs?.length > 0 ? (
             docs.map((item) => {
               return (
                 <DirectoryCard
@@ -200,6 +236,29 @@ const DoctorDirectory = () => {
                 />
               );
             })
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <div className={`${styles2.exittxt} shadow-lg text-center`}>
+                Doctor Not found!
+              </div>
+              <div
+                style={{
+                  padding: "1rem",
+                  marginTop: "10px",
+                  borderRadius: "36px",
+                }}
+                className={`${styles2.submitbtn} shadow-lg`}
+                onClick={() => handleClick()}
+              >
+                Request to Add this Doctor
+              </div>
+            </div>
           )}
         </div>
 
