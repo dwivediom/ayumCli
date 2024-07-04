@@ -76,19 +76,21 @@
   border-radius: 24px;
 }
 .submitbtn {
-  background: rgb(135, 242, 252);
+  background: rgb(0, 191, 209);
+  transition: 0.5s all;
   background: linear-gradient(
     90deg,
-    rgb(135, 252, 250) 0%,
-    rgb(0, 196, 199) 36%,
-    rgb(0, 199, 196) 42%,
-    rgb(0, 199, 192) 100%,
+    rgb(5, 183, 180) 0%,
+    rgb(2, 188, 191) 36%,
+    rgb(2, 186, 183) 42%,
+    rgb(0, 122, 118) 100%,
     rgb(9, 121, 116) 100%
   );
   padding: 5px 10px;
   border-radius: 24px;
   color: white;
   font-weight: bold;
+  cursor: pointer;
 
   /* margin-top: 1rem; */
 }
