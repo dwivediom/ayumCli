@@ -154,7 +154,7 @@ const DoctorDirectory = () => {
     const encodedMessage = encodeURI(message);
 
     // Construct WhatsApp Web URL
-    const url = `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+    const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
 
     try {
       // Open the URL in a new tab/window
