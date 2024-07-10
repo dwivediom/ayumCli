@@ -16,13 +16,13 @@ import Slider2 from "../../components/AdComp3";
 import { useContext } from "react";
 import ReactGA from "react-ga4";
 import { AccountContext } from "../../context/AccountProvider";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import HorizontalScroll from "../../components/DemoAd";
 import EmblaCarousel from "../../components/Carousel/EmblaCarouselComp";
 
 const Search = () => {
   const [data, setdata] = useState(null);
-  const [docs, setdocs] = useState(null);
+  const [docs, setdocs] = useState([]);
 
   const [input, setinput] = useState("");
   const sdata = useSelector((state) => state.quickSearchReducer);
@@ -70,7 +70,8 @@ const Search = () => {
     });
     // const getdata = await SearchDoc(input);
     // setdocs(getdata.data);
-    setdata(searchdata);
+    // setdata(searchdata);
+    setdocs([...searchdata?.data, ...docs]);
     setloading(false);
   };
   {
@@ -88,9 +89,8 @@ const Search = () => {
   useEffect(() => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
     setIsMobile(mobile.matches);
-    if (router.query.type) {
-      onloadSearch(router.query.type);
-    }
+    // if (router.query.type) {
+    // }
     let indexbox = document.getElementById("searchpage");
     // console.log(indexbox.scrollTop);
 
@@ -103,6 +103,13 @@ const Search = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (!router.query.type) {
+      return;
+    }
+    onloadSearch(router.query.type);
+  }, [router.query.type]);
   return (
     <>
       <div
@@ -140,7 +147,7 @@ const Search = () => {
               width: "100vw",
               height: "50vh",
               display: "flex",
-              alignItems: "flex-start",
+              alignItems: "center",
               justifyContent: "center",
               margin: "auto",
               marginTop: "1rem",
