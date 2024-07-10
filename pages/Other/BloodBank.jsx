@@ -37,17 +37,7 @@ const BloodBank = () => {
           flexDirection: "column",
         }}
       >
-        <div className={styles.bloodheadback}></div>
-
-        <h1
-          style={{
-            fontSize: "1.3rem",
-            boxShadow: "2px 2px 15px rgba(0,0,0,0.3)",
-          }}
-          className=" text-center mb-8 font-bold text-white bg-red-600 p-4 rounded-md"
-        >
-          Blood Banks Related Information
-        </h1>
+        <div style={{ zIndex: "-10" }} className={styles.bloodheadback}></div>
 
         <div
           style={{
@@ -57,7 +47,8 @@ const BloodBank = () => {
             width: "100%",
             gap: "2rem",
 
-            height: "16rem",
+            // height: "16rem",
+            paddingBottom: "2rem",
             overflow: "auto",
             flexWrap: "wrap",
           }}
