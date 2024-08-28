@@ -35,7 +35,6 @@ export async function getServerSideProps(context) {
     if (typeof window !== "undefined") {
       userToken = await getCookie("usertoken");
     }
-    console.log("User Token:", userToken);
 
     const data = await axios.get(
       `${process.env.NEXT_PUBLIC_B_PORT}/api/profile`,
@@ -80,7 +79,6 @@ export default function Home(props) {
         localStorage.removeItem("usertoken");
         localStorage.removeItem("labuser");
         router.push("/User/UserRegistrationPage?session=expired");
-        // window.location.href = "/User/UserRegistrationPage?type=newses";
       }
       const userToken = await getCookie("usertoken");
       console.log("usertoken", userToken);
@@ -132,47 +130,6 @@ export default function Home(props) {
   const [full, setfull] = useState(false);
   const [loading, setloading] = useState(false);
 
-  // useEffect(() => {
-  // console.log(props, "propdatah");
-
-  // }, []);
-
-  // useEffect(() => {
-  //   const handleOnline = () => {
-  //     setIsOnline(true);
-  //     console.log("User is online");
-  //   };
-  //   const handleOffline = () => {
-  //     setIsOnline(false);
-  //     console.log("User is offline");
-  //   };
-
-  //   window.addEventListener("online", handleOnline);
-  //   window.addEventListener("offline", handleOffline);
-
-  //   return () => {
-  //     window.removeEventListener("online", handleOnline);
-  //     window.removeEventListener("offline", handleOffline);
-  //   };
-  // }, []);
-  // useEffect(() => {
-  // console.log(props.data, "data");
-  // if (props.data) {
-  //   setdoctors(props.data && props.data);
-  // } else {
-  //   setdoctors(null);
-  // }
-
-  //   if (localStorage.getItem("thankmodal") == true) {
-  //     setthankmodal(true);
-  //     setTimeout(() => {
-  //       localStorage.setItem("thankmodal", false);
-  //       setthankmodal(false);
-  //     }, 2500);
-  //     // setauthstatus(false);
-  //   }
-  // }, []);
-
   const Loadmore = async () => {
     setloading(true);
     const newdocdata = await axios({
@@ -190,53 +147,6 @@ export default function Home(props) {
     setdoctors(finalstatedata);
     setloading(false);
   };
-
-  // Router.events.on("routeChangeStart", (url) => {
-  //   setscrollbox(true);
-  // });
-
-  // useEffect(() => {
-  //   let indexbox = document.getElementById("indexbox");
-  //   // console.log(indexbox.scrollTop);
-  //   indexbox.addEventListener("scroll", () => {
-  //     let scrollTop = indexbox.scrollTop;
-  //     if (scrollTop > 0) {
-  //       setscrollbox(false);
-  //     } else {
-  //       setscrollbox(true);
-  //     }
-  //   });
-  // }, []);
-
-  // const handlelangchange = (lang) => {
-  //   localStorage.setItem("locale", lang);
-  //   setlang(lang);
-  // };
-  // if (!isOnline) {
-  //   return (
-  //     <>
-  //       <div
-  //         style={{
-  //           display: "flex",
-  //           justifyContent: "center",
-  //           alignItems: "center",
-  //           height: "60vh",
-  //           flexDirection: "column",
-  //         }}
-  //       >
-  //         <Image
-  //           width={200}
-  //           height={200}
-  //           src="/offline.png"
-  //           alt="Offline animation"
-  //         />
-  //         <h2 style={{ fontWeight: "bold", color: "red" }}>
-  //           {lang == "en" ? English.online : Hindi.online}
-  //         </h2>
-  //       </div>
-  //     </>
-  //   );
-  // }
 
   let [isMobile, setIsMobile] = useState(false);
   // const [admin, setadmin] = useState(true);
@@ -272,21 +182,6 @@ export default function Home(props) {
       image: "https://i.ibb.co/XSh3b0d/Ayum.png",
       title: "Slide 6",
     },
-    // {
-    //   id: 7,
-    //   imageSrc: "/contact2.jpg",
-    //   title: "Slide 7",
-    // },
-    // {
-    //   id: 8,
-    //   imageSrc: "/contact2.jpg",
-    //   title: "Slide 8",
-    // },
-    // {
-    //   id: 9,
-    //   imageSrc: "/contact2.jpg",
-    //   title: "Slide 9",
-    // },
   ];
 
   const OPTIONS = { loop: true, autoplay: true };
@@ -384,7 +279,7 @@ export default function Home(props) {
         </div>
       )}
 
-      <Footer />
+      {/* <Footer /> */}
       {thankmodal && <ThankModal />}
     </>
   );

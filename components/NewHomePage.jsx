@@ -14,7 +14,7 @@ import EmblaCarousel from "./Carousel/EmblaCarouselComp";
 const NewHomePage = () => {
   let [isMobile, setIsMobile] = useState(false);
   const [loading, setloading] = useState(false);
-  const { admindialog, setadmindialog, setadminmode } =
+  const { admindialog, setadmindialog, setadminmode, langmodal } =
     useContext(AccountContext);
   const [showload, setshowload] = useState();
   const [full, setfull] = useState(false);
@@ -26,14 +26,17 @@ const NewHomePage = () => {
   useEffect(() => {
     async function getalldoc() {
       setloading(true);
-      const gotdata = await getDoc();
+
+      const gotdata = await getDoc(localStorage.getItem("city"));
       console.log(gotdata);
       setdocs(gotdata.data);
       console.log(docs && docs, "All dOcs Data");
       setloading(false);
     }
-    getalldoc();
-  }, []);
+    if (!langmodal) {
+      getalldoc();
+    }
+  }, [langmodal]);
   const ShowMoreDoc = async () => {
     setshowload(true);
     const data = await showMore();
@@ -94,35 +97,6 @@ const NewHomePage = () => {
 
   return (
     <div className={styles.mainshell}>
-      {/* <Dialog
-        open={admindialog}
-        onClose={() => {
-          setadmindialog(false);
-        }}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div style={{ padding: "2rem" }}>
-          <input
-            className="rounded-full p-1"
-            style={{ padding: "6px" }}
-            value={code}
-            onChange={(e) => setcode(e.target.value)}
-            placeholder="Enter Code"
-          />{" "}
-          <button
-            className="bg-cyan-900 p-2 text-cyan-100 rounded-full"
-            onClick={() => {
-              if (code == "ayum@321one") {
-                setadminmode(true);
-                setadmindialog(false);
-              }
-            }}
-          >
-            Submit
-          </button>
-        </div>
-      </Dialog>{" "} */}
       <SearchBox />
       <QuickSearch />
       {isMobile ? (
