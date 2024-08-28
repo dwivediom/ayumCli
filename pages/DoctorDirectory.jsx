@@ -82,7 +82,6 @@ const DoctorDirectory = () => {
 
   const handleChange = (e) => {
     setinput({ ...input, [e.target.name]: e.target.value });
-    console.log(input);
   };
 
   const handleSubmit = async (e) => {
@@ -174,6 +173,7 @@ const DoctorDirectory = () => {
         <form
           onSubmit={(e) => handleSubmit(e)}
           className={`${styles1.searchform}`}
+          style={{ marginTop: "10px" }}
           action="#"
         >
           <div className="relative">
@@ -245,19 +245,21 @@ const DoctorDirectory = () => {
               }}
             >
               <div className={`${styles2.exittxt} shadow-lg text-center`}>
-                Doctor Not found!
+                {input.val == "" ? "Search doctor above" : "Doctor not found!"}
               </div>
-              <div
-                style={{
-                  padding: "1rem",
-                  marginTop: "10px",
-                  borderRadius: "36px",
-                }}
-                className={`${styles2.submitbtn} shadow-lg`}
-                onClick={() => handleClick()}
-              >
-                Request to Add this Doctor
-              </div>
+              {input.val != "" && (
+                <div
+                  style={{
+                    padding: "1rem",
+                    marginTop: "10px",
+                    borderRadius: "36px",
+                  }}
+                  className={`${styles2.submitbtn} shadow-lg`}
+                  onClick={() => handleClick()}
+                >
+                  Request to Add this Doctor
+                </div>
+              )}
             </div>
           )}
         </div>

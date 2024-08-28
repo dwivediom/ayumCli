@@ -3,6 +3,9 @@ import styles from "../styles/extracss.module.css";
 import { useContext } from "react";
 import { AccountContext } from "../context/AccountProvider";
 import axios from "axios";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import { Button } from "@mui/material";
 
 const LanguageModal = () => {
   const { setlang, setlangmodal, lang } = useContext(AccountContext);
@@ -49,7 +52,6 @@ const LanguageModal = () => {
     setlangchanged(true);
     setlang(lang);
     localStorage.setItem("locale", lang);
-    setlangmodal(false);
   };
   const [number, setnumber] = useState("");
   const handleChange = (e) => {
@@ -86,70 +88,111 @@ const LanguageModal = () => {
       }
     }
   };
-
+  const cityoptions = [
+    { label: "Rewa" },
+    { label: "Satna" },
+    { label: "Sidhi" },
+    { label: "Jabalpur" },
+    { label: "Nagpur" },
+    { label: "Gwalior" },
+  ];
   const [langchanged, setlangchanged] = useState(false);
   return (
     <div className={`${styles.languagediv}`}>
       <div className={`${styles.languagemodal}`}>
-        <h1>
-          Choose Language <br /> भाषा चुनें:
-        </h1>
-        <div className={`${styles.languagebtngrp}`}>
-          <div
-            onClick={(e) => handleClick(e, "hi")}
-            className={`${styles.languagebtns}`}
-          >
-            {lang == "hi" && langchanged && (
-              <div className={`${styles.checksvg}`}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="96"
-                  height="96"
-                  viewBox="0 0 256 256"
-                >
-                  <path
-                    fill="#20c997"
-                    strokeMiterlimit="10"
-                    d="M7.5 1A6.51 6.51 0 001 7.5 6.51 6.51 0 007.5 14 6.51 6.51 0 0014 7.5 6.51 6.51 0 007.5 1zm0 1C10.543 2 13 4.457 13 7.5S10.543 13 7.5 13A5.493 5.493 0 012 7.5C2 4.457 4.457 2 7.5 2zm2.645 3.148L6.5 8.793 4.852 7.148l-.704.704L6.5 10.207l4.355-4.355z"
-                    fontFamily="none"
-                    fontSize="none"
-                    fontWeight="none"
-                    textAnchor="none"
-                    transform="scale(16)"
-                  ></path>
-                </svg>{" "}
-              </div>
-            )}
-            हिन्दी
-          </div>
-          <div
-            onClick={(e) => handleClick(e, "en")}
-            className={`${styles.languagebtns}`}
-          >
-            {lang == "en" && langchanged && (
-              <div className={`${styles.checksvg}`}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="96"
-                  height="96"
-                  viewBox="0 0 256 256"
-                >
-                  <path
-                    fill="#20c997"
-                    strokeMiterlimit="10"
-                    d="M7.5 1A6.51 6.51 0 001 7.5 6.51 6.51 0 007.5 14 6.51 6.51 0 0014 7.5 6.51 6.51 0 007.5 1zm0 1C10.543 2 13 4.457 13 7.5S10.543 13 7.5 13A5.493 5.493 0 012 7.5C2 4.457 4.457 2 7.5 2zm2.645 3.148L6.5 8.793 4.852 7.148l-.704.704L6.5 10.207l4.355-4.355z"
-                    fontFamily="none"
-                    fontSize="none"
-                    fontWeight="none"
-                    textAnchor="none"
-                    transform="scale(16)"
-                  ></path>
-                </svg>{" "}
-              </div>
-            )}
-            English
+        <div
+          style={{
+            width: "100%",
+            padding: "10px",
+            borderRadius: "24px",
+            boxShadow: "inset 0 0 5px rgba(0,0,0,0,3)",
+          }}
+        >
+          <h1>
+            Choose Language <br /> भाषा चुनें
+          </h1>
+          <div className={`${styles.languagebtngrp}`}>
+            <div
+              onClick={(e) => handleClick(e, "hi")}
+              className={`${styles.languagebtns}`}
+            >
+              {lang == "hi" && langchanged && (
+                <div className={`${styles.checksvg}`}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="96"
+                    height="96"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      fill="#20c997"
+                      strokeMiterlimit="10"
+                      d="M7.5 1A6.51 6.51 0 001 7.5 6.51 6.51 0 007.5 14 6.51 6.51 0 0014 7.5 6.51 6.51 0 007.5 1zm0 1C10.543 2 13 4.457 13 7.5S10.543 13 7.5 13A5.493 5.493 0 012 7.5C2 4.457 4.457 2 7.5 2zm2.645 3.148L6.5 8.793 4.852 7.148l-.704.704L6.5 10.207l4.355-4.355z"
+                      fontFamily="none"
+                      fontSize="none"
+                      fontWeight="none"
+                      textAnchor="none"
+                      transform="scale(16)"
+                    ></path>
+                  </svg>{" "}
+                </div>
+              )}
+              हिन्दी
+            </div>
+            <div
+              onClick={(e) => handleClick(e, "en")}
+              className={`${styles.languagebtns}`}
+            >
+              {lang == "en" && langchanged && (
+                <div className={`${styles.checksvg}`}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="96"
+                    height="96"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      fill="#20c997"
+                      strokeMiterlimit="10"
+                      d="M7.5 1A6.51 6.51 0 001 7.5 6.51 6.51 0 007.5 14 6.51 6.51 0 0014 7.5 6.51 6.51 0 007.5 1zm0 1C10.543 2 13 4.457 13 7.5S10.543 13 7.5 13A5.493 5.493 0 012 7.5C2 4.457 4.457 2 7.5 2zm2.645 3.148L6.5 8.793 4.852 7.148l-.704.704L6.5 10.207l4.355-4.355z"
+                      fontFamily="none"
+                      fontSize="none"
+                      fontWeight="none"
+                      textAnchor="none"
+                      transform="scale(16)"
+                    ></path>
+                  </svg>{" "}
+                </div>
+              )}
+              English
+            </div>
           </div>
         </div>
+        <div>
+          <h1>
+            Choose City <br /> शहर चुनें
+          </h1>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={cityoptions}
+            onChange={(e, val) => {
+              localStorage.setItem("city", val.label);
+            }}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="" />}
+          />
+        </div>
+        <Button
+          style={{ background: "teal" }}
+          variant="contained"
+          color="success"
+          onClick={() => {
+            setlangmodal(false);
+          }}
+        >
+          Submit
+        </Button>
         {/* {langchanged && (
           <div className={`${styles.numberinput}`} style={{ width: "100%" }}>
             <input
