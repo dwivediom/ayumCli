@@ -119,7 +119,6 @@ const PrivacyPolicy = () => {
           <br />
           Email: ayumdev@gmail.com
           <br />
-          Phone: +91 9425681022
         </p>
       </section>
     </div>

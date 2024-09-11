@@ -36,3 +36,29 @@
 .searchpage::-webkit-scrollbar {
   display: none;
 }
+
+
+.suggestpopup{
+  position: absolute;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(157, 157, 157, 0.701);
+  background-color: rgb(252, 252, 252);
+  padding: 10px;
+  top: 3.5rem;
+  z-index: 20;
+  border-radius: 6px;
+  display: flex;
+  gap: 1px;
+  flex-direction: column;
+}
+
+.suggestoption{
+  padding: 7px;
+  background-color: #007b7b;
+  height: fit-content;
+  color: white;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 4px;
+  border-bottom: 1px solid rgb(191, 191, 191);
+}

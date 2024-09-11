@@ -100,7 +100,7 @@ const NewHomePage = () => {
       <SearchBox />
       <QuickSearch />
       {isMobile ? (
-        <EmblaCarousel slidesData={slidesData} />
+        <EmblaCarousel slidesData={slidesData} page={"home"} />
       ) : (
         <HorizontalScroll />
       )}

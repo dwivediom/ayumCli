@@ -26,15 +26,17 @@ export const showMore = async () => {
     return error.message;
   }
 };
-export const SearchDoc = async (searchkey) => {
+export const SearchDoc = async (searchkey, limit) => {
   // http://localhost:5000/api/docdirectory/search/:key/
   try {
-    const newdata = await axios({
-      url: `${host}/api/search/${searchkey}/`,
-      method: "get",
-    });
+    let url = `${host}/api/search?key=${searchkey}`;
+    const newdata = await axios.post(
+      url,
+      { limit: limit, search: true },
+      { headers: { "Content-Type": "application/json" } }
+    );
 
-    return newdata;
+    return newdata.data;
   } catch (error) {
     return error.message;
   }

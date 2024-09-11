@@ -169,7 +169,7 @@ const Termsconditions = () => {
         <h2 style={styles.subTitle}>11. Contact Information</h2>
         <p style={styles.text}>
           If you have any questions or concerns regarding these Terms, please
-          contact us at support@ayum.in
+          contact us at ayumdev@gmail.com
         </p>
       </section>
     </div>

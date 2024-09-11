@@ -136,11 +136,10 @@ const Refunpolicycomp = () => {
         <p style={tempstyles.text}>
           <strong>Ayum Healthcare Private Limited</strong>
           <br />
-          [Insert Address]
+          Rewa , Madhya Pradesh
           <br />
-          Email: [Insert Email Address]
+          Email: ayumdev@gmail.com
           <br />
-          Phone: [Insert Phone Number]
         </p>
       </section>
     </div>

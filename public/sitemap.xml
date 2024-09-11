@@ -181,7 +181,7 @@
         <loc>https://www.ayum.in/doctor?docid=641944fb1a87b90e323a6864&amp;n= Dr. Brijesh Singh</loc>
         <changefreq>weekly</changefreq>
         </url><url>
-        <loc>https://www.ayum.in/doctor?docid=641945fb1a87b90e323a6871&amp;n=Dr. Manoj Indurkar</loc>
+        <loc>https://www.ayum.in/doctor?docid=641945fb1a87b90e323a6871&amp;n=Dr. Manoj  indulkar</loc>
         <changefreq>weekly</changefreq>
         </url><url>
         <loc>https://www.ayum.in/doctor?docid=6427ac0efd21e6aafcbbb1a4&amp;n=Dr. Manmohan Singh</loc>
@@ -211,9 +211,6 @@
         <loc>https://www.ayum.in/doctor?docid=6629243124bd711d5861c705&amp;n=rudrasksh</loc>
         <changefreq>weekly</changefreq>
         </url><url>
-        <loc>https://www.ayum.in/doctor?docid=662924b124bd711d5861c707&amp;n=sample doctor </loc>
-        <changefreq>weekly</changefreq>
-        </url><url>
         <loc>https://www.ayum.in/doctor?docid=6629254efbfdb924219b06fd&amp;n=sample doctor </loc>
         <changefreq>weekly</changefreq>
         </url><url>
@@ -233,6 +230,51 @@
         <changefreq>weekly</changefreq>
         </url><url>
         <loc>https://www.ayum.in/doctor?docid=666f07f6307209d87aec5de6&amp;n=Dr Sachin Rai </loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66878513908d6133c6e83a47&amp;n=Dr Amitabh awasthi</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66a4c5c9a10fadef554eb9a2&amp;n=Dr. Deepak Mishra</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66a4c741a10fadef554eb9ab&amp;n=Dr Deepak Dwivedi</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66a4c8b7a10fadef554eb9bf&amp;n=Dr. Ranjeet Jha</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66a4d035a10fadef554eb9e1&amp;n=Dr Sudhanshu Dixit</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66a4d200a10fadef554eb9ea&amp;n= Dr. Anurag Chaurasiya, MBBS MD</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66ac51d5a10fadef554eca5a&amp;n=Vihaan hospital and research centre</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66ae7815a10fadef554ecec1&amp;n=Dr Padma Shukla</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66c57a09a10fadef554f0793&amp;n=Dr. Tanuja Singh</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66c5ed38a10fadef554f0986&amp;n=Dr. Nisha Agrawal</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66c5ee9ba10fadef554f098f&amp;n=Dr Eshan Goyal Agrawal</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66cb166ea10fadef554f1d3d&amp;n=Dr. Priyank Sharma</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66d04256a10fadef554f2bfc&amp;n=Dr. SK Tripathi D.M. Cardiology</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66d04915a10fadef554f2c4c&amp;n=Dr. Alok Dubey</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?docid=66d14a7ca10fadef554f2ef3&amp;n=Dr. Rajesh Singhal</loc>
         <changefreq>weekly</changefreq>
         </url><url>
         <loc>https://www.ayum.in/doctor?p=1</loc>
@@ -257,6 +299,12 @@
         <changefreq>weekly</changefreq>
         </url><url>
         <loc>https://www.ayum.in/doctor?p=8</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?p=9</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/doctor?p=10</loc>
         <changefreq>weekly</changefreq>
         </url><url>
         <loc>https://www.ayum.in/</loc>
