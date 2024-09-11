@@ -556,7 +556,7 @@ const Campaign = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );

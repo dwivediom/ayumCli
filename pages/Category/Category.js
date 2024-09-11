@@ -13,7 +13,7 @@ const Category = () => {
     setscrollbox(false);
   }, []);
   return (
-    <div className="absolute h-[100vh] overflow-scroll w-full">
+    <div style={{ minHeight: "100vh" }} className="overflow-scroll w-full">
       <QuickSearch />
       <Slider2 />
     </div>

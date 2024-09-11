@@ -114,7 +114,7 @@ const Search = () => {
     <>
       <div
         id="searchpage"
-        className={`p-4 absolute w-[98vw] h-[100vh] overflow-x-hidden overflow-y-scroll pb-[8rem] ${styles.searchpage}`}
+        className={`p-4  w-[98vw] h-[100vh] overflow-x-hidden overflow-y-scroll pb-[8rem] ${styles.searchpage}`}
       >
         <form className={`${styles.searchform}`} onSubmit={(e) => onSearch(e)}>
           <div className="relative">
