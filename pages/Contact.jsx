@@ -5,7 +5,11 @@ const Contact = dynamic(() => import("../components/Contact us/contact"));
 const Contactpage = () => {
   return (
     <>
-      <div>
+      <div
+        style={{
+          height: "100vh",
+        }}
+      >
         <Contact />
       </div>
     </>

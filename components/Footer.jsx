@@ -123,6 +123,19 @@ const Footer = () => {
             </span>
           </div>
         </div>
+        <div className={styles.footerboxes}>
+          <h2>Others</h2>
+          <div>
+            <a href="/termsconditions">Terms & conditions</a>
+          </div>
+          <div>
+            <a href="/PrivacyPolicy">Privacy policy</a>
+          </div>
+
+          <div onClick={() => router.push("/ChatSection")}>
+            <a href="/refundpolicy">Refund policy</a>
+          </div>
+        </div>
       </div>
       <div
         style={{

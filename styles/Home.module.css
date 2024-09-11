@@ -248,16 +248,9 @@
 }
 
 .authbox {
-  height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  margin: auto;
-  padding-top: 100px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+display: flex;
+justify-content: center;
+padding-top: 1rem;
   background: transparent;
 }
 .mobilecoll {

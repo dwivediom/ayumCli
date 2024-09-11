@@ -19,6 +19,7 @@ import { sendnotification } from "../routes/notify";
 import { updateuser } from "../routes/user";
 import LoginPopup from "../components/UserAuth/LoginPopup";
 import Loader from "../components/Loader";
+import Footer from "../components/Footer";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
@@ -119,6 +120,7 @@ function MyApp({ Component, pageProps, AccountContext }) {
               <Navbar />
               <Component {...pageProps} />
               <LoginPopup />
+              <Footer />
               <BottomNav />
             </div>
           </ReduxProvider>

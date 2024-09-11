@@ -320,7 +320,7 @@ const NewAboutComp = () => {
         </div>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

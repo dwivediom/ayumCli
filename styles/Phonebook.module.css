@@ -82,7 +82,7 @@
   height: 100vh;
   overflow: scroll;
   overscroll-behavior: smooth;
-  position: absolute;
+  /* position: absolute; */
   padding: 0px 10px;
 }
 

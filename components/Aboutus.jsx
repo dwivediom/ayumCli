@@ -282,7 +282,7 @@ const Aboutus = () => {
               </div>
             </div>
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
     </>
