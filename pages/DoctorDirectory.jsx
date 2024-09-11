@@ -1,17 +1,17 @@
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import DirectoryCard from "../components/DirectoryCard";
 import { directorydata } from "../routes/data";
 import { getDoc, SearchDoc, showMore } from "../routes/directory";
 import styles from "../styles/Phonebook.module.css";
 import styles1 from "../styles/Searchinput.module.css";
 import styles2 from "../styles/booktest.module.css";
-
 import Slider2 from "../components/AdComp3";
 import { AccountContext } from "../context/AccountProvider";
 import { useRouter } from "next/router";
 import EmblaCarousel from "../components/Carousel/EmblaCarouselComp";
 import HorizontalScroll from "../components/DemoAd";
+import { debounce } from "lodash";
 
 const DoctorDirectory = () => {
   const [showload, setshowload] = useState();
@@ -79,8 +79,24 @@ const DoctorDirectory = () => {
     console.log(docs);
     setshowload(false);
   };
+  const [suggestion, setsuggestion] = useState([]);
+  const [suggestionpopup, setsuggestionpopup] = useState(false);
+  const [onpopup, setonpopup] = useState(false);
 
-  const handleChange = (e) => {
+  const debouncedOnChange = useCallback(
+    debounce((val) => {
+      handleSearch(val);
+    }, 400), // 500ms delay
+    []
+  );
+
+  const handleSearch = async (val) => {
+    if (val != "" && val) {
+      const getdata = await SearchDoc(val, 5);
+      setsuggestion(getdata.data);
+    }
+  };
+  const handleChange = async (e) => {
     setinput({ ...input, [e.target.name]: e.target.value });
   };
 
@@ -91,6 +107,7 @@ const DoctorDirectory = () => {
 
       return setdocs(gotdata.data);
     }
+    setsuggestionpopup(false);
     const getdata = await SearchDoc(input.val);
     console.log(getdata);
     if (getdata.data?.length == 0) {
@@ -164,6 +181,7 @@ const DoctorDirectory = () => {
       console.error("Error opening WhatsApp Web:", error);
     }
   };
+
   return (
     <>
       <div
@@ -183,8 +201,43 @@ const DoctorDirectory = () => {
               name="val"
               className={`${styles1.searchinput}`}
               placeholder="Search Doctor..."
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => {
+                debouncedOnChange(e.target.value);
+              }}
+              onFocus={() => setsuggestionpopup(true)}
+              onBlur={() => {
+                if (onpopup) {
+                  setsuggestionpopup(false);
+                }
+              }}
             />
+            {suggestionpopup && (
+              <div
+                onMouseEnter={() => {
+                  setsuggestionpopup(true);
+                  setonpopup(true);
+                }}
+                onMouseOut={() => {
+                  setonpopup(false);
+                }}
+                className={`${styles1.suggestpopup}`}
+              >
+                {suggestion &&
+                  suggestion.length > 0 &&
+                  suggestion.map((item) => {
+                    return (
+                      <p
+                        onClick={() => {
+                          router.push(`/doctor?docid=${item._id}`);
+                        }}
+                        className={`${styles1.suggestoption}`}
+                      >
+                        {item.name} , {item.city} , {item.specialist}
+                      </p>
+                    );
+                  })}
+              </div>
+            )}
             <button
               onClick={(e) => handleSubmit(e)}
               type="button"

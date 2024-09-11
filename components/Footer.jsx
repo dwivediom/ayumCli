@@ -124,16 +124,16 @@ const Footer = () => {
           </div>
         </div>
         <div className={styles.footerboxes}>
-          <h2></h2>
+          <h2>Others</h2>
           <div>
-            <a href="https://ayum.in/termsconditions">Terms & conditions</a>
+            <a href="/termsconditions">Terms & conditions</a>
           </div>
           <div>
-            <a href="https://ayum.in/PrivacyPolicy">Privacy policy</a>
+            <a href="/PrivacyPolicy">Privacy policy</a>
           </div>
 
           <div onClick={() => router.push("/ChatSection")}>
-            <a href="https://ayum.in/refundpolicy">Refund policy</a>
+            <a href="/refundpolicy">Refund policy</a>
           </div>
         </div>
       </div>
