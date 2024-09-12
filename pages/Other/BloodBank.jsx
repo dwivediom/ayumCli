@@ -27,7 +27,6 @@ const BloodBank = () => {
   return (
     <>
       <div
-        className=" w-full m-auto mt-[-1rem] absolute overflow-scroll"
         id="bloodpage"
         style={{
           display: "flex",
