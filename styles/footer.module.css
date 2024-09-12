@@ -12,6 +12,7 @@
   overflow: hidden;
   position: relative;
   padding: 10px 5px;
+  display: flex;
 }
 .footerboxes {
   color: black;
