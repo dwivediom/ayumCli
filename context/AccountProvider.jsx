@@ -42,7 +42,8 @@ const AccountProvider = ({ children }) => {
 
   useEffect(() => {
     const locale = localStorage.getItem("locale");
-    if (locale) {
+    const city = localStorage.getItem("city");
+    if (locale && city) {
       setlang(locale);
     } else {
       setlangmodal(true);
