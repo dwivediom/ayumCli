@@ -24,8 +24,8 @@ const Footer = () => {
             color: "#005E6D",
           }}
         >
-          * Platform Pricing starts from 20 rs and can go above as per doctors
-          requirement
+          * Platform Pricing starts from ₹20/Appointment and can go above as per
+          {" doctor's"} requirement
         </p>
         <div className={styles.footc1}></div>
         <div className={styles.footc2}></div>
