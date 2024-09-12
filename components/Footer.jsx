@@ -10,143 +10,172 @@ const Footer = () => {
   const { lang, setadminmode } = useContext(AccountContext);
   return (
     <>
-      <div className={styles.footercontainer}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+        className={styles.footercontainer}
+      >
+        <p
+          style={{
+            fontSize: "15px",
+            paddingLeft: "3px",
+            color: "#005E6D",
+          }}
+        >
+          * Platform Pricing starts from 20 rs and can go above as per doctors
+          requirement
+        </p>
         <div className={styles.footc1}></div>
         <div className={styles.footc2}></div>
-        <div className={styles.footerboxes}>
-          <h2>{lang == "en" ? English.socials : Hindi.socials}</h2>
-          <div>
-            <Image
-              width={30}
-              height={30}
-              alt="instagram"
-              src="https://img.icons8.com/3d-fluency/94/null/instagram-new.png"
-            />
-            <a
-              rel="noreferrer"
-              href="https://www.instagram.com/ayum_health/"
-              target={"_blank"}
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
+          <div className={styles.footerboxes}>
+            <h2>{lang == "en" ? English.socials : Hindi.socials}</h2>
+            <div>
+              <Image
+                width={30}
+                height={30}
+                alt="instagram"
+                src="https://img.icons8.com/3d-fluency/94/null/instagram-new.png"
+              />
+              <a
+                rel="noreferrer"
+                href="https://www.instagram.com/ayum_health/"
+                target={"_blank"}
+              >
+                <span>
+                  {lang == "en" ? English.instagram : Hindi.instagram}
+                </span>
+              </a>
+            </div>
+            <div>
+              <Image
+                width={30}
+                height={30}
+                alt="Facebook"
+                src="https://img.icons8.com/3d-fluency/94/null/facebook-circled.png"
+              />
+              <a
+                rel="noreferrer"
+                href="https://www.instagram.com/ayum_health/"
+                target={"_blank"}
+              >
+                <span>{lang == "en" ? English.facebook : Hindi.facebook}</span>
+              </a>
+            </div>
+            <div>
+              <Image
+                width={30}
+                height={30}
+                alt="Twitter"
+                src="https://img.icons8.com/3d-fluency/94/null/twitter-circled.png"
+              />
+              <a
+                rel="noreferrer"
+                href="https://twitter.com/ayum_health"
+                target={"_blank"}
+              >
+                <span>{lang == "en" ? English.twitter : Hindi.twitter}</span>{" "}
+              </a>
+            </div>
+            <div>
+              <Image
+                width={30}
+                height={30}
+                alt="Linkedin"
+                src="https://img.icons8.com/3d-fluency/94/null/linkedin.png"
+              />
+              <a
+                rel="noreferrer"
+                href="https://www.linkedin.com/in/ayum-in-263828257/"
+              >
+                <span>{lang == "en" ? English.linkedin : Hindi.linkedin}</span>
+              </a>
+            </div>
+          </div>
+          <div className={styles.footerboxes}>
+            <h2>{lang == "en" ? English.ourservice : Hindi.ourservice}</h2>
+            <div>
+              <Image
+                width={30}
+                height={30}
+                alt="Online Appointment"
+                src="https://img.icons8.com/external-justicon-flat-gradient-justicon/64/null/external-appointment-telemedicine-justicon-flat-gradient-justicon.png"
+              />
+              <span>
+                {lang == "en" ? English.onlineappo : Hindi.onlineappo}
+              </span>
+            </div>
+            <div>
+              <Image
+                width={30}
+                height={30}
+                alt="Patient Management"
+                src="https://img.icons8.com/fluency/96/null/appointment-scheduling.png"
+              />
+              <span>
+                {lang == "en" ? English.patientmanage : Hindi.patientmanage}
+              </span>
+            </div>
+            <div
+              onClick={() => {
+                // setadmindialog(true);
+                setadminmode(true);
+              }}
             >
-              <span>{lang == "en" ? English.instagram : Hindi.instagram}</span>
-            </a>
+              <Image
+                width={30}
+                height={30}
+                alt="Version 0.0"
+                src="https://img.icons8.com/3d-fluency/94/documents.png"
+              />
+              <span>Version 0.0</span>
+            </div>
+            <div onClick={() => router.push("/ChatSection")}>
+              <Image
+                width={30}
+                height={30}
+                alt="Online Lab Tests"
+                src="https://img.icons8.com/external-flat-berkahicon/64/null/external-Lab-Test-healthcare-flat-berkahicon.png"
+              />
+              <span>
+                {lang == "en" ? English.onlinelabtest : Hindi.onlinelabtest}
+              </span>
+            </div>
           </div>
-          <div>
-            <Image
-              width={30}
-              height={30}
-              alt="Facebook"
-              src="https://img.icons8.com/3d-fluency/94/null/facebook-circled.png"
-            />
-            <a
-              rel="noreferrer"
-              href="https://www.instagram.com/ayum_health/"
-              target={"_blank"}
-            >
-              <span>{lang == "en" ? English.facebook : Hindi.facebook}</span>
-            </a>
-          </div>
-          <div>
-            <Image
-              width={30}
-              height={30}
-              alt="Twitter"
-              src="https://img.icons8.com/3d-fluency/94/null/twitter-circled.png"
-            />
-            <a
-              rel="noreferrer"
-              href="https://twitter.com/ayum_health"
-              target={"_blank"}
-            >
-              <span>{lang == "en" ? English.twitter : Hindi.twitter}</span>{" "}
-            </a>
-          </div>
-          <div>
-            <Image
-              width={30}
-              height={30}
-              alt="Linkedin"
-              src="https://img.icons8.com/3d-fluency/94/null/linkedin.png"
-            />
-            <a
-              rel="noreferrer"
-              href="https://www.linkedin.com/in/ayum-in-263828257/"
-            >
-              <span>{lang == "en" ? English.linkedin : Hindi.linkedin}</span>
-            </a>
-          </div>
-        </div>
-        <div className={styles.footerboxes}>
-          <h2>{lang == "en" ? English.ourservice : Hindi.ourservice}</h2>
-          <div>
-            <Image
-              width={30}
-              height={30}
-              alt="Online Appointment"
-              src="https://img.icons8.com/external-justicon-flat-gradient-justicon/64/null/external-appointment-telemedicine-justicon-flat-gradient-justicon.png"
-            />
-            <span>{lang == "en" ? English.onlineappo : Hindi.onlineappo}</span>
-          </div>
-          <div>
-            <Image
-              width={30}
-              height={30}
-              alt="Patient Management"
-              src="https://img.icons8.com/fluency/96/null/appointment-scheduling.png"
-            />
-            <span>
-              {lang == "en" ? English.patientmanage : Hindi.patientmanage}
-            </span>
-          </div>
-          <div
-            onClick={() => {
-              // setadmindialog(true);
-              setadminmode(true);
-            }}
-          >
-            <Image
-              width={30}
-              height={30}
-              alt="Version 0.0"
-              src="https://img.icons8.com/3d-fluency/94/documents.png"
-            />
-            <span>Version 0.0</span>
-          </div>
-          <div onClick={() => router.push("/ChatSection")}>
-            <Image
-              width={30}
-              height={30}
-              alt="Online Lab Tests"
-              src="https://img.icons8.com/external-flat-berkahicon/64/null/external-Lab-Test-healthcare-flat-berkahicon.png"
-            />
-            <span>
-              {lang == "en" ? English.onlinelabtest : Hindi.onlinelabtest}
-            </span>
-          </div>
-        </div>
-        <div className={styles.footerboxes}>
-          <h2>Others</h2>
-          <div>
-            <a href="/termsconditions">Terms & conditions</a>
-          </div>
-          <div>
-            <a href="/PrivacyPolicy">Privacy policy</a>
-          </div>
+          <div className={styles.footerboxes}>
+            <h2>Others</h2>
+            <div>
+              <a href="/termsconditions">Terms & conditions</a>
+            </div>
+            <div>
+              <a href="/PrivacyPolicy">Privacy policy</a>
+            </div>
 
-          <div onClick={() => router.push("/ChatSection")}>
-            <a href="/refundpolicy">Refund policy</a>
+            <div>
+              <a href="/refundpolicy">Refund policy</a>
+            </div>
           </div>
         </div>
       </div>
       <div
         style={{
+          display: "flex",
+          flexDirection: "column",
           marginTop: "-3rem",
-          width: "100%",
           height: "4rem",
-          paddingBottom: "6rem",
+          paddingBottom: "10rem",
         }}
-        className="text-center  text-sm  "
       >
-        &#169; 2024 Ayum Healthcare Private Ltd. , Inc. All rights are Reserved
+        <div className="text-center  text-sm  ">
+          &#169; 2024 Ayum Healthcare Private Ltd. , Inc. All rights are
+          Reserved
+        </div>
       </div>
     </>
   );
