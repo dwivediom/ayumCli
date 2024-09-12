@@ -29,7 +29,7 @@ const Search = () => {
   const [loading, setloading] = useState(false);
   const [reload, setreload] = useState(true);
   const [viewsearchill, setviewsearchill] = useState(true);
-  const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
+  const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/search?key=${input}`;
   const router = useRouter();
   // useEffect(() => {
   //   if (router.query.type && input == "") {
@@ -39,10 +39,10 @@ const Search = () => {
 
   const onloadSearch = async (input) => {
     setloading(true);
-    const newurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/search/${input}`;
-    const searchdata = await axios.get(newurl);
-    console.log(searchdata, "searchdata");
-    setdocs(searchdata?.data);
+    const newurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/search?key=${input}`;
+    const searchdata = await axios.post(newurl);
+    console.log(searchdata, "Docsdata");
+    setdocs(searchdata?.data?.data);
     setloading(false);
     setreload(false);
     if (searchdata) {
@@ -61,17 +61,15 @@ const Search = () => {
     if (e) {
       e.preventDefault();
     }
-    const searchdata = await axios.get(url);
+    const searchdata = await axios.post(url);
     ReactGA.event({
       category: "Search Box Input",
       action: "searched",
       label: input,
       value: input,
     });
-    // const getdata = await SearchDoc(input);
-    // setdocs(getdata.data);
-    // setdata(searchdata);
-    setdocs([...searchdata?.data, ...docs]);
+
+    setdocs([...searchdata?.data?.data, ...docs]);
     setloading(false);
   };
   {

@@ -38,12 +38,12 @@ const Footer = () => {
           <div className={styles.footerboxes}>
             <h2>{lang == "en" ? English.socials : Hindi.socials}</h2>
             <div>
-              <Image
+              {/* <Image
                 width={30}
                 height={30}
                 alt="instagram"
                 src="https://img.icons8.com/3d-fluency/94/null/instagram-new.png"
-              />
+              /> */}
               <a
                 rel="noreferrer"
                 href="https://www.instagram.com/ayum_health/"
@@ -55,12 +55,12 @@ const Footer = () => {
               </a>
             </div>
             <div>
-              <Image
+              {/* <Image
                 width={30}
                 height={30}
                 alt="Facebook"
                 src="https://img.icons8.com/3d-fluency/94/null/facebook-circled.png"
-              />
+              /> */}
               <a
                 rel="noreferrer"
                 href="https://www.instagram.com/ayum_health/"
@@ -70,12 +70,12 @@ const Footer = () => {
               </a>
             </div>
             <div>
-              <Image
+              {/* <Image
                 width={30}
                 height={30}
                 alt="Twitter"
                 src="https://img.icons8.com/3d-fluency/94/null/twitter-circled.png"
-              />
+              /> */}
               <a
                 rel="noreferrer"
                 href="https://twitter.com/ayum_health"
@@ -85,68 +85,18 @@ const Footer = () => {
               </a>
             </div>
             <div>
-              <Image
+              {/* <Image
                 width={30}
                 height={30}
                 alt="Linkedin"
                 src="https://img.icons8.com/3d-fluency/94/null/linkedin.png"
-              />
+              /> */}
               <a
                 rel="noreferrer"
                 href="https://www.linkedin.com/in/ayum-in-263828257/"
               >
                 <span>{lang == "en" ? English.linkedin : Hindi.linkedin}</span>
               </a>
-            </div>
-          </div>
-          <div className={styles.footerboxes}>
-            <h2>{lang == "en" ? English.ourservice : Hindi.ourservice}</h2>
-            <div>
-              <Image
-                width={30}
-                height={30}
-                alt="Online Appointment"
-                src="https://img.icons8.com/external-justicon-flat-gradient-justicon/64/null/external-appointment-telemedicine-justicon-flat-gradient-justicon.png"
-              />
-              <span>
-                {lang == "en" ? English.onlineappo : Hindi.onlineappo}
-              </span>
-            </div>
-            <div>
-              <Image
-                width={30}
-                height={30}
-                alt="Patient Management"
-                src="https://img.icons8.com/fluency/96/null/appointment-scheduling.png"
-              />
-              <span>
-                {lang == "en" ? English.patientmanage : Hindi.patientmanage}
-              </span>
-            </div>
-            <div
-              onClick={() => {
-                // setadmindialog(true);
-                setadminmode(true);
-              }}
-            >
-              <Image
-                width={30}
-                height={30}
-                alt="Version 0.0"
-                src="https://img.icons8.com/3d-fluency/94/documents.png"
-              />
-              <span>Version 0.0</span>
-            </div>
-            <div onClick={() => router.push("/ChatSection")}>
-              <Image
-                width={30}
-                height={30}
-                alt="Online Lab Tests"
-                src="https://img.icons8.com/external-flat-berkahicon/64/null/external-Lab-Test-healthcare-flat-berkahicon.png"
-              />
-              <span>
-                {lang == "en" ? English.onlinelabtest : Hindi.onlinelabtest}
-              </span>
             </div>
           </div>
           <div className={styles.footerboxes}>
@@ -161,6 +111,56 @@ const Footer = () => {
             <div>
               <a href="/refundpolicy">Refund policy</a>
             </div>
+          </div>
+          <div className={styles.footerboxes}>
+            <h2>{lang == "en" ? English.ourservice : Hindi.ourservice}</h2>
+            {/* <div>
+              <Image
+                width={30}
+                height={30}
+                alt="Online Appointment"
+                src="https://img.icons8.com/external-justicon-flat-gradient-justicon/64/null/external-appointment-telemedicine-justicon-flat-gradient-justicon.png"
+              />
+              <span>
+                {lang == "en" ? English.onlineappo : Hindi.onlineappo}
+              </span>
+            </div> */}
+            {/* <div>
+              <Image
+                width={30}
+                height={30}
+                alt="Patient Management"
+                src="https://img.icons8.com/fluency/96/null/appointment-scheduling.png"
+              />
+              <span>
+                {lang == "en" ? English.patientmanage : Hindi.patientmanage}
+              </span>
+            </div> */}
+            <div
+              onClick={() => {
+                // setadmindialog(true);
+                setadminmode(true);
+              }}
+            >
+              {/* <Image
+                width={30}
+                height={30}
+                alt="Version 0.0"
+                src="https://img.icons8.com/3d-fluency/94/documents.png"
+              /> */}
+              <span>Version 0.0 / Online Appointments</span>
+            </div>
+            {/* <div onClick={() => router.push("/ChatSection")}>
+              <Image
+                width={30}
+                height={30}
+                alt="Online Lab Tests"
+                src="https://img.icons8.com/external-flat-berkahicon/64/null/external-Lab-Test-healthcare-flat-berkahicon.png"
+              />
+              <span>
+                {lang == "en" ? English.onlinelabtest : Hindi.onlinelabtest}
+              </span>
+            </div> */}
           </div>
         </div>
       </div>
