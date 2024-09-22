@@ -13,6 +13,7 @@ import Carousel2 from "../components/Carousel2";
 import HorizontalScroll from "../components/DemoAd";
 import Head from "next/head";
 import EmblaCarouselComp from "../components/Carousel/EmblaCarouselComp";
+import SearchBox from "../components/Carousel/Search/SearchBox";
 
 const Doctors = ({ initialData }) => {
   const [showload, setshowload] = useState();
@@ -156,6 +157,7 @@ const Doctors = ({ initialData }) => {
   let [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
+    console.log(initialData, "doctordata");
     setIsMobile(mobile.matches);
   }, []);
   return (
@@ -171,7 +173,7 @@ const Doctors = ({ initialData }) => {
         id="directorypage"
         className={`${styles.directorypage} h-[100vh] overflow-auto p-5`}
       >
-        <form
+        {/* <form
           onSubmit={(e) => {}}
           className={`${styles1.searchform}`}
           action="#"
@@ -194,7 +196,14 @@ const Doctors = ({ initialData }) => {
               Search
             </button>
           </div>
-        </form>
+        </form> */}
+        <SearchBox
+          setdoctordocs={(data) => {
+            console.log(data, "dataofdocs");
+            setdocs(data?.data);
+          }}
+          redirecttohome={true}
+        />
         {/* <Slider2 /> */}
         <div style={{ marginTop: "1.5rem", width: "100%" }}>
           {isMobile ? (

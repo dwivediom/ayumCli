@@ -128,7 +128,24 @@
   padding: 20px;
   justify-content: left;
 }
+.autocomp{
+  height: 1rem;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 8rem;
+  margin-left: 1.5rem !important;
+}
+.autocomp input {
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 1rem;
+}
 
+@media(max-width:560px){
+  .autocomp{
+    margin-left: 0.7rem !important;
+  }
+}
 .thankyoucard {
   width: 23rem;
   height: 13rem;
