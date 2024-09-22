@@ -11,7 +11,10 @@ import DirectoryCard from "./DirectoryCard";
 import Image from "next/image";
 import { AccountContext } from "../context/AccountProvider";
 import { Dialog, Modal } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import EmblaCarousel from "./Carousel/EmblaCarouselComp";
+import CityDropdown from "./CityDropdown";
 
 const NewHomePage = () => {
   let [isMobile, setIsMobile] = useState(false);
@@ -25,13 +28,13 @@ const NewHomePage = () => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
     setIsMobile(mobile.matches);
   }, []);
+  async function getalldoc() {
+    setloading(true);
+    const gotdata = await getDoc(localStorage.getItem("city"));
+    setdocs(gotdata.data);
+    setloading(false);
+  }
   useEffect(() => {
-    async function getalldoc() {
-      setloading(true);
-      const gotdata = await getDoc(localStorage.getItem("city"));
-      setdocs(gotdata.data);
-      setloading(false);
-    }
     if (!langmodal) {
       getalldoc();
     }
@@ -134,6 +137,7 @@ const NewHomePage = () => {
       ) : (
         <HorizontalScroll />
       )}
+      <CityDropdown getdocs={getalldoc} />
       <div
         style={{
           width: "100%",
