@@ -96,23 +96,23 @@ const DoctorDirectory = () => {
       setsuggestion(getdata.data);
     }
   };
-  const handleChange = async (e) => {
-    setinput({ ...input, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (input.val == "") {
+    if (input == "") {
+      debugger;
       const gotdata = await getDoc();
 
       return setdocs(gotdata.data);
     }
+    debugger;
+
     setsuggestionpopup(false);
-    const getdata = await SearchDoc(input.val);
+    const getdata = await SearchDoc(input);
     console.log(getdata);
     if (getdata.data?.length == 0) {
       setMessage(
-        `Hello team Ayum , please add Doctor ${input.val} , as soon as possible`
+        `Hello team Ayum , please add Doctor ${input} , as soon as possible`
       );
     }
     setdocs(getdata.data);
@@ -203,8 +203,12 @@ const DoctorDirectory = () => {
               placeholder="Search Doctor..."
               onChange={(e) => {
                 debouncedOnChange(e.target.value);
+                setinput(e.target.value);
+                setsuggestionpopup(true);
               }}
-              onFocus={() => setsuggestionpopup(true)}
+              onFocus={() => {
+                setsuggestionpopup(true);
+              }}
               onBlur={() => {
                 if (onpopup) {
                   setsuggestionpopup(false);
@@ -239,8 +243,8 @@ const DoctorDirectory = () => {
               </div>
             )}
             <button
-              onClick={(e) => handleSubmit(e)}
-              type="button"
+              // onClick={(e) => handleSubmit(e)}
+              type="submit"
               className={`${styles1.searchbtn}`}
             >
               Search
@@ -298,9 +302,9 @@ const DoctorDirectory = () => {
               }}
             >
               <div className={`${styles2.exittxt} shadow-lg text-center`}>
-                {input.val == "" ? "Search doctor above" : "Doctor not found!"}
+                {input == "" ? "Search doctor above" : "Doctor not found!"}
               </div>
-              {input.val != "" && (
+              {input != "" && (
                 <div
                   style={{
                     padding: "1rem",
