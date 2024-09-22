@@ -3,11 +3,12 @@ import styles from "../styles/Adcomp.module.css";
 import Image from "next/image";
 import axios from "axios";
 
-export default function HorizontalScroll({ page }) {
+export default function HorizontalScroll(props) {
   const [Intervalid, setIntervalid] = useState(null);
   const [slidesData, setslidesData] = useState();
   const GetAdsData = async () => {
-    const adurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/ads?page=${page}`;
+    console.log("adsprops pc", props);
+    const adurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/ads?page=${props?.page}`;
     try {
       let userdata = await axios.get(adurl);
       setslidesData(userdata?.data);

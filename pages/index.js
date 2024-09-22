@@ -14,7 +14,6 @@ import ReactGA from "react-ga4";
 import Router, { useRouter } from "next/router";
 import HorizontalScroll from "../components/DemoAd";
 const host = process.env.NEXT_PUBLIC_B_PORT;
-const SearchBox = dynamic(() => import("../components/SearchBox"));
 const QuickSearch = dynamic(() => import("../components/QuickSearch"));
 const GetDoctor = dynamic(() => import("../components/GetDoctor"));
 const Footer = dynamic(() => import("../components/Footer"));
@@ -27,6 +26,7 @@ import ThankModal from "../components/Modal";
 import { getCookie } from "../public/utils/Utils";
 import NewHomePage from "../components/NewHomePage";
 import EmblaCarousel from "../components/Carousel/EmblaCarouselComp";
+import SearchBox from "../components/Carousel/Search/SearchBox";
 
 // import Hindi from "/locales/hi/index";
 export async function getServerSideProps(context) {
@@ -115,6 +115,10 @@ export default function Home(props) {
     }
     firstcall();
   }, []);
+
+  useEffect(() => {
+    console.log("doctorsetted");
+  }, [doctors]);
   const {
     thankmodal,
     setthankmodal,
@@ -148,6 +152,9 @@ export default function Home(props) {
     setloading(false);
   };
 
+  useEffect(() => {
+    console.log(doctors, "docval");
+  }, [doctors]);
   let [isMobile, setIsMobile] = useState(false);
   // const [admin, setadmin] = useState(true);
 
@@ -225,7 +232,6 @@ export default function Home(props) {
             ) : (
               <HorizontalScroll page={"home"} />
             )}
-
             {doctors ? (
               <main>
                 {props.data ? (

@@ -16,8 +16,9 @@ export const getDoc = async (city) => {
 };
 export const showMore = async () => {
   try {
+    let city = localStorage.getItem("city");
     const newdata = await axios({
-      url: `${host}/api/docdirectory/showmore`,
+      url: `${host}/api/docdirectory/showmore?city=${city}`,
       method: "get",
     });
 
