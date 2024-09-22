@@ -39,3 +39,12 @@ export const getCookie = async (name) => {
   }
   return null;
 };
+
+export const cityoptions = [
+  { label: "Rewa" },
+  { label: "Satna" },
+  { label: "Sidhi" },
+  { label: "Jabalpur" },
+  { label: "Nagpur" },
+  { label: "Gwalior" },
+];
