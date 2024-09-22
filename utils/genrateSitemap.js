@@ -38,12 +38,10 @@ const generateUrlList = async (idList) => {
 
   if (Array.isArray(idList) && idList.length > 0) {
     idList.forEach((id) => {
-      console.log(id, "id here");
       const urlData = {
         url: `${hostd}/doctor?docid=${id?._id}&amp;n=${id?.name}`,
         changefreq: "weekly",
       };
-      console.log(urlData.url, "url here");
       allUrlData.push(urlData);
     });
 
