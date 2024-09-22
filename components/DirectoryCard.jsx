@@ -131,70 +131,6 @@ ${linktext}`;
     window.open(whatsappURL, "_blank");
   };
 
-  const [value, setValue] = useState(0);
-  const [hover, setHover] = useState(-1);
-  const initialReviews = [
-    {
-      rating: 5,
-      message: "Excellent service, highly recommend!",
-      username: "john_doe",
-      createdDate: "2024-05-01",
-    },
-    {
-      rating: 4,
-      message: "Very good experience overall.",
-      username: "jane_smith",
-      createdDate: "2024-05-03",
-    },
-    {
-      rating: 3,
-      message: "Average service, could be improved.",
-      username: "sam_jones",
-      createdDate: "2024-05-05",
-    },
-    {
-      rating: 5,
-      message: "Outstanding work, exceeded expectations!",
-      username: "alice_brown",
-      createdDate: "2024-05-07",
-    },
-    {
-      rating: 2,
-      message: "Not satisfied, needs a lot of improvement.",
-      username: "mike_davis",
-      createdDate: "2024-05-09",
-    },
-    {
-      rating: 4,
-      message: "Good service, will use again.",
-      username: "susan_white",
-      createdDate: "2024-05-11",
-    },
-    {
-      rating: 5,
-      message: "Fantastic experience, highly skilled!",
-      username: "emma_wilson",
-      createdDate: "2024-05-13",
-    },
-    {
-      rating: 3,
-      message: "It was okay, nothing special.",
-      username: "chris_taylor",
-      createdDate: "2024-05-15",
-    },
-    {
-      rating: 4,
-      message: "Very professional and timely.",
-      username: "linda_martin",
-      createdDate: "2024-05-17",
-    },
-    {
-      rating: 1,
-      message: "Terrible experience, would not recommend.",
-      username: "peter_thomas",
-      createdDate: "2024-05-19",
-    },
-  ];
   const [reviews, setReviews] = useState([]);
   const [reviewgiven, setreviewgiven] = useState();
   const [tempreview, settempreview] = useState(false);
@@ -203,11 +139,11 @@ ${linktext}`;
     setloading(true);
     try {
       const allreviews = await axios({
-        url: `${process.env.NEXT_PUBLIC_B_PORT}/api/docdirectory/${docid}/reviews`,
+        url: `${process.env.NEXT_PUBLIC_B_PORT}/api/docdirectory/${item._id}/reviews`,
         method: "get",
       });
       console.log(allreviews, "allreview");
-      setReviews(allreviews?.data?.reviews);
+      // setReviews(allreviews?.data?.reviews);
       const UserData = JSON.parse(localStorage.getItem("labuser"));
       const foundReview = allreviews?.data?.reviews?.find((obj) => {
         return obj["patientemail"] === UserData?.email;
@@ -221,9 +157,7 @@ ${linktext}`;
   };
 
   useEffect(() => {
-    if (docid) {
-      GetReviews();
-    }
+    setReviews(item?.reviews);
   }, []);
   const [newReview, setNewReview] = useState({
     rating: "",
@@ -277,6 +211,59 @@ ${linktext}`;
   };
 
   const [reviewpayload, setreviewpayload] = useState({});
+  const [doctimings, setdoctimings] = useState({});
+  const [istimetstring, setistimetstring] = useState(false);
+  useEffect(() => {
+    console.log(item, "docdata");
+    convertStringToObject(item?.timeing);
+  }, []);
+  const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const getToday = () => {
+    const today = new Date().getDay(); // Returns a number (0-6) where 0 is Sunday and 6 is Saturday
+
+    return daysOfWeek[today]; // Maps the number to the corresponding day name
+  };
+
+  const convertStringToObject = (dataString) => {
+    // Replace the keys and values with quotes to make it valid JSON-like
+    console.log(dataString, "timing");
+    if (typeof dataString == "string") {
+      const validJsonString = dataString
+        ?.replace(/([a-zA-Z]+):/g, '"$1":') // Add quotes around day names
+        ?.replace(/([0-9]+-[0-9]+ [ap]m|Closed)/g, '"$1"'); // Add quotes around times or 'Closed'
+
+      try {
+        // Parse the resulting string into an object
+        const parsedSchedule = JSON.parse(validJsonString);
+        console.log(parsedSchedule, "timiingvalid");
+        // Update state with the parsed object
+        setdoctimings(parsedSchedule);
+        return parsedSchedule;
+      } catch (error) {
+        console.log("Invalid string format:", dataString);
+        if (dataString == "") {
+          setdoctimings("");
+          return;
+        }
+        setdoctimings(dataString);
+        setistimetstring(true);
+      }
+    } else if (typeof dataString == "object") {
+      console.log("objecthai");
+
+      setistimetstring(false);
+      setdoctimings(dataString);
+    }
+  };
+
   return (
     <div>
       {docid && (
@@ -675,18 +662,82 @@ ${linktext}`;
                   </span>
                 )}
               </div>
-              <div>
-                {" "}
-                <span className="font-bold">Phone :</span> {item.phone}
-              </div>
+              {item.phone && (
+                <div>
+                  {" "}
+                  <span className="font-bold">Phone :</span> {item.phone}
+                </div>
+              )}
 
-              <div>
-                <span className="font-bold">Time :</span> {item.timeing}
-              </div>
               <div>
                 <span className="font-bold">Specialist :</span>{" "}
                 {item.specialist}{" "}
               </div>
+              {doctimings && doctimings != "" && (
+                <div>
+                  <span className="font-bold">Time :</span>{" "}
+                  <div
+                    style={{
+                      display: "flex",
+                      // flexWrap: "wrap",
+                      width: "20rem",
+                      overflow: "auto",
+                      paddingRight: "4rem",
+                      justifyContent: "left",
+                      background: "rgba(0,0,0,0.04)",
+                      borderRadius: "4px",
+                      padding: "5px",
+                      gap: "5px",
+                    }}
+                    className={styles.timingscroll}
+                  >
+                    {" "}
+                    {istimetstring
+                      ? item.timeing
+                      : Array.isArray(Object.keys(doctimings)) &&
+                        Object.keys(doctimings).map((x) => {
+                          return (
+                            <div
+                              style={{
+                                // minWidth: "7rem", // Minimum width set to 7rem
+                                width: "fit-content", // Auto width lets it grow horizontally
+                                maxWidth: "100%", // Limits the width to available space
+                                height: "3rem", // Fixed height
+                                whiteSpace: "nowrap", // Prevents line wrapping, expands width
+                                boxShadow: "2px 3px 5px rgba(0,0,0,0.1)", // Box shadow for styling
+                                padding: "2px 5px",
+                                border:
+                                  getToday() == item
+                                    ? "1px solid aqua"
+                                    : "none", // Conditional border
+                                background: "white", // White background color
+                                textAlign: "left", // Align text to the left
+                                display: "flex", // Flexbox for layout
+                                flexDirection: "column", // Column layout
+                                alignItems: "center", // Centers content horizontally
+                                justifyContent: "center", // Centers content vertically
+                              }}
+                            >
+                              <p style={{ color: "teal", fontWeight: "500" }}>
+                                {" "}
+                                {x}{" "}
+                              </p>{" "}
+                              <p
+                                style={{
+                                  textAlign: "center",
+                                  fontSize: "13px",
+                                }}
+                              >
+                                {" "}
+                                {doctimings[x]}
+                              </p>
+                            </div>
+                          );
+                        })}
+                  </div>
+                </div>
+              )}
+
               {/* <div className={`${styles.showmorebox}`}>
           <span onClick={() => setShow(!show)} className={`${styles.showmore}`}>
             {show ? "Hide details" : "More details..."}{" "}
@@ -867,7 +918,7 @@ ${linktext}`;
                 ))
               : showreview && (
                   <div>
-                    <p>Review {item?.name}</p>
+                    <p>Review {item?.name?.slice(0, 15)}...</p>
                     <StyledRating
                       name="customized-color"
                       defaultValue={0}
@@ -1252,6 +1303,8 @@ ${linktext}`;
                           flexDirection: "column",
                           gap: "10px",
                           alignItems: "center",
+
+                          margin: "auto",
                         }}
                       >
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEnElEQVR4nO2ZbUxTVxiAD3aDLPwYsqpDt2xhssQo4oBREwNmOihsCJgIKMOPxA2NZcmWbArbpBCXkMwYxsxm3XADXAF7LvSDUnSt9txOyQbVZR9hIEpBs68skmxLpobBu5xT2mG5wGovt/3RN3mT0/ecc+/z3HtPbu4pQuEIRzjCgXS2FYgjJQjzHyGOdyCODCOOjCGO3EUcD4gjfyBMfkMcfwVxfDviyNuo3b4eqWFRcK8eduS6gSnkfSTmf0SYFAUHXtcTe9/gvqnriZVeADsU4gnwacEQKBVR4CXpBThSJZoAR6qkF8CkQSwBGXfhlOT8sVrLJbEEHm/uuCK5wPJm/a9iCTzR1H5LcoGlWtNtsQTimo13JReIabFMiCWwmB5L6og7bZjMOPExlPFWeO+rc/D55W5wfN8Fg4NmuHm1E8audcK4y8SStmmN9tExdCydU8ZbgR6DHktyASiOB5YjpsCy2H2csIA/Ac6aF+Hghtui3YHK9L+htyYHSRXgrL4JfVUAH+y+B+bEgQ2gUaXPCivYf3wPQJ8awKm+Ia2As3oGIIXTlGfMKjBrv7NaYoHemhwmMayfDPgRcuknKDxcVmdLJuAVGTENBCwwYuyXHNwr4DJ+IoKAJngCo4bnRRDYFDQBJjFiuhAAPAkqPBMYNceDy/i7/4vXeAtuGFeiUAgYNmSAyzjmF/xoZzoKpRg8fyoJhrTzww+1wMGKV19DoRYKZX4jeyF9ewxg4FOA6zoAl8GdtE1rtM9ZDYqsvJ/XZmZGo1CJZ7PztiqU+VNv1PmTjk3L2lKOQiQi0pR5/X4LKPOHUCjEioraQgr0TMGO8W5H/bzwdExywfZxOuext2q3Bo+c7sxhcvFRdR27ok+VV0KiyQL/zAFP++iYlapDbM7Sd4/TT0oHwvZU6cAtliiE+ZMIk0n6PZuw7w0GI6/VsO/bBnJyVgHaR8d4pJ98/bBnY2sCYf5DpPshcmHhtXY5woSf/kGeWPIyg4nW6NjvZR02+LPvyAz4v3qPQJzeysY8XH+azVm1W+W7Q3cJGW3LFga+w/oI4siA745CcsEOBvNgc7e3prY1zRCgNU//Qw16NiepaM/MXQrM9yPtl4vFhQeIQJicFdoSSc3dxmAWtdm8tegOO/z0da0XnrZpzdP/gPYcm5OypVh4qwUTs7gCnH2n70kizpwH+dRipLnkwCFW8/TvPdvmFaBtTz2y0QwJ+93rRpFdAAn734TIpi4BEVIiDrxOJ0OYXPc9gVxVAU8nr4eUzS9AyqYc1qa1/zZsefiu5yhLmafWYoV123Z5pRVTmVS4C2StVt9H6ao4f0Fhx2ah2xyfkcWgz5i6odXYxdrx6Zn3jFF26Vl6fi9/5ygDTty+F6IazRD1WSesKXmF1eIOHxO6C88FLsDx9YICG90CbSYLtBjMboGNWXNuIa4pLWOwMXWN3lpMXROrrS7dJ7Sg3xdDoEcIxvMITU+5qnJOgdTcQgY7/XGRtX7Baqm5RUKL+aIYAr8IwbgXcQW76jRpe/oiFspvBq6x/L91RM8dcGD+zlxQ/qTfApi/E7hAONCCxr8pUjjJRsqE5QAAAABJRU5ErkJggg=="></img>

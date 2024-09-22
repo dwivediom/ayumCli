@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import SearchBox from "./SearchBox";
+import SearchBox from "./Carousel/Search/SearchBox";
 import styles from "../styles/Home.module.css";
+import styles2 from "../styles/booktest.module.css";
+
 import QuickSearch from "./QuickSearch";
 import Carousel2 from "./Carousel2";
 import HorizontalScroll from "./DemoAd";
@@ -26,11 +28,8 @@ const NewHomePage = () => {
   useEffect(() => {
     async function getalldoc() {
       setloading(true);
-
       const gotdata = await getDoc(localStorage.getItem("city"));
-      console.log(gotdata);
       setdocs(gotdata.data);
-      console.log(docs && docs, "All dOcs Data");
       setloading(false);
     }
     if (!langmodal) {
@@ -94,10 +93,41 @@ const NewHomePage = () => {
     //   title: "Slide 9",
     // },
   ];
+  const handleClick = () => {
+    // Basic validation to ensure required fields are filled
+    if (!phoneNumber || !message) {
+      setErrorMessage("Please enter both phone number and message.");
+      return;
+    }
+
+    // Format phone number (remove non-numeric characters and prepend country code if needed)
+    const formattedNumber = phoneNumber.replace(/\D/g, "");
+    const whatsappNumber = `+${formattedNumber}`; // Replace with your country code if necessary
+
+    // Encode message for URL inclusion
+    const encodedMessage = encodeURI(message);
+
+    // Construct WhatsApp Web URL
+    const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+
+    try {
+      // Open the URL in a new tab/window
+      window.open(url, "_blank");
+      setErrorMessage(""); // Clear any previous error messages
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again.");
+      console.error("Error opening WhatsApp Web:", error);
+    }
+  };
 
   return (
     <div className={styles.mainshell}>
-      <SearchBox />
+      <SearchBox
+        setdoctordocs={(data) => {
+          console.log(data, "dataofdocs");
+          setdocs(data?.data);
+        }}
+      />
       <QuickSearch />
       {isMobile ? (
         <EmblaCarousel slidesData={slidesData} page={"home"} />
@@ -130,11 +160,32 @@ const NewHomePage = () => {
               alt={"Loader Img"}
             />
           </div>
-        ) : (
-          docs?.length > 0 &&
+        ) : docs?.length > 0 ? (
           docs.map((item) => {
             return <DirectoryCard key={item._id} item={item && item} />;
           })
+        ) : (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <div
+                style={{
+                  padding: "1rem",
+                  marginTop: "10px",
+                  borderRadius: "36px",
+                }}
+                className={`${styles2.submitbtn} shadow-lg`}
+                onClick={() => handleClick()}
+              >
+                Request to Add this Doctor
+              </div>
+            </div>
+          </>
         )}
       </div>
       <div className="pb-20 ">
