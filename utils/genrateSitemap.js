@@ -73,7 +73,7 @@ const generateXML = (pages) => {
   pages.forEach((page) => {
     xml += `<url>
         <loc>${page.url}</loc>
-        <changefreq>${page.changefreq || "daily"}</changefreq>
+        <changefreq>${"daily"}</changefreq>
         </url>`;
   });
   xml += `
