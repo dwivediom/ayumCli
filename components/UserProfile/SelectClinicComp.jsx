@@ -35,6 +35,8 @@ const SelectClinicComp = ({ docid }) => {
         style={{
           position: "absolute",
           width: "100%",
+          height: "100%",
+          position: "relative",
           paddingTop: "1rem",
         }}
       >

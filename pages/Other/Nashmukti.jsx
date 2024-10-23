@@ -18,11 +18,7 @@ const Nashamukti = () => {
     });
   }, []);
   return (
-    <div
-      id="nashamuktipage"
-      style={{ userSelect: "none" }}
-      className="absolute h-[100vh] overflow-scroll pb-20"
-    >
+    <div id="nashamuktipage" style={{ userSelect: "none" }}>
       <h1
         style={{
           fontSize: "1.5rem",

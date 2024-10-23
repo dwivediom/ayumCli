@@ -32,12 +32,9 @@ function MyApp({ Component, pageProps, AccountContext }) {
     if (fcmToken) {
       if (localStorage.fcmToken != fcmToken && localStorage.userjwt) {
         updateuser(localStorage.userjwt, { FCMtoken: fcmToken });
-        console.log("Fcm updated ");
       } else {
         localStorage.setItem("fcmToken", fcmToken);
       }
-
-      console.log(fcmToken);
     }
   }, [fcmToken]);
 
