@@ -3,43 +3,86 @@ const path = require("path");
 const axios = require("axios");
 const host = process.env.NEXT_PUBLIC_B_PORT;
 
-// const filePath = path.resolve("./public/sitemap.xml")
+// List of 20 specialties and easy terms
+const specialists = [
+  "dentist", "orthopedic+surgeon", "cardiologist", "neurologist", "gynecologist", 
+  "dermatologist", "pediatrician", "psychiatrist", "ophthalmologist", "urologist", 
+  "oncologist", "gastroenterologist", "endocrinologist", "pulmonologist", 
+  "nephrologist", "rheumatologist", "allergist", "immunologist", "plastic+surgeon", 
+  "otolaryngologist"
+];
 
-// fs.unlink(filePath, (err) => {
-//     if (err) {
-//         console.error('Error removing file:', err);
-//     } else {
-//         console.log('File removed successfully');
-//     }
-// });
+const easyTerms = [
+  "tooth+doctor", "bone+doctor", "heart+doctor", "brain+doctor", "women+doctor", 
+  "skin+doctor", "child+doctor", "mentalHealth+doctor", "eye+doctor", "urinary+doctor", 
+  "cancer+doctor", "digestive+doctor", "hormone+doctor", "lung+doctor", 
+  "kidney+doctor", "arthritis+doctor", "allergy+doctor", "immune+doctor", 
+  "cosmetic+surgeon", "ear+nose+throat+doctor"
+];
 
-// get all doctors for sitemap.xml it return id of all doc in docdirectory
-//http://localhost:5000/api/docdirectory/getallDoctors
+// Function to get all doctors for sitemap.xml
 const getallDoctors = async () => {
   try {
     const allIds = await axios({
       url: `https://server.ayum.in/api/docdirectory/getallDoctors`,
       method: "get",
     });
-
     return allIds.data;
   } catch (error) {
-    return error.message;
+    console.error("Error fetching doctor IDs:", error);
+    return [];
   }
 };
 
+// Get unique cities and normalize them
+const getCities = async () => {
+  try {
+    const response = await axios({
+      url: "https://server.ayum.in/api/otheropration/getcities",
+      method: "get",
+    });
+    const rawCities = response.data.cities;
+    // Normalize cities (lowercase and remove extra spaces)
+    const uniqueCities = [...new Set(rawCities.map(city => city.trim().toLowerCase()))];
+    return uniqueCities;
+  } catch (error) {
+    console.error("Error fetching cities:", error);
+    return [];
+  }
+};
+
+// Generate URLs for the specialists and easy terms
+const generateSpecialistUrls = (city, hostd) => {
+  const urls = [];
+  specialists.forEach((specialist, index) => {
+    const easyTerm = easyTerms[index];
+    // Old URL format with "-" separators
+    const oldSpecialistUrl = `${hostd}/city/best-${specialist}-near-me-in-${city}`;
+    const oldEasyUrl = `${hostd}/city/best-${easyTerm}-near-me-in-${city}`;
+
+    
+    // Add old and new URLs to the list
+    urls.push({ url: oldSpecialistUrl, changefreq: "weekly" });
+    urls.push({ url: oldEasyUrl, changefreq: "weekly" });
+    
+  });
+  return urls;
+};
+
+// Function to create a range array for pagination
 function createRangeArray(n) {
   return Array.from(Array(n).keys(), (x) => x + 1);
 }
+
 const generateUrlList = async (idList) => {
   const hostd = "https://www.ayum.in";
-  const statPageList = ["", "Contact", "About"]; // Remove the space in the first element
+  const statPageList = ["", "Contact", "About"];
   const allUrlData = [];
 
   if (Array.isArray(idList) && idList.length > 0) {
     idList.forEach((id) => {
       const urlData = {
-        url: `${hostd}/doctor?docid=${id?._id}&amp;n=${id?.name}`,
+        url: `${hostd}/doctor?docid=${id?._id}`,
         changefreq: "weekly",
       };
       allUrlData.push(urlData);
@@ -57,11 +100,18 @@ const generateUrlList = async (idList) => {
     });
 
     statPageList.forEach((page) => {
-      const encodedPage = encodeURIComponent(page); // Encode special characters in the page name
+      const encodedPage = encodeURIComponent(page);
       const urlData = { url: `${hostd}/${encodedPage}`, changefreq: "weekly" };
       allUrlData.push(urlData);
     });
   }
+
+  // Fetch and add city-specific URLs (both old and new)
+  const uniqueCities = await getCities();
+  uniqueCities.forEach((city) => {
+    const cityUrls = generateSpecialistUrls(city, hostd);
+    allUrlData.push(...cityUrls);
+  });
 
   return allUrlData;
 };
@@ -82,12 +132,12 @@ const generateXML = (pages) => {
 };
 
 const genrateSiteMap = async () => {
-  const allIds = await getallDoctors();
+  const allIds = await getallDoctors();  // Fetch doctor IDs
 
-  const urldata = await generateUrlList([...allIds]);
-  let sitemapString = await generateXML(urldata);
+  const urldata = await generateUrlList([...allIds]);  // Fetch all URLs (old + new formats)
+  let sitemapString = await generateXML(urldata);  // Generate XML string
 
-  fs.writeFileSync(path.resolve("./public/sitemap.xml"), sitemapString);
+  fs.writeFileSync(path.resolve("./public/sitemap.xml"), sitemapString);  // Write to file
 };
 
 genrateSiteMap();

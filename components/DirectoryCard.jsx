@@ -603,7 +603,7 @@ ${linktext}`;
                 // let link = isLocal ? "http://localhost:3000" : "https://ayum.in";
                 let link = "https://ayum.in";
                 link = link + "/doctor";
-                link = link + "?docid=" + item._id + "&n=" + item.name;
+                link = link + "?docid=" + item._id ;
                 setlinktext(link);
                 setsharemodal(true);
               }}
@@ -632,7 +632,7 @@ ${linktext}`;
               // style={{ boxShadow: "inset 1px 1px 5px rgba(0,0,0,0.2)" }}
               onClick={() => {
                 if (router.pathname != "/doctor")
-                  router.push(`/doctor?docid=${item._id}&n=${item.name}`);
+                  router.push(`/doctor?docid=${item._id}`);
               }}
             >
               <div
