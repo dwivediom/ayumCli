@@ -104,9 +104,9 @@ const BloodRequest = () => {
             },
           }
         )
-        .then((data) => {
-          console.log(data);
-          setmyrequests(data.data.myrequests.reverse());
+        .then((res) => {
+          console.log(res);
+          setmyrequests(res.data?.data.reverse());
         })
         .catch((err) => {
           console.log(err);
@@ -168,7 +168,9 @@ const BloodRequest = () => {
 
   return (
     <div
-      style={{ padding: "0.5rem 0rem" }}
+      style={{
+        padding: "0.5rem 0rem",
+      }}
       className={`${styles.chatpage}`}
       id="chatpage"
     >
@@ -348,9 +350,9 @@ const BloodRequest = () => {
                     }}
                     className={`${styles1.myrequestcard} `}
                   >
-                    <p>Blood Group Needed - {item.bloodgroup}</p>
-                    <p>Patient Name - {item.patientname}</p>
-                    <p>Location - {item.hospital}</p>
+                    <p>Blood Group Needed {item.bloodgroup}</p>
+                    <p>Patient Name - {item.name}</p>
+                    <p>Location - {item.location}</p>
                     <p>Contact Number - {item.phoneNumber}</p>
                     <p>Request Date - {formatDate(item.createdAt)}</p>
                     <div className={`${styles1.shareurlbox} `}>

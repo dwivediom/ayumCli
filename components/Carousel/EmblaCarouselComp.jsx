@@ -12,7 +12,6 @@ export default function EmblaCarouselComp(props) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ playOnInit: true, delay: 3000 }),
   ]);
-  console.log(slidesData2, "ad data");
   const GetAdsData = async () => {
     console.log("adsprops mobile", props);
     const adurl = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/ads?page=${props?.page}`;
