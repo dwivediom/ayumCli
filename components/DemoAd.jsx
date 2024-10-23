@@ -83,6 +83,7 @@ export default function HorizontalScroll(props) {
                       }}
                       layout="fill"
                       objectFit="cover"
+                      loading="lazy"
                       objectPosition={
                         id == 1 || id == 2 || id == 3 || id == 4
                           ? `center 30%`
