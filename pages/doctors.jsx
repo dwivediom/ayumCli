@@ -1,11 +1,11 @@
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import DirectoryCard from "../components/DirectoryCard";
 import { directorydata } from "../routes/data";
 import { getDoc, SearchDoc, showMore } from "../routes/directory";
 import styles from "../styles/Phonebook.module.css";
 import styles1 from "../styles/Searchinput.module.css";
-
+import { debounce } from "lodash";
 import Slider2 from "../components/AdComp3";
 import { AccountContext } from "../context/AccountProvider";
 import { useRouter } from "next/router";
@@ -23,62 +23,27 @@ const Doctors = ({ initialData }) => {
   });
   const router = useRouter();
   const { docid } = router.query;
-  // const { setscrollbox } = useContext(AccountContext);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (input == "") {
+      debugger;
+      const gotdata = await getDoc();
 
-  // useEffect(() => {
-  //   async function getalldoc() {
-  //     setloading(true);
-  //     const gotdata = await getDoc();
-  //     console.log(gotdata);
-  //     setdocs(gotdata.data);
-  //     console.log(docs && docs, "All dOcs Data");
-  //     setloading(false);
-  //   }
-  //   getalldoc();
-  // }, []);
+      return setdocs(gotdata.data);
+    }
+    debugger;
 
-  // const ShowMoreDoc = async () => {
-  //   setshowload(true);
-  //   const data = await showMore();
-  //   if (data?.data?.length == 0) {
-  //     setfull(true);
-  //   }
-  //   setdocs(docs.concat(data.data));
-  //   console.log(docs);
-  //   setshowload(false);
-  // };
+    setsuggestionpopup(false);
+    const getdata = await SearchDoc(input);
+    console.log(getdata);
+    if (getdata.data?.length == 0) {
+      setMessage(
+        `Hello team Ayum , please add Doctor ${input} , as soon as possible`
+      );
+    }
+    setdocs(getdata.data);
+  };
 
-  // const handleChange = (e) => {
-  //   setinput({ ...input, [e.target.name]: e.target.value });
-  //   console.log(input);
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (input.val == "") {
-  //     const gotdata = await getDoc();
-
-  //     return setdocs(gotdata.data);
-  //   }
-  //   const getdata = await SearchDoc(input.val);
-  //   console.log(getdata);
-  //   setdocs(getdata.data);
-  // };
-
-  // useEffect(() => {
-  //   let indexbox = document.getElementById("directorypage");
-  //   // console.log(indexbox.scrollTop);
-  //   indexbox.addEventListener("scroll", () => {
-  //     let scrollTop = indexbox.scrollTop;
-  //     if (scrollTop > 0) {
-  //       setscrollbox(false);
-  //     } else {
-  //       setscrollbox(true);
-  //     }
-  //   });
-  // }, []);
-
-  // const [profileData, setProfileData] = useState(initialProfileData);
   const [docs, setdocs] = useState(initialData);
   const [pageNum, setPageNum] = useState(1);
 
@@ -93,6 +58,22 @@ const Doctors = ({ initialData }) => {
         ...doctor,
       },
     })),
+  };
+  const [suggestion, setsuggestion] = useState([]);
+  const [suggestionpopup, setsuggestionpopup] = useState(false);
+  const [onpopup, setonpopup] = useState(false);
+
+  const debouncedOnChange = useCallback(
+    debounce((val) => {
+      handleSearch(val);
+    }, 400), // 500ms delay
+    []
+  );
+  const handleSearch = async (val) => {
+    if (val != "" && val) {
+      const getdata = await SearchDoc(val, 5);
+      setsuggestion(getdata.data);
+    }
   };
   const slidesData = [
     {
@@ -157,6 +138,7 @@ const Doctors = ({ initialData }) => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
     setIsMobile(mobile.matches);
   }, []);
+
   return (
     <>
       <Head>
@@ -182,8 +164,47 @@ const Doctors = ({ initialData }) => {
               name="val"
               className={`${styles1.searchinput}`}
               placeholder="Search Doctor..."
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => {
+                debouncedOnChange(e.target.value);
+                setinput(e.target.value);
+                setsuggestionpopup(true);
+              }}
+              onFocus={() => {
+                setsuggestionpopup(true);
+              }}
+              onBlur={() => {
+                if (onpopup) {
+                  setsuggestionpopup(false);
+                }
+              }}
             />
+            {suggestionpopup && (
+              <div
+                onMouseEnter={() => {
+                  setsuggestionpopup(true);
+                  setonpopup(true);
+                }}
+                onMouseOut={() => {
+                  setonpopup(false);
+                }}
+                className={`${styles1.suggestpopup}`}
+              >
+                {suggestion &&
+                  suggestion.length > 0 &&
+                  suggestion.map((item) => {
+                    return (
+                      <p
+                        onClick={() => {
+                          router.push(`/doctor?docid=${item._id}`);
+                        }}
+                        className={`${styles1.suggestoption}`}
+                      >
+                        {item.name} , {item.city} , {item.specialist}
+                      </p>
+                    );
+                  })}
+              </div>
+            )}
             <button
               onClick={(e) => handleSubmit(e)}
               type="button"

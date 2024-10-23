@@ -1,9 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunitlo:wght@400;500;600;700&display=swap");
 
 .chatpage {
-  height: 100vh !important;
   width: 100% !important;
-  position: absolute !important; 
   overflow: scroll !important;
   position: relative;
 }
