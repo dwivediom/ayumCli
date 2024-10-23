@@ -1,6 +1,8 @@
 import axios from "axios";
-const host = process.env.NEXT_PUBLIC_B_PORT;
+
 const key = process.env.NEXT_PUBLIC_S_KEY;
+const host = process.env.NEXT_PUBLIC_B_PORT;
+
 
 export const getDoc = async (city) => {
   try {
@@ -53,6 +55,33 @@ export const getallDoctors = async () => {
     });
     return allIds;
   } catch (error) {
+    return error.message;
+  }
+};
+
+
+// * This API call retrieves doctors based on their spci and city. 
+//  * The results are paginated, and a limit is set for the number of results per page.
+//  * 
+//  * Example API call: 
+//  * // http://localhost:5000/api/docdirectory/get-x-in-city?specialist=dentist&city=Rewa&limit=10&page=1
+//  * 
+
+export const getDoctorsInCity = async (specialist, city, limit = 10, page = 1) => {
+  try {
+    const response = await axios({
+      url: `${host}/api/docdirectory/get-x-in-city`,
+      method: 'get',
+      params: {
+        specialist,
+        city,
+        limit,
+        page,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching doctors:', error.message);
     return error.message;
   }
 };
