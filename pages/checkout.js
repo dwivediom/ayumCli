@@ -8,6 +8,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 const checkout = () => {
+  const router = useRouter();
+
   const [payPayload, setpayPayload] = useState({
     name: "",
     phone: "",
@@ -25,6 +27,7 @@ const checkout = () => {
         ...payPayload,
         transactionid: "T" + Date.now(),
         MUIDW: "MUIDW" + Date.now(),
+        planid: router.query.planid,
       },
     })
       .then((res) => {
@@ -47,7 +50,6 @@ const checkout = () => {
         //   return false;
       });
   };
-  const router = useRouter();
 
   useEffect(() => {
     console.log(router.query, "useeffectrr");
