@@ -27,7 +27,7 @@ const checkout = () => {
         ...payPayload,
         transactionid: "T" + Date.now(),
         MUIDW: "MUIDW" + Date.now(),
-        planid: router.query.planid,
+        planid: router.query.plan,
       },
     })
       .then((res) => {
