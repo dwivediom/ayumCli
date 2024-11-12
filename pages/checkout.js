@@ -21,7 +21,7 @@ const checkout = () => {
       method: "post",
       url: `${process.env.NEXT_PUBLIC_B_PORT}/api/doctor/checkoutsubscription`,
       headers: {
-        "x-auth-token": localStorage.doctoken,
+        "x-auth-token": router.query.doc,
       },
       data: {
         ...payPayload,
