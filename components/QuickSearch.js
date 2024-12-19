@@ -36,15 +36,19 @@ const QuickSearch = () => {
       style={{
         width: "100%",
         margin: "auto",
-        padding: "12px 14px",
+        padding: "5px 10px",
+        paddingTop: "10px",
+        color: "teal",
+        // height: "10rem",
+        // marginTop: "-10px",
       }}
-      className="grid lg:grid-cols-8 md:grid-cols-4 max-[760px]:grid-cols-4 gap-2 p-1 py-4"
+      className="grid lg:grid-cols-8 md:grid-cols-4 max-[760px]:grid-cols-4 gap-1"
     >
       <div
         onClick={() => qSearch(English.kidney)}
         value="Kidney "
         className={`${styles.btn6} p-3 rounded-lg shadow-md text-center `}
-        // className="bg-gray-100 p-4"
+        // className="bg-gray-100 p-4"d
       >
         {" "}
         <span className={`${styles.divtext}`}>

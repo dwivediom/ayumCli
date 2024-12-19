@@ -145,7 +145,7 @@ const NewHomePage = () => {
           flexWrap: "wrap",
           justifyContent: "center",
           gap: "2rem",
-          marginTop: "2rem",
+          marginTop: "0.5rem",
         }}
       >
         {loading ? (
