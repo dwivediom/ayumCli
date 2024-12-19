@@ -26,7 +26,7 @@ const SelectClinicComp = ({ docid }) => {
       setclinic(clinicdata?.clinic && clinicdata.clinic);
       setloading(false);
     }
-
+  
     docid && getdoctordata();
   }, []);
   return (
@@ -67,8 +67,8 @@ const SelectClinicComp = ({ docid }) => {
               return (
                 <div key={item._id} className={`${styles.cliniccard}`}>
                   <h2>{item.clinicName}</h2>
-                  <div className={`${styles.timebox}`}>
-                    <div>
+                  <div className={`${styles.timebox}`}> 
+                    <div> 
                       {" "}
                       <Image
                         src={

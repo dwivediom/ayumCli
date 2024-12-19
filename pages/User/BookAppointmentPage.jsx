@@ -9,29 +9,13 @@ const BookAppointment = dynamic(
 
 const BookAppointmentPage = () => {
   const router = useRouter();
-  const [data, setData] = useState();
 
   const { setscrollbox } = useContext(AccountContext);
   useEffect(() => {
     setscrollbox(false);
   }, []);
 
-  useEffect(() => {
-    if (typeof router.query.data == "string") {
-      console.log("query data");
-      const parsedData = JSON.parse(router.query.data);
-      console.log(parsedData, "parsed data");
-      if (typeof parsedData === "object") {
-        setData(parsedData);
-      }
-    } else {
-      router.push("/");
-    }
-
-    console.log(data && data);
-  }, []);
-
-  return <>{data && <BookAppointment reqdata={data} />}</>;
+  return <>{<BookAppointment />}</>;
 };
 
 export default BookAppointmentPage;

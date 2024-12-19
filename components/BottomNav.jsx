@@ -20,9 +20,13 @@ const BottomNav = () => {
         <section
           style={{
             zIndex: 22,
+            background: "white",
+            boxShadow: "0 -3px 8px rgba(0,0,0,0.1)",
+            borderTopLeftRadius: "32px",
+            borderTopRightRadius: "32px",
           }}
           id="bottom-navigation"
-          className=" gird grid-cols-5 bg-gray-900  text-white block fixed  inset-x-0 bottom-0 z-10  shadow"
+          className=" gird grid-cols-5   block fixed  inset-x-0 bottom-0 z-10  shadow"
         >
           {/* {scrollbox && (
             <div className={styles.scrollanimation}>
@@ -32,7 +36,13 @@ const BottomNav = () => {
               />
             </div>
           )} */}
-          <div id="tabs" className="flex justify-between">
+          <div
+            style={{
+              color: "teal",
+            }}
+            id="tabs"
+            className="flex justify-between"
+          >
             <Link href={"/"}>
               <a className="w-full focus:text-cyan-600 hover:text-cyan-600 justify-center inline-block text-center pt-2 pb-1">
                 <svg
@@ -83,7 +93,7 @@ const BottomNav = () => {
                     ></rect>
                   </g>
                 </svg>
-                <span className="tab tab-home text-white block text-xs">
+                <span className="tab tab-home block text-xs">
                   {lang == "en" ? English.home : Hindi.home}
                 </span>
               </a>
