@@ -10,7 +10,7 @@ class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/icon.png"></link>
           <meta name="theme-color" content="#fff" />
         </Head>
-        <body className="bg-gray-800  ">
+        <body>
           <Script
             src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"
             strategy="beforeInteractive"

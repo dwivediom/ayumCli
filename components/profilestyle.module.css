@@ -1,0 +1,224 @@
+.profilemainbox{
+    /* border: 2px solid red; */
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+gap: 0.5rem;
+padding: 0 10px;
+}
+.submainbox{
+    /* border: 2px solid greenyellow; */
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(93, 93, 93, 0.123);
+}
+
+.lighttextcolor{
+    font-size: 0.9rem;
+    
+    color: rgb(135, 135, 135);
+}
+.profileactions{
+    display: flex;
+    margin-top: 1rem;
+    gap: 10px;
+}
+.profilesubaction1{
+color:white ;
+padding: 10px;
+background: linear-gradient(75deg , var(--teal-700) ,var(--teal-700));
+box-shadow: 2px 3px 15px rgba(149, 255, 255, 0.336);
+border-radius: 24px;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+}
+.profilesubaction1:hover{
+    background: linear-gradient(125deg , var(--teal-600) ,var(--teal-600));
+transition: 0.2s all;
+/* color: rgb(32, 106, 235); */
+
+}
+
+.profilesubaction2{
+padding: 7px;
+border-radius: 24px;
+display: flex;
+align-items: center;
+color:white;
+padding: 10px;
+background: linear-gradient(75deg , var(--yellow-600) ,var(--yellow-600));
+box-shadow: 2px 3px 15px rgba(244, 255, 149, 0.336);
+justify-content: center;
+transition: 0.2s all;
+cursor: pointer;
+}
+
+.profilesubaction2:hover{
+    background: linear-gradient(125deg , var(--yellow-500) ,var(--yellow-300));
+
+}
+.explangcard{
+    display: flex;
+    gap: 15px;
+    margin-top: 1.5rem;
+
+}
+
+.subexplangcard1{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    gap: 10px;
+    background:#EDF0F8;
+    /* border: 1px solid #8951FE; */
+
+    padding: 10px;
+}
+.subexplangcard2{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+/* border: 1px solid #8951FE; */
+    justify-content: center;
+    background: #EDF0F8;
+    border-radius: 4px;
+
+}
+.expcard{
+    background:linear-gradient(120deg, rgb(88, 6, 159), rgb(136, 0, 255));
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 21rem;
+    padding-top: 2rem;
+}
+.educard{
+    background:linear-gradient(120deg, rgb(42, 85, 205), rgb(0, 28, 212));
+    border-radius: 8px;
+    max-width: 21rem;
+
+    padding: 10px;
+    padding-top: 2rem;
+}
+.storycard{
+    background: #EDF0F8;
+    padding: 10px;
+width: 100%;
+/* min-height: 5rem; */
+margin-top: 1rem;
+border-radius: 4px;
+color: rgb(29, 28, 28);
+}
+.commonlytreats{
+    background: #EDF0F8;
+border-radius: 4px;
+padding: 10px;
+margin-top: 1rem;
+}
+
+.commonlytreatsbox{
+    padding: 5px;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 2px 3px 10px rgba(113, 113, 113, 0.336);
+    font-size: 14px;
+
+
+}
+.registrationbox{
+    background: #EDF0F8;
+border-radius: 4px;
+padding: 10px;
+margin-top: 1rem;
+}
+.edubox{
+    background: #EDF0F8;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.edusubbox{
+display: flex;
+flex-direction: column;
+
+}
+
+.analyticcard1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 3px 4px rgba(175, 175, 175, 0.581);
+
+padding: 20px;
+border-radius: 8px;
+text-align: center;
+border-top: 3px solid rgb(157, 0, 255);
+/* width: 8rem; */
+}
+.analyticcard2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 3px 4px rgba(175, 175, 175, 0.581);
+    /* width: 8rem; */
+
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    border-top: 3px solid rgb(0, 81, 255);
+
+}
+.analyticcard3{  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    /* width: 8rem; */
+
+    box-shadow: 0 3px 4px rgba(175, 175, 175, 0.581);
+    border-top: 3px solid rgb(250, 41, 26);
+
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.analyticcard1 span:nth-of-type(1){
+    color:rgb(143, 0, 232) ;
+}
+.analyticcard1 span:nth-of-type(2){
+    font-size: 1.2rem;
+}
+.analyticcard2 span:nth-of-type(1){
+    color:rgb(0, 75, 235) ;
+}
+.analyticcard2 span:nth-of-type(2){
+    font-size: 1.2rem;
+}
+.analyticcard3 span:nth-of-type(1){
+    color: rgb(248, 32, 17);
+}
+.analyticcard3 span:nth-of-type(2){
+    font-size: 1.2rem;
+}
+.patientreviewcard{
+    box-shadow: 0 3px 4px rgba(175, 175, 175, 0.581);
+    padding: 5px;
+    width: 95%;
+    margin: auto;
+    border-radius: 8px;
+    background-color: white;
+    
+    height: fit-content;
+}
+

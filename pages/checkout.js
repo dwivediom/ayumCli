@@ -108,6 +108,7 @@ const checkout = () => {
           onClick={() => {
             handleSubmit();
           }}
+          className={styles.checkoutsubmit}
         >
           Pay Now
         </button>

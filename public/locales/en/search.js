@@ -1,5 +1,5 @@
 module.exports = {
-  showmore: "Show More",
+  showmore: "More",
   hide: "Hide",
   placeholder: "Search Doctors, Specialist , Clinics...",
   search: "Search",
@@ -8,7 +8,7 @@ module.exports = {
   dentist: "Dentist",
   skin: "Skin",
   surgery: "Surgery",
-  bloodbank: "Blood Bank",
+  bloodbank: "Blood",
   gynae: "Gynae",
   medicine: "Medicine",
   bone: "Bone",
