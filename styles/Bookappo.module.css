@@ -3,7 +3,8 @@
   margin: auto;
   padding: 1rem;
   border-radius: 8px;
-
+  display: flex;
+  flex-direction: column;
   margin-top: 2rem;
   background: rgb(255, 255, 255);
   box-shadow: 2px 2px 10px rgba(176, 176, 176, 0.749);
@@ -58,10 +59,10 @@
   color: #36395a;
   background-color: #f8f8ff !important;
   border-radius: 8px;
-  box-shadow: 5px 15px 20px rgba(37, 43, 51, 0.265);
+  box-shadow: 5px 5px 10px rgba(37, 43, 51, 0.097);
   font-family: "Poppins", sans-serif;
   margin: 5px;
-  border-top: 4px solid rgb(1, 197, 197);
+  /* border-top: 4px solid rgb(1, 197, 197); */
 }
 .cardcontainer {
   width: 100%;
@@ -135,4 +136,296 @@
 .continuebox:hover {
   color: white;
   background:#069698;  transform: translateY(2px) !important;
+}
+
+
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
+
+.landcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0;
+  background-color: #EDF0F8 !important;
+  margin: auto;
+  gap: 2rem;
+  width: 100%;
+}
+
+.cliniccard {
+   width: 24rem;
+  padding: 15px 10px !important;
+  color: #36395a;
+  background-color: #ffffff !important;
+  border-radius: 8px;
+  box-shadow: 5px 5px 20px rgba(192, 190, 193, 0.432);
+  font-family: "Poppins", sans-serif;
+  /* border: 1px solid rgba(128, 128, 128, 0.368); */
+  margin: 5px;
+}
+.cliniccard h1 {
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.clinicdetails {
+  width: 100%;
+  /* border: 1px solid red; */
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.clinicmenus{
+display: flex;
+padding: 5px !important;
+align-items: center;
+border-radius: 4px;
+background-color: #e0fcff82;
+/* box-shadow: 0 3px 5px rgba(0,0,0,0.1); */
+gap:3px;
+margin-top: 5px;
+font-size: 14px;
+font-weight: 500;
+}
+
+.clinicmenus svg{
+  width: 20px;
+  height: 20px;
+}
+.actionbox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  /* border: 1px solid red; */
+  padding: 5px 10px;
+}
+
+.actionbox div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.actionbox div svg {
+  cursor: pointer;
+  transition: 0.2s all;
+}
+.actionbox div svg:hover {
+  transform: translateY(-3px);
+}
+.openbtn {
+  align-items: center;
+  background-color: #f9f9fe;
+  border-radius: 4px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d2d2e6 0 -3px 0 inset;
+  color: #36395a;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "Poppins", sans-serif;
+  height: 35px;
+  justify-content: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  transition: box-shadow 0.15s, transform 0.15s;
+  font-size: 16px;
+}
+
+.openbtn:focus {
+  box-shadow: #d6d6e7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+}
+
+.openbtn:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.openbtn:active {
+  box-shadow: #d6d6e7 0 3px 7px inset;
+  transform: translateY(2px);
+}
+
+.headbox {
+  display: flex;
+  gap: 1rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
+  /* margin-top: 3rem; */
+}
+
+.eventcard {
+  width: 23rem;
+  height: 9rem;
+  box-shadow: 0 10px 10px rgba(4, 0, 238, 0.116);
+  border-radius: 4px;
+  background-color: rgba(149, 0, 255, 0.747);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  overflow: hidden;
+  /* display: none; */
+z-index: inherit;
+  font-family: "Poppins", sans-serif;
+  color: aliceblue;
+}
+
+.docsvg {
+  background-image: url("/health.svg");
+  background-position: center;
+  background-size: cover;
+  width: 150px;
+  height: 150px;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  right: 0px;
+  display: inline;
+}
+
+
+@keyframes animatesm {
+  0% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px) translateX(4px);
+  }
+  80% {
+    transform: translateY(10) translateX(-3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+.bookingtoggle {
+  width: 6rem;
+  height: 1.8rem;
+  /* border: 1px solid red; */
+  background-color: #d2d2e686;
+  border-radius: 24px;
+}
+.bookingbtn {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  height: 4rem;
+  position: relative;
+  transition: 3s all;
+}
+.bookingbtn span {
+  font-size: small;
+  font-weight: bold;
+  display: inline;
+  transition: 0.3s all;
+
+  /* gap: -5px; */
+}
+
+.togglecircle {
+  position: absolute;
+  transition: 0.7s all;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: small;
+  font-weight: bold;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #36395a;
+}
+
+@media (max-width: 400px) {
+  .cliniccard {
+    max-width: 22rem;
+  }
+  .eventcard {
+    width: 21rem;
+  }
+  .docsvg {
+    width: 40%;
+    animation: none;
+    /* animation: animatesm 4s linear infinite; */
+  }
+}
+
+@media (max-width: 340px) {
+  .cliniccard {
+    max-width: 20rem;
+  }
+}
+
+.container {
+  max-width: 21rem;
+  margin: 50px auto;
+  padding: 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  font-family: 'Arial', sans-serif;
+}
+
+.title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.description {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.instruction {
+  font-size: 16px;
+  color: #a600f3;
+  margin-bottom: 10px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.notification {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+}
+
+
+.timingcardbox{
+background-color: rgba(255, 255, 255, 0.764);
+}
+
+.timingcardbox::-webkit-scrollbar{
+display: none;
+}
+
+.timingcard{
+background-color: white;
+box-shadow: 0 3px 5px rgba(0, 0, 0, 0.196);
+border-radius: 8px;
+width: fit-content;
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 4px;
+justify-content: center;
+min-width: 8.5rem !important;
+
 }

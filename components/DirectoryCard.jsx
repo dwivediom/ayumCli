@@ -567,7 +567,7 @@ ${linktext}`;
                 justifyContent: "center",
                 gap: "3px",
               }}
-              class="bg-cyan-100 text-cyan-900 text-xs font-medium me-2 rounded-full dark:bg-cyan-100 dark:text-cyan-900"
+              class="bg-teal-100 text-teal-900 text-xs font-medium me-2 rounded-full dark:bg-cyan-100 dark:text-cyan-900"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -603,11 +603,11 @@ ${linktext}`;
                 // let link = isLocal ? "http://localhost:3000" : "https://ayum.in";
                 let link = "https://ayum.in";
                 link = link + "/doctor";
-                link = link + "?docid=" + item._id ;
+                link = link + "?docid=" + item._id;
                 setlinktext(link);
                 setsharemodal(true);
               }}
-              class="bg-cyan-100 text-cyan-900 text-xs font-medium me-2 rounded-full dark:bg-cyan-100 dark:text-cyan-900"
+              class="bg-teal-100 text-teal-900 text-xs font-medium me-2 rounded-full dark:bg-cyan-100 dark:text-cyan-900"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

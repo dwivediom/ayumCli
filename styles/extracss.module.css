@@ -117,3 +117,42 @@
   align-items: center;
   position: absolute;
 }
+
+.checkoutdiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+.checkoutform{
+  display: flex;
+  flex-direction: column;
+  background: white;
+  box-shadow: 0 3px 5px rgba(124, 124, 124, 0.215);
+  padding: 2rem 1rem;
+  border-radius: 10px;
+  gap: 5px;
+  margin-top: 2rem;
+}
+.checkoutformdiv{
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+.checkoutformdiv input{
+  height: 2rem;
+  width: 100%;
+  border-radius: 4px;
+  padding: 5px !important;
+  border: 1px solid rgb(199, 199, 199);
+}
+.checkoutformdiv label{
+  font-size: 16px;
+}
+.checkoutsubmit{
+  background-color: teal;
+  padding: 5px ;
+  color: white;
+  border-radius: 4px;
+  margin-top: 10px;
+}

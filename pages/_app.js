@@ -20,6 +20,12 @@ import { updateuser } from "../routes/user";
 import LoginPopup from "../components/UserAuth/LoginPopup";
 import Loader from "../components/Loader";
 import Footer from "../components/Footer";
+import NewNavbar from "../components/NewNavbar";
+import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
+import "primereact/resources/themes/lara-light-purple/theme.css";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
@@ -83,46 +89,49 @@ function MyApp({ Component, pageProps, AccountContext }) {
 
   return (
     <>
-      <GoogleOAuthProvider
-        clientId={process.env.NEXT_PUBLIC_B_GOOGLE_CLIENT_ID}
-      >
-        <AccountProvider>
-          <ReduxProvider store={store}>
-            {loading && (
-              // <div
-              //   style={{
-              //     width: "100vw",
-              //     height: "50vh",
-              //     display: "flex",
-              //     alignItems: "center",
-              //     justifyContent: "center",
-              //   }}
-              // >
-              //   <Image
-              //     src={"/loader.svg"}
-              //     width={50}
-              //     height={50}
-              //     alt="Loading..."
-              //   />
-              // </div>
-              <Loader />
-            )}
+      <PrimeReactProvider>
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_B_GOOGLE_CLIENT_ID}
+        >
+          <AccountProvider>
+            <ReduxProvider store={store}>
+              {loading && (
+                // <div
+                //   style={{
+                //     width: "100vw",
+                //     height: "50vh",
+                //     display: "flex",
+                //     alignItems: "center",
+                //     justifyContent: "center",
+                //   }}
+                // >
+                //   <Image
+                //     src={"/loader.svg"}
+                //     width={50}
+                //     height={50}
+                //     alt="Loading..."
+                //   />
+                // </div>
+                <Loader />
+              )}
 
-            <div
-              style={{
-                display: loading ? "none" : "block",
-                margin: "auto !important",
-              }}
-            >
-              <Navbar />
-              <Component {...pageProps} />
-              <LoginPopup />
-              <Footer />
-              <BottomNav />
-            </div>
-          </ReduxProvider>
-        </AccountProvider>
-      </GoogleOAuthProvider>
+              <div
+                style={{
+                  display: loading ? "none" : "block",
+                  margin: "auto !important",
+                }}
+              >
+                {/* <Navbar /> */}
+                <NewNavbar />
+                <Component {...pageProps} />
+                <LoginPopup />
+                <Footer />
+                <BottomNav />
+              </div>
+            </ReduxProvider>
+          </AccountProvider>
+        </GoogleOAuthProvider>
+      </PrimeReactProvider>
     </>
   );
 }

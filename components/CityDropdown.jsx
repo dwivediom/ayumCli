@@ -25,6 +25,12 @@ const CityDropdown = (props) => {
   return (
     <Autocomplete
       disablePortal
+      style={{
+        // border: "2px solid red",
+        height: "fit-content",
+        borderRadius: "24px",
+        background: "white",
+      }}
       className={styles.autocomp}
       id="combo-box-demo"
       options={cityoptions}
@@ -38,6 +44,7 @@ const CityDropdown = (props) => {
       }}
       renderInput={(params) => (
         <TextField
+          style={{ borderRadius: "24px" }}
           placeholder={value?.label ? value?.label : "Choose city"}
           {...params}
           label=""

@@ -14,6 +14,7 @@ import HorizontalScroll from "../components/DemoAd";
 import Head from "next/head";
 import EmblaCarouselComp from "../components/Carousel/EmblaCarouselComp";
 import SearchBox from "../components/Carousel/Search/SearchBox";
+import NewDocprofile from "../components/NewDocprofile";
 
 const Doctors = ({ initialData }) => {
   const [showload, setshowload] = useState();
@@ -169,10 +170,7 @@ const Doctors = ({ initialData }) => {
         />
         <title>All Doctors</title>
       </Head>
-      <div
-        id="directorypage"
-        className={`${styles.directorypage} h-[100vh] overflow-auto p-5`}
-      >
+      <div id="directorypage" className={`${styles.directorypage} `}>
         {/* <form
           onSubmit={(e) => {}}
           className={`${styles1.searchform}`}
@@ -205,13 +203,11 @@ const Doctors = ({ initialData }) => {
           redirecttohome={true}
         />
         {/* <Slider2 /> */}
-        <div style={{ marginTop: "1.5rem", width: "100%" }}>
-          {isMobile ? (
-            <EmblaCarouselComp slidesData={slidesData} />
-          ) : (
-            <HorizontalScroll />
-          )}
-        </div>
+        {isMobile ? (
+          <EmblaCarouselComp slidesData={slidesData} />
+        ) : (
+          <HorizontalScroll />
+        )}
         <div className={`${styles.directoryshell}`}>
           {loading ? (
             <div
@@ -233,13 +229,24 @@ const Doctors = ({ initialData }) => {
             docs?.length > 0 &&
             docs.map((item) => {
               return (
-                <DirectoryCard
-                  key={item._id}
-                  item={item && item}
-                  docid={router.query?.docid}
-                  isMobile={isMobile}
-                  showreview={router.query?.docid ? true : false}
-                />
+                <>
+                  {router.query.docid && item.onAyum && item.doctorid ? (
+                    <NewDocprofile
+                      key={item._id}
+                      item={item && item}
+                      docid={item.doctorid}
+                      isMobile={isMobile}
+                    />
+                  ) : (
+                    <DirectoryCard
+                      key={item._id}
+                      item={item && item}
+                      docid={router.query?.docid}
+                      isMobile={isMobile}
+                      showreview={router.query?.docid ? true : false}
+                    />
+                  )}
+                </>
               );
             })
           )}
