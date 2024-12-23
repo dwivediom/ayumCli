@@ -11,15 +11,9 @@ import { adduser } from "../../routes/user";
 import { useEffect } from "react";
 import English from "../../public/locales/en/index";
 import Hindi from "../../public/locales/hi/index";
-// import { setCookie } from "../utils/Utils";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-} from "@mui/material";
+
 import { setCookie } from "../../public/utils/Utils";
+import { Dialog } from "primereact/dialog";
 const UserRegistrationPage = () => {
   const { setauthstatus, setsignout, setthankmodal, setscrollbox, lang } =
     useContext(AccountContext);
@@ -144,45 +138,32 @@ const UserRegistrationPage = () => {
             onError={(res) => onLoginError(res)}
           />
         </div>
-
         <Dialog
-          open={expired}
-          onClose={() => setexpired(false)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          header="Session expired"
+          visible={expired}
+          onHide={() => {
+            setexpired(false);
+          }}
         >
-          {/* Session Expired! Please Login Again. */}
-          <DialogContent>
-            <DialogContentText
-              style={{
-                textAlign: "center",
-              }}
-              id="alert-dialog-description"
-            >
-              <span
-                style={{
-                  color: "black",
-                }}
-                className="font-bold "
-              >
-                {" "}
-                Time For Quick Health Checkup 🩵
-              </span>{" "}
-              <br />{" "}
-              <span
-                style={{
-                  textDecoration: "underline",
-                }}
-                onClick={() => setexpired(false)}
-                className="text-blue-600 "
-              >
-                Please login again!
-              </span>
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setexpired(false)}>Close</Button>
-          </DialogActions>
+          <span
+            style={{
+              color: "black",
+            }}
+            className="font-bold "
+          >
+            {" "}
+            Time For Quick Health Checkup 🩵
+          </span>{" "}
+          <br />{" "}
+          <span
+            style={{
+              textDecoration: "underline",
+            }}
+            onClick={() => setexpired(false)}
+            className="text-blue-600 "
+          >
+            Please login again!
+          </span>
         </Dialog>
       </div>
     </>

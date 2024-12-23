@@ -2,12 +2,13 @@ import Image from "next/image";
 import React, { useContext } from "react";
 import { AccountContext } from "../context/AccountProvider";
 import styles from "../styles/Home.module.css";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+// import Box from "@mui/material/Box";
+// import Button from "@mui/material/Button";
+// import Typography from "@mui/material/Typography";
+// import Modal from "@mui/material/Modal";
 import English from "../public/locales/en/index";
 import Hindi from "../public/locales/hi/index";
+import { Dialog } from "primereact/dialog";
 const style = {
   position: "absolute",
   top: "40%",
@@ -29,72 +30,48 @@ const style = {
 const ThankModal = () => {
   const { setthankmodal, thankmodal, lang } = useContext(AccountContext);
   return (
-    <>
-      {/* <div className={styles.modalback}>
-        <div className={styles.modalbox}>
-          <h1 className="text-center">Thankyou For Connecting With Ayum</h1>
+    <div className="thankpopup">
+      <Dialog visible={thankmodal} onHide={() => setthankmodal(false)}>
+        <div
+          style={{
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            color: "teal",
+            fontWeight: "bold",
+            fontSize: "18px",
+          }}
+          id="modal-modal-title"
+          variant="h6"
+          component="h2"
+        >
+          <span style={{ padding: "10px" }}>
+            {lang == "en" ? English.thankmsg : Hindi.thankmsg}
+          </span>
           <img
+            style={{
+              width: "45px",
+              height: "45px",
+            }}
             src="https://img.icons8.com/external-fauzidea-flat-fauzidea/64/null/external-success-online-learning-fauzidea-flat-fauzidea.png"
             alt="success"
           />
-          <div
-            onClick={() => {
-              localStorage.setItem("thankmodal", false);
-              setthankmodal(false);
-            }}
-            className={styles.closemodal}
-          >
-            Close
-          </div>
         </div>
-      </div> */}
-      <Modal
-        open={thankmodal}
-        onClose={() => setthankmodal(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        style={{ padding: "0" }}
-      >
-        <Box sx={style}>
-          <Typography
-            style={{
-              textAlign: "center",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              color: "teal",
-              fontWeight: "bold",
-              fontSize: "18px",
-            }}
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-          >
-            {lang == "en" ? English.thankmsg : Hindi.thankmsg}
-            <img
-              style={{
-                width: "45px",
-                height: "45px",
-              }}
-              src="https://img.icons8.com/external-fauzidea-flat-fauzidea/64/null/external-success-online-learning-fauzidea-flat-fauzidea.png"
-              alt="success"
-            />
-          </Typography>
-          <Typography
-            style={{
-              textAlign: "center",
-              fontWeight: "bold",
-              color: "black",
-            }}
-            id="modal-modal-description"
-            sx={{ mt: 2 }}
-          >
-            {lang == "en" ? English.twoclickmsg : Hindi.twoclickmsg}
-          </Typography>
-        </Box>
-      </Modal>
-    </>
+        <div
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "black",
+          }}
+          id="modal-modal-description"
+          sx={{ mt: 2 }}
+        >
+          {lang == "en" ? English.twoclickmsg : Hindi.twoclickmsg}
+        </div>
+      </Dialog>
+    </div>
   );
 };
 

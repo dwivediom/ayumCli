@@ -3,11 +3,12 @@ import styles from "../styles/extracss.module.css";
 import { useContext } from "react";
 import { AccountContext } from "../context/AccountProvider";
 import axios from "axios";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import { Button } from "@mui/material";
+import CityDropdown from "./CityDropdown";
+import { Button } from "primereact/button";
+// import TextField from "@mui/material/TextField";
+// import { Button } from "@mui/material";
 
-const LanguageModal = () => {
+const LanguageModal = (props) => {
   const { setlang, setlangmodal, lang } = useContext(AccountContext);
   const [validerr, setvaliderr] = useState(false);
   const [validphone, setvalidphone] = useState(false);
@@ -168,22 +169,21 @@ const LanguageModal = () => {
             </div>
           </div>
         </div>
-        <div>
-          <h1>
-            Choose City <br /> शहर चुनें
-          </h1>
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={cityoptions}
-            onChange={(e, val) => {
-              localStorage.setItem("city", val.label);
-            }}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="" />}
-          />
-        </div>
+        <h1>
+          Choose City <br /> शहर चुनें
+        </h1>
+        <CityDropdown {...props} />
+
         <Button
+          label="Submit"
+          onClick={() => {
+            setlangmodal(false);
+          }}
+          raised
+          style={{ padding: "10px", background: "teal", minHeight: "2rem" }}
+        />
+
+        {/* <Button
           style={{ background: "teal" }}
           variant="contained"
           color="success"
@@ -192,7 +192,7 @@ const LanguageModal = () => {
           }}
         >
           Submit
-        </Button>
+        </Button> */}
         {/* {langchanged && (
           <div className={`${styles.numberinput}`} style={{ width: "100%" }}>
             <input
