@@ -10,11 +10,11 @@ import { getDoc, showMore } from "../routes/directory";
 import DirectoryCard from "./DirectoryCard";
 import Image from "next/image";
 import { AccountContext } from "../context/AccountProvider";
-import { Dialog, Modal } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+// import { Dialog, Modal } from "@mui/material";
+// import TextField from "@mui/material/TextField";
 import EmblaCarousel from "./Carousel/EmblaCarouselComp";
 import CityDropdown from "./CityDropdown";
+import LanguageModal from "./LanguageModal";
 
 const NewHomePage = () => {
   let [isMobile, setIsMobile] = useState(false);
@@ -125,6 +125,7 @@ const NewHomePage = () => {
 
   return (
     <div className={styles.mainshell}>
+      {langmodal && <LanguageModal getdocs={getalldoc} />}
       <SearchBox
         setdoctordocs={(data) => {
           console.log(data, "dataofdocs");

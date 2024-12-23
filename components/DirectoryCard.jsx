@@ -1,47 +1,51 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "../styles/Phonebook.module.css";
-import {
-  Alert,
-  Box,
-  Button,
-  Chip,
-  Container,
-  List,
-  ListItem,
-  Modal,
-  Paper,
-  Snackbar,
-  TextField,
-  Typography,
-} from "@mui/material";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import CallIcon from "@mui/icons-material/Call";
-import English from "../public/locales/en/index";
-import Hindi from "../public/locales/hi/index";
+// import {
+//   Alert,
+//   Box,
+//   Button,
+//   Chip,
+//   Container,
+//   List,
+//   ListItem,
+//   Modal,
+//   Paper,
+//   Snackbar,
+//   TextField,
+//   Typography,
+// } from "@mui/material";
+// import LocationOnIcon from "@mui/icons-material/LocationOn";
+// import CallIcon from "@mui/icons-material/Call";
+// import English from "../public/locales/en/index";
+// import Hindi from "../public/locales/hi/index";
 import { AccountContext } from "../context/AccountProvider";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+// import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+// import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import Router, { useRouter } from "next/router";
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
 import Head from "next/head";
-import Rating from "@mui/material/Rating";
-import StarIcon from "@mui/icons-material/Star";
-import { StarBorder } from "@mui/icons-material";
+// import Rating from "@mui/material/Rating";
+// import StarIcon from "@mui/icons-material/Star";
+// import { StarBorder } from "@mui/icons-material";
 import Image from "next/image";
 import axios from "axios";
 import { calculateAverageRating, formatDate } from "../public/utils/Utils";
 import HindiRating from "../public/locales/hi/reviewoption";
 import EnglishRating from "../public/locales/en/reviewoption";
 import LoginPopup from "./UserAuth/LoginPopup";
+import { Toast } from "primereact/toast";
+import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
+import { Rating } from "primereact/rating";
 
-const StyledRating = styled(Rating)({
-  "& .MuiRating-iconFilled": {
-    color: "#FFC100",
-  },
-  "& .MuiRating-iconHover": {
-    color: "#FFC100",
-  },
-});
+// const StyledRating = styled(Rating)({
+//   "& .MuiRating-iconFilled": {
+//     color: "#FFC100",
+//   },
+//   "& .MuiRating-iconHover": {
+//     color: "#FFC100",
+//   },
+// });
 
 const labels = {
   0.5: "Useless",
@@ -106,11 +110,8 @@ const DirectoryCard = ({ item, key, docid, showreview }) => {
   const [linktext, setlinktext] = useState("");
 
   useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
-    };
-
-    checkIsMobile();
+    let mobile = window && window.matchMedia("(max-width: 550px)");
+    setIsMobile(mobile.matches);
   }, []);
   const [copied, setcpied] = useState(false);
   const router = useRouter();
@@ -263,7 +264,7 @@ ${linktext}`;
       setdoctimings(dataString);
     }
   };
-
+  const toast = useRef();
   return (
     <div>
       {docid && (
@@ -395,6 +396,7 @@ ${linktext}`;
           {snackbarmsg}
         </Alert>
       </Snackbar> */}
+      <Toast ref={toast} />
       <div
         // style={{
         //   minHeight: showreview && "32rem",
@@ -421,7 +423,7 @@ ${linktext}`;
           key={key}
           className={`${styles.directorycard}`}
         >
-          <Snackbar
+          {/* <Snackbar
             open={showsnackbar}
             autoHideDuration={6000}
             onClose={() => {
@@ -438,84 +440,70 @@ ${linktext}`;
             >
               {snackmsg}
             </Alert>
-          </Snackbar>
-          <Modal
-            open={sharemodal}
-            onClose={() => {
+          </Snackbar> */}
+          <Dialog
+            visible={sharemodal}
+            onHide={() => {
               setcpied(false);
               setsharemodal(false);
             }}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            style={{ padding: "0" }}
+            style={{ width: isMobile ? "95vw" : "20rem" }}
           >
-            <Box sx={style}>
-              <div
-                onClick={() => {
-                  shareOnWhatsApp(item?.name);
-                }}
-                className={`${styles.shareonwhatsapp}`}
-              >
-                Share On{" "}
-                <WhatsAppIcon
-                  style={{ color: "white", width: "35px", height: "35px" }}
-                />
+            <div
+              onClick={() => {
+                shareOnWhatsApp(item?.name);
+              }}
+              className={`${styles.shareonwhatsapp}`}
+            >
+              Share On <i className="pi pi-whatsapp"></i>
+            </div>
+            <div className={`${styles.copylinkdiv}`}>
+              <div className={`${styles.copylink}`}>
+                {" "}
+                <div>{linktext}</div>
               </div>
-              <div className={`${styles.copylinkdiv}`}>
-                <div className={`${styles.copylink}`}>
-                  {" "}
-                  <div>{linktext}</div>
-                </div>
-                <span onClick={() => copyToClipboard(linktext)}>
-                  <ContentCopyIcon style={{ width: "20px", height: "20px" }} />{" "}
-                  {copied ? "Copied" : "Copy"}
-                </span>
-              </div>
-            </Box>
-          </Modal>
-          <Modal
-            open={callmodal}
-            onClose={() => setcallmodal(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            style={{ padding: "0" }}
-          >
-            <Box sx={style}>
-              {selectedphones?.length > 0 &&
-                selectedphones.map((item, index) => {
-                  return (
-                    item &&
-                    item != "" && (
-                      <div
-                        key={index}
+              <span onClick={() => copyToClipboard(linktext)}>
+                <i className="pi pi-check-circle"></i>
+                {copied ? "Copied" : "Copy"}
+              </span>
+            </div>
+          </Dialog>
+          <Dialog visible={callmodal} onHide={() => setcallmodal(false)}>
+            {selectedphones?.length > 0 &&
+              selectedphones.map((item, index) => {
+                return (
+                  item &&
+                  item != "" && (
+                    <div
+                      key={index}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                      className={`${styles.callitem}`}
+                    >
+                      <div style={{ padding: "5px 10px" }}>{item}</div>
+
+                      <Button
                         style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
+                          background: "#005e6d",
+                          borderRadius: "4px",
+                          padding: "4px 10px",
+                          color: "white",
                         }}
-                        className={`${styles.callitem}`}
-                      >
-                        <div>{item} </div>
-                        <Button
-                          style={{
-                            background: "#005e6d",
-                            borderRadius: "4px",
-                            padding: "4px 10px",
-                          }}
-                          variant="contained"
-                          startIcon={<CallIcon style={{ color: "white" }} />}
-                          onClick={() => {
-                            handleCall(item);
-                          }}
-                        >
-                          Call
-                        </Button>{" "}
-                      </div>
-                    )
-                  );
-                })}
-            </Box>
-          </Modal>
+                        label="Call"
+                        onClick={() => {
+                          handleCall(item);
+                        }}
+                        raised
+                        icon="pi pi-phone"
+                      />
+                    </div>
+                  )
+                );
+              })}
+          </Dialog>
           <div
             style={{
               display: "flex",
@@ -648,13 +636,14 @@ ${linktext}`;
                 0 ? (
                   <span className={`${styles.reviewbadge}`}>
                     {calculateAverageRating(item.reviews ? item.reviews : [])}{" "}
-                    <StarIcon
+                    {/* <StarIcon
                       style={{
                         fontSize: "20px",
                         fill: "white",
                       }}
                       fontSize="inherit"
-                    />
+                    /> */}
+                    <i className="pi pi-star-fill"></i>
                   </span>
                 ) : (
                   <span className={`${styles.reviewbadgenotrated}`}>
@@ -759,7 +748,49 @@ ${linktext}`;
                 // gap: router.query.docid && "1rem",
               }}
             >
-              <Button
+              <a
+                href={
+                  item?.maplinkurl
+                    ? item.maplinkurl
+                    : `https://www.google.com/maps/search/?api=1&query=${`${item.latitude} , ${item.longitude}`}`
+                }
+                target="_blank"
+                rel="noreferrer"
+              >
+                {/* <Button
+                  style={{
+                    // background: "rgb(0, 127, 147)",
+                    color: "rgb(0, 127, 147)",
+                    borderRadius: "4px",
+                    padding: "4px 10px",
+                    border: "1.5px solid rgb(0, 127, 147 , 0.6)",
+                  }}
+                  startIcon={
+                    <LocationOnIcon style={{ color: "rgb(0, 127, 147)" }} />
+                  }
+                  variant="outlined"
+                >
+                  View On Map
+                </Button> */}
+                <Button
+                  label="View On Map"
+                  style={{
+                    background: "#005e6d",
+                    borderRadius: "4px",
+                    padding: "4px 10px",
+                    color: "blue",
+                  }}
+                  onClick={() => {
+                    // handleCall(item?.phone);
+                    const splitArray =
+                      item?.phone && item?.phone.split(/[,\s]+/);
+                    setselectedphones(splitArray);
+                    setcallmodal(true);
+                  }}
+                  icon="pi pi-map-marker"
+                />
+              </a>
+              {/* <Button
                 style={{
                   background: "#005e6d",
                   borderRadius: "4px",
@@ -775,32 +806,23 @@ ${linktext}`;
                 }}
               >
                 Call
-              </Button>{" "}
-              <a
-                href={
-                  item?.maplinkurl
-                    ? item.maplinkurl
-                    : `https://www.google.com/maps/search/?api=1&query=${`${item.latitude} , ${item.longitude}`}`
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Button
-                  style={{
-                    // background: "rgb(0, 127, 147)",
-                    color: "rgb(0, 127, 147)",
-                    borderRadius: "4px",
-                    padding: "4px 10px",
-                    border: "1.5px solid rgb(0, 127, 147 , 0.6)",
-                  }}
-                  startIcon={
-                    <LocationOnIcon style={{ color: "rgb(0, 127, 147)" }} />
-                  }
-                  variant="outlined"
-                >
-                  View On Map
-                </Button>
-              </a>
+              </Button>{" "} */}
+              <Button
+                label="Call"
+                style={{
+                  background: "#005e6d",
+                  borderRadius: "4px",
+                  padding: "4px 10px",
+                  color: "white",
+                }}
+                onClick={() => {
+                  // handleCall(item?.phone);
+                  const splitArray = item?.phone && item?.phone.split(/[,\s]+/);
+                  setselectedphones(splitArray);
+                  setcallmodal(true);
+                }}
+                icon="pi pi-phone"
+              />
             </div>
             {/* <form action="#" onSubmit={() => {}}> */}
 
@@ -847,34 +869,10 @@ ${linktext}`;
                       }}
                     >
                       <span>
-                        {/* {reviewgiven.rating} */}
-                        <StyledRating
-                          name="customized-color"
-                          defaultValue={reviewgiven.rating}
-                          onChange={(e) => {
-                            console.log(e.target.value);
-                            setreviewpayload({
-                              ...reviewpayload,
-                              rating: e.target.value,
-                            });
-                          }}
-                          // getLabelText={(review.rating) =>
-                          //   `value${} Heart${value !== 1 ? "s" : ""}`
-                          // }
-                          precision={0.5}
+                        <Rating
+                          value={reviewgiven.rating}
                           readOnly
-                          icon={
-                            <StarIcon
-                              style={{ fontSize: "30px" }}
-                              fontSize="inherit"
-                            />
-                          }
-                          emptyIcon={
-                            <StarBorder
-                              style={{ fontSize: "30px" }}
-                              fontSize="inherit"
-                            />
-                          }
+                          cancel={false}
                         />
                       </span>{" "}
                       <span>Rating Given By You</span>
@@ -919,7 +917,25 @@ ${linktext}`;
               : showreview && (
                   <div>
                     <p>Review {item?.name?.slice(0, 15)}...</p>
-                    <StyledRating
+
+                    <Rating
+                      style={{
+                        background: "var(--surface-100)",
+                        color: "blue",
+                      }}
+                      defaultValue={0}
+                      value={setreviewpayload.rating}
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                        setreviewpayload({
+                          ...reviewpayload,
+                          rating: e.target.value,
+                        });
+                      }}
+                      cancel={false}
+                    />
+
+                    {/* <StyledRating
                       name="customized-color"
                       defaultValue={0}
                       onChange={(e) => {
@@ -945,7 +961,7 @@ ${linktext}`;
                           fontSize="inherit"
                         />
                       }
-                    />
+                    /> */}
                     {reviewpayload?.rating && (
                       <div
                         style={{
@@ -1153,7 +1169,7 @@ ${linktext}`;
             >
               Reviews From Ayum User's
             </h3>
-            <Container style={{ background: "rgb(245, 245, 245)" }}>
+            <div style={{ background: "rgb(245, 245, 245)" }}>
               {loading ? (
                 <div
                   style={{
@@ -1174,10 +1190,10 @@ ${linktext}`;
                 </div>
               ) : (
                 <>
-                  <List>
+                  <div>
                     {reviews.length > 0 ? (
                       reviews.map((review, index) => (
-                        <Paper
+                        <div
                           key={index}
                           style={{
                             padding: "10px",
@@ -1185,20 +1201,16 @@ ${linktext}`;
                             marginBottom: "10px",
                           }}
                         >
-                          {/* <ListItem>
-            <Typography>
-              <strong>Rating:</strong> {review.rating}
-            </Typography>
-          </ListItem> */}
-                          <StyledRating
-                            name="customized-color"
-                            // defaultValue={2}
+                          <Rating
                             value={review.rating}
-                            // getLabelText={(review.rating) =>
-                            //   `value${} Heart${value !== 1 ? "s" : ""}`
-                            // }
+                            readOnly
+                            cancel={false}
+                            style={{ marginBottom: "10px" }}
+                          />{" "}
+                          {/* <StyledRating
+                            name="customized-color"
+                            value={review.rating}
                             style={{
-                              // width: "40%",
                               display: "flex",
                               justifyContent: "left",
                             }}
@@ -1216,9 +1228,8 @@ ${linktext}`;
                                 fontSize="inherit"
                               />
                             }
-                          />
-
-                          <ListItem
+                          /> */}
+                          <div
                             style={{
                               display: "flex",
                               gap: "10px",
@@ -1231,7 +1242,6 @@ ${linktext}`;
                             <div
                               style={{
                                 display: "flex",
-                                // alignItems: "center",
                                 justifyContent: "space-between",
                                 gap: "5px",
                                 width: "100%",
@@ -1257,9 +1267,9 @@ ${linktext}`;
                                   }}
                                 />
                                 <div>
-                                  <Typography style={{ fontSize: "13px" }}>
+                                  <p style={{ fontSize: "13px" }}>
                                     {review?.patientName}
-                                  </Typography>{" "}
+                                  </p>{" "}
                                   <p
                                     style={{
                                       fontSize: "10px",
@@ -1271,27 +1281,11 @@ ${linktext}`;
                               </div>
                             </div>
 
-                            <Typography style={{ fontSize: "14px" }}>
+                            <p style={{ fontSize: "14px" }}>
                               {review?.comment}
-                            </Typography>
-                            {/* <Chip
-                              label={formatDate(review?.createdAt)}
-                              color="success"
-                              variant="outlined"
-                            /> */}
-                            {/* <p>{review.createdDate}</p> */}
-                          </ListItem>
-
-                          {/* <ListItem> */}
-
-                          {/* </ListItem> */}
-
-                          {/* <ListItem>
-            <Typography>
-              <strong>Date:</strong> {review.createdDate}
-            </Typography>
-          </ListItem> */}
-                        </Paper>
+                            </p>
+                          </div>
+                        </div>
                       ))
                     ) : (
                       <div
@@ -1314,10 +1308,10 @@ ${linktext}`;
                         </h6>
                       </div>
                     )}
-                  </List>
+                  </div>
                 </>
               )}
-            </Container>
+            </div>
           </div>
         )}
       </div>

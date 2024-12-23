@@ -5,11 +5,11 @@ import { setmessage } from "../../routes/message";
 import { uploadFile } from "../../routes/file";
 // import upload
 import styles from "../../styles/newchat.module.css";
-import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import FileCopyRoundedIcon from "@mui/icons-material/FileCopyRounded";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { notify , sendnotification } from "../../routes/notify";
+// import SendRoundedIcon from "@mui/icons-material/SendRounded";
+// import FileCopyRoundedIcon from "@mui/icons-material/FileCopyRounded";
+// import LocationOnIcon from "@mui/icons-material/LocationOn";
+// import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { notify, sendnotification } from "../../routes/notify";
 import English from "../../public/locales/en/labtest";
 import Hindi from "../../public/locales/hi/labtest";
 
@@ -137,13 +137,13 @@ const MsgInputSection = () => {
       //   sender: account.name,
       //   message: holdinput,
       // });
-      await sendnotification({ 
-        title: `Message from ${account.name} `, 
+      await sendnotification({
+        title: `Message from ${account.name} `,
         body: holdinput,
-        click_action: 'https://ayum.in/ChatSection' ,
+        click_action: "https://ayum.in/ChatSection",
         icon: "https://ayum.in/icons/icon-96x96.png",
-        to: person.user.FCMtoken
-      })
+        to: person.user.FCMtoken,
+      });
     }
   };
 
@@ -240,14 +240,14 @@ const MsgInputSection = () => {
             />
           </div>
           <div onClick={() => showoptions(!options)}>
-            <AttachFileIcon
+            {/* <AttachFileIcon
               style={{
                 color: "black",
                 width: "30px",
                 height: "30px",
                 display: options && "none",
               }}
-            />
+            /> */}
             <img
               style={{
                 display: !options && "none",
@@ -262,7 +262,7 @@ const MsgInputSection = () => {
         {options && (
           <div className={` ${styles.choosebox}`}>
             <label htmlFor="fileinput">
-              <FileCopyRoundedIcon style={{ color: "black" }} />
+              {/* <FileCopyRoundedIcon style={{ color: "black" }} /> */}
 
               <input
                 onChange={(e) => {
@@ -274,7 +274,7 @@ const MsgInputSection = () => {
               />
             </label>
             <div onClick={() => shareLocation()}>
-              <LocationOnIcon style={{ color: "black" }} />
+              {/* <LocationOnIcon style={{ color: "black" }} /> */}
             </div>
           </div>
         )}
