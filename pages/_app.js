@@ -25,7 +25,7 @@ import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
-import "primereact/resources/themes/lara-light-purple/theme.css";
+import "primereact/resources/themes/lara-light-teal/theme.css";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);

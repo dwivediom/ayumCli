@@ -14,8 +14,8 @@
 
 .languagemodal {
   width: 20rem;
-  
-  height: 23rem;
+  height: fit-content;
+  /* height: 23rem; */
   margin-top: 10rem;
   background-color: white;
   border-radius: 12px;
@@ -41,7 +41,7 @@
   cursor: pointer;
   padding: 10px;
   border-radius: 8px;
-
+margin-top: 10px;
   /* background-color: aliceblue; */
   position: relative;
   /* border: 2px solid red; */
@@ -58,9 +58,9 @@
 }
 .languagebtns:nth-of-type(2){
   border-top-left-radius: 0;
-  
+  color: teal;
   /* background: linear-gradient(125deg, rgb(3, 201, 115), rgb(77, 0, 201)); */
-  background: #111827;
+  background: #ffffff;
   border-bottom-left-radius: 0;
 }
 

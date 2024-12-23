@@ -27,6 +27,7 @@ import { getCookie } from "../public/utils/Utils";
 import NewHomePage from "../components/NewHomePage";
 import EmblaCarousel from "../components/Carousel/EmblaCarouselComp";
 import SearchBox from "../components/Carousel/Search/SearchBox";
+import { Dialog } from "primereact/dialog";
 
 // import Hindi from "/locales/hi/index";
 export async function getServerSideProps(context) {
@@ -127,6 +128,7 @@ export default function Home(props) {
     lang,
     langmodal,
     adminmode,
+    setlangmodal,
   } = useContext(AccountContext);
 
   const [isOnline, setIsOnline] = useState(true);
@@ -214,7 +216,7 @@ export default function Home(props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {langmodal && <LanguageModal />}
+
       {!adminmode ? (
         <NewHomePage />
       ) : (

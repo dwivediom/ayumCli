@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
+// import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import styles from "../../styles/chat.module.css";
-import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+// import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { downloadMedia } from "../../utils/downloadMedia";
 
 // import { Accountcontext } from "../../context/AccountProvider";
@@ -136,20 +136,20 @@ const Message = (props) => {
       return (
         <div className="d-flex flex-col" style={senderstyle}>
           <div style={childstyle} className={`${styles.chatpdf}`}>
-            <PictureAsPdfIcon
+            {/* <PictureAsPdfIcon
               style={{ width: "30px", height: "40px" }}
-            ></PictureAsPdfIcon>
+            ></PictureAsPdfIcon> */}
             <a style={{ display: "block" }} href={props.msgval}>
               {props.msgval && props.msgval.split("file-").pop()}{" "}
             </a>
             <br />
 
-            <FileDownloadIcon
+            {/* <FileDownloadIcon
               style={{ cursor: "pointer" }}
               onClick={(e) => downloadMedia(e, props.msgval)}
             >
               {" "}
-            </FileDownloadIcon>
+            </FileDownloadIcon> */}
           </div>
           <span style={{ fontSize: "0.6rem" }} className="text-gray-400 ">
             {time && time}

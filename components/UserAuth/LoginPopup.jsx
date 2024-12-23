@@ -1,13 +1,5 @@
-import React, { useContext, useState } from "react";
-import {
-  Alert,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Snackbar,
-} from "@mui/material";
+import React, { useContext, useRef, useState } from "react";
+
 import jwt_decode from "jwt-decode";
 import { AccountContext } from "../../context/AccountProvider";
 import { GoogleLogin } from "@react-oauth/google";
@@ -17,6 +9,10 @@ import { webpushfunc } from "../../utils/notification";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { setCookie } from "../../public/utils/Utils";
+
+import { Toast } from "primereact/toast";
+
+import { Sidebar } from "primereact/sidebar";
 
 const LoginPopup = ({ open, setOpen }) => {
   // const [open, setOpen] = useState(false);
@@ -86,9 +82,11 @@ const LoginPopup = ({ open, setOpen }) => {
 
           // const data = await webpushfunc();
         }
-        setsnackmsg("Successfully Logined! ");
-        setseverity("success");
-        setshowsnackbar(true);
+        toastref.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Successfully Logged in",
+        });
         setloading(false);
         closeDrawer();
         return;
@@ -120,9 +118,12 @@ const LoginPopup = ({ open, setOpen }) => {
 
           // router.push("/");
           setloading(false);
-          setsnackmsg("Successfully Logined! ");
-          setseverity("success");
-          setshowsnackbar(true);
+
+          toastref.current.show({
+            severity: "success",
+            summary: "Success",
+            detail: "Successfully Logged in",
+          });
           closeDrawer();
 
           return;
@@ -133,18 +134,18 @@ const LoginPopup = ({ open, setOpen }) => {
   };
   const onLoginError = (res) => {
     console.log(res.message);
-    setsnackmsg("Something went wrong..");
-    setseverity("error");
-    setshowsnackbar(true);
+    toastref.current.show({
+      severity: "error",
+      summary: "Login Error",
+      detail: "Something went wrong!",
+    });
     setloading(false);
     closeDrawer();
   };
-  const [showsnackbar, setshowsnackbar] = useState(false);
-  const [severity, setseverity] = useState("success");
-  const [snackmsg, setsnackmsg] = useState("");
+  const toastref = useRef();
   return (
     <div>
-      <Snackbar
+      {/* <Snackbar
         open={showsnackbar}
         autoHideDuration={6000}
         onClose={() => {
@@ -161,8 +162,8 @@ const LoginPopup = ({ open, setOpen }) => {
         >
           {snackmsg}
         </Alert>
-      </Snackbar>
-      <Drawer
+      </Snackbar> */}
+      {/* <Drawer
         anchor="bottom"
         open={isLoginDrawerOpen}
         onClose={closeDrawer}
@@ -233,7 +234,68 @@ const LoginPopup = ({ open, setOpen }) => {
             )}
           </div>
         </List>
-      </Drawer>
+      </Drawer> */}
+      <Toast ref={toastref} />
+      <Sidebar
+        visible={isLoginDrawerOpen}
+        onHide={closeDrawer}
+        header={""}
+        position="bottom"
+        style={{ height: "40%" }}
+      >
+        <div>
+          <h2
+            style={{
+              padding: "4px",
+              textAlign: "center",
+              fontWeight: "600",
+              fontSize: "1.1rem",
+            }}
+          >
+            Please Be Our Family! 😇
+          </h2>
+          <h2 style={{ padding: "4px", textAlign: "center" }}>
+            Click below to Login
+          </h2>
+        </div>
+        <div
+          style={{
+            width: "20rem",
+            margin: "auto",
+            padding: "6px",
+            borderRadius: "12px",
+            display: "flex",
+            justifyContent: "center",
+            boxShadow: "2px 4px 8px rgba(0,0,0,0.3)",
+            alignItems: "center",
+          }}
+        >
+          {loading ? (
+            <div
+            // style={{
+            //   display: "flex",
+            //   alignItems: "center",
+            //   justifyContent: "center",
+            //   minWidth: "20rem",
+            //   width: "100%",
+            //   paddingTop: "2rem",
+            // }}
+            >
+              <Image
+                src={"/loader.svg"}
+                width={30}
+                height={30}
+                alt="Loading..."
+              />
+            </div>
+          ) : (
+            <GoogleLogin
+              onSuccess={(res) => onLoginSucess(res)}
+              onError={(res) => onLoginError(res)}
+            />
+          )}
+        </div>
+      </Sidebar>
       <main style={{ marginTop: "64px" }}>
         {" "}
         {/* Adjust margin based on AppBar height */}
