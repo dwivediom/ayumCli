@@ -33,3 +33,16 @@ fieldset{
     background: black;
   }
 } */
+
+.p-highlight{
+  color: white !important;
+}
+.p-button-label{
+  color: white !important;;
+}
+.pi-phone{
+  color: white !important;
+}
+.pi-map-marker{
+  color: white !important;
+}

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import styles from "../styles/Home.module.css";
-
+import { AutoComplete } from "primereact/autocomplete";
+import styles from "./profilestyle.module.css";
 const CityDropdown = (props) => {
   const cityoptions = [
     { label: "Rewa" },
@@ -15,42 +13,55 @@ const CityDropdown = (props) => {
     { label: "Nagpur" },
     { label: "Gwalior" },
   ];
-  const [value, setvalue] = useState();
   useEffect(() => {
     if (typeof window != "undefined") {
       let temp = window.localStorage.getItem("city");
-      setvalue({ label: temp });
+      setSelectedCity({ label: temp });
     }
   }, []);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [filteredCity, setfilteredCity] = useState(null);
+
+  const search = (event) => {
+    // Timeout to emulate a network connection
+
+    let _filteredCities;
+
+    if (!event.query.trim().length) {
+      _filteredCities = [...cityoptions];
+    } else {
+      _filteredCities = cityoptions.filter((city) => {
+        return city.label.toLowerCase().startsWith(event.query.toLowerCase());
+      });
+    }
+
+    setfilteredCity(_filteredCities);
+  };
   return (
-    <Autocomplete
-      disablePortal
-      style={{
-        // border: "2px solid red",
-        height: "fit-content",
-        borderRadius: "24px",
-        background: "white",
-      }}
-      className={styles.autocomp}
-      id="combo-box-demo"
-      options={cityoptions}
-      value={value}
-      onChange={(e, val) => {
-        console.log(val);
-        typeof window != "undefined" &&
-          window.localStorage.setItem("city", val?.label);
-        setvalue({ label: val?.label });
-        props?.getdocs && props?.getdocs();
-      }}
-      renderInput={(params) => (
-        <TextField
-          style={{ borderRadius: "24px" }}
-          placeholder={value?.label ? value?.label : "Choose city"}
-          {...params}
-          label=""
-        />
-      )}
-    />
+    <>
+      <AutoComplete
+        style={{
+          background: "teal",
+          borderRadius: "8px",
+          marginLeft: "5px",
+          color: "white",
+          marginTop: "5px",
+          padding: "0px",
+        }}
+        value={selectedCity}
+        className={`${styles.autocompletedrop}`}
+        suggestions={cityoptions}
+        field="label"
+        completeMethod={search}
+        onChange={(e) => {
+          typeof window != "undefined" &&
+            window.localStorage.setItem("city", e.value?.label);
+          props?.getdocs && props?.getdocs();
+          setSelectedCity(e.value);
+        }}
+        dropdown
+      />
+    </>
   );
 };
 

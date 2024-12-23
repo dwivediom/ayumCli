@@ -146,9 +146,9 @@ const Navbar = () => {
   const menuRight = useRef(null);
   const [userdata, setuserdata] = useState();
   useEffect(() => {
-    const Docdata = JSON.parse(localStorage.getItem("DocData"));
-    if (Docdata) {
-      setuserdata(Docdata);
+    const userData1 = JSON.parse(localStorage.getItem("labuser"));
+    if (userData1) {
+      setuserdata(userData1);
     }
   }, []);
   const toast = useRef();
@@ -217,11 +217,55 @@ const Navbar = () => {
   ];
   const end = (
     <div className="flex align-items-center gap-2">
-      <Avatar
-        onClick={(event) => menuLeft.current.toggle(event)}
-        image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+      {/* <Avatar
+        image={
+          userdata?.picture
+            ? "https://images.unsplash.com/photo-1702884162674-b05320817c58?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw5fHx8ZW58MHx8fHx8"
+            : "https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+        }
         shape="circle"
-      />
+        style={{
+          width: "50px",
+          height: "50px",
+          borderRadius: "50%",
+          objectFit: "cover",
+        }}
+      /> */}
+      {userdata?.picture && (
+        <img
+          onClick={(event) => menuLeft.current.toggle(event)}
+          src={
+            userdata?.picture
+              ? userdata?.picture?.replace(/=s\d+-c/, "")
+              : "https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+          }
+          style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            objectFit: "cover",
+            cursor: "pointer",
+          }}
+          alt="user"
+        />
+      )}
+      {!userdata?.picture && (
+        <img
+          onClick={(event) => menuLeft.current.toggle(event)}
+          src={
+            "https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+          }
+          style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            objectFit: "cover",
+            cursor: "pointer",
+          }}
+          alt="user"
+        />
+      )}
+
       <Menu
         style={{ width: "fit-content" }}
         model={itemsmenu}
