@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import Appointment from "./Appointment";
 import styles from "../../styles/UserAppo.module.css";
 import axios from "axios";
@@ -7,56 +7,45 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { AccountContext } from "../../context/AccountProvider";
+import { Toast } from "primereact/toast";
 
 const UserAppointments = () => {
   const router = useRouter();
 
-  const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getuser`;
   const [appointment, setappointment] = useState("");
   const [loading, setloading] = useState(false);
-  const [message, setmessage] = useState("");
+  const Getuserappointments = async () => {
+    try {
+      setloading(true);
+      const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/userappos`;
+      axios
+        .get(url, {
+          headers: {
+            "x-auth-token": localStorage.usertoken,
+          },
+        })
+        .then((data) => {
+          console.log(data, "userappos");
+          setappointment(data.data?.data);
+          setloading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setloading(false);
+          // router.push("/User/UserRegistrationPage");
+        });
+    } catch (error) {}
+  };
+
+  const toast = useRef();
   useEffect(() => {
-    setloading(true);
-
-    axios
-      .get(url, {
-        headers: {
-          "x-auth-token": localStorage.usertoken,
-        },
-      })
-      .then((data) => {
-        setappointment(data);
-        setloading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setloading(false);
-        router.push("/User/UserRegistrationPage");
-      });
-
-    if (!localStorage.usertoken) {
-      router.push("/User/UserRegistrationPage");
-      console.log("its not worikng ");
-    }
+    Getuserappointments();
   }, []);
 
-  console.log("patitent ", appointment && appointment);
-  const { setscrollbox } = useContext(AccountContext);
-  useEffect(() => {
-    let indexbox = document.getElementById("userappocontainer");
-    // console.log(indexbox.scrollTop);
-    indexbox.addEventListener("scroll", () => {
-      let scrollTop = indexbox.scrollTop;
-      if (scrollTop > 0) {
-        setscrollbox(false);
-      } else {
-        setscrollbox(true);
-      }
-    });
-  }, []);
   return (
     <>
       <div id="userappocontainer" className={`${styles.userappocontainer}`}>
+        <Toast ref={toast} />
         <h1 className="font-bold">Your Appointments</h1>
         <div className={`${styles.userapposhell}`}>
           {loading ? (
@@ -77,9 +66,9 @@ const UserAppointments = () => {
               />
             </div>
           ) : (
-            appointment.data &&
-            appointment.data.appointment.map((data) => {
-              const appointmentDate = new Date(`${data.date}`);
+            appointment &&
+            appointment.map((data) => {
+              const appointmentDate = new Date(`${data?.start_time}`);
               const today = new Date();
               appointmentDate.setHours(0, 0, 0, 0);
               today.setHours(0, 0, 0, 0);
