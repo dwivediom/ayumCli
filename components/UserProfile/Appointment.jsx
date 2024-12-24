@@ -40,7 +40,7 @@ const Appointment = (props) => {
   }, [runcrn]);
 
   useEffect(() => {
-    if (data.date < Date.now) {
+    if (data?.end_time < Date.now) {
       setexpired(true);
     }
   }, []);
@@ -71,61 +71,59 @@ const Appointment = (props) => {
           )}
         </div>
         <h2>{data.patientname}</h2>
-        <div className={`${styles.userdetail}`}>
-          <div>Slot Number - {data.appointmentno}</div>
-          <div>Clinic - {data.clinicName} </div>
+        <div className={`${styles.userdetailbox}`}>
+          <i className="pi pi-hashtag"></i> Slot No. - {data.appointmentno}
         </div>
-        <div className={`${styles.userdetail}`}>
-          <div>
-            {" "}
-            <img
-              src="https://img.icons8.com/fluency/48/null/overtime.png"
-              alt="date"
-            />{" "}
-            {data.date.substring(0, 10)}
-          </div>
-          <div>
-            <img
-              src="https://img.icons8.com/color/48/null/medical-doctor.png"
-              alt="doctor name"
-            />{" "}
-            {data.docname}
-          </div>
+        <div className={`${styles.userdetailbox}`}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+            />
+          </svg>
+          Clinic - {data.clinicName}{" "}
         </div>
 
-        <div className={`${styles.userdetail}`}>
-          <div>
-            <img
-              src="https://img.icons8.com/external-stick-figures-gan-khoon-lay/51/null/external-age-life-cycle-aging-stick-figures-gan-khoon-lay-2.png"
-              alt="age"
-            />{" "}
-            {data.age} years
-          </div>
-          <div>
-            <img
-              src="https://img.icons8.com/color/48/null/contact-card.png"
-              alt="phone"
-            />{" "}
-            {data.phone}
-          </div>
+        <div className={`${styles.userdetailbox}`}>
+          <i className="pi pi-clock"></i> Start Time -{" "}
+          {data?.start_time.substring(0, 10)}
         </div>
+        <div className={`${styles.userdetailbox}`}>
+          {" "}
+          <i className="pi pi-briefcase"></i> Doctor Name - {data.docname}
+        </div>
+
+        <div className={`${styles.userdetailbox}`}>{data.age} years</div>
+        <div className={`${styles.userdetailbox}`}>{data.phone}</div>
 
         {message != "expired" && (
           // <div className="text-center text-red-500 font-bold">Expired</div>
-
-          <div className={`${styles.userdetail}`}>
-            <div className={`${styles.CRNnumber} `}>
-              <span> Current Running Number :</span>
-              <span className="text-red-500"> {crn ? crn.CRN : "N/A"}</span>
-            </div>
-            <div
-              onClick={() => setruncrn(!runcrn)}
-              className={`${styles.crnrefresh} `}
-              // style={{ width: "30%" }}
-            >
-              Refresh
-            </div>
-          </div>
+          <></>
+          // <div className={`${styles.userdetail}`}>
+          //   <div className={`${styles.CRNnumber} `}>
+          //     <span> Current Running Number :</span>
+          //     <span className="text-red-500"> {crn ? crn.CRN : "N/A"}</span>
+          //   </div>
+          //   <div
+          //     onClick={() => setruncrn(!runcrn)}
+          //     className={`${styles.crnrefresh} `}
+          //   >
+          //     Refresh
+          //   </div>
+          // </div>
         )}
       </div>
     </>
