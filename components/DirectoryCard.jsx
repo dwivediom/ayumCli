@@ -487,9 +487,9 @@ ${linktext}`;
 
                       <Button
                         style={{
-                          background: "#005e6d",
+                          background: "#008080",
                           borderRadius: "4px",
-                          padding: "4px 10px",
+                          padding: "7px 10px",
                           color: "white",
                         }}
                         label="Call"
@@ -744,6 +744,10 @@ ${linktext}`;
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
+                // border: "2px solid red",
+                padding: "5px",
+                background: "var(--surface-100)",
+                boxShadow: "2px 3px 5px rgba(101, 101, 101, 0.2)",
                 // width: router.query.docid && "fit-content",
                 // gap: router.query.docid && "1rem",
               }}
@@ -775,18 +779,11 @@ ${linktext}`;
                 <Button
                   label="View On Map"
                   style={{
-                    background: "#005e6d",
+                    background: "#008080",
                     borderRadius: "4px",
-                    padding: "4px 10px",
-                    color: "blue",
+                    padding: "7px 10px",
                   }}
-                  onClick={() => {
-                    // handleCall(item?.phone);
-                    const splitArray =
-                      item?.phone && item?.phone.split(/[,\s]+/);
-                    setselectedphones(splitArray);
-                    setcallmodal(true);
-                  }}
+                  onClick={() => {}}
                   icon="pi pi-map-marker"
                 />
               </a>
@@ -810,9 +807,9 @@ ${linktext}`;
               <Button
                 label="Call"
                 style={{
-                  background: "#005e6d",
+                  background: "#008080",
                   borderRadius: "4px",
-                  padding: "4px 10px",
+                  padding: "7px 10px",
                   color: "white",
                 }}
                 onClick={() => {
