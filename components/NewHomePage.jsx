@@ -170,10 +170,10 @@ const NewHomePage = () => {
               alt={"Loader Img"}
             />
           </div>
-        ) : docs?.length > 0 || onboardeddocs.length > 0 ? (
+        ) : docs?.length > 0 || onboardeddocs?.length > 0 ? (
           <>
-            {onboardeddocs.length > 0 &&
-              onboardeddocs.map((item) => {
+            {onboardeddocs?.length > 0 &&
+              onboardeddocs?.map((item) => {
                 return (
                   <DoctorCard
                     key={item._id}
