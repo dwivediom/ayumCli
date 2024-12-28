@@ -33,7 +33,7 @@ const UserProfile = () => {
   const [prescriptionloading, setprescriptionloading] = useState(false);
   const Getuserprescriptions = async () => {
     try {
-      setloading(true);
+      setprescriptionloading(true);
       const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/getuserprescription`;
       axios
         .get(url, {
@@ -52,11 +52,31 @@ const UserProfile = () => {
         });
     } catch (error) {}
   };
+  const [userdata, setuserdata] = useState();
+  const GetuserData = async () => {
+    try {
+      const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getuser`;
+      axios
+        .get(url, {
+          headers: {
+            "x-auth-token": localStorage.usertoken,
+          },
+        })
+        .then((data) => {
+          console.log(data, "userappos");
+          setuserdata(data?.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {}
+  };
 
   const toast = useRef();
   useEffect(() => {
     Getuserappointments();
     Getuserprescriptions();
+    GetuserData();
   }, []);
   return (
     <div className={styles.mainbox}>
@@ -67,7 +87,11 @@ const UserProfile = () => {
         <div style={{ display: "flex", padding: "1rem", gap: "1rem" }}>
           <div style={{ width: "fit-content" }}>
             <img
-              src="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+              src={
+                userdata?.picture
+                  ? userdata?.picture?.replace(/=s\d+-c/, "")
+                  : "https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+              }
               style={{ borderRadius: "50%", width: "150px", height: "150px" }}
             />
           </div>
@@ -85,11 +109,15 @@ const UserProfile = () => {
             className="shadow-md"
           >
             <h2 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
-              Anurag Singh
+              {userdata?.name}
             </h2>
 
             <p>
-              <span>Age: 23 yrs</span> | <span>Gender: Male</span>
+              <span>Age: {userdata?.age ? `${userdata?.age} yrs` : "N/A"}</span>{" "}
+              |{" "}
+              <span>
+                Gender: {userdata?.gender ? `${userdata?.gender} ` : "N/A"}
+              </span>
             </p>
             <div
               style={{
