@@ -26,6 +26,7 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "primereact/resources/themes/lara-light-teal/theme.css";
+import Authverify from "../components/AuthVerify";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
@@ -87,6 +88,9 @@ function MyApp({ Component, pageProps, AccountContext }) {
     setLoading(false);
   });
 
+  // Define public routes
+  const publicRoutes = ["/clinics", "/User/BookAppointmentPage"]; // Add your public routes here
+  const router = useRouter();
   return (
     <>
       <PrimeReactProvider>
@@ -122,6 +126,8 @@ function MyApp({ Component, pageProps, AccountContext }) {
                 }}
               >
                 {/* <Navbar /> */}
+                {publicRoutes.includes(router.pathname) && <Authverify />}
+
                 <NewNavbar />
                 <Component {...pageProps} />
                 <LoginPopup />

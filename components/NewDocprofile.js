@@ -126,7 +126,7 @@ const NewDocprofile = ({ item, key, docid, showreview, isMobile }) => {
             property="og:description"
             content={`Get Address, Contact Number, Photos, Maps of ${
               item.name
-            },Phone-${item.phone?.slice(0, 5)}...  ${
+            },Phone-${item.phone.toString()?.slice(0, 5)}...  ${
               item.city
             }, ${item.address?.slice(0, 20)} ,  on Ayum`}
           ></meta>

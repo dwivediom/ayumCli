@@ -351,7 +351,7 @@ ${linktext}`;
             property="og:description"
             content={`Get Address, Contact Number, Photos, Maps of ${
               item.name
-            },Phone-${item.phone?.slice(0, 5)}...  ${
+            },Phone-${item.phone.toString()?.slice(0, 5)}...  ${
               item.city
             }, ${item.address?.slice(0, 20)} ,  on Ayum`}
           ></meta>
@@ -1187,7 +1187,7 @@ ${linktext}`;
                 </div>
               ) : (
                 <>
-                  <div>
+                  {/* <div>
                     {reviews.length > 0 ? (
                       reviews.map((review, index) => (
                         <div
@@ -1204,28 +1204,7 @@ ${linktext}`;
                             cancel={false}
                             style={{ marginBottom: "10px" }}
                           />{" "}
-                          {/* <StyledRating
-                            name="customized-color"
-                            value={review.rating}
-                            style={{
-                              display: "flex",
-                              justifyContent: "left",
-                            }}
-                            precision={0.5}
-                            readOnly
-                            icon={
-                              <StarIcon
-                                style={{ fontSize: "30px" }}
-                                fontSize="inherit"
-                              />
-                            }
-                            emptyIcon={
-                              <StarBorder
-                                style={{ fontSize: "30px" }}
-                                fontSize="inherit"
-                              />
-                            }
-                          /> */}
+                        
                           <div
                             style={{
                               display: "flex",
@@ -1305,7 +1284,7 @@ ${linktext}`;
                         </h6>
                       </div>
                     )}
-                  </div>
+                  </div> */}
                 </>
               )}
             </div>
