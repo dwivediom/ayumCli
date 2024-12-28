@@ -150,7 +150,7 @@ const NewHomePage = () => {
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
-          gap: "2rem",
+          gap: isMobile ? "1rem" : "2rem",
           marginTop: "0.5rem",
         }}
       >
@@ -172,26 +172,35 @@ const NewHomePage = () => {
           </div>
         ) : docs?.length > 0 || onboardeddocs?.length > 0 ? (
           <>
-            {onboardeddocs?.length > 0 &&
-              onboardeddocs?.map((item) => {
-                return (
-                  <DoctorCard
-                    key={item._id}
-                    pic={item.picture && item.picture}
-                    name={item && item.name}
-                    specialist={item.specialist && item.specialist}
-                    location={item.location && item.location}
-                    phone={item && item.phone}
-                    fees={item.fees && item.fees}
-                    timing={item.timing && item.timing}
-                    docid={item._id && item._id}
-                  />
-                );
-              })}
             {docs.length > 0 &&
               docs.map((item) => {
                 return <DirectoryCard key={item._id} item={item && item} />;
               })}
+            <div
+              style={{
+                display: "flex",
+                gap: "15px",
+                flexWrap: "wrap",
+                paddingBottom: "2rem",
+              }}
+            >
+              {onboardeddocs?.length > 0 &&
+                onboardeddocs?.map((item) => {
+                  return (
+                    <DoctorCard
+                      key={item._id}
+                      pic={item.picture && item.picture}
+                      name={item && item.name}
+                      specialist={item.specialist && item.specialist}
+                      location={item.location && item.location}
+                      phone={item && item.phone}
+                      fees={item.fees && item.fees}
+                      timing={item.timing && item.timing}
+                      docid={item._id && item._id}
+                    />
+                  );
+                })}
+            </div>
           </>
         ) : (
           <>
