@@ -1,0 +1,23 @@
+.mainbox{
+    width: 100vw;
+min-height: 100vh;
+padding: 1rem;
+background: var(--cyan-50);
+}
+.profilebox{
+    background: white;
+    /* width: 100%; */
+    width: 95vw;
+    margin: auto;
+    border-radius: 12px;
+    min-height: 50vh;
+}
+
+.prescriptioncard{
+    padding: 10px;
+    border-radius:4px;
+    background-color: rgb(239, 255, 255);
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}

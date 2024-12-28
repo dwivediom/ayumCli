@@ -6,7 +6,7 @@ import styles2 from "../styles/booktest.module.css";
 import QuickSearch from "./QuickSearch";
 import Carousel2 from "./Carousel2";
 import HorizontalScroll from "./DemoAd";
-import { getDoc, showMore } from "../routes/directory";
+import { getDoc, getOnboardedDoc, showMore } from "../routes/directory";
 import DirectoryCard from "./DirectoryCard";
 import Image from "next/image";
 import { AccountContext } from "../context/AccountProvider";
@@ -15,6 +15,7 @@ import { AccountContext } from "../context/AccountProvider";
 import EmblaCarousel from "./Carousel/EmblaCarouselComp";
 import CityDropdown from "./CityDropdown";
 import LanguageModal from "./LanguageModal";
+import DoctorCard from "./DoctorCard";
 
 const NewHomePage = () => {
   let [isMobile, setIsMobile] = useState(false);
@@ -28,10 +29,14 @@ const NewHomePage = () => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
     setIsMobile(mobile.matches);
   }, []);
+  const [onboardeddocs, setonboardeddocs] = useState([]);
   async function getalldoc() {
     setloading(true);
-    const gotdata = await getDoc(localStorage.getItem("city"));
+    const gotdata = await getDoc(localStorage.getItem("city"), "home");
     setdocs(gotdata.data);
+    const onboarddoc = await getOnboardedDoc();
+    console.log("onboarddocmapvalue");
+    setonboardeddocs(onboarddoc?.data);
     setloading(false);
   }
   useEffect(() => {
@@ -165,10 +170,29 @@ const NewHomePage = () => {
               alt={"Loader Img"}
             />
           </div>
-        ) : docs?.length > 0 ? (
-          docs.map((item) => {
-            return <DirectoryCard key={item._id} item={item && item} />;
-          })
+        ) : docs?.length > 0 || onboardeddocs.length > 0 ? (
+          <>
+            {onboardeddocs.length > 0 &&
+              onboardeddocs.map((item) => {
+                return (
+                  <DoctorCard
+                    key={item._id}
+                    pic={item.picture && item.picture}
+                    name={item && item.name}
+                    specialist={item.specialist && item.specialist}
+                    location={item.location && item.location}
+                    phone={item && item.phone}
+                    fees={item.fees && item.fees}
+                    timing={item.timing && item.timing}
+                    docid={item._id && item._id}
+                  />
+                );
+              })}
+            {docs.length > 0 &&
+              docs.map((item) => {
+                return <DirectoryCard key={item._id} item={item && item} />;
+              })}
+          </>
         ) : (
           <>
             <div

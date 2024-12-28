@@ -45,6 +45,7 @@ const LoginPopup = ({ open, setOpen }) => {
     closeDrawer,
     setauthstatus,
     setsignout,
+    closingdrawerallowed,
     setthankmodal,
     setscrollbox,
     lang,
@@ -238,7 +239,14 @@ const LoginPopup = ({ open, setOpen }) => {
       <Toast ref={toastref} />
       <Sidebar
         visible={isLoginDrawerOpen}
-        onHide={closeDrawer}
+        onHide={() => {
+          console.log(closingdrawerallowed, "allowed");
+          if (closingdrawerallowed) {
+            closeDrawer();
+          } else {
+            return;
+          }
+        }}
         header={""}
         position="bottom"
         style={{ height: "40%" }}

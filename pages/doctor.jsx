@@ -230,11 +230,11 @@ const Doctors = ({ initialData }) => {
             docs.map((item) => {
               return (
                 <>
-                  {router.query.docid && item.onAyum && item.doctorid ? (
+                  {router.query.docid && item.onAyum ? (
                     <NewDocprofile
                       key={item._id}
                       item={item && item}
-                      docid={item.doctorid}
+                      docid={item._id}
                       isMobile={isMobile}
                     />
                   ) : (

@@ -26,24 +26,22 @@ const DoctorCard = (props) => {
   }, []);
   const dispatch = useDispatch();
   const Click = (e) => {
-    e.preventDefault();
-    console.log(localStorage.usertoken, "user token ");
-    console.log(docid);
-    dispatch(setDocDataAction(props));
-
     if (localStorage.usertoken) {
       router.push({
-        pathname: "/User/SelectClinic",
+        pathname: "/clinics",
         query: {
           did: docid,
         },
       });
-    } else {
-      router.push("/User/UserRegistrationPage");
     }
   };
   return (
-    <div className={`${styles.doctorcard}`}>
+    <div
+      onClick={() => {
+        router.push(`/doctor?docid=${docid}`);
+      }}
+      className={`${styles.doctorcard}`}
+    >
       <div className={`${styles.bottomc1}`}></div>
       <div className={`${styles.bottomc2}`}></div>
       <div className={`${styles.topsvg}`}></div>
