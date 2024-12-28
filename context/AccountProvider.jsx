@@ -14,6 +14,7 @@ const AccountProvider = ({ children }) => {
   const [msgchange, setmsgchange] = useState("");
   const [admindialog, setadmindialog] = useState(false);
   const [adminmode, setadminmode] = useState(false);
+  const [closingdrawerallowed, setclosingdrawerallowed] = useState(true);
 
   const [mobilevalue, setmobilevalue] = useState(false);
   const [uplodedmsg, setuplodedmsg] = useState(true);
@@ -97,6 +98,8 @@ const AccountProvider = ({ children }) => {
         isLoginDrawerOpen,
         openDrawer,
         closeDrawer,
+        setclosingdrawerallowed,
+        closingdrawerallowed,
       }}
     >
       {children}

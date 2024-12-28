@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/Bookappo.module.css";
 import Image from "next/image";
 import { convertTo12HourFormat } from "../public/utils/Utils";
 // import { Button } from "primereact/button";
 import { Button } from "primereact/button";
+import { AccountContext } from "../context/AccountProvider";
 
 const clinics = () => {
   const router = useRouter();
@@ -25,13 +26,26 @@ const clinics = () => {
       setclinics(prodata.data?.data);
     } catch (error) {}
   };
+  const { signout } = useContext(AccountContext);
   useEffect(() => {
     if (router.query.id) {
       GetClinics();
     }
-  }, [router.query]);
+  }, [router.query, signout]);
   return (
     <div>
+      <h2
+        style={{
+          textAlign: "center",
+          fontWeight: "bold",
+          color: "teal",
+          padding: "10px",
+          fontSize: "1.2rem",
+          marginTop: "1rem",
+        }}
+      >
+        Choose Clinic
+      </h2>
       <div
         style={{
           display: "flex",
@@ -190,6 +204,13 @@ const clinics = () => {
             </div>
           );
         })}
+
+        {clinics.length == 0 && (
+          <div style={{ textAlign: "center" }}>
+            <p>No Clinic Found ☹️</p>
+            This doctor is not associated with any clinic!
+          </div>
+        )}
       </div>
     </div>
   );
