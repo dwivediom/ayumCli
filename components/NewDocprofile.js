@@ -247,7 +247,14 @@ const NewDocprofile = ({ item, key, docid, showreview, isMobile }) => {
           className={styles.profileactions}
         >
           <div className={styles.profilesubaction2}>View On Map</div>
-          <div className={styles.profilesubaction1}>Book Appointment</div>
+          <div
+            onClick={() => {
+              router.push(`/clinics?id=${docid}`);
+            }}
+            className={styles.profilesubaction1}
+          >
+            Book Appointment
+          </div>
         </div>
       )}
 

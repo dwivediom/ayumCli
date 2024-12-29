@@ -52,6 +52,7 @@ const clinics = () => {
           justifyContent: "center",
           alignItems: "center",
           padding: "1rem",
+          flexWrap: "wrap",
         }}
       >
         {clinics?.map((clinic, index) => {

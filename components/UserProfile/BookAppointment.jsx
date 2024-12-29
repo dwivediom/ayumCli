@@ -188,8 +188,7 @@ const BookAppointment = () => {
       temptiming?.timing?.filter(
         (item) => item?.day == getTodayDay(selectedDate)
       )[0];
-    console.log(temptiming.timing, doctorAvailability, "timefilteredhere");
-    if (doctorAvailability.closed) {
+    if (doctorAvailability?.closed) {
       setclinicclosed(true);
       return;
     } else {
@@ -389,6 +388,19 @@ const BookAppointment = () => {
           </div>
           <div
             style={{
+              padding: "5px",
+              background: "var(--surface-100)",
+              color: "var(--surface-600)",
+              marginTop: "10px",
+              borderRadius: "8px",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span> Platform fee</span> <span>₹20</span>
+            </div>
+          </div>
+          <div
+            style={{
               paddingTop: "1rem",
               display: "flex",
               justifyContent: "center",
@@ -411,14 +423,16 @@ const BookAppointment = () => {
                 onClick={(e) => submit(e)}
                 style={{
                   display: "flex",
-                  background: "teal",
+                  background:
+                    "linear-gradient(120deg , var(--teal-600) , var(--teal-700))",
                   alignItems: "center",
-                  padding: "0px 10px",
+                  padding: "5px 10px",
                   color: "white",
-                  borderRadius: "4px",
+                  borderRadius: "24px",
                 }}
+                className="shadow-md"
               >
-                Submit{" "}
+                Pay ₹20 to Book Appointment
                 <img
                   style={{ width: "20px", height: "30px", marginLeft: "5px" }}
                   src="/leftside.gif"
