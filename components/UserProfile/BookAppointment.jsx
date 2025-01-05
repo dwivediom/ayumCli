@@ -204,15 +204,18 @@ const BookAppointment = () => {
     const slots = [];
 
     let current = new Date(start);
-
+    let slotno = 1;
     while (current < end) {
       let next = new Date(current.getTime() + slotDuration * 60000);
       slots.push({
         startTime: new Date(current),
         endTime: new Date(next),
+        slotno: slotno,
         available: true,
       });
+
       current = next;
+      slotno++;
     }
 
     return slots;
