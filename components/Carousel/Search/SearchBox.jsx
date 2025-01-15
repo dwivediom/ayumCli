@@ -58,8 +58,9 @@ export default function SearchBox(props) {
       style={{
         maxWidth: "1240px",
         margin: "auto",
+        padding: "0 12px",
       }}
-      className="px-4"
+      // className="px-4"
       // onClick={() => clickserch()}
     >
       <form
@@ -68,12 +69,16 @@ export default function SearchBox(props) {
         style={{ marginTop: "10px" }}
         action="#"
       >
-        <div className="relative">
+        <div style={{ position: "relative" }}>
           <input
             type="search"
             id="search"
             name="val"
             className={`${styles.searchinput}`}
+            style={{
+              padding: "10px",
+              height: "2.8rem",
+            }}
             placeholder="Search Doctor..."
             onChange={(e) => {
               debouncedOnChange(e.target.value);
@@ -147,6 +152,7 @@ export default function SearchBox(props) {
             // onClick={(e) => handleSubmit(e)}
             type="submit"
             className={`${styles.searchbtn}`}
+            style={{ outline: "none", border: "none" }}
           >
             Search
           </button>

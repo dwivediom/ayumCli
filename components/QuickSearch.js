@@ -30,24 +30,19 @@ const QuickSearch = () => {
       setshow(true);
     }
   }, []);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    let mobile = window && window.matchMedia("(max-width: 550px)");
+    setIsMobile(mobile.matches);
+  }, []);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        margin: "auto",
-        padding: "5px 10px",
-        paddingTop: "10px",
-        color: "teal",
-        // height: "10rem",
-        // marginTop: "-10px",
-      }}
-      className="grid lg:grid-cols-8 md:grid-cols-4 max-[760px]:grid-cols-4 gap-1"
-    >
+    <div className={styles.qckcontainer}>
       <div
         onClick={() => qSearch(English.kidney)}
         value="Kidney "
-        className={`${styles.btn6} p-3 rounded-lg shadow-md text-center `}
+        className={styles.qckbutton}
         // className="bg-gray-100 p-4"d
       >
         {" "}
@@ -58,7 +53,8 @@ const QuickSearch = () => {
       <div
         onClick={() => qSearch("dentist,orthodontics,oral")}
         value="Dentist "
-        className={`${styles.btn2} p-3 rounded-lg shadow-md text-center`}
+        className={styles.qckbutton}
+
         // className="bg-gray-100 p-4"
       >
         {" "}
@@ -71,8 +67,9 @@ const QuickSearch = () => {
       <div
         onClick={() => qSearch("skin,derma")}
         value="Skin"
+        className={styles.qckbutton}
+
         // className="p-3 shadow-md text-center"
-        className={`${styles.btn5} p-3 rounded-lg shadow-md text-center`}
         // className="bg-gray-100 p-4"
       >
         {" "}
@@ -84,9 +81,10 @@ const QuickSearch = () => {
       <div
         // value="Kideny"
         onClick={() => router.push("/Other/BloodBank")}
+        className={styles.qckbutton}
+
         // data="kideny"
         // className="p-3 shadow-md text-center"
-        className={`${styles.btn1} p-3 rounded-lg shadow-md text-center `}
       >
         {" "}
         <span className={`${styles.divtext}`}>
@@ -98,7 +96,8 @@ const QuickSearch = () => {
       <div
         onClick={() => qSearch("gynae,gyno")}
         value="Gynae"
-        className={`${styles.btn7} p-3 rounded-lg shadow-md text-center `}
+        className={styles.qckbutton}
+
         // className="bg-gray-100 p-4"
         // className="p-3 shadow-md text-center"
       >
@@ -111,7 +110,8 @@ const QuickSearch = () => {
       <div
         onClick={() => qSearch("md,medicine")}
         value="Medicine"
-        className={`${styles.btn8} p-3 rounded-lg shadow-md text-center `}
+        className={styles.qckbutton}
+
         // className="bg-gray-100 p-4"
         // className="p-3 shadow-md text-center"
       >
@@ -124,7 +124,8 @@ const QuickSearch = () => {
       <div
         onClick={() => qSearch("bone,ortho")}
         value="ortho bone"
-        className={`${styles.btn6} p-3 rounded-lg shadow-md text-center `}
+        className={styles.qckbutton}
+
         // className="bg-gray-100 p-4"
         // className="p-3 shadow-md text-center"
       >
@@ -143,9 +144,10 @@ const QuickSearch = () => {
               router.push("/Category/Category");
             }
           }}
+          className={styles.qckbutton}
+
           // data="kideny"
           // className="p-3 shadow-md text-center"
-          className={`${styles.showbtn} p-3 rounded-lg shadow-md text-center `}
         >
           {showmore ? (
             <span> {lang == "en" ? English.hide : Hindi.hide}</span>
@@ -160,7 +162,8 @@ const QuickSearch = () => {
           <div
             onClick={() => qSearch("surgery,operation")}
             value="surgery"
-            className={`${styles.btn4} p-3 rounded-lg shadow-md text-center `}
+            className={styles.qckbutton}
+
             // className="bg-gray-100 p-4"
             // className="p-3 shadow-md text-center"
           >
@@ -173,7 +176,8 @@ const QuickSearch = () => {
           <div
             onClick={() => qSearch(English.neuro)}
             value="neuro"
-            className={` ${styles.btn3} p-3 rounded-lg shadow-md text-center `}
+            className={styles.qckbutton}
+
             // className="bg-gray-100 p-4"
             // className="p-3 shadow-md text-center"
           >
@@ -186,7 +190,8 @@ const QuickSearch = () => {
           <div
             onClick={() => qSearch("physio,physician")}
             value="physician"
-            className={` ${styles.btn2} p-3 rounded-lg shadow-md text-center`}
+            className={styles.qckbutton}
+
             // className="bg-gray-100 p-4"
             // className="p-3 shadow-md text-center"
           >
@@ -199,7 +204,8 @@ const QuickSearch = () => {
           <div
             onClick={() => qSearch(English.cancer)}
             value="cancer oncologist"
-            className={` ${styles.btn7} p-3 rounded-lg shadow-md text-center `}
+            className={styles.qckbutton}
+
             // className="bg-gray-100 p-4"
             // className="p-3 shadow-md text-center"
           >
@@ -212,7 +218,8 @@ const QuickSearch = () => {
           <div
             onClick={() => qSearch("children,paed")}
             value="children pedia"
-            className={` ${styles.btn8} p-3 rounded-lg shadow-md text-center `}
+            className={styles.qckbutton}
+
             // className="p-3 shadow-md text-center"
             // className="bg-gray-100 p-4"
           >

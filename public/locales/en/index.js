@@ -34,7 +34,7 @@ module.exports = {
   labtest: "Lab Tests",
   search: "Search",
   category: "Category",
-  userapp: "User Ap.",
+  userapp: "Appointments",
   twoclickmsg: "Get all healthcare services in just 2 clicks",
   thankmsg: "Thankyou for connecting with Ayum",
 };

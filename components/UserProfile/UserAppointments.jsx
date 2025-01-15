@@ -46,7 +46,9 @@ const UserAppointments = () => {
     <>
       <div id="userappocontainer" className={`${styles.userappocontainer}`}>
         <Toast ref={toast} />
-        <h1 className="font-bold">Your Appointments</h1>
+        <h3 style={{ textAlign: "center", color: "var(--teal-500)" }}>
+          My Appointments
+        </h3>
         <div className={`${styles.userapposhell}`}>
           {loading ? (
             <div

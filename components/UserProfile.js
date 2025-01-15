@@ -3,6 +3,7 @@ import styles from "./userprofile.module.css";
 import Image from "next/image";
 import axios from "axios";
 import Appointment from "./UserProfile/Appointment";
+import { convertDateToDDMMMYYYY } from "../public/utils/Utils";
 
 const UserProfile = () => {
   const [appointment, setappointment] = useState("");
@@ -130,7 +131,8 @@ const UserProfile = () => {
                 marginTop: "5px",
               }}
             >
-              Joined Ayum on 20 July 2024
+              Joined Ayum on{" "}
+              {convertDateToDDMMMYYYY(userdata?.date ? userdata?.date : "")}
             </div>
           </div>
         </div>
@@ -158,6 +160,7 @@ const UserProfile = () => {
               display: "flex",
               justifyContent: "start",
               gap: "1rem",
+              overflow: "auto",
             }}
           >
             {loading ? (
