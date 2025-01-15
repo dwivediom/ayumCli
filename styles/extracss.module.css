@@ -156,3 +156,20 @@ margin-top: 10px;
   border-radius: 4px;
   margin-top: 10px;
 }
+
+
+.settingmainbox{
+  width: 23rem;
+  margin: auto;
+  min-height: 10rem;
+  border-radius: 12px;
+  box-shadow: 0px 4px 5px rgba(179, 179, 179, 0.397);
+  background: white;
+  margin-top: 2rem;
+}
+.settingmainhead{
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 15px;
+}

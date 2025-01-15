@@ -328,22 +328,110 @@ const NewDocprofile = ({ item, key, docid, showreview, isMobile }) => {
       </div>
       <div className={styles.edubox}>
         <span style={{ fontWeight: "600", fontSize: "1.1rem" }}>
+          Experience
+        </span>
+        <div
+          style={{
+            // marginTop: "10px",
+            display: "flex",
+            gap: "10px",
+            flexWrap: "wrap",
+          }}
+        >
+          {profiledata?.experience &&
+            profiledata?.experience.map((item) => {
+              return (
+                <div
+                  style={{
+                    // border: "1px solid red",
+                    color: "white",
+                    boxShadow: "3px 4px 10px rgba(0,0,0,0.3)",
+
+                    width: "fit-content",
+                    width: "20rem",
+                    padding: "0 10px",
+
+                    position: "relative",
+                  }}
+                  className={styles.expcard}
+                >
+                  <img
+                    src="/medaliconpng.png"
+                    style={{
+                      position: "absolute",
+                      width: "35px",
+                      height: "35px",
+                      transform: "rotate(0deg)",
+                      right: "10px",
+                      bottom: "10px",
+                    }}
+                  />
+                  <p>
+                    {" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      {item?.position}
+                    </span>{" "}
+                    <span>{item?.organization}</span>{" "}
+                  </p>
+                  <p>
+                    {" "}
+                    <span>{item?.location}</span>
+                  </p>
+                  <p style={{ fontSize: "14px" }}>
+                    From {item?.from} - To {item?.to}
+                  </p>
+                </div>
+              );
+            })}
+        </div>
+      </div>
+      <div className={styles.edubox}>
+        <span style={{ fontWeight: "600", fontSize: "1.1rem" }}>
           Educational Qualifications
         </span>
-        <div className={styles.edusubbox}>
-          <span>DM - Cardiology - 2016</span>
-          <span>Nil Ratan Sircar medical college</span>{" "}
-        </div>
-        <div className={styles.edusubbox}>
-          <span>MD - General Medicine - 2011</span>
-          <span>
-            Netaji Subhash Chandra Bose Medical College, Jabalpur
-          </span>{" "}
-        </div>
-        <div className={styles.edusubbox}>
-          <span>MBBS - 2008</span>
-          <span>Shyam Shah Medical College, Rewa</span>{" "}
-        </div>
+        {profiledata?.education &&
+          profiledata?.education.map((item) => {
+            return (
+              <div
+                style={{
+                  // border: "1px solid red",
+                  color: "white",
+                  boxShadow: "3px 4px 15px rgba(0,0,0,0.3)",
+                  padding: "0 10px",
+                  width: "fit-content",
+                  width: "20rem",
+                  position: "relative",
+                }}
+                className={styles.educard}
+              >
+                <img
+                  src="/medaliconpng.png"
+                  style={{
+                    position: "absolute",
+                    width: "35px",
+                    height: "35px",
+                    transform: "rotate(0deg)",
+                    right: "10px",
+                    bottom: "10px",
+                  }}
+                />
+                <p>
+                  {" "}
+                  <span style={{ fontWeight: "bold" }}>
+                    {item?.degree}
+                  </span>{" "}
+                  From <span>{item?.school}</span>{" "}
+                </p>
+                <p>
+                  {" "}
+                  <span>Field of study - {item?.fieldofstudy}</span>
+                </p>
+                <p style={{ fontSize: "14px" }}>
+                  From {item?.from} - To {item?.to}
+                </p>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

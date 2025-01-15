@@ -162,7 +162,13 @@ const Navbar = () => {
     },
   ];
   const { lang, setlang } = useContext(AccountContext);
-
+  const [usertoken, setusertoken] = useState();
+  useEffect(() => {
+    if (typeof window != "undefined") {
+      let temp = window.localStorage.getItem("usertoken");
+      setusertoken(temp);
+    }
+  }, []);
   const itemsmenu = [
     {
       label: userdata?.email,
@@ -249,7 +255,14 @@ const Navbar = () => {
       },
     },
     {
-      label: "Sign out",
+      label: "Settings",
+      icon: "pi pi-cog",
+      command: () => {
+        router.push("/settings");
+      },
+    },
+    {
+      label: usertoken ? "Sign out" : "Log in",
       icon: "pi pi-sign-out",
       command: () => {
         console.log("Hii");
