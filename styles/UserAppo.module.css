@@ -4,7 +4,7 @@
   width: 100vw;
   min-height: 100vh;
   margin: auto;
-padding-top: 4rem;
+padding-top: 0rem;
   position: relative;
 }
 
@@ -31,8 +31,8 @@ padding-top: 4rem;
   min-height: 15rem;
   padding: 10px;
   position: relative;
-  color: #36395a;
-  background-color: #f8f8ff !important;
+  color: #ffffff;
+  background-color: #0092b3 !important;
   border-radius: 8px;
   border-top-left-radius: 0;
   box-shadow: 2px 5px 8px rgba(125, 125, 125, 0.171);
@@ -55,8 +55,8 @@ padding-top: 4rem;
  padding: 3px 5px;
  display: flex;
  align-items: center;
- background-color: var(--surface-200);
- color: rgb(0, 0, 0);
+ /* background-color: var(--teal-200); */
+ color: rgb(255, 255, 255);
  gap: 5px;
  border-radius: 4px;
 }

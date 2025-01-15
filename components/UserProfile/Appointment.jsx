@@ -1,6 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/UserAppo.module.css";
+import { Button } from "primereact/button";
+import { convertDateToDDMMMYYYY } from "../../public/utils/Utils";
+import { Dialog } from "primereact/dialog";
+import { useRouter } from "next/router";
 const Appointment = (props) => {
   const { data } = props;
   const appodate = new Date(data.date);
@@ -8,7 +12,7 @@ const Appointment = (props) => {
   const [runcrn, setruncrn] = useState(true);
   const [message, setmessage] = useState("");
   const [expired, setexpired] = useState(false);
-
+  const router = useRouter();
   useEffect(() => {
     // console.log(props.timeDiffInDays, "Message hai ");
     if (props.timeDiffInDays == 0) {
@@ -44,10 +48,28 @@ const Appointment = (props) => {
       setexpired(true);
     }
   }, []);
+  const [vitalspopup, setvitalspopup] = useState(false);
+  const [reportpopup, setreportpopup] = useState(false);
+  const [prescriptiondata, setprescriptiondata] = useState();
+  const [vitals, setvitals] = useState();
 
+  useEffect(() => {
+    if (vitalspopup) {
+      getprescriptiondata();
+    }
+  }, [vitalspopup]);
+  const getprescriptiondata = async () => {
+    console.log("Getprescir");
+    const prescribedata = await axios.get(
+      `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/getprescription?appointmentid=${props.data?._id}`
+    );
+    const finaldata = prescribedata?.data.data[0];
+    setvitals(finaldata?.vitals);
+    setprescriptiondata(finaldata);
+  };
   return (
     <>
-      <div className={`${styles.userappocard}`}>
+      {/* <div className={`${styles.userappocard}`}>
         <div
           style={{
             backgroundColor:
@@ -171,7 +193,306 @@ const Appointment = (props) => {
           //   </div>
           // </div>
         )}
+      </div> */}
+
+      <div
+        style={{
+          // border: "1px solid red",
+          padding: "10px",
+          minWidth: "21rem",
+          borderRadius: "12px",
+          background: "var(--surface-50)",
+          boxShadow: "0 5px 5px rgba(0,0,0,0.1)",
+        }}
+        // className="shadow-md"
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              style={{
+                width: "80px",
+                height: "80px",
+                borderRadius: "50%",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              }}
+              src={
+                data?.doctorInfo
+                  ? data?.doctorInfo?.picture?.replace(/=s\d+-c/, "")
+                  : ""
+              }
+            />
+            {/* <span style={{ fontSize: "8px" }}>Doctor</span> */}
+          </div>
+
+          <div
+            style={{ display: "flex", flexDirection: "column", width: "75%" }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "5px",
+                borderRadius: "4px",
+                background: "white",
+
+                height: "fit-content",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              }}
+            >
+              <span>
+                {" "}
+                <span style={{ color: "var(--teal-700)" }}>Doctor:</span>{" "}
+                {data?.doctorInfo?.name}
+              </span>
+
+              <span>
+                {" "}
+                <span style={{ color: "var(--teal-700)" }}>
+                  Patient Name:{" "}
+                </span>{" "}
+                {data?.patientname}
+              </span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                background: "white",
+                marginTop: "5px",
+                padding: "5px",
+                borderRadius: "4px",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              }}
+            >
+              <span>
+                {" "}
+                <span style={{ color: "var(--teal-700)" }}>
+                  Clinic Name:
+                </span>{" "}
+                {data?.clinicInfo?.clinicName}
+              </span>
+              <span>
+                {" "}
+                <span style={{ color: "var(--teal-700)" }}>
+                  Clinic Address:
+                </span>{" "}
+                {data?.clinicInfo?.location}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              padding: "10px 0",
+              background: "white",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              marginTop: "5px",
+              borderRadius: "4px",
+              gap: "5px",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                width: "48%",
+                background: "var(--surface-100)",
+                padding: "5px",
+                borderRadius: "4px",
+              }}
+            >
+              Date: {convertDateToDDMMMYYYY(data?.start_time)}
+            </div>
+            <div
+              style={{
+                width: "48%",
+                background: "var(--surface-100)",
+                padding: "5px",
+                display: "flex",
+                borderRadius: "4px",
+              }}
+            >
+              Slot No:{" "}
+              <span
+                style={{
+                  // padding: "10px",
+                  borderRadius: "50%",
+                  background: "var(--blue-600)",
+                  fontWeight: "600",
+                  width: "25px",
+                  height: "25px",
+                  marginLeft: "10px",
+                  display: "block",
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {data?.slotno}
+              </span>
+            </div>
+            <div
+              style={{
+                width: "48%",
+                background: "var(--surface-100)",
+                padding: "5px",
+                borderRadius: "4px",
+              }}
+            >
+              Age: {data?.age}
+            </div>
+            <div
+              style={{
+                width: "48%",
+                background: "var(--surface-100)",
+                padding: "5px",
+                borderRadius: "4px",
+                display: "flex",
+              }}
+            >
+              Running No:{" "}
+              <span
+                style={{
+                  // padding: "10px",
+                  borderRadius: "4px",
+                  background: "var(--teal-500)",
+                  fontWeight: "600",
+                  minWidth: "45px",
+                  minHeight: "25px",
+                  marginLeft: "10px",
+                  display: "block",
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {/* {data?.slotno} */} 100
+              </span>
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              borderRadius: "4px",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              background: "white",
+              padding: "5px",
+              gap: "10px",
+              justifyContent: "center",
+              marginTop: "5px",
+            }}
+          >
+            <Button
+              onClick={() => setvitalspopup(true)}
+              label="Vitals"
+              icon="pi pi-wave-pulse"
+              outlined
+            />
+            <Button
+              style={{
+                position: "static",
+                padding: "7px",
+                color: "var(--blue-600)",
+              }}
+              label={"Reports"}
+              icon=" pi pi-headphones"
+              onClick={() => {
+                // setlabtestpopup(true);
+                setreportpopup(true);
+              }}
+              outlined
+            />{" "}
+            <Button
+              label="Prescription"
+              icon=" pi pi-file-edit"
+              onClick={() => {
+                router.push(`/previewprescription?ap=${data?._id}`);
+              }}
+            />
+          </div>
+        </div>
       </div>
+      <Dialog
+        visible={vitalspopup}
+        onHide={() => {
+          setvitalspopup(false);
+        }}
+        position="top"
+        style={{ width: "100%" }}
+        header="Your Vitals"
+      >
+        <span
+          style={{
+            display: "flex",
+            gap: "5px",
+            flexWrap: "wrap",
+            flexDirection: "column",
+            padding: "8px 0",
+            borderRadius: "4px",
+            // background: "var(--surface-100)",
+          }}
+        >
+          <span
+            style={{
+              display: "flex",
+              gap: "5px",
+              flexWrap: "wrap",
+            }}
+          >
+            {vitals ? (
+              Object.keys(vitals).length > 0 &&
+              Object.keys(vitals).map((item, idx) => {
+                return (
+                  <span
+                    style={{
+                      background: "var(--teal-600)",
+                      padding: "10px",
+                      // color: "var(--teal-600)",
+                      border: "1px solid var(--teal-600)",
+                      borderRadius: "8px",
+                      color: "white",
+                    }}
+                    key={idx}
+                  >
+                    {item?.charAt(0).toUpperCase() + item.slice(1)} -{" "}
+                    {vitals[item]}{" "}
+                  </span>
+                );
+              })
+            ) : (
+              <div style={{ textAlign: "center", width: "100%" }}>
+                No Vitals Collected!
+              </div>
+            )}
+          </span>
+
+          {/* Weight - 80 , Height {"cm"} 200 , B.M.I - 200 , Bp - 120/80 mmHg */}
+        </span>
+      </Dialog>
+      <Dialog
+        visible={reportpopup}
+        onHide={() => {
+          setreportpopup(false);
+        }}
+        position="top"
+        header="Your Lab Report"
+      ></Dialog>
     </>
   );
 };
