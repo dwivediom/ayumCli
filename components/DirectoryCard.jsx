@@ -35,8 +35,8 @@ import EnglishRating from "../public/locales/en/reviewoption";
 import LoginPopup from "./UserAuth/LoginPopup";
 import { Toast } from "primereact/toast";
 import { Dialog } from "primereact/dialog";
-import { Button } from "primereact/button";
 import { Rating } from "primereact/rating";
+import { Button } from "primereact/button";
 
 // const StyledRating = styled(Rating)({
 //   "& .MuiRating-iconFilled": {
@@ -554,8 +554,9 @@ ${linktext}`;
                 alignItems: "center",
                 justifyContent: "center",
                 gap: "3px",
+                background: "var(--teal-100)",
+                borderRadius: "24px",
               }}
-              class="bg-teal-100 text-teal-900 text-xs font-medium me-2 rounded-full dark:bg-cyan-100 dark:text-cyan-900"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -564,6 +565,7 @@ ${linktext}`;
                 stroke-width="1.5"
                 stroke="currentColor"
                 class="w-6 h-6"
+                style={{ width: "25px", height: "25px" }}
               >
                 <path
                   strokeLinecap="round"
@@ -586,6 +588,8 @@ ${linktext}`;
                 justifyContent: "center",
                 gap: "3px",
                 cursor: "pointer",
+                background: "var(--teal-100)",
+                borderRadius: "24px",
               }}
               onClick={() => {
                 // let link = isLocal ? "http://localhost:3000" : "https://ayum.in";
@@ -595,7 +599,6 @@ ${linktext}`;
                 setlinktext(link);
                 setsharemodal(true);
               }}
-              class="bg-teal-100 text-teal-900 text-xs font-medium me-2 rounded-full dark:bg-cyan-100 dark:text-cyan-900"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -744,12 +747,11 @@ ${linktext}`;
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                // border: "2px solid red",
                 padding: "5px",
                 background: "var(--surface-100)",
                 boxShadow: "2px 3px 5px rgba(101, 101, 101, 0.2)",
                 // width: router.query.docid && "fit-content",
-                // gap: router.query.docid && "1rem",
+                // gap: router.query.docid && "1rem,
               }}
             >
               <a
@@ -778,11 +780,8 @@ ${linktext}`;
                 </Button> */}
                 <Button
                   label="View On Map"
-                  style={{
-                    background: "#008080",
-                    borderRadius: "4px",
-                    padding: "7px 10px",
-                  }}
+                  style={{ color: "white" }}
+                  raised
                   onClick={() => {}}
                   icon="pi pi-map-marker"
                 />
@@ -807,9 +806,6 @@ ${linktext}`;
               <Button
                 label="Call"
                 style={{
-                  background: "#008080",
-                  borderRadius: "4px",
-                  padding: "7px 10px",
                   color: "white",
                 }}
                 onClick={() => {

@@ -68,7 +68,11 @@ const DoctorCard = (props) => {
             />
           </div>
         </div>
-        <button onClick={(e) => Click(e)} className={`${styles.bookslot}`}>
+        <button
+          style={{ border: "none", outline: "none" }}
+          onClick={(e) => Click(e)}
+          className={`${styles.bookslot}`}
+        >
           {lang == "en" ? English.bookslotbtn : Hindi.bookslotbtn}
         </button>
       </div>

@@ -34,7 +34,7 @@ module.exports = {
   labtest: "जांच (टेस्ट)",
   search: "खोजें ",
   category: "श्रेणी ",
-  userapp: "बुकिंग ",
+  userapp: "बुकिंग",
   twoclickmsg: "पाइये सभी स्वास्थ्य सुविधाएं मात्र 2 क्लिक में ",
   thankmsg: "आयुम के साथ जुड़ने के लिए धन्यवाद",
 };

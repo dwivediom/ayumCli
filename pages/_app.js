@@ -26,6 +26,8 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "primereact/resources/themes/lara-light-teal/theme.css";
+import "../styles/globals.css"; // Load global styles last, if needed
+
 import Authverify from "../components/AuthVerify";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
