@@ -266,7 +266,12 @@ const Navbar = () => {
       icon: "pi pi-sign-out",
       command: () => {
         console.log("Hii");
+        let lang = localStorage.getItem("locale");
+        let city = localStorage.getItem("city");
+
         localStorage.clear();
+        localStorage.setItem("locale", lang);
+        localStorage.setItem("city", city);
         router.push("/User/UserRegistrationPage");
       },
     },
@@ -342,7 +347,10 @@ const Navbar = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <Toast ref={toast} />
-      <nav className={` fixed top-0 z-10 w-full  `} style={{ zIndex: "100" }}>
+      <nav
+        className={` fixed top-0 z-10 w-full left-0 `}
+        style={{ zIndex: "100" }}
+      >
         <div
           style={{
             boxShadow: "0 0 5px 7px rgba(0,0,0,0.05)",

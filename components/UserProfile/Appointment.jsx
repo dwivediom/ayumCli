@@ -67,6 +67,12 @@ const Appointment = (props) => {
     setvitals(finaldata?.vitals);
     setprescriptiondata(finaldata);
   };
+  let [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    let mobile = window && window.matchMedia("(max-width: 550px)");
+    setIsMobile(mobile.matches);
+  }, []);
   return (
     <>
       {/* <div className={`${styles.userappocard}`}>
@@ -199,7 +205,8 @@ const Appointment = (props) => {
         style={{
           // border: "1px solid red",
           padding: "10px",
-          minWidth: "21rem",
+          width: isMobile && "98%",
+          margin: isMobile && "auto",
           borderRadius: "12px",
           background: "var(--surface-50)",
           boxShadow: "0 5px 5px rgba(0,0,0,0.1)",
