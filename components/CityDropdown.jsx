@@ -14,11 +14,15 @@ const CityDropdown = (props) => {
     { label: "Gwalior" },
   ];
   useEffect(() => {
+    console.log(selectedCity, "selectedcity");
+  }, [selectedCity]);
+  useEffect(() => {
     if (typeof window != "undefined") {
-      let temp = window.localStorage.getItem("city");
+      let temp = localStorage.getItem("city");
+      console.log(temp, "settingcity");
       setSelectedCity({ label: temp });
     }
-  }, []);
+  }, [typeof window]);
   const [selectedCity, setSelectedCity] = useState(null);
   const [filteredCity, setfilteredCity] = useState(null);
 
@@ -48,7 +52,7 @@ const CityDropdown = (props) => {
           marginTop: "5px",
           padding: "0px",
         }}
-        value={selectedCity}
+        value={selectedCity ? selectedCity : cityoptions[0]}
         className={`${styles.autocompletedrop}`}
         suggestions={cityoptions}
         field="label"

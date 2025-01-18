@@ -27,16 +27,15 @@ export const getuser = async () => {
 export const setConversation = async (senderId, reciverId) => {
   try {
     let url = `${host}/conversation/set`;
-    let conversationdata =  await axios.post(url, {
+    let conversationdata = await axios.post(url, {
       data: {
         SenderId: senderId,
         ReciverId: reciverId,
       },
     });
-    return conversationdata
+    return conversationdata;
   } catch (error) {
     console.log(error.message);
-     
   }
 };
 
@@ -80,7 +79,7 @@ export const updateuser = async (jwt, data) => {
       endpoint: data.endpoint,
       auth: data.auth,
       p256dh: data.p256dh,
-      FCMtoken:data.FCMtoken
+      FCMtoken: data.FCMtoken,
     });
     console.log(" updated userd", userData);
     return userData;
@@ -90,7 +89,4 @@ export const updateuser = async (jwt, data) => {
   }
 };
 
-
-export const updateNavbar=()=>{
-  
-}
+export const updateNavbar = () => {};
