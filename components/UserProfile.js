@@ -4,9 +4,15 @@ import Image from "next/image";
 import axios from "axios";
 import Appointment from "./UserProfile/Appointment";
 import { convertDateToDDMMMYYYY } from "../public/utils/Utils";
+import { InputText } from "primereact/inputtext";
+import { InputNumber } from "primereact/inputnumber";
+import { Dropdown } from "primereact/dropdown";
+import { Toast } from "primereact/toast";
+import { Button } from "primereact/button";
 
 const UserProfile = () => {
   const [appointment, setappointment] = useState("");
+  const [profilepayload, setprofilepayload] = useState({});
   const [loading, setloading] = useState(false);
   const Getuserappointments = async () => {
     try {
@@ -66,6 +72,7 @@ const UserProfile = () => {
         .then((data) => {
           console.log(data, "userappos");
           setuserdata(data?.data);
+          setprofilepayload(data?.data);
         })
         .catch((err) => {
           console.log(err);
@@ -79,22 +86,61 @@ const UserProfile = () => {
     Getuserprescriptions();
     GetuserData();
   }, []);
+  const [updateload, setupdateload] = useState(false);
+  const updateuser = async () => {
+    setupdateload(true);
+    try {
+      let url = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/update`;
+      const result = await axios.post(url, profilepayload, {
+        headers: {
+          "x-auth-token": localStorage.usertoken,
+        },
+      });
+      if (!result.data.error) {
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Profile Saved Successfully",
+          life: 3000,
+        });
+        setupdateload(false);
+      } else {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Something went wrong!",
+          life: 3000,
+        });
+        setupdateload(false);
+      }
+    } catch (error) {}
+  };
+
   return (
     <div className={styles.mainbox}>
+      <Toast ref={toast} />
       <div
         style={{ paddingBottom: "1rem" }}
         className={`${styles.profilebox} shadow-md`}
       >
         <div style={{ display: "flex", padding: "1rem", gap: "1rem" }}>
-          <div style={{ width: "fit-content" }}>
-            <img
+          <div>
+            {/* <img
               src={
                 userdata?.picture
                   ? userdata?.picture?.replace(/=s\d+-c/, "")
                   : "https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
               }
               style={{ borderRadius: "50%", width: "150px", height: "150px" }}
-            />
+            /> */}
+            {userdata?.picture && (
+              <Image
+                width={150}
+                height={150}
+                style={{ borderRadius: "50%" }}
+                src={userdata?.picture?.replace(/=s\d+-c/, "")}
+              />
+            )}
           </div>
           <div
             style={{
@@ -104,7 +150,8 @@ const UserProfile = () => {
               alignItems: "center",
               justifyContent: "center",
               borderRadius: "12px",
-              background: "var(--teal-50)",
+              background: "var(--surface-100)",
+              boxShadow: "0 3px 5px rgba(0,0,0,0.2)",
               padding: "1rem",
             }}
             className="shadow-md"
@@ -122,7 +169,7 @@ const UserProfile = () => {
             </p>
             <div
               style={{
-                background: "var(--yellow-600)",
+                background: "var(--teal-600)",
                 color: "white",
                 padding: "3px 10px",
                 borderRadius: "24px",
@@ -135,6 +182,78 @@ const UserProfile = () => {
               {convertDateToDDMMMYYYY(userdata?.date ? userdata?.date : "")}
             </div>
           </div>
+        </div>
+        <div
+          style={{
+            width: "95%",
+            margin: "auto",
+            background: "var(--surface-100)",
+            padding: "1rem",
+            display: "flex",
+            gap: "1rem",
+            alignItems: "flex-end",
+            marginBottom: "1rem",
+          }}
+        >
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <label>Name</label>
+            <InputText
+              value={profilepayload.name}
+              onChange={(e) => {
+                setprofilepayload({ ...profilepayload, name: e.target.value });
+              }}
+              placeholder="Enter your name"
+            />
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <label>Age</label>
+            <InputNumber
+              value={profilepayload.age}
+              onChange={(e) => {
+                setprofilepayload({ ...profilepayload, age: e.value });
+              }}
+              placeholder="Enter your age"
+            />
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <label>Gender</label>
+            <Dropdown
+              value={profilepayload.gender}
+              onChange={(e) => {
+                console.log(e.value);
+                setprofilepayload({
+                  ...profilepayload,
+                  gender: e.value,
+                });
+              }}
+              options={[
+                { label: "Male", value: "male" },
+                { label: "Female", value: "female" },
+                { label: "Other", value: "other" },
+              ]}
+              style={{
+                height: "3rem",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                maxWidth: "15rem",
+              }}
+              optionLabel="label"
+              placeholder={
+                profilepayload.gender ? profilepayload.gender : "Choose Gender"
+              }
+              className="w-full md:w-14rem"
+            />
+          </div>
+          <Button
+            label="Save"
+            style={{ height: "3rem" }}
+            icon="pi pi-check"
+            loading={updateload}
+            onClick={() => {
+              updateuser();
+            }}
+          />
         </div>
         <div
           style={{
