@@ -212,7 +212,7 @@
   height: 50px; /* Button height */
   border-radius: 5px;
   cursor: pointer;
-  box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 5px rgba(10, 133, 171, 0.08);
   transition: 0.2s all;
 
   box-sizing: border-box;
