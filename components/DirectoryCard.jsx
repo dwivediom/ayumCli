@@ -468,7 +468,12 @@ ${linktext}`;
               </span>
             </div>
           </Dialog>
-          <Dialog visible={callmodal} onHide={() => setcallmodal(false)}>
+          <Dialog
+            position="top"
+            style={{ marginTop: "6rem" }}
+            visible={callmodal}
+            onHide={() => setcallmodal(false)}
+          >
             {selectedphones?.length > 0 &&
               selectedphones.map((item, index) => {
                 return (
