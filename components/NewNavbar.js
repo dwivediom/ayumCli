@@ -11,7 +11,9 @@ import { Menubar } from "primereact/menubar";
 import { Avatar } from "primereact/avatar";
 import { Badge } from "primereact/badge";
 import { Menu } from "primereact/menu";
+import { Sidebar } from "primereact/sidebar";
 import { Toast } from "primereact/toast";
+import { Button } from "primereact/button";
 const Navbar = () => {
   const [navitem, setnavitem] = useState(false);
   const {
@@ -107,10 +109,14 @@ const Navbar = () => {
   const start = (
     <div>
       <div
+        onClick={() => {
+          setVisible(true);
+        }}
         style={{
           position: "absolute",
+          cursor: "pointer",
           left: "10px",
-          top: "20px",
+          top: "12px",
           zIndex: "1000",
           display: "flex",
           justifyContent: "center",
@@ -118,7 +124,8 @@ const Navbar = () => {
           color: "teal",
         }}
       >
-        <span className="pi pi-bars"></span>
+        {/* <span className="pi pi-bars"></span> */}
+        <Button style={{ padding: "5px" }} label="" icon="pi pi-bars" />
       </div>
 
       <img
@@ -204,7 +211,12 @@ const Navbar = () => {
       label: "Hindi",
       icon: () => {
         return (
-          <span style={{ marginLeft: "-5px", marginRight: "5px" }}>
+          <span
+            style={{
+              marginLeft: "-5px",
+              marginRight: "5px",
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -212,6 +224,7 @@ const Navbar = () => {
               stroke-width="1.5"
               stroke="currentColor"
               class="size-6"
+              style={{ width: "24px", height: "24px" }}
             >
               <path
                 stroke-linecap="round"
@@ -239,6 +252,7 @@ const Navbar = () => {
               stroke-width="1.5"
               stroke="currentColor"
               class="size-6"
+              style={{ width: "24px", height: "24px" }}
             >
               <path
                 stroke-linecap="round"
@@ -340,6 +354,8 @@ const Navbar = () => {
       />
     </div>
   );
+  const [visible, setVisible] = useState(false);
+
   return (
     <>
       <Head>
@@ -587,6 +603,133 @@ const Navbar = () => {
             </>
           )}
         </div> */}
+        <Sidebar
+          position="left"
+          visible={visible}
+          onHide={() => {
+            setVisible(false);
+          }}
+        >
+          <div>
+            <img
+              alt="logo"
+              style={{
+                position: "absolute",
+                alignSelf: "center",
+                top: "-35px",
+                cursor: "pointer",
+                left: "45%",
+                width: "140px",
+                height: "140px",
+                transform: "translate(-50%)",
+              }}
+              onClick={() => {
+                router.push("/");
+              }}
+              src="/ayumlogormbg.png"
+              height="40"
+              className="mr-2"
+            ></img>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+              background:
+                "linear-gradient(120deg,var(--purple-600),var(--purple-900))",
+              padding: "1rem",
+              marginBottom: "5px",
+              borderRadius: "24px",
+              cursor: "pointer",
+
+              color: "white",
+            }}
+            onClick={() => {
+              window.location.href =
+                "https://play.google.com/store/apps/details?id=in.ayum.doctor.www.twa&hl=en_IN&pli=1";
+            }}
+          >
+            <i className="pi pi-calendar-plus"></i>
+            <span>Ayum Doctor</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+              background:
+                "linear-gradient(120deg,var(--teal-600),var(--teal-900))",
+              padding: "1rem",
+              marginBottom: "5px",
+
+              borderRadius: "24px",
+              cursor: "pointer",
+
+              color: "white",
+            }}
+            onClick={() => {
+              window.location.href =
+                "https://play.google.com/store/apps/details?id=in.ayum.twa&hl=en";
+            }}
+          >
+            <i className="pi pi-verified"></i>
+            <span>Ayum app</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+              background: "var(--surface-100)",
+              padding: "1rem",
+              marginBottom: "5px",
+              borderRadius: "24px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              router.push("/About");
+              setVisible(false);
+            }}
+          >
+            <i className="pi pi-globe"></i>
+            <span>About Us</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+              background: "var(--surface-100)",
+              padding: "1rem",
+              borderRadius: "24px",
+              cursor: "pointer",
+
+              marginBottom: "5px",
+            }}
+            onClick={() => {
+              router.push("/Contact");
+              setVisible(false);
+            }}
+          >
+            <i className="pi pi-face-smile"></i>
+            <span>Contact Us</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+              background: "var(--surface-100)",
+              padding: "1rem",
+              marginBottom: "5px",
+              cursor: "pointer",
+              borderRadius: "24px",
+            }}
+            onClick={() => {
+              router.push("/termsconditions");
+              setVisible(false);
+            }}
+          >
+            <i className="pi pi-flag"></i>
+            <span>Terms & Conditions</span>
+          </div>
+        </Sidebar>
       </nav>
     </>
   );
