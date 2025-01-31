@@ -19,8 +19,15 @@ const CityDropdown = (props) => {
   useEffect(() => {
     if (typeof window != "undefined") {
       let temp = localStorage.getItem("city");
-      console.log(temp, "settingcity");
-      setSelectedCity({ label: temp });
+      console.log(temp, selectedCity, "settingcity");
+      if (temp) {
+        setSelectedCity({ label: temp });
+      } else {
+        console.log(cityoptions, "cityoptions");
+        setSelectedCity(cityoptions[0]);
+
+        localStorage.setItem("city", cityoptions[0]?.label);
+      }
     }
   }, [typeof window]);
   const [selectedCity, setSelectedCity] = useState(null);
