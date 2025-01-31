@@ -7,6 +7,7 @@ import { convertTo12HourFormat } from "../public/utils/Utils";
 // import { Button } from "primereact/button";
 import { Button } from "primereact/button";
 import { AccountContext } from "../context/AccountProvider";
+import WithAuth from "../components/Withauth";
 
 const clinics = () => {
   const router = useRouter();
@@ -217,4 +218,4 @@ const clinics = () => {
   );
 };
 
-export default clinics;
+export default WithAuth(clinics);

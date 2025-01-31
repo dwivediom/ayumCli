@@ -14,6 +14,7 @@ import Hindi from "../../public/locales/hi/index";
 
 import { setCookie } from "../../public/utils/Utils";
 import { Dialog } from "primereact/dialog";
+import Image from "next/image";
 const UserRegistrationPage = () => {
   const { setauthstatus, setsignout, setthankmodal, setscrollbox, lang } =
     useContext(AccountContext);
@@ -31,7 +32,9 @@ const UserRegistrationPage = () => {
     picture: "",
     email_verified: "",
   });
+  const [loading, setloading] = useState(false);
   const onLoginSucess = async (res) => {
+    setloading(true);
     const decodedjwt = jwt_decode(res.credential);
     localStorage.setItem("userjwt", res.credential);
     setdata(decodedjwt);
@@ -60,11 +63,14 @@ const UserRegistrationPage = () => {
           });
 
           setsignout(false);
+          setloading(false);
+          window.location.href = "/";
 
-          router.push("/");
           // const data = await webpushfunc();
         }
-        router.push("/");
+        setloading(false);
+
+        window.location.href = "/";
       }
     }
 
@@ -79,8 +85,7 @@ const UserRegistrationPage = () => {
           const logined = await adduser(decodedjwt);
           if (logined === "useradded") {
             setsignout(false);
-            setauthstatus(true);
-            router.push("/");
+
             const data = await webpushfunc();
 
             await updateuser(res.credential, {
@@ -89,9 +94,15 @@ const UserRegistrationPage = () => {
               p256dh: localStorage.keys.p256dh,
               FCMtoken: localStorage.fcmToken,
             });
-          }
+            setauthstatus(true);
+            // router.push("/");
+            setloading(false);
 
-          router.push("/");
+            window.location.href = "/";
+          }
+          setloading(false);
+
+          // router.push("/");
         }
       }
       console.log("registerdata ", registerData);
@@ -132,7 +143,23 @@ const UserRegistrationPage = () => {
             Login with <span className="text-lg font-bold">Ayum</span> using
             <span className="text-orange-500 text-lg font-bold"> Google </span>
           </div>
-
+          {loading && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingTop: "2rem",
+              }}
+            >
+              <Image
+                src={"/loader.svg"}
+                width={30}
+                height={30}
+                alt="Loading..."
+              />
+            </div>
+          )}
           <GoogleLogin
             onSuccess={(res) => onLoginSucess(res)}
             onError={(res) => onLoginError(res)}
