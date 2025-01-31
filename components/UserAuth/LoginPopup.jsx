@@ -105,7 +105,6 @@ const LoginPopup = ({ open, setOpen }) => {
           const logined = await adduser(decodedjwt);
           if (logined === "useradded") {
             setsignout(false);
-            setauthstatus(true);
 
             const data = await webpushfunc();
 
@@ -115,6 +114,7 @@ const LoginPopup = ({ open, setOpen }) => {
               p256dh: localStorage.keys.p256dh,
               FCMtoken: localStorage.fcmToken,
             });
+            setauthstatus(true);
           }
 
           // router.push("/");

@@ -4,6 +4,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import styles from "../../styles/Bookappo.module.css";
 import { getTodayDay } from "../../public/utils/Utils";
+import { InputText } from "primereact/inputtext";
+import { InputNumber } from "primereact/inputnumber";
+import { Button } from "primereact/button";
 
 const BookAppointment = () => {
   const docdata = useSelector((state) => state.setdocDataReducer);
@@ -252,10 +255,16 @@ const BookAppointment = () => {
   return (
     <div>
       <div>
-        <h2 className="m-auto text-center text-teal-600 font-bold mt-4">
-          Please fill patient details{" "}
-        </h2>
         <form className={`${styles.bookform} `} action="#">
+          <label
+            style={{
+              marginBottom: "10px",
+              color: "var(--teal-600)",
+              textAlign: "center",
+            }}
+          >
+            Fill Patient Details
+          </label>
           <div>
             <label
               htmlFor="patientname"
@@ -263,13 +272,15 @@ const BookAppointment = () => {
             >
               Name of patient <span className="text-red-400">*</span>
             </label>
-            <input
-              type="text"
-              onChange={(e) => handlechange(e)}
-              id="patientname"
-              className="  text-black text-sm  w-full  rounded  "
-              placeholder="maruti "
+            <InputText
+              onChange={(e) => {
+                setdata({ ...data, patientname: e.target.value });
+              }}
               required
+              style={{ width: "100%" }}
+              placeholder="Patient Name"
+              id="patientname"
+              value={data.patientname}
             />
           </div>
 
@@ -278,14 +289,12 @@ const BookAppointment = () => {
               {" "}
               Age of patient <span className="text-red-400">*</span>
             </label>
-            <input
-              type="number"
+            <InputNumber
               onChange={(e) => {
-                handlechange(e);
+                setdata({ ...data, age: e.value });
               }}
-              id="age"
+              style={{ width: "100%" }}
               value={data.age}
-              className="   text-black text-sm  w-full  rounded  "
               required
             />
           </div>
@@ -294,14 +303,12 @@ const BookAppointment = () => {
               {" "}
               Phone <span className="text-red-400">*</span>
             </label>
-            <input
-              type="number"
+            <InputNumber
               onChange={(e) => {
-                handlechange(e);
+                setdata({ ...data, phone: e.value });
               }}
-              id="phone"
+              style={{ width: "100%" }}
               value={data.phone}
-              className="  text-black text-sm  w-full  rounded  "
               required
             />
           </div>
@@ -314,13 +321,21 @@ const BookAppointment = () => {
               {" "}
               Description of problem/disease
             </label>
-            <input
+            <InputText
+              onChange={(e) => {
+                setdata({ ...data, description: e.target.value });
+              }}
+              style={{ width: "100%" }}
+              value={data.description}
+              required
+            />
+            {/* <input
               type="text"
               onChange={(e) => handlechange(e)}
               id="description"
               className="  text-black text-sm  w-full p-2.5 rounded  "
               required
-            />
+            /> */}
           </div>
           <div style={{ marginTop: "5px" }}>Select slot</div>
           <div
@@ -413,35 +428,33 @@ const BookAppointment = () => {
             {empty ? (
               <div className="text-red-500 ">Fill required fields!</div>
             ) : loading ? (
-              <button
-                type="submit"
-                // onClick={(e) => submit(e)}
-                className={`${styles.bookformsubmit}`}
-              >
-                Processing...
-              </button>
+              <Button label="Processing..." loading={loading} />
             ) : (
-              <button
-                type="submit"
-                onClick={(e) => submit(e)}
-                style={{
-                  display: "flex",
-                  background:
-                    "linear-gradient(120deg , var(--teal-600) , var(--teal-700))",
-                  alignItems: "center",
-                  padding: "5px 10px",
-                  color: "white",
-                  borderRadius: "24px",
-                }}
-                className="shadow-md"
-              >
-                Pay ₹20 to Book Appointment
-                <img
-                  style={{ width: "20px", height: "30px", marginLeft: "5px" }}
-                  src="/leftside.gif"
-                  alt="Animated GIF"
-                />
-              </button>
+              // <button
+              //   type="submit"
+              //   onClick={(e) => submit(e)}
+              //   style={{
+              //     display: "flex",
+              //     background:
+              //       "linear-gradient(120deg , var(--teal-600) , var(--teal-700))",
+              //     alignItems: "center",
+              //     padding: "5px 10px",
+              //     color: "white",
+              //     borderRadius: "24px",
+              //   }}
+              //   className="shadow-md"
+              // >
+              //   Pay ₹20 to Book Appointment
+              //   <img
+              //     style={{ width: "20px", height: "30px", marginLeft: "5px" }}
+              //     src="/leftside.gif"
+              //     alt="Animated GIF"
+              //   />
+              // </button>
+              <Button
+                label="Pay ₹20 to Book Appointment"
+                icon="pi pi-check-circle"
+              />
             )}
           </div>
         </form>
