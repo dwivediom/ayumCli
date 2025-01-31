@@ -90,6 +90,7 @@ const LoginPopup = ({ open, setOpen }) => {
         });
         setloading(false);
         closeDrawer();
+        window.location.reload();
         return;
       }
     }

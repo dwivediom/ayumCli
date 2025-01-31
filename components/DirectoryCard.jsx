@@ -676,14 +676,13 @@ ${linktext}`;
                   <div
                     style={{
                       display: "flex",
-                      // flexWrap: "wrap",
-                      width: "20rem",
                       overflow: "auto",
                       paddingRight: "4rem",
                       justifyContent: "left",
                       background: "rgba(0,0,0,0.04)",
                       borderRadius: "4px",
                       padding: "5px",
+                      alignItems: "center",
                       gap: "5px",
                     }}
                     className={styles.timingscroll}
@@ -696,30 +695,24 @@ ${linktext}`;
                           return (
                             <div
                               style={{
-                                // minWidth: "7rem", // Minimum width set to 7rem
-                                width: "fit-content", // Auto width lets it grow horizontally
-                                maxWidth: "100%", // Limits the width to available space
-                                height: "3rem", // Fixed height
-                                whiteSpace: "nowrap", // Prevents line wrapping, expands width
-                                boxShadow: "2px 3px 5px rgba(0,0,0,0.1)", // Box shadow for styling
-                                padding: "2px 5px",
-                                border:
-                                  getToday() == item
-                                    ? "1px solid aqua"
-                                    : "none", // Conditional border
-                                background: "white", // White background color
-                                textAlign: "left", // Align text to the left
-                                display: "flex", // Flexbox for layout
-                                flexDirection: "column", // Column layout
-                                alignItems: "center", // Centers content horizontally
-                                justifyContent: "center", // Centers content vertically
+                                boxShadow: "2px 3px 5px rgba(0,0,0,0.1)",
+                                // maxHeight: "10rem",
+                                background: "white",
+                                height: "fit-content",
+                                minWidth: "8rem",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
                               }}
                             >
-                              <p style={{ color: "teal", fontWeight: "500" }}>
+                              <span
+                                style={{ color: "teal", fontWeight: "500" }}
+                              >
                                 {" "}
                                 {x}{" "}
-                              </p>{" "}
-                              <p
+                              </span>{" "}
+                              <span
                                 style={{
                                   textAlign: "center",
                                   fontSize: "13px",
@@ -727,7 +720,7 @@ ${linktext}`;
                               >
                                 {" "}
                                 {doctimings[x]}
-                              </p>
+                              </span>
                             </div>
                           );
                         })}
