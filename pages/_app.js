@@ -128,7 +128,7 @@ function MyApp({ Component, pageProps, AccountContext }) {
                 }}
               >
                 {/* <Navbar /> */}
-                {publicRoutes.includes(router.pathname) && <Authverify />}
+                {/* {publicRoutes.includes(router.pathname) && <Authverify />} */}
 
                 <NewNavbar />
                 <Component {...pageProps} />

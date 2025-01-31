@@ -128,3 +128,16 @@ export const convertToReadableDateTime = (isoString) => {
 
   return `Date: ${readableDate}, Time: ${readableTime}`;
 };
+
+// utils/auth.js
+export const isTokenExpired = (token) => {
+  if (!token) return true;
+
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+    console.log(payload, payload.exp * 1000 < Date.now(), "expireval");
+    return payload.exp * 1000 < Date.now(); // Compare expiration time
+  } catch (error) {
+    return true; // If error in decoding, assume expired
+  }
+};
