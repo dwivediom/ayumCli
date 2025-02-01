@@ -5,6 +5,7 @@ import { Button } from "primereact/button";
 import { convertDateToDDMMMYYYY } from "../../public/utils/Utils";
 import { Dialog } from "primereact/dialog";
 import { useRouter } from "next/router";
+import { useQueueSocket } from "../../hooks/useQueueSocket";
 const Appointment = (props) => {
   const { data } = props;
   const appodate = new Date(data.date);
@@ -13,6 +14,20 @@ const Appointment = (props) => {
   const [message, setmessage] = useState("");
   const [expired, setexpired] = useState(false);
   const router = useRouter();
+
+
+
+  const { currentNumber, isConnected, error } = useQueueSocket(data.doctorid, data.user);
+
+   useEffect(() => {
+     
+    console.log("crn info ",currentNumber,"isConnected",isConnected,"error",error)
+     
+   }, [currentNumber,isConnected,error])
+
+
+
+
   useEffect(() => {
     // console.log(props.timeDiffInDays, "Message hai ");
     if (props.timeDiffInDays == 0) {
@@ -389,7 +404,8 @@ const Appointment = (props) => {
                   alignItems: "center",
                 }}
               >
-                {/* {data?.slotno} */} 100
+                                 {currentNumber&&  currentNumber}
+
               </span>
             </div>
           </div>
