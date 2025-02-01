@@ -454,6 +454,7 @@ const BookAppointment = () => {
               <Button
                 label="Pay ₹20 to Book Appointment"
                 icon="pi pi-check-circle"
+                onClick={(e) => submit(e)}
               />
             )}
           </div>
