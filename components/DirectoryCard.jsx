@@ -682,6 +682,7 @@ ${linktext}`;
                       background: "rgba(0,0,0,0.04)",
                       borderRadius: "4px",
                       padding: "5px",
+                      width: "20rem",
                       alignItems: "center",
                       gap: "5px",
                     }}
