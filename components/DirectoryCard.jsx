@@ -688,7 +688,6 @@ ${linktext}`;
                     }}
                     className={styles.timingscroll}
                   >
-                    {" "}
                     {istimetstring
                       ? item.timeing
                       : Array.isArray(Object.keys(doctimings)) &&
