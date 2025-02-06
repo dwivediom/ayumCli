@@ -27,6 +27,7 @@ const nextConfig = withPWA({
       "icons8.com",
       "lh3.googleusercontent.com",
       "www.chatserver.ayum.in",
+      "ayummedia.blob.core.windows.net",
       "i.ibb.co",
       "www.imgbb.com",
     ],
