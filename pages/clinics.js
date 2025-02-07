@@ -186,23 +186,29 @@ const clinics = () => {
                     : "Add Any Notice For Patients!"}
                 </div>
               </div>
-              <Button
-                label="Select"
-                onClick={() => {
-                  router.push(
-                    `/User/BookAppointmentPage?docid=${router.query.id}&clinicid=${clinic._id}`
-                  );
-                }}
-                icon="pi pi-check"
-                style={{
-                  background: "var(--teal-700)",
-                  width: "fit-content",
-                  padding: "7px 20px",
-                  color: "white",
-                  margin: "auto",
-                  marginTop: "10px",
-                }}
-              />
+              {clinic.bookingStatus ? (
+                <Button
+                  label="Select"
+                  onClick={() => {
+                    router.push(
+                      `/User/BookAppointmentPage?docid=${router.query.id}&clinicid=${clinic._id}`
+                    );
+                  }}
+                  icon="pi pi-check"
+                  style={{
+                    background: "var(--teal-700)",
+                    width: "fit-content",
+                    padding: "7px 20px",
+                    color: "white",
+                    margin: "auto",
+                    marginTop: "10px",
+                  }}
+                />
+              ) : (
+                <div style={{ textAlign: "center", color: "red" }}>
+                  Booking are closed for now!
+                </div>
+              )}
             </div>
           );
         })}
