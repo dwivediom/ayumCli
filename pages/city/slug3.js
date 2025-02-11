@@ -1,18 +1,14 @@
 // /pages/[profession]-in-[city].js
-import axios from 'axios';
-import { getDoctorsInCity } from '../../routes/directory';
-import { get } from 'lodash';
-import DoctorCard from '../../components/DoctorCard';
-
-
-
-
+import axios from "axios";
+import { getDoctorsInCity } from "../../routes/directory";
+import { get } from "lodash";
+import DoctorCard from "../../components/DoctorCard";
 
 import Image from "next/image";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import DirectoryCard from '../../components/DirectoryCard';
-import { directorydata } from '../../routes/data';
-import { SearchDoc , getDoc , showMore } from '../../routes/directory';
+import DirectoryCard from "../../components/DirectoryCard";
+import { directorydata } from "../../routes/data";
+import { SearchDoc, getDoc, showMore } from "../../routes/directory";
 
 import styles from "../../styles/Phonebook.module.css";
 import styles1 from "../../styles/Searchinput.module.css";
@@ -24,45 +20,39 @@ import EmblaCarousel from "../../components/Carousel/EmblaCarouselComp";
 import HorizontalScroll from "../../components/DemoAd";
 import { debounce } from "lodash";
 
-
-
-
 export default function ProfessionInCity() {
   const router = useRouter();
   const { slug } = router.query;
 
   const [doctors, setDoctors] = useState([]);
-  const [profession, setProfession] = useState('');
-  const [city, setCity] = useState('');
-  
+  const [profession, setProfession] = useState("");
+  const [city, setCity] = useState("");
 
   useEffect(() => {
     if (slug) {
       // Split the slug to extract specialist and city
-      const slugParts = slug.split('-');
-      
+      const slugParts = slug.split("-");
+
       // Assuming the last word is the city and the remaining is the specialist
-      const extractedCity  = slugParts[slugParts.length -1 ]
-      const extractedProfession  = slugParts[1]
-     
-     
+      const extractedCity = slugParts[slugParts.length - 1];
+      const extractedProfession = slugParts[1];
+
       setCity(extractedCity);
       setProfession(extractedProfession);
 
       // Fetch doctors data from the API
-      const fetchDoctors = async () => { 
-        const response = await getDoctorsInCity(extractedProfession , extractedCity  , 10 ,  1 )
-        if (response.doctors.length > 0 ){
-          setDoctors(response.doctors)
-          console.log(response.doctors)
-
+      const fetchDoctors = async () => {
+        const response = await getDoctorsInCity(
+          extractedProfession,
+          extractedCity,
+          10,
+          1
+        );
+        if (response.doctors.length > 0) {
+          setDoctors(response.doctors);
+          console.log(response.doctors);
         }
-        
-       
-
-       
-
-      }
+      };
       fetchDoctors();
     }
   }, [slug]);
@@ -152,12 +142,10 @@ export default function ProfessionInCity() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input == "") {
-      debugger;
       const gotdata = await getDoc();
 
       return setdocs(gotdata.data);
     }
-    debugger;
 
     setsuggestionpopup(false);
     const getdata = await SearchDoc(input);
@@ -394,4 +382,3 @@ export default function ProfessionInCity() {
     </>
   );
 }
- 

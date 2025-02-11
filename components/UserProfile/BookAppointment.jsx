@@ -57,7 +57,6 @@ const BookAppointment = () => {
       if (userdata) {
         setloading(false);
         console.log(userdata);
-        debugger;
         const redirecturl =
           userdata.data?.data?.data.instrumentResponse.redirectInfo.url;
 
