@@ -31,6 +31,7 @@ const NewDocprofile = ({ item, key, docid, showreview, isMobile }) => {
   useEffect(() => {
     GetProfleData();
   }, []);
+
   return (
     <div
       style={{

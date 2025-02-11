@@ -100,12 +100,10 @@ const DoctorDirectory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input == "") {
-      debugger;
       const gotdata = await getDoc();
 
       return setdocs(gotdata.data);
     }
-    debugger;
 
     setsuggestionpopup(false);
     const getdata = await SearchDoc(input);
