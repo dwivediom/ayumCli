@@ -27,9 +27,9 @@ const BookAppointment = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (data.patientname == "" || data.age == "" || data.phone == "") {
-      return setempty(true);
-    }
+    // if (data.patientname == "" || data.age == "" || data.phone == "") {
+    //   return setempty(true);
+    // }
     setloading(true);
 
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/payandbookappointment`;
