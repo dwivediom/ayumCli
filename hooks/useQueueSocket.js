@@ -1,8 +1,8 @@
 // hooks/useQueueSocket.js
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+import { useState, useEffect } from "react";
+import io from "socket.io-client";
 
 export function useQueueSocket(doctorId, patientId) {
   const [socket, setSocket] = useState(null);
@@ -13,25 +13,25 @@ export function useQueueSocket(doctorId, patientId) {
   useEffect(() => {
     if (!doctorId) return;
 
-    const socketInstance = io('https://crn.ayum.in', {
-      query: { doctorId, patientId }
+    const socketInstance = io("https://crn.ayum.in", {
+      query: { doctorId, patientId },
     });
 
-    socketInstance.on('connect', () => {
+    socketInstance.on("connect", () => {
       setIsConnected(true);
       setError(null);
     });
 
-    socketInstance.on('disconnect', () => {
+    socketInstance.on("disconnect", () => {
       setIsConnected(false);
     });
 
-    socketInstance.on('connect_error', (err) => {
-      setError('Connection failed');
+    socketInstance.on("connect_error", (err) => {
+      setError("Connection failed");
       setIsConnected(false);
     });
 
-    socketInstance.on('numberUpdate', ({ currentNumber }) => {
+    socketInstance.on("numberUpdate", ({ currentNumber }) => {
       setCurrentNumber(currentNumber);
     });
 
