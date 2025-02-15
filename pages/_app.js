@@ -91,7 +91,11 @@ function MyApp({ Component, pageProps, AccountContext }) {
   });
 
   // Define public routes
-  const publicRoutes = ["/clinics", "/User/BookAppointmentPage"]; // Add your public routes here
+  const publicRoutes = [
+    "/clinics",
+    "/User/BookAppointmentPage",
+    "/User/userAppo",
+  ]; // Add your public routes here
   const router = useRouter();
   return (
     <>
