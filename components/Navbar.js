@@ -10,6 +10,7 @@ import English from "../public/locales/en/index";
 import Hindi from "../public/locales/hi/index";
 import { AccountContext } from "../context/AccountProvider";
 import SignOutbtn from "./usersSection/SignOutbtn";
+import { Button } from "primereact/button";
 const Navbar = () => {
   const [navitem, setnavitem] = useState(false);
   const [profilepic, setprofilepic] = useState();

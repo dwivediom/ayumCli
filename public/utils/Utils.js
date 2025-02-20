@@ -50,7 +50,7 @@ export const cityoptions = [
 ];
 
 export function convertTo12HourFormat(time) {
-  const [hour, minute] = time.split(":").map(Number); // Split and convert to numbers
+  const [hour, minute] = time?.split(":")?.map(Number); // Split and convert to numbers
   const isPM = hour >= 12; // Check if it's PM
   const adjustedHour = hour % 12 || 12; // Convert hour to 12-hour format (0 becomes 12)
   const period = isPM ? "PM" : "AM"; // Determine AM/PM

@@ -7,6 +7,9 @@ import { getTodayDay } from "../../public/utils/Utils";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
+import { Chips } from "primereact/chips";
+
+import { Chip } from "primereact/chip";
 
 const BookAppointment = () => {
   const docdata = useSelector((state) => state.setdocDataReducer);
@@ -25,11 +28,28 @@ const BookAppointment = () => {
     phone: "",
   });
 
+  const [symptoms, setsymptoms] = useState([]);
+  const [symptomsdata, setsymptomsdata] = useState([]);
+  const GetsymptomsData = async () => {
+    try {
+      const result = await axios({
+        method: "post",
+        url: `${process.env.NEXT_PUBLIC_B_PORT}/api/getsymptoms?docid=${router.query.docid}`,
+      });
+      let finaldata = Object.keys(result.data.data[0]?.symptoms);
+      setsymptomsdata(result.data.data[0]);
+      setsymptoms(finaldata);
+      console.log(finaldata, "symptomsresult");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const submit = async (e) => {
     e.preventDefault();
-    if (data.patientname == "" || data.age == "" || data.phone == "") {
-      return setempty(true);
-    }
+    // if (data.patientname == "" || data.age == "" || data.phone == "") {
+    //   return setempty(true);
+    // }
     setloading(true);
 
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/payandbookappointment`;
@@ -43,6 +63,7 @@ const BookAppointment = () => {
           docid: router.query.docid,
           clinicid: router.query.clinicid,
           description: data.description,
+          symptoms: symptomsvalue,
           ...selectedSlot,
         },
         {
@@ -112,6 +133,7 @@ const BookAppointment = () => {
   useEffect(() => {
     async function manageReservedSlots() {
       if (router.query.clinicid) {
+        await GetsymptomsData();
         await GetReservedSlots();
       }
     }
@@ -250,6 +272,7 @@ const BookAppointment = () => {
     }
     generationofslots();
   }, [reserveddatas, alltimings]);
+  const [symptomsvalue, setsymptomsvalue] = useState([]);
 
   return (
     <div>
@@ -311,7 +334,7 @@ const BookAppointment = () => {
               required
             />
           </div>
-
+          {/* 
           <div>
             <label
               htmlFor="description"
@@ -328,13 +351,75 @@ const BookAppointment = () => {
               value={data.description}
               required
             />
-            {/* <input
-              type="text"
-              onChange={(e) => handlechange(e)}
-              id="description"
-              className="  text-black text-sm  w-full p-2.5 rounded  "
-              required
-            /> */}
+          
+          </div> */}
+          <div className="flex mb-2 flex-column gap-2">
+            <label htmlFor="description">Symptoms</label>
+
+            <Chips
+              value={symptomsvalue}
+              onChange={(e) => {
+                console.log(e.value, "symptomsvalue");
+                setsymptomsvalue(e.value);
+              }}
+              style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}
+              separator=","
+            />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+              flexWrap: "wrap",
+            }}
+          >
+            {symptoms.map((symptom, index) => {
+              return (
+                <Chip
+                  key={index}
+                  label={symptom}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onRemove={() => {
+                    let newSymptoms = [...symptomsvalue];
+                    newSymptoms.splice(newSymptoms.indexOf(symptom), 1);
+                    setsymptomsvalue(newSymptoms);
+                  }}
+                  onClick={() => {
+                    console.log(symptomsdata[symptom]);
+                    let newSymptoms = [...symptomsvalue];
+
+                    const uniqcheck = newSymptoms.find(
+                      (item) => item == symptom
+                    );
+                    if (!uniqcheck) {
+                      newSymptoms.push(symptom);
+                      // setrecentselectsymptom(symptom)
+                      let updatedsymptomooption;
+                      if (symptomsdata.symptoms[symptom]) {
+                        console.log(
+                          symptomsdata.symptoms[symptom].child_symptoms,
+                          "newotp"
+                        );
+                        updatedsymptomooption = [
+                          ...symptomsdata.symptoms[symptom].child_symptoms,
+                          ...symptoms,
+                        ];
+                      }
+                      if (updatedsymptomooption) {
+                        setsymptoms(updatedsymptomooption);
+                      }
+                      setsymptomsvalue(newSymptoms);
+                    } else {
+                      return;
+                    }
+                  }}
+                  // removable
+                />
+              );
+            })}
           </div>
           <div style={{ marginTop: "5px" }}>Select slot</div>
           <div
@@ -458,18 +543,6 @@ const BookAppointment = () => {
             )}
           </div>
         </form>
-
-        {response.status == 200 ? (
-          <h5 className="text-green-500">Booking success!</h5>
-        ) : (
-          <h5 className="text-red-600 text-bold">
-            {error && Array.isArray(error)
-              ? error.map((data) => {
-                  return `${data.msg}!!`;
-                })
-              : error}
-          </h5>
-        )}
       </div>
     </div>
   );
