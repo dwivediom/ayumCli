@@ -182,298 +182,313 @@ const PrescriptionPreview = () => {
         console.log(e);
       });
   };
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    let mobile = window && window.matchMedia("(max-width: 550px)");
+    setIsMobile(mobile.matches);
+  }, []);
 
   return (
-    <div className="container mx-auto px-4 ">
-      <div ref={prescriptionRef} className="border p-4 bg-white shadow-md">
-        <div
-          style={{
-            marginRight: "1rem",
-            padding: "1rem",
-            // marginLeft: "3.5rem",
-            background: "white",
-            borderRadius: "12px",
-          }}
-          className="shadow-xl"
-        >
-          <Toast ref={toast} position="top-right" />
-
+    <div style={{ width: "100vw", overflow: "auto" }}>
+      <div style={{ width: "1200px" }}>
+        <div ref={prescriptionRef} className="border p-0 bg-white shadow-md">
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-
-              borderBottom: "1px solid grey",
+              marginRight: "1rem",
+              padding: "1rem",
+              // marginLeft: "3.5rem",
+              background: "white",
+              borderRadius: "12px",
             }}
+            className="shadow-xl"
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "0",
-                height: "3rem",
-                gap: "5px",
-                width: "100%",
-              }}
-            >
-              <span style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
-                {" "}
-                Dr. {doctordata?.name}
-              </span>{" "}
-              <span style={{ fontSize: "14px" }}>
-                {doctordata?.specialist?.charAt(0).toUpperCase() +
-                  doctordata?.specialist?.slice(
-                    1,
-                    doctordata?.specialist?.length
-                  )}
-              </span>
-              <span style={{ fontSize: "14px" }}>
-                Reg. No. {doctordata?.regno}
-              </span>
-            </div>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Image src={"/doctorprologo.png"} width={80} height={100} />
-            </div>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "flex-end",
-                flexDirection: "column",
-                textAlign: "right",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "1.1rem",
-                  fontWeight: "Bold",
-                }}
-              >
-                {" "}
-                {clinicdata?.clinicName}
-              </span>
-              <span>{clinicdata?.location}</span>
-              {/* <span>
-            Phone - 12121212121 
-          </span> */}
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "10px 0",
-              borderBottom: "1px solid grey",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "5px",
-                maxWidth: "80%",
-              }}
-            >
-              <span style={{ fontWeight: "600" }}>
-                {" "}
-                Patient Name - {appointmentdata?.patientname}{" "}
-                {appointmentdata?.gender} | Age - {appointmentdata?.age}yrs. |
-                Phone - {appointmentdata?.phone}{" "}
-              </span>
-              <span>
-                {" "}
-                {appointmentdata?.address &&
-                  `Address - ${appointmentdata?.address}`}
-              </span>
+            <Toast ref={toast} position="top-right" />
 
-              <span
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+
+                borderBottom: "1px solid grey",
+              }}
+            >
+              <div
                 style={{
                   display: "flex",
-                  gap: "5px",
-                  flexWrap: "wrap",
                   flexDirection: "column",
-                  padding: "8px",
-                  borderRadius: "4px",
-                  background: "var(--surface-100)",
+                  padding: "0",
+                  // height: "3rem",
+                  gap: "5px",
+                  width: "100%",
                 }}
               >
-                <span style={{ color: "var(--purple-700)", fontWeight: "600" }}>
-                  Vitals
+                <span style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+                  {" "}
+                  Dr. {doctordata?.name}
+                </span>{" "}
+                <span style={{ fontSize: "14px" }}>
+                  {doctordata?.specialist?.charAt(0).toUpperCase() +
+                    doctordata?.specialist?.slice(
+                      1,
+                      doctordata?.specialist?.length
+                    )}
                 </span>
+                <span style={{ fontSize: "14px" }}>
+                  Reg. No. {doctordata?.regno}
+                </span>
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src={"/doctorprologo.png"}
+                  width={isMobile ? 40 : 80}
+                  height={isMobile ? 60 : 100}
+                />
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "flex-end",
+                  flexDirection: "column",
+                  textAlign: "right",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "1.1rem",
+                    fontWeight: "Bold",
+                  }}
+                >
+                  {" "}
+                  {clinicdata?.clinicName}
+                </span>
+                <span>{clinicdata?.location}</span>
+                {/* <span>
+            Phone - 12121212121 
+          </span> */}
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "10px 0",
+                borderBottom: "1px solid grey",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "5px",
+                  maxWidth: "80%",
+                }}
+              >
+                <span style={{ fontWeight: "600" }}>
+                  {" "}
+                  Patient Name - {appointmentdata?.patientname}{" "}
+                  {appointmentdata?.gender} | Age - {appointmentdata?.age}yrs. |
+                  Phone - {appointmentdata?.phone}{" "}
+                </span>
+                <span>
+                  {" "}
+                  {appointmentdata?.address &&
+                    `Address - ${appointmentdata?.address}`}
+                </span>
+
                 <span
                   style={{
                     display: "flex",
                     gap: "5px",
                     flexWrap: "wrap",
+                    flexDirection: "column",
+                    padding: "8px",
+                    borderRadius: "4px",
+                    background: "var(--surface-100)",
                   }}
                 >
-                  {Object.keys(vitals).length > 0 &&
-                    Object.keys(vitals).map((item, idx) => {
-                      return (
-                        <span
-                          style={{
-                            background: "var(--purple-100)",
-                            color: "black",
-                            padding: "5px",
-                            borderRadius: "4px",
-                          }}
-                          key={idx}
-                        >
-                          {item?.charAt(0).toUpperCase() + item.slice(1)} -{" "}
-                          {vitals[item]}{" "}
-                        </span>
-                      );
-                    })}
-                </span>
+                  <span
+                    style={{ color: "var(--purple-700)", fontWeight: "600" }}
+                  >
+                    Vitals
+                  </span>
+                  <span
+                    style={{
+                      display: "flex",
+                      gap: "5px",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {Object.keys(vitals).length > 0 &&
+                      Object.keys(vitals).map((item, idx) => {
+                        return (
+                          <span
+                            style={{
+                              background: "var(--purple-100)",
+                              color: "black",
+                              padding: "5px",
+                              borderRadius: "4px",
+                            }}
+                            key={idx}
+                          >
+                            {item?.charAt(0).toUpperCase() + item.slice(1)} -{" "}
+                            {vitals[item]}{" "}
+                          </span>
+                        );
+                      })}
+                  </span>
 
-                {/* Weight - 80 , Height {"cm"} 200 , B.M.I - 200 , Bp - 120/80 mmHg */}
-              </span>
+                  {/* Weight - 80 , Height {"cm"} 200 , B.M.I - 200 , Bp - 120/80 mmHg */}
+                </span>
+              </div>
+              <div>
+                <span style={{ fontWeight: "600" }}>
+                  Date -{" "}
+                  {convertDateToDDMMMYYYY(
+                    new Date().toISOString()?.slice(0, 10)
+                  )}
+                </span>
+              </div>
             </div>
-            <div>
-              <span style={{ fontWeight: "600" }}>
-                Date -{" "}
-                {convertDateToDDMMMYYYY(new Date().toISOString()?.slice(0, 10))}
-              </span>
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "10px 0",
-              borderBottom: "1px solid grey",
-            }}
-          >
-            <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "10px 0",
+                borderBottom: "1px solid grey",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <span style={{ fontWeight: "600" }}>Description </span>{" "}
+                  <span
+                    style={{
+                      background: "var(--surface-200)",
+                      borderRadius: "24px",
+                      padding: "5px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {appointmentdata?.description}
+                  </span>
+                </div>
+              </div>
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
                 }}
               >
-                <span style={{ fontWeight: "600" }}>Description </span>{" "}
-                <span
-                  style={{
-                    background: "var(--surface-200)",
-                    borderRadius: "24px",
-                    padding: "5px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontWeight: "400",
+                <span style={{ fontWeight: "600", marginBottom: "5px" }}>
+                  Diagnosis{" "}
+                </span>{" "}
+                {/* <InputText placeholder="Enter Diagnosis" /> */}
+                <div>
+                  {diagnosis.map((item) => {
+                    return (
+                      <span
+                        style={{
+                          fontWeight: "500",
+                          padding: "5px 10px",
+                          background: "var(--surface-200)",
+                          marginRight: "7px",
+                          borderRadius: "24px",
+                        }}
+                      >
+                        {item}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <div>
+              <span style={{ fontWeight: "500", marginTop: "10px" }}>
+                {convertToReadableDateTime(prescdata?.prescribedAt || "")}
+              </span>
+              <DataTable
+                value={medproducts}
+                footer={footer}
+                tableStyle={{ minWidth: "60rem", borderRadius: "12px" }}
+              >
+                <Column
+                  field="name"
+                  header="Medicine Name"
+                  body={(product, index) => {
+                    return (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        {product.name}{" "}
+                      </div>
+                    );
                   }}
-                >
-                  {appointmentdata?.description}
-                </span>
-              </div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <span style={{ fontWeight: "600", marginBottom: "5px" }}>
-                Diagnosis{" "}
-              </span>{" "}
-              {/* <InputText placeholder="Enter Diagnosis" /> */}
-              <div>
-                {diagnosis.map((item) => {
-                  return (
-                    <span
-                      style={{
-                        fontWeight: "500",
-                        padding: "5px 10px",
-                        background: "var(--surface-200)",
-                        marginRight: "7px",
-                        borderRadius: "24px",
-                      }}
-                    >
-                      {item}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <div>
-            <span style={{ fontWeight: "500", marginTop: "10px" }}>
-              {convertToReadableDateTime(prescdata?.prescribedAt || "")}
-            </span>
-            <DataTable
-              value={medproducts}
-              footer={footer}
-              tableStyle={{ minWidth: "60rem", borderRadius: "12px" }}
-            >
-              <Column
-                field="name"
-                header="Medicine Name"
-                body={(product, index) => {
-                  return (
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
-                    >
-                      {product.name}{" "}
-                    </div>
-                  );
-                }}
-              ></Column>
-              <Column field="typeofmedicine" header="Type"></Column>
+                ></Column>
+                <Column field="typeofmedicine" header="Type"></Column>
 
-              <Column
-                field="dosage"
-                header="Dosage"
-                body={dosageBodyTemplate}
-              ></Column>
-              <Column
-                field="duration"
-                header="Duration"
-                body={(product) => {
-                  return <div>{product.duration} Days</div>;
-                }}
-              ></Column>
-              <Column field="advice" header="Advice"></Column>
-              <Column
-                header="Intake"
-                field="tobetaken"
-                body={intakeBodyTemplate}
-              ></Column>
-            </DataTable>
+                <Column
+                  field="dosage"
+                  header="Dosage"
+                  body={dosageBodyTemplate}
+                ></Column>
+                <Column
+                  field="duration"
+                  header="Duration"
+                  body={(product) => {
+                    return <div>{product.duration} Days</div>;
+                  }}
+                ></Column>
+                <Column field="advice" header="Advice"></Column>
+                <Column
+                  header="Intake"
+                  field="tobetaken"
+                  body={intakeBodyTemplate}
+                ></Column>
+              </DataTable>
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-          padding: "10px",
-          paddingLeft: "2.5rem",
-          background: "white",
-        }}
-      >
-        <Button
-          label="Share"
-          onClick={handleShare}
-          outlined
-          severity="info"
-          icon="pi pi-share-alt"
-        />
-        <Button
-          onClick={handleDownloadPDF}
-          label="Download as PDF"
-          icon="pi pi-download"
-        />
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            padding: "10px",
+            paddingLeft: "2.5rem",
+            background: "white",
+          }}
+        >
+          <Button
+            label="Share"
+            onClick={handleShare}
+            outlined
+            severity="info"
+            icon="pi pi-share-alt"
+          />
+          <Button
+            onClick={handleDownloadPDF}
+            label="Download as PDF"
+            icon="pi pi-download"
+          />
+        </div>
       </div>
     </div>
   );

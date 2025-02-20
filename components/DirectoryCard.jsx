@@ -144,7 +144,7 @@ ${linktext}`;
         method: "get",
       });
       console.log(allreviews, "allreview");
-      // setReviews(allreviews?.data?.reviews);
+      setReviews(allreviews?.data?.reviews);
       const UserData = JSON.parse(localStorage.getItem("labuser"));
       const foundReview = allreviews?.data?.reviews?.find((obj) => {
         return obj["patientemail"] === UserData?.email;
@@ -158,7 +158,7 @@ ${linktext}`;
   };
 
   useEffect(() => {
-    setReviews(item?.reviews);
+    GetReviews();
   }, []);
   const [newReview, setNewReview] = useState({
     rating: "",
@@ -640,17 +640,9 @@ ${linktext}`;
                 }}
               >
                 <div className={`${styles.cardname}`}>{item.name} </div>{" "}
-                {calculateAverageRating(item.reviews ? item.reviews : []) >
-                0 ? (
+                {item.averageRating ? (
                   <span className={`${styles.reviewbadge}`}>
-                    {calculateAverageRating(item.reviews ? item.reviews : [])}{" "}
-                    {/* <StarIcon
-                      style={{
-                        fontSize: "20px",
-                        fill: "white",
-                      }}
-                      fontSize="inherit"
-                    /> */}
+                    {item.averageRating.toFixed(1)}
                     <i className="pi pi-star-fill"></i>
                   </span>
                 ) : (
@@ -907,7 +899,7 @@ ${linktext}`;
                 ))
               : showreview && (
                   <div>
-                    <p>Review {item?.name?.slice(0, 15)}...</p>
+                    <p>Review {item?.name?.slice(0, 25)}...</p>
 
                     <Rating
                       style={{
@@ -959,7 +951,7 @@ ${linktext}`;
                           display: "flex",
                           justifyContent: "center",
                           flexWrap: "wrap",
-                          gap: "5px",
+                          gap: "10px",
                         }}
                       >
                         {lang == "hi"
@@ -967,7 +959,7 @@ ${linktext}`;
                               if (rev.rating == reviewpayload?.rating) {
                                 return rev.comments.map((com) => {
                                   return (
-                                    <p
+                                    <span
                                       style={{
                                         padding: "3px 10px",
                                         border: "1px solid #005E6D",
@@ -983,7 +975,7 @@ ${linktext}`;
                                       }}
                                     >
                                       {com}
-                                    </p>
+                                    </span>
                                   );
                                 });
                               }
@@ -992,7 +984,7 @@ ${linktext}`;
                               if (rev.rating == reviewpayload.rating) {
                                 return rev.comments.map((com) => {
                                   return (
-                                    <p
+                                    <span
                                       style={{
                                         padding: "2px 5px",
                                         borderRadius: "24px",
@@ -1008,7 +1000,7 @@ ${linktext}`;
                                       }}
                                     >
                                       {com}
-                                    </p>
+                                    </span>
                                   );
                                 });
                               }
@@ -1094,44 +1086,6 @@ ${linktext}`;
                     )}
                   </div>
                 )}
-
-            {/* <Button type="submit" variant="contained" color="primary">
-              Submit Review
-            </Button> */}
-            {/* </form> */}
-            {/* {router.query?.docid && (
-              <Box
-                sx={{
-                  width: 200,
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-              
-                <StyledRating
-                  name="customized-color"
-                  defaultValue={2}
-                  getLabelText={(value) =>
-                    `${value} Heart${value !== 1 ? "s" : ""}`
-                  }
-                  precision={0.5}
-                  icon={
-                    <StarIcon style={{ fontSize: "30px" }} fontSize="inherit" />
-                  }
-                  emptyIcon={
-                    <StarBorder
-                      style={{ fontSize: "30px" }}
-                      fontSize="inherit"
-                    />
-                  }
-                />
-                {value !== null && (
-                  <Box sx={{ ml: 2 }}>
-                    {labels[hover !== -1 ? hover : value]}
-                  </Box>
-                )}
-              </Box>
-            )} */}
           </div>
         </div>
         {showreview && (
@@ -1181,7 +1135,7 @@ ${linktext}`;
                 </div>
               ) : (
                 <>
-                  {/* <div>
+                  <div>
                     {reviews.length > 0 ? (
                       reviews.map((review, index) => (
                         <div
@@ -1190,33 +1144,26 @@ ${linktext}`;
                             padding: "10px",
                             borderRadius: "18px",
                             marginBottom: "10px",
+                            width: "96%",
+                            margin: "auto",
+                            boxShadow: "0 3px 5px rgba(0,0,0,0.1)",
                           }}
                         >
                           <Rating
                             value={review.rating}
                             readOnly
                             cancel={false}
-                            style={{ marginBottom: "10px" }}
+                            style={{ marginBottom: "5px" }}
                           />{" "}
-                        
                           <div
                             style={{
                               display: "flex",
-                              gap: "10px",
                               textAlign: "left",
-                              justifyContent: "space-between",
-                              flexWrap: "wrap",
+                              flexDirection: "column",
                               width: "100%",
                             }}
                           >
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                gap: "5px",
-                                width: "100%",
-                              }}
-                            >
+                            <div style={{}}>
                               <div
                                 style={{
                                   display: "flex",
@@ -1227,7 +1174,7 @@ ${linktext}`;
                               >
                                 <img
                                   src={
-                                    review?.patientprofile || "/deafaultpro.jpg"
+                                    review?.userprofile || "/deafaultpro.jpg"
                                   }
                                   style={{
                                     height: "35px",
@@ -1236,23 +1183,32 @@ ${linktext}`;
                                     objectFit: "cover",
                                   }}
                                 />
-                                <div>
-                                  <p style={{ fontSize: "13px" }}>
-                                    {review?.patientName}
-                                  </p>{" "}
-                                  <p
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <span style={{ fontSize: "13px" }}>
+                                    {review?.name}
+                                  </span>{" "}
+                                  <span
                                     style={{
                                       fontSize: "10px",
                                     }}
                                   >
-                                    {formatDate(review?.createdAt)}
-                                  </p>
+                                    {formatDate(review?.created)}
+                                  </span>
                                 </div>{" "}
                               </div>
                             </div>
 
-                            <p style={{ fontSize: "14px" }}>
-                              {review?.comment}
+                            <p
+                              style={{
+                                fontSize: "14px",
+                              }}
+                            >
+                              {review?.description}
                             </p>
                           </div>
                         </div>
@@ -1278,7 +1234,7 @@ ${linktext}`;
                         </h6>
                       </div>
                     )}
-                  </div> */}
+                  </div>
                 </>
               )}
             </div>

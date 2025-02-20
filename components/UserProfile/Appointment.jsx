@@ -235,6 +235,7 @@ const Appointment = (props) => {
           borderRadius: "12px",
           background: "var(--surface-50)",
           boxShadow: "0 5px 5px rgba(0,0,0,0.1)",
+          // border: "2px solid red",
         }}
         // className="shadow-md"
       >
@@ -433,13 +434,15 @@ const Appointment = (props) => {
             <Button
               onClick={() => setvitalspopup(true)}
               label="Vitals"
+              style={{ padding: "5px", height: "2rem" }}
               icon="pi pi-wave-pulse"
               outlined
             />
             <Button
               style={{
                 position: "static",
-                padding: "7px",
+                padding: "5px",
+                height: "2rem",
                 color: "var(--blue-600)",
               }}
               label={"Reports"}
@@ -453,6 +456,7 @@ const Appointment = (props) => {
             <Button
               label="Prescription"
               icon=" pi pi-file-edit"
+              style={{ padding: "5px", height: "2rem" }}
               onClick={() => {
                 router.push(`/previewprescription?ap=${data?._id}`);
               }}
