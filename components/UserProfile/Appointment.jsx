@@ -5,7 +5,11 @@ import { Button } from "primereact/button";
 import { convertDateToDDMMMYYYY } from "../../public/utils/Utils";
 import { Dialog } from "primereact/dialog";
 import { useRouter } from "next/router";
+
+import { useQueueNumber } from "../../hooks/useQueueNumber";
 import { useQueueSocket } from "../../hooks/useQueueSocket";
+useQueueSocket;
+
 const Appointment = (props) => {
   const { data } = props;
   const appodate = new Date(data.date);
@@ -14,19 +18,25 @@ const Appointment = (props) => {
   const [message, setmessage] = useState("");
   const [expired, setexpired] = useState(false);
   const router = useRouter();
+  console.log("data crn", data);
 
+  // const { currentNumber, isConnected, error } = useQueueNumber();
 
+  const { currentNumber, isConnected, error } = useQueueSocket(
+    data.doctorid,
+    data.user
+  );
 
-  const { currentNumber, isConnected, error } = useQueueSocket(data.doctorid, data.user);
-
-   useEffect(() => {
-     
-    console.log("crn info ",currentNumber,"isConnected",isConnected,"error",error)
-     
-   }, [currentNumber,isConnected,error])
-
-// 
-
+  useEffect(() => {
+    console.log(
+      "crn info ",
+      currentNumber,
+      "isConnected",
+      isConnected,
+      "error",
+      error
+    );
+  }, [currentNumber, isConnected, error]);
 
   useEffect(() => {
     // console.log(props.timeDiffInDays, "Message hai ");
@@ -225,6 +235,7 @@ const Appointment = (props) => {
           borderRadius: "12px",
           background: "var(--surface-50)",
           boxShadow: "0 5px 5px rgba(0,0,0,0.1)",
+          // border: "2px solid red",
         }}
         // className="shadow-md"
       >
@@ -404,8 +415,7 @@ const Appointment = (props) => {
                   alignItems: "center",
                 }}
               >
-                                 {currentNumber&&  currentNumber}
-
+                {currentNumber && currentNumber}
               </span>
             </div>
           </div>
@@ -424,13 +434,15 @@ const Appointment = (props) => {
             <Button
               onClick={() => setvitalspopup(true)}
               label="Vitals"
+              style={{ padding: "5px", height: "2rem" }}
               icon="pi pi-wave-pulse"
               outlined
             />
             <Button
               style={{
                 position: "static",
-                padding: "7px",
+                padding: "5px",
+                height: "2rem",
                 color: "var(--blue-600)",
               }}
               label={"Reports"}
@@ -444,6 +456,7 @@ const Appointment = (props) => {
             <Button
               label="Prescription"
               icon=" pi pi-file-edit"
+              style={{ padding: "5px", height: "2rem" }}
               onClick={() => {
                 router.push(`/previewprescription?ap=${data?._id}`);
               }}

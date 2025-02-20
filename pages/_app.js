@@ -29,6 +29,7 @@ import "primereact/resources/themes/lara-light-teal/theme.css";
 import "../styles/globals.css"; // Load global styles last, if needed
 
 import Authverify from "../components/AuthVerify";
+import { SocketProvider } from "../context/SocketContext";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
@@ -91,7 +92,11 @@ function MyApp({ Component, pageProps, AccountContext }) {
   });
 
   // Define public routes
-  const publicRoutes = ["/clinics", "/User/BookAppointmentPage"]; // Add your public routes here
+  const publicRoutes = [
+    "/clinics",
+    "/User/BookAppointmentPage",
+    "/User/userAppo",
+  ]; // Add your public routes here
   const router = useRouter();
   return (
     <>
@@ -99,7 +104,9 @@ function MyApp({ Component, pageProps, AccountContext }) {
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_B_GOOGLE_CLIENT_ID}
         >
+
           <AccountProvider>
+            <SocketProvider>
             <ReduxProvider store={store}>
               {loading && (
                 // <div
@@ -137,6 +144,7 @@ function MyApp({ Component, pageProps, AccountContext }) {
                 <BottomNav />
               </div>
             </ReduxProvider>
+            </SocketProvider>
           </AccountProvider>
         </GoogleOAuthProvider>
       </PrimeReactProvider>

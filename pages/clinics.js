@@ -117,13 +117,15 @@ const clinics = () => {
                                       "Closed"
                                     ) : (
                                       <span>
-                                        {convertTo12HourFormat(
-                                          result.timing[item].startTime
-                                        )}{" "}
+                                        {result.timing[item].startTime &&
+                                          convertTo12HourFormat(
+                                            result.timing[item].startTime
+                                          )}{" "}
                                         -{" "}
-                                        {convertTo12HourFormat(
-                                          result.timing[item].endTime
-                                        )}
+                                        {result.timing[item].endTime &&
+                                          convertTo12HourFormat(
+                                            result.timing[item].endTime
+                                          )}
                                       </span>
                                     )}
                                   </div>
