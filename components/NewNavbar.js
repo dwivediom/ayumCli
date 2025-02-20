@@ -284,6 +284,14 @@ const Navbar = () => {
         let city = localStorage.getItem("city");
 
         localStorage.clear();
+        sessionStorage.clear();
+
+        document.cookie.split(";").forEach((cookie) => {
+          document.cookie = cookie
+            .replace(/^ +/, "")
+            .replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/");
+        });
+
         localStorage.setItem("locale", lang);
         localStorage.setItem("city", city);
         router.push("/User/UserRegistrationPage");
@@ -294,8 +302,197 @@ const Navbar = () => {
     //   icon: "pi pi-upload",
     // },
   ];
+  const [showNotification, setshowNotification] = useState(false);
+
   const end = (
     <div className="flex align-items-center gap-2">
+      <Sidebar
+        visible={showNotification}
+        onHide={() => setshowNotification(false)}
+        header="Notifications"
+        position="right"
+        style={{
+          width: "22rem",
+          padding: "0",
+        }}
+        className="nav-slider"
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            overflow: "auto",
+            padding: "0.5rem",
+            width: "100%",
+            // height: "100vh",
+          }}
+        >
+          <div
+            style={{
+              height: "5rem",
+              width: "100%",
+              background: "var(--surface-50)",
+              borderRadius: "12px",
+              display: "flex",
+              padding: "5px",
+              alignItems: "center",
+              gap: "5px",
+              borderLeft: "3px solid rgb(5, 255, 84)",
+
+              boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                height: "100%",
+                borderRadius: "12px",
+                paddingTop: "0.5rem",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-badge-check"
+                style={{ width: "25px", height: "25px" }}
+              >
+                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+              }}
+            >
+              <span style={{ fontWeight: "600" }}>
+                Appointment at Dr Rakesh Patel Booked Successfully
+              </span>
+              <span style={{ fontSize: "14px" }}>Click to view.</span>
+            </div>
+          </div>
+          <div
+            style={{
+              height: "5rem",
+              width: "100%",
+              background: "var(--surface-50)",
+              borderRadius: "12px",
+              display: "flex",
+              padding: "5px",
+              alignItems: "center",
+              gap: "5px",
+              borderLeft: "3px solid rgb(168, 5, 255)",
+
+              boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                height: "100%",
+                borderRadius: "12px",
+                paddingTop: "0.5rem",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-test-tube"
+                style={{ width: "25px", height: "25px" }}
+              >
+                <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2" />
+                <path d="M8.5 2h7" />
+                <path d="M14.5 16h-5" />
+              </svg>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+              }}
+            >
+              <span style={{ fontWeight: "600" }}>
+                Lab Test Report Recieved
+              </span>
+              <span style={{ fontSize: "14px" }}>Click to view.</span>
+            </div>
+          </div>
+          <div
+            style={{
+              height: "5rem",
+              width: "100%",
+              background: "var(--surface-50)",
+              borderRadius: "12px",
+              display: "flex",
+              padding: "5px",
+              alignItems: "center",
+              gap: "5px",
+              borderLeft: "3px solid rgb(255, 201, 5)",
+
+              boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                height: "100%",
+                borderRadius: "12px",
+                paddingTop: "0.5rem",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-badge-check"
+                style={{ width: "25px", height: "25px" }}
+              >
+                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+              }}
+            >
+              <span style={{ fontWeight: "600" }}>
+                Your appointment with Dr. Rakesh Patel is Re-Scheduled.
+              </span>
+              <span style={{ fontSize: "14px" }}>Click to view.</span>
+            </div>
+          </div>
+        </div>
+      </Sidebar>
       {/* <Avatar
         image={
           userdata?.picture
@@ -310,6 +507,53 @@ const Navbar = () => {
           objectFit: "cover",
         }}
       /> */}
+      <div
+        style={{
+          height: "35px",
+          width: "35px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "50%",
+          // background: "var(--surface-200)",
+          position: "relative",
+        }}
+        onClick={() => {
+          setshowNotification(true);
+        }}
+      >
+        <span
+          style={{
+            position: "absolute",
+            padding: "3px",
+            height: "8px",
+            width: "8px",
+            top: "5px",
+            right: "3px",
+            height: "10px",
+            width: "10px",
+            borderRadius: "50%",
+            background: "red",
+          }}
+        ></span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-6"
+          style={{
+            width: "28px",
+            cursor: "pointer",
+            height: "28px",
+          }}
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.25 9a6.75 6.75 0 0 1 13.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 0 1-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 1 1-7.48 0 24.585 24.585 0 0 1-4.831-1.244.75.75 0 0 1-.298-1.205A8.217 8.217 0 0 0 5.25 9.75V9Zm4.502 8.9a2.25 2.25 0 1 0 4.496 0 25.057 25.057 0 0 1-4.496 0Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </div>
       {userdata?.picture && (
         <img
           onClick={(event) => menuLeft.current.toggle(event)}
