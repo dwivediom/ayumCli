@@ -28,8 +28,11 @@ import "primeflex/primeflex.css";
 import "primereact/resources/themes/lara-light-teal/theme.css";
 import "../styles/globals.css"; // Load global styles last, if needed
 
+import { requestNotificationPermission } from "../push-notification";
+import useDeviceId from "../utils/useDeviceId";
 import Authverify from "../components/AuthVerify";
-import { SocketProvider } from "../context/SocketContext";
+import { refreshFcmToken } from "../push-notification";
+import { registerDeviceToken } from "../routes/notify";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
@@ -37,19 +40,76 @@ function MyApp({ Component, pageProps, AccountContext }) {
   const [loading, setLoading] = useState(true);
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
 
+  useEffect(() => {
+    // Call our robust notification permission request function on page load.
+    requestNotificationPermission().then(permission => {
+      if (permission !== 'granted') {
+        // Optionally, show your own UI here to instruct the user to enable notifications manually.
+        console.warn("Notifications are not enabled. Please enable notifications in your browser settings for the best experience.");
+      }
+    });
+
+
+    
+  }, []);
+
   // Use the token as needed
   useEffect(() => {
+    const userEmail = localStorage.getItem('userEmail') || null;
+    let local_fcm_token = fcmToken|| localStorage.getItem("fcmToken") || null ; 
+    useDeviceId(userEmail);
+    if (local_fcm_token){
+       let deviceId  = localStorage.getItem("deviceId")
+       registerDeviceToken(deviceId, local_fcm_token)
+
+    } 
+
+
+  
     if (fcmToken) {
+       
+       
       if (localStorage.fcmToken != fcmToken && localStorage.userjwt) {
         updateuser(localStorage.userjwt, { FCMtoken: fcmToken });
+    
+       const deviceId  = localStorage.getItem("deviceId")
+       let  local_fcm_token = fcmToken|| localStorage.getItem("fcmToken")
+       registerDeviceToken(deviceId, fcmToken)
       } else {
         localStorage.setItem("fcmToken", fcmToken);
+        let  deviceId  = localStorage.getItem("deviceId")
+        let  local_fcm_token = fcmToken|| localStorage.getItem("fcmToken")
+        registerDeviceToken(deviceId, local_fcm_token)
+         
       }
-    }
+    }else {
+      console.log("unable  to get fcm token ")
+    } 
   }, [fcmToken]);
+
 
   useEffect(() => {
     const relod = async () => {
+      if ('serviceWorker' in navigator) {
+        // Register the custom service worker (next-pwa will output this as /service-worker.js)
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(err => {
+            console.error('Service Worker registration failed:', err);
+          });
+        
+        // Listen for messages from the service worker.
+        navigator.serviceWorker.addEventListener('message', event => {
+          if (event.data && event.data.type === 'REFRESH_TOKEN') {
+            console.log('Received message from Service Worker: REFRESH_TOKEN');
+            refreshFcmToken()
+            // For example, call Firebase Messaging to get a new token and update your backend.
+          }
+        });
+      }
+
       await notificationRequest();
 
       // await webpushfunc();

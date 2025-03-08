@@ -46,6 +46,7 @@ const UserRegistrationPage = () => {
       setCookie("usertoken", logindata.data.token, 7);
       localStorage.setItem("labuser", JSON.stringify(decodedjwt));
       localStorage.setItem("authStatus", true);
+      localStorage.setItem("userEmail", decodedjwt.email);
       if (decodedjwt) {
         const logined = await adduser(decodedjwt);
         if (logined?.msg === "useradded" || "user already exist") {

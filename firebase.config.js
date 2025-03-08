@@ -22,4 +22,5 @@ export const firebaseApp = initializeApp(firebaseConfig);
 
 export const authentication= getAuth(firebaseApp)
 
+// export const messaging = getMessaging(firebaseApp);
 
