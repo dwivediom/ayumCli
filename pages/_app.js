@@ -33,7 +33,8 @@ import useDeviceId from "../utils/useDeviceId";
 import Authverify from "../components/AuthVerify";
 import { refreshFcmToken } from "../push-notification";
 import { registerDeviceToken } from "../routes/notify";
-
+import { SocketProvider } from "../context/SocketContext";
+ 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
 function MyApp({ Component, pageProps, AccountContext }) {
