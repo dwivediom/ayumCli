@@ -57,12 +57,18 @@ export const sendnotification  = async (notificationdata) => {
  * @returns {Promise<object>} Response from the server.
  */
 export async function registerDeviceToken(deviceId, token) {
+
+  
   try {
+    if(deviceId && token) {
+    console.log("deviceid " , deviceId , token)
     const response = await axios.post(`${host}/api/notification/register`, 
       { deviceId, token },
       { headers: { 'Content-Type': 'application/json' } }
     );
     return response.data;
+    }
+
   } catch (error) {
     console.error("Error in registerDeviceToken:", error);
     throw error;

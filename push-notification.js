@@ -8,12 +8,12 @@ const VAPIDKEY =process.env.NEXT_PUBLIC_B_VAPIDKEY
 // Update token to your backend running at localhost:5000
 const sendTokenToServer = async (userId, token) => {
   try {
-    await fetch('http://localhost:5000/api/notification/update-token', {
+    await fetch('https://server.ayum.in/api/notification/update-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId, fcmToken: token }),
+      body: JSON.stringify({ "deviceId":userId, "token": token }),
     });
   } catch (error) {
     console.error('Error updating FCM token on the server:', error);
@@ -150,3 +150,36 @@ export async function requestNotificationPermission() {
 
  return permission;
 }
+export const ensureFcmToken = async () => {
+  try {
+    // First check if we have permission
+    const permission = await requestNotificationPermission();
+    if (permission !== 'granted') {
+      console.log('Notification permission not granted');
+      return null;
+    }
+
+    // Check if we already have a token in localStorage
+    let storedToken = localStorage.getItem('fcmToken');
+    if (storedToken) {
+      console.log('Using existing FCM token from localStorage');
+      return storedToken;
+    }
+
+    // If no token, generate new one
+    const messaging = getMessaging(firebaseApp);
+    const newToken = await getToken(messaging, { vapidKey: VAPIDKEY });
+    
+    if (newToken) {
+      console.log('Generated new FCM token');
+      localStorage.setItem('fcmToken', newToken);
+      return newToken;
+    }
+
+    console.warn('Failed to generate FCM token');
+    return null;
+  } catch (error) {
+    console.error('Error in ensureFcmToken:', error);
+    return null;
+  }
+};
