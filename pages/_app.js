@@ -59,9 +59,9 @@ function MyApp({ Component, pageProps, AccountContext }) {
     const userEmail = localStorage.getItem('userEmail') || null;
     let local_fcm_token = fcmToken|| localStorage.getItem("fcmToken") || null ; 
     useDeviceId(userEmail);
-    if (local_fcm_token){
+    if (fcmToken || local_fcm_token){
        let deviceId  = localStorage.getItem("deviceId")
-       registerDeviceToken(deviceId, local_fcm_token)
+       registerDeviceToken(deviceId, fcmToken)
 
     } 
 
