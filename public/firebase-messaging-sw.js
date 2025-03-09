@@ -8,7 +8,7 @@
 importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
 
-const VAPIDKEY = process.env.NEXT_PUBLIC_B_VAPIDKEY
+const VAPIDKEY = "BAlM_XtojF6EnFWmFBqOacUJMs9StAIfA0oabx3j-O9hPg1vz1zJauZ4u4PlHcW4pKQjQhHSZ7gX7zwWjbUH2Yg"
 
 const firebaseConfig = {
   apiKey: "AIzaSyDSynbYEEylMVxN7X4jxbRQryhfieREV_Y",
@@ -44,15 +44,15 @@ async function getNewToken() {
 // Function to update token in database
 async function updateTokenInDB(token, userId) {
   try {
-    const response = await fetch('http://localhost:5000/api/notification/update-token', {
+    const response = await fetch('https://server.ayum.in/api/notification/update-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId,
-        fcmToken: token,
-        source: 'service-worker'
+        "deviceId":userId,
+       "token": token,
+        "source": 'service-worker'
       }),
     });
 
