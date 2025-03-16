@@ -1,12 +1,12 @@
 
-[
-      {
-        "relation": ["delegate_permission/common.handle_all_urls"],
-        "target": {
-          "namespace": "android_app",
-          "package_name": "in.ayum.twa",
-          "sha256_cert_fingerprints":
-            ["07:FC:5D:00:61:53:36:3F:CE:B2:C7:8D:F3:E7:52:91:E3:C3:27:09:D2:42:A8:FD:82:32:8A:C2:84:07:BE:E0"]
-        }
-      }
-    ]
+// [
+//       {
+//         "relation": ["delegate_permission/common.handle_all_urls"],
+//         "target": {
+//           "namespace": "android_app",
+//           "package_name": "in.ayum.twa",
+//           "sha256_cert_fingerprints":
+//             ["07:FC:5D:00:61:53:36:3F:CE:B2:C7:8D:F3:E7:52:91:E3:C3:27:09:D2:42:A8:FD:82:32:8A:C2:84:07:BE:E0"]
+//         }
+//       }
+//     ]
