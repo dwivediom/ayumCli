@@ -1,12 +1,5 @@
-
-[
-      {
-        "relation": ["delegate_permission/common.handle_all_urls"],
-        "target": {
-          "namespace": "android_app",
-          "package_name": "in.ayum.www.twa",
-          "sha256_cert_fingerprints":[ "E5:63:86:B3:25:65:AB:83:EC:8F:6D:4F:04:FB:7D:58:1A:F9:E0:47:41:D9:96:25:9F:CE:0B:34:3C:0F:63:E0"]
-          
-        }
-      }
-    ]
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "in.ayum.www.twa",
+               "sha256_cert_fingerprints": ["E5:63:86:B3:25:65:AB:83:EC:8F:6D:4F:04:FB:7D:58:1A:F9:E0:47:41:D9:96:25:9F:CE:0B:34:3C:0F:63:E0"] }
+}]
