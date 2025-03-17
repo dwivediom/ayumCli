@@ -875,7 +875,7 @@ const Navbar = () => {
               className="mr-2"
             ></img>
           </div>
-          <div
+          {/* <div
             style={{
               display: "flex",
               gap: "5px",
@@ -917,7 +917,7 @@ const Navbar = () => {
           >
             <i className="pi pi-verified"></i>
             <span>Ayum app</span>
-          </div>
+          </div> */}
           <div
             style={{
               display: "flex",
