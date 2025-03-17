@@ -1,98 +1,102 @@
 {
-    
-    "shortcuts": [
-      {
-        "name": "Book Session",
-        "short_name": "Book Session",
-        "description": "Book you appointment in one click ",
-        "url": "/",
-        "icons": [
-          {
-            "src": "/bookico.jpg",
-            "sizes": "192x192"
-          },
-          {
-            "src": "/icons/icon-96x96.png",
-            "sizes": "96x96"
-          }
-        ]
-       
-      }
-    ], 
+  "name": "Ayum",
+  "short_name": "Ayum",
+  "description": "health is just one clickaway",
+  "startUrl": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "host": "www.ayum.in",
 
-    
+  "display_override": [
+    "standalone"
+  ],
+  "theme_color": "#ffffff",
 
+  "background_color": "#ffffff",
 
-    "related_applications": [{
-        "platform": "play",
-        "url": "https://play.google.com/store/search?q=practo&c=apps&hl=en_IN&gl=US"
-      }],
-        "theme_color": "#35ecf6",
-        "screenshots": [
-            {
-                "src":"/screenshot.JPEG",
-                "sizes":"1440 x 2960",
-                "type":"JPEG",
-                "description":"home screen"
-            }
-        ],
-        
-        "background_color": "#f6f2ee",
-        "display": "standalone",
-        "display_override":["window-control-overlay","standalone"],
-        "scope": "/",
-        "start_url": "/",
-        "name": "Ayum",
-        "short_name": "Ayum",
-        "description": "health is just one clickaway",
-        "orientation": "portrait-primary",
-        "icons": [
-            {
-                "src": "/ayum.ico",
-                "sizes": "72x72 96x96 128x128 256x256",
-                "type": "ico"
-              },
-            {
-                "src": "/icons/icon-512x512.png",
-                "sizes": "any",
-                "type": "image/png"
-              },
-            {
-                "src": "/icons/icon-192x192.png",
-                "sizes": "192x192",
-                "type": "image/png",
-                "purpose": "any"
-            },
-            {
-              "src": "/icons/icon-99x99.png",
-              "sizes": "99x99",
-              "type": "image/png",
-              "purpose": "any"
-          },
-          {
-            "src": "/icons/icon-96x96.png",
-            "sizes": "96x96",
-            "type": "image/png",
-            "purpose": "any"
-        },
-            {
-                "src": "/icons/icon-256x256.png",
-                "sizes": "256x256",
-                "type": "image/png",
-                "purpose":"any"
-            },
-            {
-                "src": "/icons/icon-384x384.png",
-                "sizes": "384x384",
-                "type": "image/png",
-                "purpose":"any"
-            },
-            {
-                "src": "/icons/icon-512x512.png",
-                "sizes": "512x512",
-                "type": "image/png",
-                "purpose":"any"
-            }
-        ]
-        
+  "iconUrl": "https://www.ayum.in/icons/icon-512x512.png",
+  "icons": [
+    {
+      "src": "https://www.ayum.in/ayum.ico",
+      "sizes": "72x72 96x96 128x128 256x256",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "https://www.ayum.in/icons/icon-512x512.png",
+      "sizes": "any",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.ayum.in/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://www.ayum.in/icons/icon-99x99.png",
+      "sizes": "99x99",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://www.ayum.in/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://www.ayum.in/icons/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://www.ayum.in/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://www.ayum.in/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "https://www.ayum.in/screenshot.JPEG",
+      "sizes": "1440x2960",
+      "type": "image/jpeg",
+      "description": "home screen"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book Session",
+      "short_name": "Book Session",
+      "description": "Book your appointment in one click",
+      "url": "/",
+      "icons": [
+        {
+          "src": "https://www.ayum.in/bookico.jpg",
+          "sizes": "192x192",
+          "type": "image/jpeg"
+        },
+        {
+          "src": "https://www.ayum.in/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ],
+      "chosenIconUrl": "https://www.ayum.in/bookico.jpg"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/search?q=practo&c=apps&hl=en_IN&gl=US"
+    }
+  ]
+}
