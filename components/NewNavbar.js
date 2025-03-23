@@ -928,6 +928,7 @@ const Navbar = () => {
               marginBottom: "5px",
               borderRadius: "24px",
               cursor: "pointer",
+              zIndex: "400",
             }}
             onClick={() => {
               router.push("/About");
@@ -974,22 +975,6 @@ const Navbar = () => {
             <i className="pi pi-flag"></i>
             <span>Terms & Conditions</span>
           </div>
-          {typeof window !== "undefined" && (
-            <div
-              style={{
-                fontSize: "10px",
-                textAlign: "left",
-                width: "17rem",
-                background: "var(--surface-100)",
-                wordBreak: "break-word",
-                padding: "5px",
-              }}
-            >
-              <p>Fcmtoken - {window.localStorage.getItem("fcmToken")}</p>
-
-              <p>Device - {window.localStorage.getItem("deviceId")}</p>
-            </div>
-          )}
         </Sidebar>
       </nav>
     </>
