@@ -146,8 +146,10 @@ ${linktext}`;
       console.log(allreviews, "allreview");
       setReviews(allreviews?.data?.reviews);
       const UserData = JSON.parse(localStorage.getItem("labuser"));
+      console.log("foundreviewval", foundReview, allreviews, UserData);
+
       const foundReview = allreviews?.data?.reviews?.find((obj) => {
-        return obj["patientemail"] === UserData?.email;
+        return obj["useremail"] == UserData?.email;
       });
       setreviewgiven(foundReview);
       setloading(false);
@@ -641,7 +643,12 @@ ${linktext}`;
               >
                 <div className={`${styles.cardname}`}>{item.name} </div>{" "}
                 {item.averageRating ? (
-                  <span className={`${styles.reviewbadge}`}>
+                  <span
+                    onClick={() => {
+                      window.scrollBy({ top: 580, behavior: "smooth" });
+                    }}
+                    className={`${styles.reviewbadge}`}
+                  >
                     {item.averageRating.toFixed(1)}
                     <i className="pi pi-star-fill"></i>
                   </span>
