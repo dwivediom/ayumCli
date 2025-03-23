@@ -319,6 +319,22 @@ const NewAboutComp = () => {
           </div>
         </div>
       </div>
+      {typeof window !== "undefined" && (
+        <div
+          style={{
+            fontSize: "15px",
+            textAlign: "left",
+            width: "17rem",
+            background: "var(--surface-100)",
+            wordBreak: "break-word",
+            padding: "5px",
+          }}
+        >
+          <p>Fcmtoken - {window.localStorage.getItem("fcmToken")}</p>
+
+          <p>Device - {window.localStorage.getItem("deviceId")}</p>
+        </div>
+      )}
 
       {/* <Footer /> */}
     </div>
