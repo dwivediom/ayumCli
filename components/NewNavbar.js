@@ -295,6 +295,7 @@ const Navbar = () => {
         localStorage.setItem("locale", lang);
         localStorage.setItem("city", city);
         router.push("/User/UserRegistrationPage");
+        window.location.reload();
       },
     },
     // {
@@ -560,7 +561,7 @@ const Navbar = () => {
           src={
             userdata?.picture
               ? userdata?.picture?.replace(/=s\d+-c/, "")
-              : "https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+              : "https://i.pinimg.com/736x/c6/3b/a4/c63ba4abc256a03c3f3a830965c365ac.jpg"
           }
           style={{
             width: "40px",
@@ -576,7 +577,7 @@ const Navbar = () => {
         <img
           onClick={(event) => menuLeft.current.toggle(event)}
           src={
-            "https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+            "https://i.pinimg.com/736x/c6/3b/a4/c63ba4abc256a03c3f3a830965c365ac.jpg"
           }
           style={{
             width: "40px",
@@ -973,6 +974,22 @@ const Navbar = () => {
             <i className="pi pi-flag"></i>
             <span>Terms & Conditions</span>
           </div>
+          {typeof window !== "undefined" && (
+            <div
+              style={{
+                fontSize: "10px",
+                textAlign: "left",
+                width: "17rem",
+                background: "var(--surface-100)",
+                wordBreak: "break-word",
+                padding: "5px",
+              }}
+            >
+              <p>Fcmtoken - {window.localStorage.getItem("fcmToken")}</p>
+
+              <p>Device - {window.localStorage.getItem("deviceId")}</p>
+            </div>
+          )}
         </Sidebar>
       </nav>
     </>

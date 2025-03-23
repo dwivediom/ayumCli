@@ -139,32 +139,47 @@ const UserRegistrationPage = () => {
               </span>{" "}
             </h1>
           </div>
-          <div className="text-md text-cyan-600">
-            {" "}
-            Login with <span className="text-lg font-bold">Ayum</span> using
-            <span className="text-orange-500 text-lg font-bold"> Google </span>
-          </div>
-          {loading && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "20px",
+              padding: "20px",
+              borderRadius: "8px",
+              background: "var(--surface-100)",
+            }}
+          >
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                paddingTop: "2rem",
-              }}
+              style={{ fontWeight: "500" }}
+              className="text-md text-teal-600"
             >
-              <Image
-                src={"/loader.svg"}
-                width={30}
-                height={30}
-                alt="Loading..."
-              />
+              {" "}
+              {/* Login with <span className="text-lg font-bold">Ayum</span> using
+            <span className="text-orange-500 text-lg font-bold"> Google </span> */}
+              Login to Ayum using Google
             </div>
-          )}
-          <GoogleLogin
-            onSuccess={(res) => onLoginSucess(res)}
-            onError={(res) => onLoginError(res)}
-          />
+            {loading && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingTop: "2rem",
+                }}
+              >
+                <Image
+                  src={"/loader.svg"}
+                  width={30}
+                  height={30}
+                  alt="Loading..."
+                />
+              </div>
+            )}
+            <GoogleLogin
+              onSuccess={(res) => onLoginSucess(res)}
+              onError={(res) => onLoginError(res)}
+            />
+          </div>
         </div>
         <Dialog
           header="Session expired"
