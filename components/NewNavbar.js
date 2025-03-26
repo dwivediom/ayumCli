@@ -279,23 +279,30 @@ const Navbar = () => {
       label: usertoken ? "Sign out" : "Log in",
       icon: "pi pi-sign-out",
       command: () => {
-        console.log("Hii");
-        let lang = localStorage.getItem("locale");
-        let city = localStorage.getItem("city");
+        if (usertoken) {
+          console.log("Hii");
+          let lang = localStorage.getItem("locale");
+          let city = localStorage.getItem("city");
 
-        localStorage.clear();
-        sessionStorage.clear();
+          localStorage.clear();
+          sessionStorage.clear();
 
-        document.cookie.split(";").forEach((cookie) => {
-          document.cookie = cookie
-            .replace(/^ +/, "")
-            .replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/");
-        });
+          document.cookie.split(";").forEach((cookie) => {
+            document.cookie = cookie
+              .replace(/^ +/, "")
+              .replace(
+                /=.*/,
+                "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
+              );
+          });
 
-        localStorage.setItem("locale", lang);
-        localStorage.setItem("city", city);
-        router.push("/User/UserRegistrationPage");
-        window.location.reload();
+          localStorage.setItem("locale", lang);
+          localStorage.setItem("city", city);
+          router.push("/User/UserRegistrationPage");
+          window.location.reload();
+        } else {
+          router.push("/Member/memberLoginPage");
+        }
       },
     },
     // {
