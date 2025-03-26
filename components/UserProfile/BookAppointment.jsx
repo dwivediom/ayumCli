@@ -8,6 +8,7 @@ import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
 import { Chips } from "primereact/chips";
+import { Toast } from "primereact/toast";
 
 import { Chip } from "primereact/chip";
 
@@ -47,11 +48,29 @@ const BookAppointment = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    // if (data.patientname == "" || data.age == "" || data.phone == "") {
-    //   return setempty(true);
-    // }
+
+    if (data.patientname == "" || data.age == "" || data.phone == "") {
+      toastref.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Fill required details!",
+        life: 3000,
+      });
+      return;
+    }
+    console.log(data);
+    if (data.phone != "" && data.phone.toString().length != 10) {
+      toastref.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Phone number should be 10 digits",
+        life: 3000,
+      });
+      return;
+    }
     setloading(true);
 
+    console.log(data, "formdatahere");
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/payandbookappointment`;
     try {
       let userdata = await axios.post(
@@ -103,7 +122,7 @@ const BookAppointment = () => {
   };
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedSlot, setselectedSlot] = useState({});
-  const toast = useRef(null);
+  const toastref = useRef();
   const [reserveddatas, setreserveddatas] = useState([]);
   const [alltimings, setalltimings] = useState();
   const [clinicinfo, setclinicinfo] = useState();
@@ -277,6 +296,7 @@ const BookAppointment = () => {
   return (
     <div>
       <div>
+        <Toast ref={toastref} />
         <form className={`${styles.bookform} `} action="#">
           <label
             style={{
@@ -311,10 +331,19 @@ const BookAppointment = () => {
               {" "}
               Age of patient <span className="text-red-400">*</span>
             </label>
-            <InputNumber
+            {/* <InputNumber
               onChange={(e) => {
                 setdata({ ...data, age: e.value });
               }}
+              style={{ width: "100%" }}
+              value={data.age}
+              required
+            /> */}
+            <InputText
+              onChange={(e) => {
+                setdata({ ...data, age: e.target.value });
+              }}
+              type="number"
               style={{ width: "100%" }}
               value={data.age}
               required
@@ -325,11 +354,20 @@ const BookAppointment = () => {
               {" "}
               Phone <span className="text-red-400">*</span>
             </label>
-            <InputNumber
+            {/* <InputNumber
               onChange={(e) => {
                 setdata({ ...data, phone: e.value });
               }}
+              useGrouping={false}
               style={{ width: "100%" }}
+              value={data.phone}
+              required
+            /> */}
+            <InputText
+              onChange={(e) => {
+                setdata({ ...data, phone: e.target.value });
+              }}
+              type="number"
               value={data.phone}
               required
             />
