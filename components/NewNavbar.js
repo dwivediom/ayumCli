@@ -301,7 +301,7 @@ const Navbar = () => {
           router.push("/User/UserRegistrationPage");
           window.location.reload();
         } else {
-          router.push("/Member/memberLoginPage");
+          router.push("/User/UserRegistrationPage");
         }
       },
     },
