@@ -101,9 +101,15 @@ const NewHomePage = () => {
     //   title: "Slide 9",
     // },
   ];
+  const [phoneNumber, setPhoneNumber] = useState("+919425681022");
+  const [message, setMessage] = useState("");
+  const [searcheddoctor, setsearcheddoctor] = useState("");
+  const [errorMessage, setErrorMessage] = useState("Error Occured");
+
   const handleClick = () => {
     // Basic validation to ensure required fields are filled
-    if (!phoneNumber || !message) {
+    if (!phoneNumber) {
+      console.log("errorhe");
       setErrorMessage("Please enter both phone number and message.");
       return;
     }
@@ -113,7 +119,9 @@ const NewHomePage = () => {
     const whatsappNumber = `+${formattedNumber}`; // Replace with your country code if necessary
 
     // Encode message for URL inclusion
-    const encodedMessage = encodeURI(message);
+    const encodedMessage = encodeURI(
+      `Hii Team Ayum, Please add information about Dr. ${searcheddoctor} as soon as possible.`
+    );
 
     // Construct WhatsApp Web URL
     const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
@@ -132,6 +140,7 @@ const NewHomePage = () => {
     <div className={styles.mainshell}>
       {langmodal && <LanguageModal getdocs={getalldoc} />}
       <SearchBox
+        setsearcheddoctor={setsearcheddoctor}
         setdoctordocs={(data) => {
           console.log(data, "dataofdocs");
           setdocs(data?.data);
@@ -154,6 +163,47 @@ const NewHomePage = () => {
           marginTop: "0.5rem",
         }}
       >
+        {loading ? (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-start",
+            }}
+          >
+            <Image
+              src={"/loader.svg"}
+              width={40}
+              height={40}
+              alt={"Loader Img"}
+            />
+          </div>
+        ) : (
+          !docs?.length && (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "1rem",
+                    marginTop: "10px",
+                    borderRadius: "36px",
+                  }}
+                  className={`${styles2.submitbtn} shadow-lg`}
+                  onClick={() => handleClick()}
+                >
+                  Request to Add this Doctor
+                </div>
+              </div>
+            </>
+          )
+        )}
         {loading ? (
           <div
             style={{
@@ -203,27 +253,7 @@ const NewHomePage = () => {
             </div>
           </>
         ) : (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <div
-                style={{
-                  padding: "1rem",
-                  marginTop: "10px",
-                  borderRadius: "36px",
-                }}
-                className={`${styles2.submitbtn} shadow-lg`}
-                onClick={() => handleClick()}
-              >
-                Request to Add this Doctor
-              </div>
-            </div>
-          </>
+          <></>
         )}
       </div>
       <div className="pb-20 ">

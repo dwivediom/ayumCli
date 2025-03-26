@@ -45,6 +45,7 @@ export default function SearchBox(props) {
       const gotdata = await getDoc();
       return props.setdoctordocs(gotdata);
     }
+    props.setsearcheddoctor(input);
     setsuggestionpopup(false);
     const getdata = await SearchDoc(input);
     console.log(getdata, "setting");
@@ -83,6 +84,7 @@ export default function SearchBox(props) {
             onChange={(e) => {
               debouncedOnChange(e.target.value);
               setinput(e.target.value);
+
               setsuggestionpopup(true);
             }}
             onFocus={() => {
