@@ -14,6 +14,7 @@ const UserProfile = () => {
   const [appointment, setappointment] = useState("");
   const [profilepayload, setprofilepayload] = useState({});
   const [loading, setloading] = useState(false);
+  // api to get user appointments
   const Getuserappointments = async () => {
     try {
       setloading(true);
