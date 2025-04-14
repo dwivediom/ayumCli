@@ -17,9 +17,9 @@ const UserProfile = () => {
   const Getuserappointments = async () => {
     try {
       setloading(true);
-      const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/https://REMOVED`;
-      axios
-        .get(url, {
+      const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/userappos`;
+
+      axios.get(url, {
           headers: {
             "x-auth-token": localStorage.usertoken,
           },
