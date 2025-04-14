@@ -26,12 +26,13 @@ export const labBookingApi = {
   createBooking: () => `${baseUrl}/api/lab/user/booking/create`,
   
   // Get user bookings
-  getUserBookings: () => `${baseUrl}/api/lab/user/bookings/list`,
+  getUserBookings: () => `${baseUrl}/api/lab/user/bookings`,
   
   // Get booking details
-  getBookingDetails: (bookingId) => `${baseUrl}/api/lab/user/booking/details?bookingId=${bookingId}`,
+  getBookingDetails: (bookingId) => `${baseUrl}/api/lab/user/bookings/${bookingId}`,
   
-
+  // Cancel booking
+  cancelBooking: (bookingId) => `${baseUrl}/api/lab/user/bookings/${bookingId}/cancel`,
 };
 
 // API endpoints for lab management
