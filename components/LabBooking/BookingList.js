@@ -28,7 +28,12 @@ const BookingList = () => {
     page: 1,
     limit: 10
   });
-  const [totalRecords, setTotalRecords] = useState(0);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    total: 0,
+    pages: 0
+  });
   const [bookingDetails, setBookingDetails] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
   const [selectedTestResult, setSelectedTestResult] = useState(null);
@@ -40,37 +45,60 @@ const BookingList = () => {
 
   useEffect(() => {
     fetchBookings();
-  }, [filters]);
+  }, [filters, pagination.page, pagination.limit]);
 
   const fetchBookings = async () => {
     try {
       setLoading(true);
+      const authToken = localStorage.getItem('usertoken');
       
-      // Get the base URL from environment variable
-      const apiUrl = labBookingApi.getUserBookings();
+      if (!authToken) {
+        toast.current.show({
+          severity: 'error',
+          summary: 'Authentication Error',
+          detail: 'Please log in to continue',
+          life: 3000
+        });
+        return;
+      }
       
-      const response = await axios.get(apiUrl, {
-        headers: getAuthHeaders()
+      // Build query parameters
+      const queryParams = new URLSearchParams();
+      if (filters.status !== 'all') queryParams.append('status', filters.status);
+      if (filters.fromDate) queryParams.append('fromDate', formatDateForAPI(filters.fromDate));
+      if (filters.toDate) queryParams.append('toDate', formatDateForAPI(filters.toDate));
+      queryParams.append('page', pagination.page);
+      queryParams.append('limit', pagination.limit);
+      
+      const response = await axios.get(`${apiUrl}/bookings/list?${queryParams.toString()}`, {
+        headers: {
+          'x-auth-token': authToken
+        }
       });
       
       if (response.data && !response.data.error) {
         setBookings(response.data.data || []);
+        setPagination({
+          page: response.data.pagination.page,
+          limit: pagination.limit,
+          total: response.data.pagination.total,
+          pages: response.data.pagination.pages
+        });
       } else {
         setBookings([]);
         toast.current.show({
           severity: 'error',
           summary: 'Error',
-          detail: response.data.message || 'Failed to fetch bookings',
+          detail: 'Failed to fetch bookings',
           life: 3000
         });
       }
     } catch (error) {
       console.error('Error fetching bookings:', error);
-      const errorResult = handleApiError(error);
       toast.current.show({
         severity: 'error',
         summary: 'Error',
-        detail: errorResult.message || 'Failed to fetch bookings',
+        detail: 'Failed to fetch bookings',
         life: 3000
       });
       setBookings([]);
@@ -82,32 +110,40 @@ const BookingList = () => {
   const fetchBookingDetails = async (bookingId) => {
     try {
       setLoadingDetails(true);
+      const authToken = localStorage.getItem('usertoken');
       
-      const response = await axios.get(
-        labBookingApi.getBookingDetails(bookingId),
-        {
-          headers: getAuthHeaders()
+      if (!authToken) {
+        toast.current.show({
+          severity: 'error',
+          summary: 'Authentication Error',
+          detail: 'Please log in to continue',
+          life: 3000
+        });
+        return;
+      }
+      
+      const response = await axios.get(`${apiUrl}/booking/details?bookingId=${bookingId}`, {
+        headers: {
+          'x-auth-token': authToken
         }
-      );
+      });
       
       if (response.data && !response.data.error) {
-        setSelectedBooking(response.data.data);
-        setShowDetails(true);
+        setBookingDetails(response.data.data);
       } else {
         toast.current.show({
           severity: 'error',
           summary: 'Error',
-          detail: response.data.message || 'Failed to fetch booking details',
+          detail: 'Failed to fetch booking details',
           life: 3000
         });
       }
     } catch (error) {
       console.error('Error fetching booking details:', error);
-      const errorResult = handleApiError(error);
       toast.current.show({
         severity: 'error',
         summary: 'Error',
-        detail: errorResult.message || 'Failed to fetch booking details',
+        detail: 'Failed to fetch booking details',
         life: 3000
       });
     } finally {
@@ -265,31 +301,36 @@ const BookingList = () => {
   };
 
   const handlePageChange = (event) => {
-    setFilters(prev => ({
+    setPagination(prev => ({
       ...prev,
-      page: Math.floor(event.first / event.rows) + 1
+      page: event.page + 1,
+      limit: event.rows
     }));
   };
 
   const itemTemplate = (booking) => {
+    // Calculate completed tests
+    const totalTests = booking.testsRequested?.length || 0;
+    const completedTests = booking.testsRequested?.filter(test => test.status === 'completed').length || 0;
+    
     return (
       <div className={styles.bookingCard}>
         <div className={styles.bookingHeader}>
           <div className={styles.bookingInfo}>
-            <h3>{typeof booking.labId === 'object' ? booking.labId.name : 'Lab Name'}</h3>
+            <h3>{booking.labId?.name || 'Lab Name'}</h3>
             <p className={styles.bookingId}>Booking ID: {booking._id}</p>
             <p className={styles.bookingDate}>Date: {formatDate(booking.createdAt)}</p>
             <p className={styles.patientName}>
               <i className="pi pi-user"></i> Patient: {booking.patientDetails?.name || 'N/A'}
             </p>
             <p className={styles.testCount}>
-              <i className="pi pi-list"></i> Tests: {booking.testsRequested?.length || 0}
+              <i className="pi pi-list"></i> Tests: {totalTests} ({completedTests} completed)
             </p>
           </div>
           <div className={styles.bookingStatus}>
             <Tag 
-              value={booking.status || 'pending'} 
-              severity={getStatusSeverity(booking.status)}
+              value={booking.payment?.paymentStatus || 'pending'} 
+              severity={getStatusSeverity(booking.payment?.paymentStatus)}
             />
           </div>
         </div>
@@ -299,14 +340,14 @@ const BookingList = () => {
           <ul>
             {booking.testsRequested?.map((test, index) => (
               <li key={index} className={styles.testItem}>
-                <span className={styles.testName}>{typeof test === 'object' ? test.name : 'Unknown Test'}</span>
+                <span className={styles.testName}>{test.name}</span>
+                <span className={styles.testPrice}>₹{test.price}</span>
                 {test.status === 'completed' && test.testResultId && (
                   <Button 
                     label="View Result" 
                     icon="pi pi-file" 
                     onClick={() => viewTestResult(test.testResultId)}
                     className="p-button-text p-button-sm"
-                    style={{ marginLeft: '10px' }}
                   />
                 )}
               </li>
@@ -316,14 +357,16 @@ const BookingList = () => {
         
         <div className={styles.bookingFooter}>
           <div className={styles.bookingPrice}>
-            <strong>Total Amount:</strong> ₹{typeof booking.payment === 'object' ? booking.payment.totalAmount : 0}
+            <strong>Total Amount:</strong> ₹{booking.payment?.totalAmount || 0}
           </div>
-          <Button 
-            label="View Details" 
-            icon="pi pi-eye" 
-            onClick={() => viewBookingDetails(booking)}
-            className="p-button-outlined"
-          />
+          <div className={styles.bookingActions}>
+            <Button 
+              label="View Details" 
+              icon="pi pi-eye" 
+              onClick={() => viewBookingDetails(booking)}
+              className="p-button-outlined"
+            />
+          </div>
         </div>
       </div>
     );
@@ -381,8 +424,9 @@ const BookingList = () => {
         header="Booking Details" 
         visible={showDetails} 
         onHide={() => setShowDetails(false)}
-        style={{ width: '80%', maxWidth: '800px' }}
+        style={{ width: '90%', maxWidth: '1000px' }}
         modal
+        className={styles.bookingDetailsDialog}
       >
         {loadingDetails ? (
           <div className={styles.loadingContainer}>
@@ -391,89 +435,194 @@ const BookingList = () => {
           </div>
         ) : bookingDetails ? (
           <div className={styles.bookingDetails}>
-            <div className={styles.detailsSection}>
-              <h3>Lab Information</h3>
-              <p><strong>Lab Name:</strong> {typeof bookingDetails.labId === 'object' ? bookingDetails.labId.name : 'Unknown Lab'}</p>
-              <p><strong>Lab ID:</strong> {typeof bookingDetails.labId === 'object' ? bookingDetails.labId._id : bookingDetails.labId || 'N/A'}</p>
-              {typeof bookingDetails.labId === 'object' && (
-                <>
-                  <p><strong>Lab Phone:</strong> {bookingDetails.labId.phone || 'N/A'}</p>
-                  <p><strong>Lab City:</strong> {bookingDetails.labId.city || 'N/A'}</p>
-                </>
-              )}
+            {/* Top Section - Patient and Lab Info */}
+            <div className={styles.detailsGrid}>
+              {/* Patient Information Section */}
+              <div className={`${styles.detailsSection} ${styles.patientSection}`}>
+                <div className={styles.sectionHeader}>
+                  <i className="pi pi-user" style={{ fontSize: '1.5rem', color: '#4CAF50' }}></i>
+                  <h3>Patient Information</h3>
+                </div>
+                <div className={styles.sectionContent}>
+                  <table className={styles.detailsTable}>
+                    <tbody>
+                      <tr>
+                        <td className={styles.label}>Name:</td>
+                        <td className={styles.value}>{bookingDetails.patientDetails?.name || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Age:</td>
+                        <td className={styles.value}>{bookingDetails.patientDetails?.age || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Phone:</td>
+                        <td className={styles.value}>{bookingDetails.patientDetails?.phone || 'N/A'}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Lab Information Section */}
+              <div className={`${styles.detailsSection} ${styles.labSection}`}>
+                <div className={styles.sectionHeader}>
+                  <i className="pi pi-building" style={{ fontSize: '1.5rem', color: '#2196F3' }}></i>
+                  <h3>Lab Information</h3>
+                </div>
+                <div className={styles.sectionContent}>
+                  <table className={styles.detailsTable}>
+                    <tbody>
+                      <tr>
+                        <td className={styles.label}>Lab Name:</td>
+                        <td className={styles.value}>{bookingDetails.labId?.name || 'Unknown Lab'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Lab ID:</td>
+                        <td className={styles.value}>{bookingDetails.labId?._id || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Phone:</td>
+                        <td className={styles.value}>{bookingDetails.labId?.phone || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>City:</td>
+                        <td className={styles.value}>{bookingDetails.labId?.city || 'N/A'}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            
-            <div className={styles.detailsSection}>
-              <h3>Patient Information</h3>
-              <p><strong>Name:</strong> {typeof bookingDetails.patientDetails === 'object' ? bookingDetails.patientDetails.name : 'N/A'}</p>
-              <p><strong>Age:</strong> {typeof bookingDetails.patientDetails === 'object' ? bookingDetails.patientDetails.age : 'N/A'}</p>
-              <p><strong>Phone:</strong> {typeof bookingDetails.patientDetails === 'object' ? bookingDetails.patientDetails.phone : 'N/A'}</p>
-            </div>
-            
-            <div className={styles.detailsSection}>
-              <h3>Tests</h3>
-              <table className={styles.testsTable}>
-                <thead>
-                  <tr>
-                    <th>Test Name</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookingDetails.testsRequested?.map((test, index) => (
-                    <tr key={index}>
-                      <td>{typeof test === 'object' ? test.name : 'Unknown Test'}</td>
-                      <td>₹{typeof test === 'object' ? test.price : 0}</td>
-                      <td>
-                        <Tag 
-                          value={typeof test === 'object' ? test.status : 'pending'} 
-                          severity={getStatusSeverity(typeof test === 'object' ? test.status : 'pending')}
-                        />
-                      </td>
-                      <td>
-                        {test.status === 'completed' && test.testResultId && (
-                          <Button 
-                            label="View Result" 
-                            icon="pi pi-file" 
-                            onClick={() => viewTestResult(test.testResultId)}
-                            className="p-button-text p-button-sm"
-                          />
-                        )}
-                      </td>
+
+            {/* Tests Section */}
+            <div className={`${styles.detailsSection} ${styles.testsSection}`}>
+              <div className={styles.sectionHeader}>
+                <i className="pi pi-list" style={{ fontSize: '1.5rem', color: '#E91E63' }}></i>
+                <h3>Tests Requested</h3>
+              </div>
+              <div className={styles.sectionContent}>
+                <table className={styles.testsTable}>
+                  <thead>
+                    <tr>
+                      <th>Test Name</th>
+                      <th>Price</th>
+                      <th>Sample Type</th>
+                      <th>Status</th>
+                      <th>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {bookingDetails.testsRequested?.map((test, index) => (
+                      <tr key={index}>
+                        <td>{test.name}</td>
+                        <td>₹{test.price}</td>
+                        <td>{test.sampleType}</td>
+                        <td>
+                          <Tag 
+                            value={test.status} 
+                            severity={getStatusSeverity(test.status)}
+                          />
+                        </td>
+                        <td>
+                          {test.status === 'completed' && test.testResultId && (
+                            <Button 
+                              label="View Result" 
+                              icon="pi pi-file" 
+                              onClick={() => viewTestResult(test.testResultId)}
+                              className="p-button-text p-button-sm"
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            
-            <div className={styles.detailsSection}>
-              <h3>Collection Details</h3>
-              <p>
-                <strong>Collection Type:</strong> {bookingDetails.homeCollection?.required ? 'Home Collection' : 'Lab Visit'}
-              </p>
-              {bookingDetails.homeCollection?.required && (
-                <>
-                  <p><strong>Preferred Date:</strong> {bookingDetails.homeCollection?.preferredSlot?.date ? formatDate(bookingDetails.homeCollection.preferredSlot.date) : 'N/A'}</p>
-                  <p><strong>Preferred Time:</strong> {bookingDetails.homeCollection?.preferredSlot?.time || 'N/A'}</p>
-                  <p><strong>Status:</strong> {bookingDetails.homeCollection?.status || 'N/A'}</p>
-                </>
-              )}
-            </div>
-            
-            <div className={styles.detailsSection}>
-              <h3>Payment Information</h3>
-              <p><strong>Total Amount:</strong> ₹{typeof bookingDetails.payment === 'object' ? bookingDetails.payment.totalAmount : 0}</p>
-              <p><strong>Paid Amount:</strong> ₹{typeof bookingDetails.payment === 'object' ? bookingDetails.payment.paidAmount : 0}</p>
-              <p><strong>Pending Amount:</strong> ₹{typeof bookingDetails.payment === 'object' ? bookingDetails.payment.pendingAmount : 0}</p>
-              <p>
-                <strong>Payment Status:</strong> 
-                <Tag 
-                  value={typeof bookingDetails.payment === 'object' ? bookingDetails.payment.paymentStatus : 'pending'} 
-                  severity={getStatusSeverity(typeof bookingDetails.payment === 'object' ? bookingDetails.payment.paymentStatus : 'pending')}
-                />
-              </p>
+
+            {/* Bottom Section - Collection and Payment Info */}
+            <div className={styles.detailsGrid}>
+              {/* Collection Details Section */}
+              <div className={`${styles.detailsSection} ${styles.collectionSection}`}>
+                <div className={styles.sectionHeader}>
+                  <i className="pi pi-calendar" style={{ fontSize: '1.5rem', color: '#FF9800' }}></i>
+                  <h3>Collection Details</h3>
+                </div>
+                <div className={styles.sectionContent}>
+                  <table className={styles.detailsTable}>
+                    <tbody>
+                      <tr>
+                        <td className={styles.label}>Collection Type:</td>
+                        <td className={styles.value}>
+                          {bookingDetails.homeCollection?.required ? 'Home Collection' : 'Lab Visit'}
+                        </td>
+                      </tr>
+                      {bookingDetails.homeCollection?.required && (
+                        <>
+                          <tr>
+                            <td className={styles.label}>Preferred Date:</td>
+                            <td className={styles.value}>
+                              {bookingDetails.homeCollection?.preferredSlot?.date 
+                                ? formatDate(bookingDetails.homeCollection.preferredSlot.date) 
+                                : 'N/A'}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className={styles.label}>Preferred Time:</td>
+                            <td className={styles.value}>
+                              {bookingDetails.homeCollection?.preferredSlot?.time || 'N/A'}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className={styles.label}>Status:</td>
+                            <td className={styles.value}>
+                              <Tag 
+                                value={bookingDetails.homeCollection?.status || 'pending'} 
+                                severity={getStatusSeverity(bookingDetails.homeCollection?.status)}
+                              />
+                            </td>
+                          </tr>
+                        </>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Payment Information Section */}
+              <div className={`${styles.detailsSection} ${styles.paymentSection}`}>
+                <div className={styles.sectionHeader}>
+                  <i className="pi pi-money-bill" style={{ fontSize: '1.5rem', color: '#9C27B0' }}></i>
+                  <h3>Payment Information</h3>
+                </div>
+                <div className={styles.sectionContent}>
+                  <table className={styles.detailsTable}>
+                    <tbody>
+                      <tr>
+                        <td className={styles.label}>Total Amount:</td>
+                        <td className={styles.value}>₹{bookingDetails.payment?.totalAmount || 0}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Paid Amount:</td>
+                        <td className={styles.value}>₹{bookingDetails.payment?.paidAmount || 0}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Pending Amount:</td>
+                        <td className={styles.value}>₹{bookingDetails.payment?.pendingAmount || 0}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Payment Status:</td>
+                        <td className={styles.value}>
+                          <Tag 
+                            value={bookingDetails.payment?.paymentStatus || 'pending'} 
+                            severity={getStatusSeverity(bookingDetails.payment?.paymentStatus)}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         ) : (
@@ -494,8 +643,9 @@ const BookingList = () => {
         header="Test Result Details" 
         visible={showTestResultDetails} 
         onHide={() => setShowTestResultDetails(false)}
-        style={{ width: '80%', maxWidth: '800px' }}
+        style={{ width: '90%', maxWidth: '1000px' }}
         modal
+        className={styles.bookingDetailsDialog}
       >
         {loadingTestResult ? (
           <div className={styles.loadingContainer}>
@@ -503,78 +653,181 @@ const BookingList = () => {
             <p>Loading test result details...</p>
           </div>
         ) : selectedTestResult ? (
-          <div className={styles.testResultDetails}>
-            <div className={styles.detailsSection}>
-              <h3>Test Information</h3>
-              <p><strong>Test Name:</strong> {selectedTestResult.testName || 'Unknown Test'}</p>
-              <p><strong>Result ID:</strong> {selectedTestResult.resultId || 'N/A'}</p>
-              <p><strong>Test Date:</strong> {selectedTestResult.testDate ? formatDate(selectedTestResult.testDate) : 'N/A'}</p>
-              <p><strong>Status:</strong> {selectedTestResult.status || 'N/A'}</p>
-            </div>
-            
-            <div className={styles.detailsSection}>
-              <h3>Patient Information</h3>
-              <p><strong>Name:</strong> {selectedTestResult.patientDetails?.name || 'N/A'}</p>
-              <p><strong>Age:</strong> {selectedTestResult.patientDetails?.age || 'N/A'}</p>
-            </div>
-            
-            <div className={styles.detailsSection}>
-              <h3>Lab Information</h3>
-              <p><strong>Lab Name:</strong> {selectedTestResult.labDetails?.name || 'Unknown Lab'}</p>
-              <p><strong>Lab City:</strong> {selectedTestResult.labDetails?.city || 'N/A'}</p>
-            </div>
-            
-            <div className={styles.detailsSection}>
-              <h3>Sample Information</h3>
-              <p><strong>Sample ID:</strong> {selectedTestResult.sampleDetails?.sampleId || 'N/A'}</p>
-              <p><strong>Sample Type:</strong> {selectedTestResult.sampleDetails?.sampleType || 'N/A'}</p>
-              <p><strong>Collected At:</strong> {selectedTestResult.sampleDetails?.collectedAt ? formatDate(selectedTestResult.sampleDetails.collectedAt) : 'N/A'}</p>
-            </div>
-            
-            <div className={styles.detailsSection}>
-              <h3>Test Results</h3>
-              {selectedTestResult.results && selectedTestResult.results.length > 0 ? (
+          <div className={styles.bookingDetails}>
+            {/* Top Section - Test Results */}
+            <div className={`${styles.detailsSection} ${styles.testsSection}`}>
+              <div className={styles.sectionHeader}>
+                <i className="pi pi-list" style={{ fontSize: '1.5rem', color: '#E91E63' }}></i>
+                <h3>Test Results</h3>
+              </div>
+              <div className={styles.sectionContent}>
                 <table className={styles.testsTable}>
                   <thead>
                     <tr>
                       <th>Parameter</th>
                       <th>Value</th>
                       <th>Unit</th>
-                      <th>Required</th>
+                      <th>Reference Range</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedTestResult.results.map((result, index) => (
+                    {selectedTestResult.results?.map((result, index) => (
                       <tr key={index}>
                         <td>{result.name || 'Unknown Parameter'}</td>
                         <td>{result.value || 'N/A'}</td>
                         <td>{result.unit || 'N/A'}</td>
-                        <td>{result.required ? 'Yes' : 'No'}</td>
+                        <td>{result.referenceRange || 'N/A'}</td>
+                        <td>
+                          <Tag 
+                            value={result.status || 'normal'} 
+                            severity={getStatusSeverity(result.status)}
+                          />
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-              ) : (
-                <p>No test results available</p>
-              )}
-            </div>
-            
-            {selectedTestResult.verificationDetails && (
-              <div className={styles.detailsSection}>
-                <h3>Verification Details</h3>
-                <p><strong>Verified By:</strong> {selectedTestResult.verificationDetails.verifiedBy || 'N/A'}</p>
-                <p><strong>Verified At:</strong> {selectedTestResult.verificationDetails.verifiedAt ? formatDate(selectedTestResult.verificationDetails.verifiedAt) : 'N/A'}</p>
               </div>
-            )}
-            
+            </div>
+
+            {/* Middle Section - Test and Patient Info */}
+            <div className={styles.detailsGrid}>
+              {/* Test Information Section */}
+              <div className={`${styles.detailsSection} ${styles.labSection}`}>
+                <div className={styles.sectionHeader}>
+                  <i className="pi pi-file" style={{ fontSize: '1.5rem', color: '#2196F3' }}></i>
+                  <h3>Test Information</h3>
+                </div>
+                <div className={styles.sectionContent}>
+                  <table className={styles.detailsTable}>
+                    <tbody>
+                      <tr>
+                        <td className={styles.label}>Test Name:</td>
+                        <td className={styles.value}>{selectedTestResult.testName || 'Unknown Test'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Result ID:</td>
+                        <td className={styles.value}>{selectedTestResult.resultId || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Test Date:</td>
+                        <td className={styles.value}>{selectedTestResult.testDate ? formatDate(selectedTestResult.testDate) : 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Status:</td>
+                        <td className={styles.value}>
+                          <Tag 
+                            value={selectedTestResult.status || 'pending'} 
+                            severity={getStatusSeverity(selectedTestResult.status)}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Patient Information Section */}
+              <div className={`${styles.detailsSection} ${styles.patientSection}`}>
+                <div className={styles.sectionHeader}>
+                  <i className="pi pi-user" style={{ fontSize: '1.5rem', color: '#4CAF50' }}></i>
+                  <h3>Patient Information</h3>
+                </div>
+                <div className={styles.sectionContent}>
+                  <table className={styles.detailsTable}>
+                    <tbody>
+                      <tr>
+                        <td className={styles.label}>Name:</td>
+                        <td className={styles.value}>{selectedTestResult.patientDetails?.name || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Age:</td>
+                        <td className={styles.value}>{selectedTestResult.patientDetails?.age || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Gender:</td>
+                        <td className={styles.value}>{selectedTestResult.patientDetails?.gender || 'N/A'}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Section - Lab and Sample Info */}
+            <div className={styles.detailsGrid}>
+              {/* Lab Information Section */}
+              <div className={`${styles.detailsSection} ${styles.labSection}`}>
+                <div className={styles.sectionHeader}>
+                  <i className="pi pi-building" style={{ fontSize: '1.5rem', color: '#2196F3' }}></i>
+                  <h3>Lab Information</h3>
+                </div>
+                <div className={styles.sectionContent}>
+                  <table className={styles.detailsTable}>
+                    <tbody>
+                      <tr>
+                        <td className={styles.label}>Lab Name:</td>
+                        <td className={styles.value}>{selectedTestResult.labDetails?.name || 'Unknown Lab'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Lab City:</td>
+                        <td className={styles.value}>{selectedTestResult.labDetails?.city || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Phone:</td>
+                        <td className={styles.value}>{selectedTestResult.labDetails?.phone || 'N/A'}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Sample Information Section */}
+              <div className={`${styles.detailsSection} ${styles.collectionSection}`}>
+                <div className={styles.sectionHeader}>
+                  <i className="pi pi-calendar" style={{ fontSize: '1.5rem', color: '#FF9800' }}></i>
+                  <h3>Sample Information</h3>
+                </div>
+                <div className={styles.sectionContent}>
+                  <table className={styles.detailsTable}>
+                    <tbody>
+                      <tr>
+                        <td className={styles.label}>Sample ID:</td>
+                        <td className={styles.value}>{selectedTestResult.sampleDetails?.sampleId || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Sample Type:</td>
+                        <td className={styles.value}>{selectedTestResult.sampleDetails?.sampleType || 'N/A'}</td>
+                      </tr>
+                      <tr>
+                        <td className={styles.label}>Collected At:</td>
+                        <td className={styles.value}>
+                          {selectedTestResult.sampleDetails?.collectedAt 
+                            ? formatDate(selectedTestResult.sampleDetails.collectedAt) 
+                            : 'N/A'}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* Report Download Section */}
             <div className={styles.detailsSection}>
-              <h3>Report</h3>
-              <Button 
-                label="Download Report" 
-                icon="pi pi-download" 
-                onClick={() => window.open(`${apiUrl}/result/download?resultId=${selectedTestResult.resultId}`, '_blank')}
-                className="p-button-outlined"
-              />
+              <div className={styles.sectionHeader}>
+                <i className="pi pi-download" style={{ fontSize: '1.5rem', color: '#9C27B0' }}></i>
+                <h3>Report</h3>
+              </div>
+              <div className={styles.sectionContent}>
+                <Button 
+                  label="Download Report" 
+                  icon="pi pi-download" 
+                  onClick={() => window.open(`${apiUrl}/result/download?resultId=${selectedTestResult.resultId}`, '_blank')}
+                  className="p-button-outlined"
+                />
+              </div>
             </div>
           </div>
         ) : (
@@ -636,9 +889,9 @@ const BookingList = () => {
               emptyMessage="No test results found"
             />
             <Paginator 
-              first={(filters.page - 1) * filters.limit} 
-              rows={filters.limit} 
-              totalRecords={totalRecords} 
+              first={(pagination.page - 1) * pagination.limit} 
+              rows={pagination.limit} 
+              totalRecords={pagination.total} 
               onPageChange={handlePageChange}
               rowsPerPageOptions={[5, 10, 20]}
               template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
@@ -653,49 +906,7 @@ const BookingList = () => {
     );
   };
 
-  const cancelBooking = async (bookingId) => {
-    try {
-      setLoading(true);
-      
-      const response = await axios.post(
-        labBookingApi.cancelBooking(bookingId),
-        {},
-        {
-          headers: getAuthHeaders()
-        }
-      );
-      
-      if (response.data && !response.data.error) {
-        toast.current.show({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Booking cancelled successfully',
-          life: 3000
-        });
-        
-        // Refresh the bookings list
-        fetchBookings();
-      } else {
-        toast.current.show({
-          severity: 'error',
-          summary: 'Error',
-          detail: response.data.message || 'Failed to cancel booking',
-          life: 3000
-        });
-      }
-    } catch (error) {
-      console.error('Error cancelling booking:', error);
-      const errorResult = handleApiError(error);
-      toast.current.show({
-        severity: 'error',
-        summary: 'Error',
-        detail: errorResult.message || 'Failed to cancel booking',
-        life: 3000
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
   return (
     <div className={styles.bookingListContainer}>
@@ -781,9 +992,9 @@ const BookingList = () => {
                 emptyMessage="No bookings found"
               />
               <Paginator 
-                first={(filters.page - 1) * filters.limit} 
-                rows={filters.limit} 
-                totalRecords={totalRecords} 
+                first={(pagination.page - 1) * pagination.limit} 
+                rows={pagination.limit} 
+                totalRecords={pagination.total} 
                 onPageChange={handlePageChange}
                 rowsPerPageOptions={[5, 10, 20]}
                 template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
