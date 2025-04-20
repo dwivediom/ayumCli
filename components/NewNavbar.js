@@ -982,6 +982,37 @@ const Navbar = () => {
             <i className="pi pi-flag"></i>
             <span>Terms & Conditions</span>
           </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+              background: "var(--surface-100)",
+              padding: "1rem",
+              marginBottom: "5px",
+              cursor: "pointer",
+              borderRadius: "24px",
+            }}
+            onClick={() => {
+              router.push("/lab/bookings");
+              setVisible(false);
+            }}
+          >
+            <i className="pi pi-headphones"></i>
+            <span>
+              Labs{" "}
+              <span
+                style={{
+                  padding: "2px 4px",
+                  marginLeft: "10px",
+                  color: "var(--surface-100)",
+                  background: "var(--surface-700)",
+                  borderRadius: "4px",
+                }}
+              >
+                Beta
+              </span>
+            </span>
+          </div>
         </Sidebar>
       </nav>
     </>
