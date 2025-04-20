@@ -1,0 +1,1135 @@
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mainCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.steps::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #e0e0e0;
+  z-index: 1;
+}
+
+.step {
+  background-color: white;
+  border-radius: 4px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  position: relative;
+  z-index: 2;
+  border: 2px solid #e0e0e0;
+  color: #757575;
+  transition: all 0.3s ease;
+}
+
+.step.active {
+  background-color: #2196F3;
+  color: white;
+  border-color: #2196F3;
+}
+
+.step.completed {
+  background-color: #2196F3;
+  color: white;
+  border-color: #2196F3;
+}
+
+.serviceSelection,
+.labList,
+.bookingForm {
+  padding: 1rem;
+}
+
+.searchSection {
+  margin-bottom: 2rem;
+}
+
+.searchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Test Cards */
+.testDataView,
+.labDataView {
+  margin-bottom: 2rem;
+}
+
+.testCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+  position: relative;
+  overflow: hidden;
+}
+
+.testCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.testCard.selected {
+  border: 2px solid #2196F3;
+}
+
+.testCard.selected::before {
+  content: '✓';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #2196F3;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.testHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.testName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.testCategory {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.testDetails {
+  margin-bottom: 1rem;
+}
+
+.testDescription {
+  color: #555;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.testInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.testInfo span:first-child {
+  font-weight: 600;
+  color: #444;
+}
+
+.testInfo span:last-child {
+  color: #666;
+}
+
+.testPrice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.originalPrice {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.discount {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.finalPrice {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #4caf50;
+}
+
+.testActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.testSelection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.testSelection label {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.selectedTests {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.selectedTestsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.selectedTestsTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.selectedTestsCount {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.selectedTestsList {
+  margin-bottom: 1.5rem;
+}
+
+.selectedTestItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.selectedTestName {
+  font-weight: 500;
+  color: #333;
+}
+
+.selectedTestPrice {
+  font-weight: 600;
+  color: #2196F3;
+}
+
+.selectedTestsTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+  font-weight: 600;
+}
+
+.proceedButton {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.labList {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.summaryCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summaryCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summaryItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.summaryLabel {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.summaryValue {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.searchSection {
+  margin-bottom: 1.5rem;
+}
+
+.labDataView {
+  margin-bottom: 2rem;
+}
+
+.labCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.labCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.labCard.selected {
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.labHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.labTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.labTitle h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+.labType {
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.hospital {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.lab {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.labCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.labCheckbox input[type="radio"] {
+  margin: 0;
+}
+
+.labInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.labInfoItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  color: var(--text-color-secondary);
+}
+
+.labInfoItem i {
+  color: var(--primary-color);
+}
+
+.availabilitySection {
+  margin-bottom: 15px;
+}
+
+.availabilitySection h4 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+}
+
+.availabilityBar {
+  height: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.availabilityProgress {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.success {
+  background-color: #4caf50;
+}
+
+.warning {
+  background-color: #ff9800;
+}
+
+.danger {
+  background-color: #f44336;
+}
+
+.availabilityText {
+  font-size: 0.85rem;
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+.testList {
+  margin-bottom: 15px;
+}
+
+.testList h4 {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+}
+
+.testItem {
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.testHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.testName {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.testInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.testPrice {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.discount {
+  background-color: #ffebee;
+  color: #d32f2f;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.testDetails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-color-secondary);
+}
+
+.testDetail {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.testDetail i {
+  color: var(--primary-color);
+}
+
+.homeCollection {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #2e7d32;
+}
+
+.homeCollection i {
+  color: #2e7d32;
+}
+
+.unavailableTests {
+  margin-bottom: 15px;
+}
+
+.unavailableTests h4 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: var(--text-color-secondary);
+}
+
+.unavailableTests ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.unavailableTest {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  color: #f44336;
+  margin-bottom: 5px;
+}
+
+.unavailableTest i {
+  color: #f44336;
+}
+
+.labSummary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.priceInfo, .turnaroundInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.priceLabel, .turnaroundLabel {
+  font-size: 0.85rem;
+  color: var(--text-color-secondary);
+}
+
+.priceValue {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.turnaroundValue {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .labHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .labInfo {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .testHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .labSummary {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .labCard {
+    padding: 15px;
+  }
+  
+  .labTitle h3 {
+    font-size: 1.1rem;
+  }
+  
+  .testDetails {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .labList {
+    padding: 0.5rem;
+  }
+
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .labCard {
+    padding: 1rem;
+  }
+
+  .labHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .labInfo {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .labTestsList {
+    flex-direction: column;
+  }
+
+  .labTestTag {
+    width: 100%;
+    text-align: center;
+  }
+
+  .labActions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .actionButtons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .labList {
+    padding: 0.25rem;
+  }
+
+  .summaryCard,
+  .selectedLabSummary {
+    padding: 1rem;
+  }
+
+  .labName {
+    font-size: 1.1rem;
+  }
+
+  .labInfoItem {
+    font-size: 0.85rem;
+  }
+
+  .labTestTag {
+    font-size: 0.8rem;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .formGrid,
+  .searchGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .steps {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .steps::before {
+    display: none;
+  }
+  
+  .bookingHeader,
+  .bookingFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .bookingStatus {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.pageHeader h1 {
+  margin: 0;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.filterSection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.filterItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+.filterItem label {
+  font-weight: 600;
+  color: #333;
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: var(--red-500);
+}
+
+.noResults {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px dashed #e0e0e0;
+  margin: 1rem 0;
+}
+
+.resultDetails {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Booking List Styles */
+.bookingListContainer {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.bookingListHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.bookingListHeader h2 {
+  margin: 0;
+  color: #333;
+}
+
+.noBookings {
+  text-align: center;
+  padding: 3rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px dashed #e0e0e0;
+}
+
+.noBookings p {
+  margin-bottom: 1.5rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.createBookingRedirect {
+  text-align: center;
+  padding: 3rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px dashed #e0e0e0;
+}
+
+.createBookingRedirect p {
+  margin-bottom: 1.5rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.bookingCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0e0e0;
+}
+
+.bookingCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.bookingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.bookingInfo {
+  flex: 1;
+  min-width: 200px;
+}
+
+.bookingInfo h3 {
+  margin: 0 0 10px 0;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.bookingId, .bookingDate, .patientName, .testCount {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: var(--text-color-secondary);
+  display: flex;
+  align-items: center;
+}
+
+.patientName, .testCount {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.patientName i, .testCount i {
+  margin-right: 8px;
+  color: var(--primary-color);
+}
+
+.bookingStatus {
+  margin-left: 15px;
+}
+
+.bookingTests {
+  margin: 15px 0;
+  padding: 10px 0;
+  border-top: 1px solid var(--surface-border);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.bookingTests h4 {
+  margin: 0 0 10px 0;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.bookingTests ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.testItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.testItem:last-child {
+  border-bottom: none;
+}
+
+.testName {
+  font-weight: 500;
+}
+
+.bookingFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.bookingPrice {
+  font-size: 1rem;
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .bookingCard {
+    padding: 15px;
+  }
+
+  .bookingHeader {
+    flex-direction: column;
+  }
+  
+  .bookingStatus {
+    margin-left: 0;
+    margin-top: 10px;
+    align-self: flex-start;
+  }
+  
+  .bookingFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bookingPrice {
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bookingCard {
+    padding: 12px;
+  }
+  
+  .bookingInfo h3 {
+    font-size: 1.1rem;
+  }
+  
+  .bookingId, .bookingDate, .patientName, .testCount {
+    font-size: 0.85rem;
+  }
+
+  .testItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .testItem button {
+    margin-left: 0 !important;
+    margin-top: 8px;
+  }
+}
+
+/* Address Section Styles */
+.addressSection {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: var(--surface-card);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.addressSection h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.addressGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.loadingContainer, .errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.loadingContainer p, .errorContainer p {
+  margin-top: 0.5rem;
+  color: var(--text-color-secondary);
+}
+
+.errorContainer {
+  color: var(--red-500);
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkboxLabel {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Responsive styles for address section */
+@media screen and (max-width: 768px) {
+  .addressGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Location Info Styles */
+.locationInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: var(--surface-hover);
+  border-radius: 0.5rem;
+  border: 1px solid var(--surface-border);
+}
+
+.locationInfo p {
+  margin: 0.5rem 0;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.locationTimestamp {
+  font-size: 0.85rem;
+  color: var(--text-color-secondary);
+  font-style: italic;
+}
+
+/* Address Note Styles */
+.addressNote {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: var(--surface-hover);
+  border-radius: 0.5rem;
+  border-left: 4px solid var(--primary-color);
+}
+
+.addressNote p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-color-secondary);
+} 
