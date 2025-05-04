@@ -41,10 +41,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   const searchTimeout = useRef(null);
   const [selectionOption, setSelectionOption] = useState('search');
   const [showPrescriptionDialog, setShowPrescriptionDialog] = useState(false);
-  const [prescriptionFiles, setPrescriptionFiles] = useState([]);
-  const [prescriptionLoading, setPrescriptionLoading] = useState(false);
   const [selectedPrescription, setSelectedPrescription] = useState(null);
-  const [uploading, setUploading] = useState(false);
   const [prescriptionForm, setPrescriptionForm] = useState({
     contactNumber: '',
     street: '',
@@ -384,99 +381,10 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
     </div>
   );
 
-  // Fetch prescriptions when dialog opens
-  const fetchPrescriptions = async () => {
-    setPrescriptionLoading(true);
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/media/files?fileType=prescription&page=1&limit=10`,
-        { headers: getAuthHeaders() }
-      );
-      setPrescriptionFiles(response.data.data || []);
-    } catch (error) {
-      toast.current?.show({ severity: 'error', summary: 'Error', detail: 'Failed to fetch prescriptions', life: 3000 });
-      setPrescriptionFiles([]);
-    } finally {
-      setPrescriptionLoading(false);
-    }
-  };
-
-  // Handle file upload
-  const handlePrescriptionUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setUploading(true);
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('fileType', 'prescription');
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/media/upload`,
-        formData,
-        { headers: { ...getAuthHeaders(), 'Content-Type': 'multipart/form-data' } }
-      );
-      if (response.data && response.data.url) {
-        setPrescriptionFiles([response.data, ...prescriptionFiles]);
-        setSelectedPrescription(response.data);
-        toast.current?.show({ severity: 'success', summary: 'Uploaded', detail: 'Prescription uploaded', life: 2000 });
-        fetchPrescriptions();
-      }
-    } catch (error) {
-      toast.current?.show({ severity: 'error', summary: 'Error', detail: 'Upload failed', life: 3000 });
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  // Handle prescription order submit
-  const handlePrescriptionOrderSubmit = async () => {
-    if (!selectedPrescription) return;
-    try {
-      const deliveryAddress = {
-        street: prescriptionForm.street,
-        city: prescriptionForm.city,
-        state: prescriptionForm.state,
-        pincode: prescriptionForm.pincode,
-        landmark: prescriptionForm.landmark
-      };
-      const requestData = {
-        pharmacyId,
-        prescription: { url: selectedPrescription.url || selectedPrescription.fileUrl },
-        orderType: 'prescription_upload',
-        contactNumber: prescriptionForm.contactNumber,
-        deliveryAddress,
-        payment: { method: prescriptionForm.paymentMethod },
-        notes: prescriptionForm.notes
-      };
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/medical/user/request/create`,
-        requestData,
-        {
-          headers: {
-            ...getAuthHeaders(),
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-      if (response.data) {
-        toast.current?.show({ severity: 'success', summary: 'Order Created', detail: 'Your prescription order has been created!', life: 3000 });
-        setShowPrescriptionDialog(false);
-        setSelectedPrescription(null);
-        setPrescriptionForm({
-          contactNumber: '', street: '', city: '', state: '', pincode: '', landmark: '', notes: '', paymentMethod: 'cash',
-        });
-        setTimeout(() => router.push('/medical/requests'), 1000);
-      }
-    } catch (error) {
-      toast.current?.show({ severity: 'error', summary: 'Error', detail: 'Failed to create order', life: 3000 });
-    }
-  };
-
-  // Open dialog when radio selected
+  // Update the useEffect for prescription dialog
   useEffect(() => {
     if (selectionOption === 'prescription') {
       setShowPrescriptionDialog(true);
-      fetchPrescriptions();
     }
   }, [selectionOption]);
 
@@ -544,6 +452,50 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       }
     } catch (error) {
       toast.current?.show({ severity: 'error', summary: 'Error', detail: 'Failed to create call request', life: 3000 });
+    }
+  };
+
+  // Add back the handlePrescriptionOrderSubmit function
+  const handlePrescriptionOrderSubmit = async () => {
+    if (!selectedPrescription) return;
+    try {
+      const deliveryAddress = {
+        street: prescriptionForm.street,
+        city: prescriptionForm.city,
+        state: prescriptionForm.state,
+        pincode: prescriptionForm.pincode,
+        landmark: prescriptionForm.landmark
+      };
+      const requestData = {
+        pharmacyId,
+        prescription: { url: selectedPrescription.url || selectedPrescription.fileUrl },
+        orderType: 'prescription_upload',
+        contactNumber: prescriptionForm.contactNumber,
+        deliveryAddress,
+        payment: { method: prescriptionForm.paymentMethod },
+        notes: prescriptionForm.notes
+      };
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_B_PORT}/api/medical/user/request/create`,
+        requestData,
+        {
+          headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      if (response.data) {
+        toast.current?.show({ severity: 'success', summary: 'Order Created', detail: 'Your prescription order has been created!', life: 3000 });
+        setShowPrescriptionDialog(false);
+        setSelectedPrescription(null);
+        setPrescriptionForm({
+          contactNumber: '', street: '', city: '', state: '', pincode: '', landmark: '', notes: '', paymentMethod: 'cash',
+        });
+        setTimeout(() => router.push('/medical/requests'), 1000);
+      }
+    } catch (error) {
+      toast.current?.show({ severity: 'error', summary: 'Error', detail: 'Failed to create order', life: 3000 });
     }
   };
 
@@ -734,65 +686,24 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
         visible={showPrescriptionDialog}
         style={{ width: '60vw', maxWidth: 700 }}
         footer={prescriptionDialogFooter}
-        onHide={() => setShowPrescriptionDialog(false)}
+        onHide={() => {
+          setShowPrescriptionDialog(false);
+          setSelectedPrescription(null);
+        }}
       >
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: 260 }}>
             <h3>Choose Prescription</h3>
-            {prescriptionLoading ? (
-              <div>Loading...</div>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxHeight: 220, overflowY: 'auto' }}>
-                {prescriptionFiles.length === 0 && <div>No prescriptions found.</div>}
-                {prescriptionFiles.map((file, idx) => (
-                  <div
-                    key={file._id || file.fileUrl || idx}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer',
-                      border: selectedPrescription?.fileUrl === file.fileUrl ? '2px solid #6190e8' : '1px solid #e3e8ee',
-                      borderRadius: 8, padding: 6, background: selectedPrescription?.fileUrl === file.fileUrl ? '#eaf1fb' : '#fff',
-                      minHeight: 48, position: 'relative'
-                    }}
-                    onClick={() => setSelectedPrescription(file)}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                      {file.fileFormat && file.fileFormat.startsWith('image') ? (
-                        <img src={file.fileUrl} alt={file.fileName} style={{ width: 38, height: 38, objectFit: 'cover', borderRadius: 4, border: '1px solid #e3e8ee' }} />
-                      ) : (
-                        <i className="pi pi-file-pdf" style={{ fontSize: 24, color: '#e57373' }}></i>
-                      )}
-                    </div>
-                    <span style={{ flex: 1, fontSize: 12, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file.fileName || file.fileUrl?.split('/').pop()}</span>
-                    <Button
-                      icon="pi pi-external-link"
-                      className="p-button-text p-button-sm"
-                      style={{ marginLeft: 4, zIndex: 2 }}
-                      onClick={e => { e.stopPropagation(); setEnlargedFile(file); setShowEnlargeDialog(true); }}
-                      tooltip="Enlarge"
-                      tooltipOptions={{ position: 'top' }}
-                    />
-                    {selectedPrescription?.fileUrl === file.fileUrl && <i className="pi pi-check-circle" style={{ color: '#6190e8', fontSize: 16 }}></i>}
-                  </div>
-                ))}
-              </div>
-            )}
-            <div style={{ marginTop: 16 }}>
-              <input
-                type="file"
-                accept="image/*,application/pdf"
-                style={{ display: 'none' }}
-                ref={prescriptionFileInputRef}
-                onChange={handlePrescriptionUpload}
-                disabled={uploading}
-              />
-              <Button
-                label={uploading ? 'Uploading...' : 'Upload New'}
-                icon="pi pi-upload"
-                className="p-button-sm"
-                disabled={uploading}
-                onClick={() => prescriptionFileInputRef.current && prescriptionFileInputRef.current.click()}
-              />
-            </div>
+            <PrescriptionSelector
+              value={selectedPrescription}
+              onChange={(file) => {
+                setSelectedPrescription(file);
+                if (file) {
+                  toast.current?.show({ severity: 'success', summary: 'Selected', detail: 'Prescription selected', life: 2000 });
+                }
+              }}
+              getAuthHeaders={getAuthHeaders}
+            />
           </div>
           <div style={{ flex: 2, minWidth: 300 }}>
             <h3>Order Details</h3>
@@ -882,7 +793,12 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             <h3>Prescription</h3>
             <PrescriptionSelector
               value={selectedCallPrescription}
-              onChange={setSelectedCallPrescription}
+              onChange={(file) => {
+                setSelectedCallPrescription(file);
+                if (file) {
+                  toast.current?.show({ severity: 'success', summary: 'Selected', detail: 'Prescription selected', life: 2000 });
+                }
+              }}
               getAuthHeaders={getAuthHeaders}
             />
           </div>
