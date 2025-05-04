@@ -665,19 +665,26 @@
 
 .requestCard {
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  margin-bottom: 1rem;
-  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.requestCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .requestHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .requestInfo {
@@ -686,159 +693,522 @@
   gap: 1rem;
 }
 
-.requestInfo h3 {
-  margin: 0;
-  color: #333;
-  font-size: 1.1rem;
+.requestNumber {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.statusTag {
-  font-size: 0.8rem;
-  padding: 0.25rem 0.5rem;
+.requestNumber i {
+  color: var(--primary-color);
+}
+
+.requestStatus {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .requestDate {
+  color: var(--text-color-secondary);
+  font-size: 0.875rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #6c757d;
-  font-size: 0.9rem;
 }
 
-.requestContent {
-  padding: 1rem;
+.requestDate i {
+  color: var(--primary-color);
+}
+
+.requestSummary {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.pharmacyInfo,
-.deliveryInfo,
-.medicinesList,
-.paymentInfo {
+.summaryItem {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
 }
 
-.pharmacyInfo h4,
-.deliveryInfo h4,
-.medicinesList h4,
-.paymentInfo h4 {
-  margin: 0;
-  color: #333;
-  font-size: 1rem;
+.summaryLabel {
+  color: var(--text-color-secondary);
+  font-size: 0.875rem;
+}
+
+.summaryValue {
+  color: var(--text-color);
   font-weight: 600;
+  font-size: 1.1rem;
 }
 
-.hospital {
-  color: #6c757d;
-  font-size: 0.9rem;
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.medicineItems {
+.viewDetailsButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.viewDetailsButton:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+.viewDetailsButton i {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .requestCard {
+    padding: 1rem;
+  }
+
+  .requestHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .requestSummary {
+    grid-template-columns: 1fr;
+  }
+
+  .viewDetailsButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.progressDialog {
+  width: 90vw;
+  max-width: 800px;
+}
+
+.progressContent {
+  padding: 1rem;
+}
+
+.progressSteps {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 2rem;
+  margin: 2rem 0;
 }
 
-.medicineItem {
+.progressStep {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stepIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+
+.stepIcon.completed {
+  background: var(--primary-color);
+  color: white;
+}
+
+.stepContent {
+  flex: 1;
+}
+
+.stepTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.stepDescription {
+  color: var(--text-color-secondary);
+  font-size: 0.875rem;
+}
+
+.stepDate {
+  color: var(--text-color-secondary);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.progressBar {
+  height: 4px;
+  background: #f8f9fa;
+  border-radius: 2px;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .requestHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .requestContent {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .requestSection {
+    padding: 1rem;
+  }
+
+  .progressDialog {
+    width: 95vw;
+  }
+
+  .progressContent {
+    padding: 0.5rem;
+  }
+}
+
+.orderDetailsSection {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.orderDetailsSection h3 {
+  margin: 0 0 1rem 0;
+  color: var(--text-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+.detailRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.detailLabel {
+  color: var(--text-color-secondary);
+  font-weight: 500;
+}
+
+.detailValue {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.progressDialog {
+  width: 90vw;
+  max-width: 800px;
+}
+
+.progressContent {
+  padding: 1rem;
+}
+
+.noDataMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-color-secondary);
+}
+
+.noDataMessage p {
+  margin: 1rem 0 0 0;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .cardActions {
+    flex-direction: column;
+  }
+
+  .viewDetailsButton {
+    width: 100%;
+  }
+
+  .orderDetailsSection {
+    padding: 1rem;
+  }
+
+  .progressDialog {
+    width: 95vw;
+  }
+
+  .progressContent {
+    padding: 0.5rem;
+  }
+}
+
+.detailsTable {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.detailsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
   background: #f8f9fa;
-  border-radius: 4px;
+  border-radius: 6px;
+}
+
+.detailsLabel {
+  color: var(--text-color-secondary);
+  font-weight: 500;
+}
+
+.detailsValue {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.medicinesTable {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  align-items: center;
 }
 
 .medicineName {
   font-weight: 500;
+  color: var(--text-color);
 }
 
 .medicineQuantity {
-  color: #6c757d;
-  font-size: 0.9rem;
+  color: var(--text-color-secondary);
 }
 
 .medicinePrice {
-  color: #2ecc71;
+  color: var(--text-color-secondary);
+}
+
+.medicineTotal {
   font-weight: 600;
+  color: var(--primary-color);
 }
 
-.paymentStatus {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.paymentAmount {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.amountRow {
-  display: flex;
-  justify-content: space-between;
-  color: #495057;
-}
-
-.amountRow:last-child {
-  font-weight: 600;
-  color: #333;
-}
-
-.requestNotes {
-  padding: 1rem;
-  background: #f8f9fa;
-  border-top: 1px solid #e9ecef;
-}
-
-.requestNotes h4 {
-  margin: 0 0 0.5rem 0;
-  color: #333;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.requestNotes p {
-  margin: 0;
-  color: #495057;
-  font-size: 0.9rem;
-}
-
-/* Responsive styles */
 @media (max-width: 768px) {
-  .filtersSection {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .filterGroup {
-    width: 100%;
-  }
-  
-  .requestContent {
+  .tableHeader,
+  .tableRow {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .requestHeader {
-    flex-direction: column;
-    align-items: flex-start;
     gap: 0.5rem;
   }
-  
-  .requestInfo {
-    width: 100%;
+
+  .tableHeader span,
+  .tableRow span {
+    display: flex;
     justify-content: space-between;
+    align-items: center;
   }
-  
-  .medicineItem {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
+
+  .tableHeader span::before,
+  .tableRow span::before {
+    content: attr(data-label);
+    font-weight: 500;
+    color: var(--text-color-secondary);
   }
+}
+
+.statusTimeline {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.timelineItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.timelineIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: var(--primary-color);
+}
+
+.timelineContent {
+  flex: 1;
+}
+
+.timelineStatus {
+  font-weight: 600;
+  color: var(--text-color);
+  text-transform: capitalize;
+  margin-bottom: 0.25rem;
+}
+
+.timelineNote {
+  color: var(--text-color-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.timelineDate {
+  color: var(--text-color-secondary);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .statusTimeline {
+    padding: 0.75rem;
+  }
+
+  .timelineItem {
+    gap: 0.75rem;
+  }
+
+  .timelineIcon {
+    width: 2rem;
+    height: 2rem;
+  }
+} 
+
+.customCard {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+  border-radius: 18px;
+  box-shadow: 0 6px 32px 0 rgba(60, 72, 88, 0.13), 0 1.5px 8px rgba(60, 72, 88, 0.10);
+  padding: 1.7rem 2.2rem;
+  margin-bottom: 1.7rem;
+  transition: box-shadow 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1), border 0.3s cubic-bezier(0.4,0,0.2,1);
+  border: 2.5px solid;
+  border-image: linear-gradient(90deg, #a7bfe8 0%, #6190e8 100%) 1;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 32px 0 rgba(60, 72, 88, 0.13), 0 1.5px 8px rgba(60, 72, 88, 0.10), 0 0 0 4px rgba(97, 144, 232, 0.07);
+}
+
+.customCard:hover {
+  box-shadow: 0 12px 40px rgba(60, 72, 88, 0.18), 0 6px 24px rgba(60, 72, 88, 0.13), 0 0 0 6px rgba(97, 144, 232, 0.13);
+  transform: translateY(-6px) scale(1.025);
+  background: linear-gradient(135deg, #f1f5fa 0%, #dbeafe 100%);
+  border-image: linear-gradient(90deg, #6190e8 0%, #a7bfe8 100%) 1;
+}
+
+.customCard strong {
+  color: #2d3a4a;
+  font-size: 1.18rem;
+  letter-spacing: 0.01em;
+}
+
+.selectionOptions {
+  background: linear-gradient(120deg, #f8fafc 60%, #e0e7ef 100%);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(60, 72, 88, 0.07);
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  border: 1.5px solid #e3e8ee;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.selectionOptions > div {
+  display: flex;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.selectionOptions > div:hover {
+  background: #f1f5fa;
+  box-shadow: 0 2px 8px rgba(97, 144, 232, 0.07);
+}
+
+.selectionOptions label {
+  font-size: 1.08rem;
+  color: #2d3a4a;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 } 
