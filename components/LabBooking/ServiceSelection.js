@@ -16,7 +16,7 @@ const ServiceSelection = ({ onTestsSelected }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchText, setSearchText] = useState('');
-  const [city, setCity] = useState('Mumbai'); // Default city
+  const [city, setCity] = useState('Rewa'); // Default city
   const [tests, setTests] = useState([]);
   const [selectedTests, setSelectedTests] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -72,8 +72,13 @@ const ServiceSelection = ({ onTestsSelected }) => {
       setLoading(true);
       
       // Prepare query parameters
-      const params = {};
-      if (selectedCategory) {
+      const params = {
+        city: city,
+        page: pagination.page,
+        limit: 10
+      };
+      
+      if (selectedCategory && selectedCategory !== 'all') {
         params.category = selectedCategory;
       }
       if (searchText) {
@@ -81,7 +86,7 @@ const ServiceSelection = ({ onTestsSelected }) => {
       }
       
       const response = await axios.get(
-        labTestApi.getAllOfferedTests(params),
+        `${process.env.NEXT_PUBLIC_B_PORT}/api/lab/user/tests/all-offered`,
         {
           params,
           headers: getAuthHeaders()
@@ -89,9 +94,42 @@ const ServiceSelection = ({ onTestsSelected }) => {
       );
       
       if (response.data && !response.data.error) {
-        setTests(response.data.data || []);
+        // Transform the data to match the expected format
+        const transformedTests = response.data.data.map(test => ({
+          _id: test.testTemplateId,
+          name: test.testName,
+          category: test.category,
+          sampleRequirements: typeof test.sampleRequirements === 'string' 
+            ? test.sampleRequirements 
+            : `${test.sampleRequirements.sampleType} (${test.sampleRequirements.volume}) - ${test.sampleRequirements.specialInstructions}`,
+          labs: test.offeredBy ? test.offeredBy.map(lab => ({
+            labId: lab.labId,
+            labName: lab.labName,
+            price: lab.price,
+            turnaroundTime: lab.turnaroundTime,
+            additionalInfo: lab.additionalInfo,
+            homeCollectionAvailable: lab.homeCollectionAvailable
+          })) : []
+        }));
+        
+        setTests(transformedTests);
+        setPagination({
+          total: response.data.pagination.total,
+          page: response.data.pagination.page,
+          pages: response.data.pagination.pages
+        });
+        
+        // Update filters state
+        setSearchText(response.data.filters.searchText || '');
+        setSelectedCategory(response.data.filters.category || 'all');
+        setCity(response.data.filters.city || '');
       } else {
         setTests([]);
+        setPagination({
+          total: 0,
+          page: 1,
+          pages: 1
+        });
         toast.current.show({
           severity: 'error',
           summary: 'Error',
@@ -101,24 +139,28 @@ const ServiceSelection = ({ onTestsSelected }) => {
       }
     } catch (error) {
       console.error('Error fetching tests:', error);
-      const errorResult = handleApiError(error);
+      setTests([]);
+      setPagination({
+        total: 0,
+        page: 1,
+        pages: 1
+      });
       toast.current.show({
         severity: 'error',
         summary: 'Error',
-        detail: errorResult.message || 'Failed to fetch tests',
+        detail: 'Failed to fetch tests. Please try again.',
         life: 3000
       });
-      setTests([]);
     } finally {
       setLoading(false);
     }
   };
 
   const handleTestSelection = (test) => {
-    const isSelected = selectedTests.some(t => t.testTemplateId === test.testTemplateId);
+    const isSelected = selectedTests.some(t => t._id === test._id);
     
     if (isSelected) {
-      setSelectedTests(selectedTests.filter(t => t.testTemplateId !== test.testTemplateId));
+      setSelectedTests(selectedTests.filter(t => t._id !== test._id));
     } else {
       setSelectedTests([...selectedTests, test]);
     }
@@ -140,12 +182,12 @@ const ServiceSelection = ({ onTestsSelected }) => {
   };
 
   const itemTemplate = (test) => {
-    const isSelected = selectedTests.some(t => t.testTemplateId === test.testTemplateId);
+    const isSelected = selectedTests.some(t => t._id === test._id);
     
     return (
       <div className={`${styles.testCard} ${isSelected ? styles.selected : ''}`}>
         <div className={styles.testHeader}>
-          <h3>{test.testName}</h3>
+          <h3>{test.name}</h3>
           <Checkbox 
             checked={isSelected} 
             onChange={() => handleTestSelection(test)}
@@ -158,21 +200,25 @@ const ServiceSelection = ({ onTestsSelected }) => {
           
           <div className={styles.labList}>
             <h4>Available at:</h4>
-            {test.offeredBy && test.offeredBy.map((lab, index) => (
-              <div key={index} className={styles.labItem}>
-                <span className={styles.labName}>{lab.labName}</span>
-                <div className={styles.labInfo}>
-                  <Tag value={`₹${lab.price}`} severity="success" />
-                  {lab.discountOffered > 0 && (
-                    <Tag value={`${lab.discountOffered}% OFF`} severity="warning" />
-                  )}
-                  <Tag value={lab.turnaroundTime} severity="info" />
-                  {lab.homeCollectionAvailable && (
-                    <Tag value="Home Collection" severity="primary" />
-                  )}
+            {test.labs && test.labs.length > 0 ? (
+              test.labs.map((lab, index) => (
+                <div key={index} className={styles.labItem}>
+                  <span className={styles.labName}>{lab.labName}</span>
+                  <div className={styles.labInfo}>
+                    <Tag value={`₹${lab.price}`} severity="success" />
+                    {lab.additionalInfo && (
+                      <Tag value={lab.additionalInfo} severity="info" />
+                    )}
+                    <Tag value={lab.turnaroundTime} severity="info" />
+                    {lab.homeCollectionAvailable && (
+                      <Tag value="Home Collection" severity="primary" />
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>No labs available for this test</p>
+            )}
           </div>
         </div>
       </div>
@@ -226,8 +272,8 @@ const ServiceSelection = ({ onTestsSelected }) => {
           <h3>Selected Tests ({selectedTests.length})</h3>
           <div className={styles.selectedTestsList}>
             {selectedTests.map(test => (
-              <div key={test.testTemplateId} className={styles.selectedTestItem}>
-                <span>{test.testName}</span>
+              <div key={test._id} className={styles.selectedTestItem}>
+                <span>{test.name}</span>
                 <Button
                   icon="pi pi-times"
                   className="p-button-rounded p-button-text p-button-sm"

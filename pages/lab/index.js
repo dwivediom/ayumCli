@@ -19,7 +19,7 @@ const LabBookingPage = () => {
   const [step, setStep] = useState(1);
   const [selectedTests, setSelectedTests] = useState([]);
   const [selectedLab, setSelectedLab] = useState(null);
-  const [city, setCity] = useState('Mumbai');
+  const [city, setCity] = useState('Rewa');
   const [loading, setLoading] = useState(false);
   
   // Get base URL from environment variable
