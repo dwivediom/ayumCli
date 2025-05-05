@@ -29,6 +29,25 @@ const BookAppointment = () => {
     phone: "",
   });
 
+  const [patientsuggestions, setpatientsuggestions] = useState([]);
+  const [newpatient, setnewpatient] = useState(false);
+  const [selectedpatientid, setselectedpatientid] = useState();
+  const getpatientSuggestions = async (phone) => {
+    let patientsuggestdata = await axios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_B_PORT}/api/patients/user/getpatientbyphone`,
+      headers: {
+        "x-auth-token": localStorage.usertoken,
+      },
+      data: { phone: phone ? phone : data.phone },
+    });
+
+    setpatientsuggestions(patientsuggestdata?.data.data);
+    if (patientsuggestdata?.data.data?.length == 0) {
+      setnewpatient(true);
+    }
+  };
+
   const [symptoms, setsymptoms] = useState([]);
   const [symptomsdata, setsymptomsdata] = useState([]);
   const GetsymptomsData = async () => {
@@ -161,10 +180,21 @@ const BookAppointment = () => {
   const formatDate = (date) => date.toISOString().split("T")[0];
 
   const GetReservedSlots = async () => {
+    const date = new Date(selectedDate);
+
+    // Start of the day (00:00:00.000)
+    const startOfDay = new Date(date.setUTCHours(0, 0, 0, 0));
+
+    // Start of the next day (used as exclusive upper bound)
+    const endOfDay = new Date(date);
+    endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
     try {
       console.log("Getting reserved slots");
-      const newdata = await axios.get(
+      const newdata = await axios.post(
         `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/reservedslots?clinicid=${router.query.clinicid}&docid=${router.query.docid}`,
+        {
+          date: startOfDay,
+        },
         {
           params: {},
           headers: {},
@@ -308,30 +338,175 @@ const BookAppointment = () => {
             Fill Patient Details
           </label>
           <div>
-            <label
-              htmlFor="patientname"
-              className="block mb-2 text-sm font-medium "
-            >
-              Name of patient <span className="text-red-400">*</span>
+            <label htmlFor="phone" className="block mb-2 text-sm font-medium ">
+              {" "}
+              Phone <span className="text-red-400">*</span>
             </label>
             <InputText
               onChange={(e) => {
-                setdata({ ...data, patientname: e.target.value });
+                const input = e.target.value;
+                console.log(input.length, "Valueforphonenumber");
+
+                if (input.length <= 10) {
+                  setdata({ ...data, phone: input });
+                  // Call getpatientSuggestions when exactly 10 digits are typed
+                  if (input.length === 10) {
+                    getpatientSuggestions(input);
+                  }
+                } else {
+                  setdata({
+                    ...data,
+                    phone: data.phone.slice(0, 10),
+                  });
+                }
               }}
+              value={data.phone}
+              onBlur={() => {
+                // Optional: keep this if you want suggestions on blur too
+                getpatientSuggestions();
+              }}
+              name="phone"
+              id="phone"
+              type="number"
               required
-              style={{ width: "100%" }}
-              placeholder="Patient Name"
-              id="patientname"
-              value={data.patientname}
             />
           </div>
+          {patientsuggestions?.length > 0 && (
+            <div
+              style={{
+                width: "100%",
+                background: "var(--surface-100)",
+                padding: "1rem",
+              }}
+            >
+              <div>
+                {" "}
+                <span>Select Patient</span>{" "}
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  gap: "10px",
+                  marginTop: "5px",
+                  flexWrap: "wrap",
+                }}
+              >
+                {patientsuggestions.map((i) => {
+                  return (
+                    <div
+                      style={{
+                        padding: "5px",
+                        borderRadius: "8px",
+                        boxShadow: "0 3px 5px rgba(75, 75, 75, 0.14)",
+                        width: "150px",
+                        height: "150px",
+                        cursor: "pointer",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        textAlign: "center",
+                        flexDirection: "column",
+                        background: "white",
+                        border:
+                          selectedpatientid == i.patientId &&
+                          "2px solid var(--teal-500)",
+                        gap: "10px",
+                      }}
+                      onClick={() => {
+                        console.log(i, data, "value");
+                        setdata({ ...data, ...i });
+                        setselectedpatientid(i.patientId);
+                        setnewpatient(false);
+                      }}
+                    >
+                      <span>{i.patientname}</span>
+                      <span>{i.phone}</span>
+                      <span>{i.gender}</span>
+                    </div>
+                  );
+                })}
+                <div
+                  style={{
+                    padding: "5px",
+                    borderRadius: "8px",
+                    boxShadow: "0 3px 5px rgba(75, 75, 75, 0.14)",
+                    width: "150px",
+                    height: "150px",
+                    cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
+                    border: !selectedpatientid && "2px solid var(--teal-500)",
+                    flexDirection: "column",
+                    background: "white",
+                    gap: "10px",
+                  }}
+                  onClick={() => {
+                    setnewpatient(true);
+                    setselectedpatientid();
+                    setdata({
+                      phone: data.phone,
+                      patientname: "",
+                      age: "",
+                      description: "",
+                    });
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      stroke: "var(--teal-500)",
+                    }}
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          )}
+          {newpatient && (
+            <>
+              <div>
+                <label
+                  htmlFor="patientname"
+                  className="block mb-2 text-sm font-medium "
+                >
+                  Name of patient <span className="text-red-400">*</span>
+                </label>
+                <InputText
+                  onChange={(e) => {
+                    setdata({ ...data, patientname: e.target.value });
+                  }}
+                  required
+                  style={{ width: "100%" }}
+                  placeholder="Patient Name"
+                  id="patientname"
+                  value={data.patientname}
+                />
+              </div>
 
-          <div>
-            <label htmlFor="age" className="block mb-2 text-sm font-medium ">
-              {" "}
-              Age of patient <span className="text-red-400">*</span>
-            </label>
-            {/* <InputNumber
+              <div>
+                <label
+                  htmlFor="age"
+                  className="block mb-2 text-sm font-medium "
+                >
+                  {" "}
+                  Age of patient <span className="text-red-400">*</span>
+                </label>
+                {/* <InputNumber
               onChange={(e) => {
                 setdata({ ...data, age: e.value });
               }}
@@ -339,39 +514,19 @@ const BookAppointment = () => {
               value={data.age}
               required
             /> */}
-            <InputText
-              onChange={(e) => {
-                setdata({ ...data, age: e.target.value });
-              }}
-              type="number"
-              style={{ width: "100%" }}
-              value={data.age}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="phone" className="block mb-2 text-sm font-medium ">
-              {" "}
-              Phone <span className="text-red-400">*</span>
-            </label>
-            {/* <InputNumber
-              onChange={(e) => {
-                setdata({ ...data, phone: e.value });
-              }}
-              useGrouping={false}
-              style={{ width: "100%" }}
-              value={data.phone}
-              required
-            /> */}
-            <InputText
-              onChange={(e) => {
-                setdata({ ...data, phone: e.target.value });
-              }}
-              type="number"
-              value={data.phone}
-              required
-            />
-          </div>
+                <InputText
+                  onChange={(e) => {
+                    setdata({ ...data, age: e.target.value });
+                  }}
+                  type="number"
+                  style={{ width: "100%" }}
+                  value={data.age}
+                  required
+                />
+              </div>
+            </>
+          )}
+
           {/* 
           <div>
             <label
