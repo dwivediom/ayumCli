@@ -1,72 +1,146 @@
 .pharmacyList {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  background: #f8f9fa;
+  min-height: 100vh;
 }
 
 .searchSection {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  padding: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.p-paginator-page{
+  color: white !important;
+}
+
+.searchContainer {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .searchInput,
 .cityInput {
-  flex: 1;
-  min-width: 250px;
-  display: flex;
-  gap: 0.5rem;
+  width: 100%;
+  height: 3rem;
+  border-radius: 8px;
+  background: #f5f5f5;
+  border: none;
+  padding-left: 2.5rem !important;
+}
+
+.filterButton {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 8px !important;
 }
 
 .pharmacyCard {
-  background: white;
+  background: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 2rem;
+  margin: 0.5rem;
+  box-shadow: 0 3px 7px rgba(53, 53, 53, 0.2);
+  border-radius: 12px;
+  transition: transform 0.2s ease;
 }
 
-.pharmacyCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.pharmacyCard:active {
+  transform: scale(0.98);
 }
 
 .pharmacyHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
-.pharmacyHeader h3 {
+.pharmacyInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.pharmacyName {
+  font-size: 1.1rem;
   margin: 0;
-  color: #333;
+  color: #2c3e50;
+}
+
+.pharmacyTag {
+  font-size: 0.8rem !important;
+  padding: 0.25rem 0.5rem !important;
 }
 
 .pharmacyDetails {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 1rem;
 }
 
 .detailItem {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #666;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.detailItem i {
+  font-size: 1rem;
 }
 
 .pharmacyActions {
   display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.actionButton {
+  flex: 1;
+  border-radius: 8px !important;
 }
 
 .pharmacyDataView {
-  margin-top: 2rem;
+  padding: 0.5rem;
+}
+
+/* PrimeReact DataView Customization */
+/* :global(.p-paginator) {
+  background: transparent !important;
+  border: none !important;
+  padding: 0.5rem !important;
+} */
+
+/* :global(.p-paginator .p-paginator-element) {
+  border-radius: 8px !important;
+} */
+
+@media screen and (max-width: 550px) {
+  .searchSection {
+    padding: 0.5rem;
+  }
+  
+  .pharmacyCard {
+    margin: 0.5rem 0;
+    width: 100%;
+
+  }
+  
+  .pharmacyActions {
+    flex-direction: row;
+  }
+  
+  .actionButton {
+    padding: 0.5rem !important;
+  }
+  
+  .actionButton .p-button-label {
+    font-size: 0.9rem;
+  }
 }
 
 /* Medicine Selection Styles */
@@ -425,142 +499,6 @@
   color: var(--primary-color);
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-  .pharmacyList {
-    padding: 1rem;
-  }
-  
-  .searchSection {
-    flex-direction: column;
-  }
-  
-  .searchInput,
-  .cityInput {
-    width: 100%;
-  }
-  
-  .pharmacyCard {
-    padding: 1rem;
-  }
-  
-  .pharmacyActions {
-    flex-direction: column;
-  }
-
-  .medicineCard {
-    padding: 1rem;
-  }
-  
-  .medicineItem {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .totalPrice {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .detailsContent {
-    grid-template-columns: 1fr;
-  }
-  
-  .quantityControls {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .quantityInput {
-    width: auto;
-  }
-  
-  .quantityInput .p-inputnumber {
-    width: 40px;
-  }
-  
-  .cartItem {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  
-  .cartItemContent {
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .cartItem .quantityControls {
-    width: 100%;
-    justify-content: space-between;
-  }
-}
-
-@media (max-width: 480px) {
-  .pharmacyList {
-    padding: 0.5rem;
-  }
-  
-  .pharmacyHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .pharmacyDetails {
-    font-size: 0.9rem;
-  }
-
-  .medicineSelection {
-    padding: 0.5rem;
-  }
-  
-  .medicineCard {
-    padding: 1rem;
-  }
-  
-  .orderHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .medicineItem {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
-  }
-  
-  .quantityControls {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-  
-  .quantityInput .p-button {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-  
-  .cartItem {
-    padding: 0.75rem;
-  }
-  
-  .cartItemHeader h4 {
-    font-size: 0.9rem;
-  }
-  
-  .cartItemPrice {
-    font-size: 0.8rem;
-  }
-  
-  .cartItem .quantityInput .p-button {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-}
-
 .checkoutForm {
   display: flex;
   flex-direction: column;
@@ -599,43 +537,6 @@
 .formGroup .p-inputtext,
 .formGroup .p-dropdown {
   width: 100%;
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-  .checkoutForm {
-    padding: 0.5rem;
-  }
-  
-  .formSection {
-    padding: 0.75rem;
-  }
-  
-  .formSection h3 {
-    font-size: 1rem;
-  }
-  
-  .formGroup label {
-    font-size: 0.85rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .checkoutForm {
-    gap: 1rem;
-  }
-  
-  .formSection {
-    padding: 0.5rem;
-  }
-  
-  .formSection h3 {
-    font-size: 0.95rem;
-  }
-  
-  .formGroup label {
-    font-size: 0.8rem;
-  }
 }
 
 .medicineRequests {
@@ -782,27 +683,6 @@
   font-size: 1.1rem;
 }
 
-@media (max-width: 768px) {
-  .requestCard {
-    padding: 1rem;
-  }
-
-  .requestHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .requestSummary {
-    grid-template-columns: 1fr;
-  }
-
-  .viewDetailsButton {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
 .progressDialog {
   width: 90vw;
   max-width: 800px;
@@ -880,31 +760,6 @@
   transition: width 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .requestHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .requestContent {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
-
-  .requestSection {
-    padding: 1rem;
-  }
-
-  .progressDialog {
-    width: 95vw;
-  }
-
-  .progressContent {
-    padding: 0.5rem;
-  }
-}
-
 .orderDetailsSection {
   margin-bottom: 2rem;
   padding: 1.5rem;
@@ -944,15 +799,6 @@
   font-weight: 600;
 }
 
-.progressDialog {
-  width: 90vw;
-  max-width: 800px;
-}
-
-.progressContent {
-  padding: 1rem;
-}
-
 .noDataMessage {
   display: flex;
   flex-direction: column;
@@ -966,28 +812,6 @@
 .noDataMessage p {
   margin: 1rem 0 0 0;
   font-size: 1.1rem;
-}
-
-@media (max-width: 768px) {
-  .cardActions {
-    flex-direction: column;
-  }
-
-  .viewDetailsButton {
-    width: 100%;
-  }
-
-  .orderDetailsSection {
-    padding: 1rem;
-  }
-
-  .progressDialog {
-    width: 95vw;
-  }
-
-  .progressContent {
-    padding: 0.5rem;
-  }
 }
 
 .detailsTable {
@@ -1211,4 +1035,40 @@
   color: #2d3a4a;
   font-weight: 500;
   letter-spacing: 0.01em;
+}
+
+.filterSection {
+  background: #f8f9fa;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filterRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filterItem {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filterItem label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.filterDropdown {
+  width: 100%;
+}
+
+.filterActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: flex-end;
 } 
