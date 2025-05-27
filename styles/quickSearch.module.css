@@ -211,10 +211,15 @@
   line-height: 50px; /* Centers text vertically */
   height: 50px; /* Button height */
   border-radius: 5px;
+  padding: 0.5rem;
+  display: flex;
+  text-wrap: nowrap !important;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   box-shadow: 0 3px 5px rgba(10, 133, 171, 0.08);
   transition: 0.2s all;
-
+font-size: 14px;
   box-sizing: border-box;
 }
 .qckbutton:hover{
@@ -227,6 +232,54 @@
   .qckcontainer {
     grid-template-columns: repeat(4, 1fr); /* 2 columns per row */
     grid-template-rows: repeat(4, auto); /* 2 rows total */
+  }
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.actionButton.primary {
+  background-color: var(--teal-700);
+  color: white;
+}
+
+.actionButton.secondary {
+  background-color: white;
+  color: var(--teal-700);
+  border: 1px solid var(--teal-700);
+}
+
+.actionButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .actionButton {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .actionButtonGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .actionButtonGroup .actionButton {
+    width: 100%;
+    justify-content: center;
   }
 }
 

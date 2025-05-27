@@ -1,153 +1,150 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import styles from "../styles/footer.module.css";
 import { useContext } from "react";
 import { AccountContext } from "../context/AccountProvider";
 import English from "../public/locales/en/index";
 import Hindi from "../public/locales/hi/index";
+import { useRouter } from "next/router";
+
+const navItems = [
+  { href: "/", icon: "pi-home", label: "Home" },
+  { href: "/DoctorDirectory", icon: "pi-search", label: "Search" },
+  { href: "/Category/Category", icon: "pi-objects-column", label: "Category" },
+  { href: "/User/userAppo", icon: "pi-user", label: "Appointments" },
+];
 
 const BottomNav = () => {
-  const { msgopened, scrollbox, lang, adminmode } = useContext(AccountContext);
+  const { msgopened, lang, adminmode } = useContext(AccountContext);
+  const router = useRouter();
+  const activeIndex = navItems.findIndex(
+    (item) => router.pathname === item.href
+  );
+
   return (
     <>
-      <div
-        // className=" w-full  "
-        style={{
-          display: msgopened && "none",
-          width: "100vw",
-        }}
-      >
-        {/* <!-- <section id="bottom-navigation" className="md:hidden block fixed inset-x-0 bottom-0 z-10 bg-white shadow"> // if shown only tablet/mobile--> */}
-        <section
-          style={{
-            zIndex: 22,
-            background: "white",
-            boxShadow: "0 -3px 8px rgba(0,0,0,0.1)",
-            borderTopLeftRadius: "32px",
-            borderTopRightRadius: "32px",
-            width: "100%",
-            display: "block",
-            position: "fixed",
-            bottom: "0",
-            zIndex: "100",
-            left: "0",
-          }}
-          id="bottom-navigation"
-          // className=" gird grid-cols-5   block fixed  inset-x-0 bottom-0 z-10  shadow"
-        >
-          {/* {scrollbox && (
-            <div className={styles.scrollanimation}>
-              <img
-                src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/FFFFFF/external-Down-arrows-tanah-basah-glyph-tanah-basah-5.png"
-                alt="down"
-              />
-            </div>
-          )} */}
-          <div
-            style={{
-              color: "teal",
-              display: "flex",
-              justifyContent: "space-evenly",
-              // gap: "1rem",
-            }}
-          >
-            <Link href={"/"}>
+      <style jsx>{`
+        .bottom-nav-container {
+          position: fixed;
+          bottom: 0px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #fff;
+          border-radius: 32px;
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+          width: 100vw;
+          max-width: 480px;
+          height: 64px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 16px;
+          z-index: 100;
+        }
+        .nav-items-wrapper {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: relative;
+        }
+        .fab {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          transform: translateY(-50%)
+          background: #339966;
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 16px rgba(51, 153, 102, 0.15);
+          border: 4px solid #fff;
+          z-index: 101;
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          padding: 8px;
+        }
+        .fab .nav-icon {
+          color: teal;
+          font-size: 28px;
+        }
+        .nav-item {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          color: #b0b0b0;
+          position: relative;
+          z-index: 102;
+          padding: 8px 0;
+          min-width: 48px;
+        }
+        .nav-item .nav-icon {
+          font-size: 24px;
+          transition: color 0.2s;
+        }
+        .nav-item.active .nav-icon {
+          // color: transparent;
+        }
+        .nav-item:hover {
+          color: #339966;
+        }
+      `}</style>
+      <div style={{ display: msgopened ? "none" : "block" }}>
+        <div className="bottom-nav-container">
+          <div className="nav-items-wrapper">
+            {/* Floating Action Button (FAB) that moves to active nav */}
+            {/* <div
+              className="fab"
+              style={
+                {
+                  // transform: `translateY(-50%) translateX(calc((100% / ${navItems.length}) * ${activeIndex} + (100% / ${navItems.length} / 2) - 50%))`,
+                }
+              }
+            >
               <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: "10px",
-
-                  width: "100%",
-                }}
-              >
-                <div style={{ fontSize: "22px" }} className="pi pi-home"></div>
-                <span style={{ fontSize: "14px" }}>Home</span>
-              </div>
-            </Link>
-            {adminmode && (
-              <Link href={"/ChatSection"}>
-                <a
+                className={`nav-icon pi ${navItems[activeIndex]?.icon}`}
+              ></div>
+            </div> */}
+            {/* Nav items */}
+            {navItems.map((item, idx) => (
+              <Link href={item.href} key={item.href}>
+                <div
                   style={{
+                    backgroundColor:
+                      router.pathname === item.href ? "teal" : "transparent",
+                    borderRadius: "50%",
+                    width: "55px",
+                    transform:
+                      router.pathname === item.href
+                        ? "translateY(-20px)"
+                        : "translateY(0px)",
+                    height: "55px",
                     display: "flex",
                     alignItems: "center",
+                    zIndex: "102",
+
                     justifyContent: "center",
-                    flexDirection: "column",
-                    gap: "3px",
+                    color: router.pathname === item.href ? "white" : "teal",
                   }}
+                  // className={`nav-item${
+                  //   router.pathname === item.href ? " active" : ""
+                  // }`}
                 >
-                  <img
-                    style={{ width: "25px", height: "25px" }}
-                    alt="Lab Test"
-                    src="https://img.icons8.com/external-vectorslab-glyph-vectorslab/53/FFFFFF/external-Injection-medical-and-corona-virus-vectorslab-glyph-vectorslab.png"
-                  />
-
-                  <span className="tab tab-whishlist  block text-xs">
-                    {lang == "en" ? English.labtest : Hindi.labtest}
-                  </span>
-                </a>
+                  <div
+                    style={{
+                      fontSize: "24px",
+                    }}
+                    className={`nav-icon pi ${item.icon}`}
+                  ></div>
+                </div>
               </Link>
-            )}
-
-            <Link href={"/DoctorDirectory"}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: "10px",
-                  width: "100%",
-                }}
-              >
-                <div
-                  style={{ fontSize: "22px" }}
-                  className="pi pi-search"
-                ></div>
-                <span style={{ fontSize: "14px" }}>Search</span>
-              </div>
-            </Link>
-
-            <Link href={"/Category/Category"}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: "10px",
-
-                  width: "100%",
-                }}
-              >
-                <div
-                  style={{ fontSize: "22px" }}
-                  className="pi pi-objects-column"
-                ></div>
-                <span style={{ fontSize: "14px" }}>Category</span>
-              </div>
-            </Link>
-
-            <Link href={"/User/userAppo"}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: "10px",
-
-                  width: "100%",
-                }}
-              >
-                <div style={{ fontSize: "22px" }} className="pi pi-user"></div>
-                <span style={{ fontSize: "14px" }}>Appointments</span>
-              </div>
-            </Link>
+            ))}
           </div>
-        </section>
+        </div>
       </div>
     </>
   );

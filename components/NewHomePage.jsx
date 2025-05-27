@@ -139,6 +139,7 @@ const NewHomePage = () => {
   return (
     <div className={styles.mainshell}>
       {langmodal && <LanguageModal getdocs={getalldoc} />}
+
       <SearchBox
         setsearcheddoctor={setsearcheddoctor}
         setdoctordocs={(data) => {
@@ -152,6 +153,7 @@ const NewHomePage = () => {
       ) : (
         <HorizontalScroll />
       )}
+
       <CityDropdown getdocs={getalldoc} />
       <div
         style={{
