@@ -14,6 +14,7 @@ import { getAuthHeaders } from "../../config/api/labApi";
 import { RadioButton } from "primereact/radiobutton";
 import PdfViewer from "./PdfViewer";
 import PrescriptionSelector from "./PrescriptionSelector";
+import { SelectButton } from "primereact/selectbutton";
 
 const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   const router = useRouter();
@@ -426,12 +427,15 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       <Button
         label="Cancel"
         icon="pi pi-times"
-        onClick={() => setShowPrescriptionDialog(false)}
+        onClick={() => {
+          setSelectionOption("search");
+          setShowPrescriptionDialog(false);
+        }}
         className="p-button-text"
       />
       <Button
-        icon="pi pi-check"
-        label="Submit"
+        icon="pi pi-check-circle"
+        label="Order"
         onClick={() => handlePrescriptionOrderSubmit()}
         disabled={
           !selectedPrescription ||
@@ -600,12 +604,24 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
     }
   };
 
+  const [value, setValue] = useState(null);
+  const items = [
+    { name: "Order via Prescription", value: "prescription" },
+    { name: "Search and add medicines to cart", value: "search" },
+    { name: "Call me for details", value: "call" },
+  ];
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
   return (
     <div className={styles.medicineSelection}>
       <Toast ref={toast} />
 
       {/* Medicine Selection Options */}
-      <div className={styles.selectionOptions} style={{ marginBottom: "2rem" }}>
+      {/* <div className={styles.selectionOptions} style={{ marginBottom: "2rem" }}>
         <div style={{ marginBottom: "1rem" }}>
           <RadioButton
             inputId="prescription"
@@ -654,6 +670,15 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             </div>
           )}
         </div>
+      </div> */}
+
+      <div className="card flex justify-content-center">
+        <SelectButton
+          value={selectionOption}
+          onChange={(e) => setSelectionOption(e.value)}
+          optionLabel="name"
+          options={items}
+        />
       </div>
 
       {/* Show only for 'search' option */}
@@ -675,11 +700,19 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 onChange={handleSearchChange}
                 placeholder="Search medicines..."
                 className="w-full"
+                style={{
+                  borderTopRightRadius: 0,
+                  borderBottomRightRadius: 0,
+                }}
               />
               <Button
-                label="Search"
+                label={isMobile ? "" : "Search"}
                 icon="pi pi-search"
                 onClick={handleSearchButtonClick}
+                style={{
+                  borderTopLeftRadius: 0,
+                  borderBottomLeftRadius: 0,
+                }}
               />
             </div>
           </div>
@@ -805,7 +838,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             </div>
           </div>
 
-          <div className={styles.formSection}>
+          <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
             <h3>Payment Details</h3>
             <div className={styles.formGroup}>
               <label htmlFor="paymentMethod">Payment Method</label>
@@ -821,7 +854,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             </div>
           </div>
 
-          <div className={styles.formSection}>
+          <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
             <h3>Additional Information</h3>
             <div className={styles.formGroup}>
               <label htmlFor="notes">Notes</label>
@@ -841,11 +874,12 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       <Dialog
         header="Order via Prescription"
         visible={showPrescriptionDialog}
-        style={{ width: "60vw", maxWidth: 700 }}
+        style={{ width: isMobile ? "95vw" : "60vw", maxWidth: 700 }}
         footer={prescriptionDialogFooter}
         onHide={() => {
           setShowPrescriptionDialog(false);
           setSelectedPrescription(null);
+          setSelectionOption("search");
         }}
       >
         <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
@@ -886,7 +920,13 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                   />
                 </div>
               </div>
-              <div className={styles.formSection}>
+              <div
+                style={{
+                  marginTop: "-1rem",
+                  width: "100%",
+                }}
+                className={styles.formSection}
+              >
                 <div className={styles.formGroup}>
                   <label htmlFor="presc-street">Street Address</label>
                   <InputText
@@ -958,7 +998,10 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                   />
                 </div>
               </div>
-              <div className={styles.formSection}>
+              <div
+                style={{ marginTop: "-1rem" }}
+                className={styles.formSection}
+              >
                 <div className={styles.formGroup}>
                   <label htmlFor="presc-paymentMethod">Payment Method</label>
                   <Dropdown
@@ -975,7 +1018,10 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                   />
                 </div>
               </div>
-              <div className={styles.formSection}>
+              <div
+                style={{ marginTop: "-1rem" }}
+                className={styles.formSection}
+              >
                 <div className={styles.formGroup}>
                   <label htmlFor="presc-notes">Notes</label>
                   <InputText
