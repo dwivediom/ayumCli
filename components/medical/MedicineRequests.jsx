@@ -1025,7 +1025,7 @@ const MedicineRequests = () => {
             label="Confirm"
             icon="pi pi-check"
             disabled={!cancellationReason}
-            // onClick={() => handleCancelOrder(selectedRequest)}
+            onClick={() => handleCancelOrder()}
           />
         </div>
       </Dialog>
