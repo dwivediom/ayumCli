@@ -20,7 +20,7 @@
 .searchContainer {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .searchInput{
@@ -28,6 +28,8 @@
   display: flex;
   padding: 0rem !important;
 width: 100% !important;
+  width: 100%;
+  max-width: 400px;
 }
 
 .searchInput,
@@ -164,42 +166,106 @@ width: 100% !important;
 }
 
 .medicineCard {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 1.5rem;
-
-  margin-bottom: 1rem;
-  box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.105);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  position: relative;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
   overflow: hidden;
-  margin-top: 1rem;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-bottom: 1rem;
+  width: 23rem;
 }
-
 
 .medicineCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.medicineCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  border-radius: 2px;
+.medicineContent {
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
+.medicineImage {
+  width: 100px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.medicineInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.medicineHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.medicineName {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.medicineDetails {
+  display: flex;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+}
+
+.price {
+  font-weight: 600;
+  color: #2ecc71;
+}
+
+.medicineActions {
+  margin-top: auto;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: fit-content;
+}
+
+.quantityInput {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantityNumber {
+  width: 60px;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .medicineCard{
-    width: 100% !important;
- }
+  .medicineContent {
+    flex-direction: column;
+  }
+
+  .medicineImage {
+    width: 100%;
+    height: 70px;
+  }
 }
 
 .orderInfo {
@@ -464,7 +530,7 @@ width: 100% !important;
 
 .cartSummary {
   margin-top: 2rem;
-  padding: 1.5rem;
+  /* padding: 1.5rem; */
   background: #f8f9fa;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -550,13 +616,15 @@ width: 100% !important;
 
 .medicineRequests {
   padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .filtersSection {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   margin-bottom: 1.5rem;
-  flex-wrap: wrap;
   align-items: flex-end;
 }
 
@@ -564,7 +632,6 @@ width: 100% !important;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  min-width: 200px;
 }
 
 .filterGroup label {
@@ -577,10 +644,11 @@ width: 100% !important;
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
   transition: all 0.3s ease;
   border: 1px solid rgba(0, 0, 0, 0.05);
+  max-width: 100%;
 }
 
 .requestCard:hover {
@@ -590,21 +658,22 @@ width: 100% !important;
 
 .requestHeader {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .requestInfo {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   align-items: center;
-  gap: 1rem;
 }
 
 .requestNumber {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-color);
   display: flex;
@@ -637,9 +706,9 @@ width: 100% !important;
 
 .requestSummary {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .summaryItem {
@@ -693,8 +762,8 @@ width: 100% !important;
 }
 
 .progressDialog {
-  width: 90vw;
-  max-width: 800px;
+  width: 95vw !important;
+  max-width: 800px !important;
 }
 
 .progressContent {
@@ -924,11 +993,10 @@ width: 100% !important;
 }
 
 .statusTimeline {
-  margin: 1rem 0;
-  padding: 1rem;
+  margin: 0.75rem 0;
+  padding: 0.75rem;
   background: #f8f9fa;
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .timelineItem {
@@ -984,7 +1052,7 @@ width: 100% !important;
     width: 2rem;
     height: 2rem;
   }
-} 
+}
 
 .customCard {
   background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
@@ -1080,4 +1148,97 @@ width: 100% !important;
   gap: 1rem;
   margin-top: 1rem;
   justify-content: flex-end;
+}
+
+.cart-items {
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface-300) var(--surface-100);
+}
+
+.cart-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cart-items::-webkit-scrollbar-track {
+  background: var(--surface-100);
+}
+
+.cart-items::-webkit-scrollbar-thumb {
+  background-color: var(--surface-300);
+  border-radius: 3px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .medicineRequests {
+    padding: 0.75rem;
+  }
+
+  .filtersSection {
+    grid-template-columns: 1fr;
+  }
+
+  .requestHeader {
+    flex-direction: column;
+  }
+
+  .requestInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .requestDate {
+    align-self: flex-start;
+  }
+
+  .requestSummary {
+    grid-template-columns: 1fr;
+  }
+
+  .cardActions {
+    flex-direction: column;
+  }
+
+  .viewDetailsButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Update DataView styles */
+.requestsDataView {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Update pagination container */
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .progressDialog {
+    width: 100vw !important;
+    margin: 0 !important;
+  }
+  
+  .progressContent {
+    padding: 0.75rem;
+  }
+  
+  .detailsTable {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .detailsRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
 } 
