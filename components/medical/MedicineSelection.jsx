@@ -14,6 +14,8 @@ import { getAuthHeaders } from "../../config/api/labApi";
 import { RadioButton } from "primereact/radiobutton";
 import PdfViewer from "./PdfViewer";
 import PrescriptionSelector from "./PrescriptionSelector";
+import { SelectButton } from "primereact/selectbutton";
+import { Sidebar } from "primereact/sidebar";
 
 const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   const router = useRouter();
@@ -22,6 +24,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
   const [showCheckoutDialog, setShowCheckoutDialog] = useState(false);
   const [checkoutForm, setCheckoutForm] = useState({
     contactNumber: "",
@@ -69,6 +74,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   });
   const [selectedCallPrescription, setSelectedCallPrescription] =
     useState(null);
+  const [cartVisible, setCartVisible] = useState(false);
 
   const getMedicineTypeIcon = (type) => {
     switch (type?.toLowerCase()) {
@@ -156,32 +162,30 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   };
 
   const handleAddToCart = (medicine) => {
-    const existingItem = cart.find(
-      (item) => item.medicine._id === medicine._id
-    );
+    const existingItem = cart.find((item) => item._id === medicine._id);
 
     if (existingItem) {
       setCart(
         cart.map((item) =>
-          item.medicine._id === medicine._id
+          item._id === medicine._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         )
       );
     } else {
-      setCart([...cart, { medicine, quantity: 1 }]);
+      setCart([...cart, { ...medicine, quantity: 1 }]);
     }
 
     toast.current.show({
       severity: "success",
       summary: "Added to Cart",
-      detail: `${medicine.brandName} added to cart`,
+      detail: `${medicine.brandName || medicine.genericName} added to cart`,
       life: 2000,
     });
   };
 
   const handleRemoveFromCart = (medicineId) => {
-    setCart(cart.filter((item) => item.medicine._id !== medicineId));
+    setCart(cart.filter((item) => item._id !== medicineId));
   };
 
   const handleQuantityChange = (medicineId, quantity) => {
@@ -192,7 +196,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
 
     setCart(
       cart.map((item) =>
-        item.medicine._id === medicineId ? { ...item, quantity } : item
+        item._id === medicineId ? { ...item, quantity } : item
       )
     );
   };
@@ -212,11 +216,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       };
 
       const items = cart.map((item) => ({
-        medicineId: item.medicine._id,
+        medicineId: item._id,
         quantity: item.quantity,
-        name: item.medicine.brandName,
-        price: item.medicine.price,
-        total: item.medicine.price * item.quantity,
+        name: item.brandName,
+        price: item.price,
+        total: item.price * item.quantity,
       }));
 
       const subtotal = items.reduce((sum, item) => sum + item.total, 0);
@@ -295,73 +299,164 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   ];
 
   const itemTemplate = (medicine) => {
-    const cartItem = cart.find((item) => item.medicine._id === medicine._id);
+    const cartItem = cart.find((item) => item._id === medicine._id);
     const isInCart = !!cartItem;
 
     return (
       <div className={styles.medicineCard}>
         <div className={styles.medicineContent}>
-          <div className={styles.medicineHeader}>
-            <h3>{medicine.brandName || "_"}</h3>
-            <Tag value={medicine.genericName || "_"} severity="info" />
+          {/* Product Image Section */}
+          <div className={styles.medicineImage}>
+            {medicine.category?.toLowerCase() === "tablet" ? (
+              <img src="/capsule.png" alt="Tablet" width="60" height="60" />
+            ) : medicine.category?.toLowerCase() === "syrup" ? (
+              <img src="/syrup.png" alt="Syrup" width="60" height="60" />
+            ) : medicine.category?.toLowerCase() === "injection" ? (
+              <img
+                src="/injection.png"
+                alt="Injection"
+                width="60"
+                height="60"
+              />
+            ) : medicine.category?.toLowerCase() === "capsule" ? (
+              <img src="/capsule.png" alt="Capsule" width="60" height="60" />
+            ) : medicine.category?.toLowerCase() === "powder" ? (
+              <img src="/powder.png" alt="Powder" width="60" height="60" />
+            ) : medicine.category?.toLowerCase() === "ointment" ? (
+              <img src="/ointment.png" alt="Ointment" width="60" height="60" />
+            ) : (
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="8"
+                  fill="#2ecc71"
+                  stroke="#2ecc71"
+                  strokeWidth="2"
+                />
+                <path d="M12 8V16" stroke="white" strokeWidth="2" />
+                <path d="M8 12H16" stroke="white" strokeWidth="2" />
+              </svg>
+            )}
           </div>
 
-          <div className={styles.medicineDetails}>
-            <div className={styles.detailItem}>
-              <i className="pi pi-tag" style={{ color: "#2ecc71" }}></i>
-              <span>₹{medicine.price || "_"}</span>
-            </div>
-            <div className={styles.detailItem}>
-              <i
-                className={getMedicineTypeIcon(medicine.type)}
-                style={{ color: "#2ecc71" }}
-              ></i>
-              <span>{getMedicineTypeLabel(medicine.type)}</span>
-            </div>
-          </div>
+          {/* Product Info Section */}
+          <div className={styles.medicineInfo}>
+            <div className={styles.medicineHeader}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <h3
+                  className={styles.medicineName}
+                  style={{
+                    fontWeight: "600",
+                    color: "rgba(0,0,0,0.87)",
+                  }}
+                >
+                  {medicine.brandName || medicine.genericName}
+                </h3>
+                <h3
+                  className={styles.medicineName}
+                  style={{
+                    fontSize: "14px",
+                    color: "gray",
+                  }}
+                >
+                  Brand: {medicine.genericName}
+                </h3>
+              </div>
 
-          <div className={styles.medicineActions}>
-            {isInCart ? (
-              <div className={styles.quantityControls}>
-                <div className={styles.quantityInput}>
+              <Tag
+                value={medicine.category || "Other"}
+                style={{
+                  padding: "5px",
+                  borderRadius: "4px",
+                  fontSize: "16px",
+                }}
+                severity="info"
+              />
+            </div>
+
+            {/* <div className={styles.medicineDetails}>
+              <div className={styles.detailItem}>
+                <i className="pi pi-tag" style={{ color: "#2ecc71" }}></i>
+                <span className={styles.price}>
+                  ₹{medicine.packaging?.split(" ")[1] || "N/A"}
+                </span>
+              </div>
+              <div className={styles.detailItem}>
+                <i className="pi pi-box" style={{ color: "#2ecc71" }}></i>
+                <span>{medicine.packaging?.split(" ")[0] || "N/A"} units</span>
+              </div>
+            </div> */}
+
+            {/* Action Buttons */}
+            <div className={styles.medicineActions}>
+              {isInCart ? (
+                <div className={styles.quantityControls}>
+                  <div className={styles.quantityInput}>
+                    <Button
+                      icon="pi pi-minus"
+                      className="p-button-rounded p-button-text"
+                      onClick={() =>
+                        handleQuantityChange(
+                          medicine._id,
+                          cartItem.quantity - 1
+                        )
+                      }
+                    />
+                    <InputNumber
+                      value={cartItem.quantity}
+                      onValueChange={(e) =>
+                        handleQuantityChange(medicine._id, e.value)
+                      }
+                      showButtons={false}
+                      min={1}
+                      max={100}
+                      className={styles.quantityNumber}
+                    />
+                    <Button
+                      icon="pi pi-plus"
+                      className="p-button-rounded p-button-text"
+                      onClick={() =>
+                        handleQuantityChange(
+                          medicine._id,
+                          cartItem.quantity + 1
+                        )
+                      }
+                    />
+                  </div>
                   <Button
-                    label="-"
-                    className="p-button-text"
-                    onClick={() =>
-                      handleQuantityChange(medicine._id, cartItem.quantity - 1)
-                    }
-                  />
-                  <InputNumber
-                    value={cartItem.quantity}
-                    onValueChange={(e) =>
-                      handleQuantityChange(medicine._id, e.value)
-                    }
-                    showButtons={false}
-                    min={1}
-                    max={100}
-                  />
-                  <Button
-                    label="+"
-                    className="p-button-text"
-                    onClick={() =>
-                      handleQuantityChange(medicine._id, cartItem.quantity + 1)
-                    }
+                    icon="pi pi-trash"
+                    className="p-button-rounded p-button-danger"
+                    onClick={() => handleRemoveFromCart(medicine._id)}
                   />
                 </div>
-                <Button
-                  icon="pi pi-trash"
-                  className="p-button-rounded p-button-danger"
-                  onClick={() => handleRemoveFromCart(medicine._id)}
-                />
-              </div>
-            ) : (
-              <Button
-                label="Add to Cart"
-                icon="pi pi-shopping-cart"
-                onClick={() => handleAddToCart(medicine)}
-                className="p-button-success"
-              />
-            )}
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                    justifyContent: "flex-end",
+                    padding: "5px",
+                    background: "var(--surface-50)",
+                    borderRadius: "4px",
+                  }}
+                >
+                  <Button
+                    label="Add to Cart"
+                    icon="pi pi-shopping-cart"
+                    onClick={() => handleAddToCart(medicine)}
+                    style={{ backgroundColor: "var(--teal-600)" }}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -369,28 +464,21 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   };
 
   const cartItemTemplate = (item) => (
-    <div key={item.medicine._id} className={styles.cartItem}>
+    <div key={item._id} className={styles.cartItem}>
       <div className={styles.cartItemContent}>
         <div className={styles.cartItemHeader}>
-          <h4>{item.medicine.brandName || "_"}</h4>
-          <span className={styles.cartItemPrice}>
-            ₹{item.medicine.price || "_"}
-          </span>
+          <h4>{item.brandName || item.genericName}</h4>
         </div>
         <div className={styles.quantityControls}>
           <div className={styles.quantityInput}>
             <Button
               label="-"
               className="p-button-text"
-              onClick={() =>
-                handleQuantityChange(item.medicine._id, item.quantity - 1)
-              }
+              onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
             />
             <InputNumber
               value={item.quantity}
-              onValueChange={(e) =>
-                handleQuantityChange(item.medicine._id, e.value)
-              }
+              onValueChange={(e) => handleQuantityChange(item._id, e.value)}
               showButtons={false}
               min={1}
               max={100}
@@ -398,15 +486,13 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             <Button
               label="+"
               className="p-button-text"
-              onClick={() =>
-                handleQuantityChange(item.medicine._id, item.quantity + 1)
-              }
+              onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
             />
           </div>
           <Button
             icon="pi pi-trash"
             className="p-button-rounded p-button-danger"
-            onClick={() => handleRemoveFromCart(item.medicine._id)}
+            onClick={() => handleRemoveFromCart(item._id)}
           />
         </div>
       </div>
@@ -426,12 +512,15 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       <Button
         label="Cancel"
         icon="pi pi-times"
-        onClick={() => setShowPrescriptionDialog(false)}
+        onClick={() => {
+          setSelectionOption("search");
+          setShowPrescriptionDialog(false);
+        }}
         className="p-button-text"
       />
       <Button
-        icon="pi pi-check"
-        label="Submit"
+        icon="pi pi-check-circle"
+        label="Order"
         onClick={() => handlePrescriptionOrderSubmit()}
         disabled={
           !selectedPrescription ||
@@ -600,12 +689,24 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
     }
   };
 
+  const [value, setValue] = useState(null);
+  const items = [
+    { name: "Order via Prescription", value: "prescription" },
+    { name: "Search and add medicines to cart", value: "search" },
+    { name: "Call me for details", value: "call" },
+  ];
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
   return (
     <div className={styles.medicineSelection}>
       <Toast ref={toast} />
 
       {/* Medicine Selection Options */}
-      <div className={styles.selectionOptions} style={{ marginBottom: "2rem" }}>
+      {/* <div className={styles.selectionOptions} style={{ marginBottom: "2rem" }}>
         <div style={{ marginBottom: "1rem" }}>
           <RadioButton
             inputId="prescription"
@@ -654,6 +755,15 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             </div>
           )}
         </div>
+      </div> */}
+
+      <div className="card flex justify-content-center">
+        <SelectButton
+          value={selectionOption}
+          onChange={(e) => setSelectionOption(e.value)}
+          optionLabel="name"
+          options={items}
+        />
       </div>
 
       {/* Show only for 'search' option */}
@@ -668,23 +778,88 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             <strong>New Component 2</strong> (replace with actual component)
           </div> */}
 
-          <div className={styles.searchSection}>
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              alignItems: "center",
+              justifyContent: "space-between",
+              position: "sticky",
+              top: "0",
+              zIndex: "1000",
+              background: "white",
+              borderRadius: "10px",
+              // boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+            }}
+            className={styles.searchSection}
+          >
             <div className={styles.searchInput}>
               <InputText
                 value={searchTerm}
                 onChange={handleSearchChange}
                 placeholder="Search medicines..."
                 className="w-full"
+                style={{
+                  borderTopRightRadius: 0,
+                  borderBottomRightRadius: 0,
+                }}
               />
               <Button
-                label="Search"
+                label={isMobile ? "" : "Search"}
                 icon="pi pi-search"
                 onClick={handleSearchButtonClick}
+                style={{
+                  borderTopLeftRadius: 0,
+                  borderBottomLeftRadius: 0,
+                }}
               />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "var(--teal-600)",
+                height: "50px",
+                marginTop: "10px",
+                width: "60px",
+                borderRadius: "50%",
+                position: "relative",
+                cursor: "pointer",
+              }}
+              onClick={() => setCartVisible(true)}
+            >
+              <span
+                style={{
+                  fontSize: "1.2rem",
+                  color: "white",
+                  position: "absolute",
+                  top: "0%",
+                  right: "-10px",
+                  transform: "translate(-5%, -50%)",
+                  background: "var(--orange-500)",
+                  padding: "5px",
+                  width: "30px",
+                  height: "30px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "50%",
+                }}
+              >
+                {cart.length}
+              </span>
+              <i
+                style={{
+                  fontSize: "1.5rem",
+                  color: "white",
+                }}
+                className="pi pi-shopping-cart"
+              ></i>
             </div>
           </div>
 
-          <DataView
+          {/* <DataView
             value={medicines}
             itemTemplate={itemTemplate}
             paginator
@@ -692,29 +867,19 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             totalRecords={pagination.total}
             loading={loading}
             className={styles.medicineDataView}
-          />
+          /> */}
 
-          {cart.length > 0 && (
-            <div className={styles.cartSummary}>
-              <h3>Cart ({cart.length} items)</h3>
-              <div className={styles.cartItems}>
-                {cart.map(cartItemTemplate)}
-              </div>
-              <div className={styles.cartTotal}>
-                <span>
-                  Total: ₹
-                  {cart.reduce(
-                    (sum, item) => sum + item.medicine.price * item.quantity,
-                    0
-                  )}
-                </span>
-              </div>
-              <Button
-                label="Proceed to Checkout"
-                icon="pi pi-shopping-bag"
-                onClick={handleProceed}
-                className="p-button-success"
-              />
+          {medicines.length > 0 && (
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+                flexWrap: "wrap",
+                padding: "1rem",
+              }}
+              // className={styles.medicineDataView}
+            >
+              {medicines.map(itemTemplate)}
             </div>
           )}
         </>
@@ -723,7 +888,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       <Dialog
         header="Checkout Details"
         visible={showCheckoutDialog}
-        style={{ width: "50vw" }}
+        style={{ width: isMobile ? "95vw" : "50vw" }}
         footer={checkoutDialogFooter}
         onHide={() => setShowCheckoutDialog(false)}
       >
@@ -805,7 +970,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             </div>
           </div>
 
-          <div className={styles.formSection}>
+          <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
             <h3>Payment Details</h3>
             <div className={styles.formGroup}>
               <label htmlFor="paymentMethod">Payment Method</label>
@@ -821,7 +986,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             </div>
           </div>
 
-          <div className={styles.formSection}>
+          <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
             <h3>Additional Information</h3>
             <div className={styles.formGroup}>
               <label htmlFor="notes">Notes</label>
@@ -841,11 +1006,12 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       <Dialog
         header="Order via Prescription"
         visible={showPrescriptionDialog}
-        style={{ width: "60vw", maxWidth: 700 }}
+        style={{ width: isMobile ? "95vw" : "60vw", maxWidth: 700 }}
         footer={prescriptionDialogFooter}
         onHide={() => {
           setShowPrescriptionDialog(false);
           setSelectedPrescription(null);
+          setSelectionOption("search");
         }}
       >
         <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
@@ -886,7 +1052,13 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                   />
                 </div>
               </div>
-              <div className={styles.formSection}>
+              <div
+                style={{
+                  marginTop: "-1rem",
+                  width: "100%",
+                }}
+                className={styles.formSection}
+              >
                 <div className={styles.formGroup}>
                   <label htmlFor="presc-street">Street Address</label>
                   <InputText
@@ -958,7 +1130,10 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                   />
                 </div>
               </div>
-              <div className={styles.formSection}>
+              <div
+                style={{ marginTop: "-1rem" }}
+                className={styles.formSection}
+              >
                 <div className={styles.formGroup}>
                   <label htmlFor="presc-paymentMethod">Payment Method</label>
                   <Dropdown
@@ -975,7 +1150,10 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                   />
                 </div>
               </div>
-              <div className={styles.formSection}>
+              <div
+                style={{ marginTop: "-1rem" }}
+                className={styles.formSection}
+              >
                 <div className={styles.formGroup}>
                   <label htmlFor="presc-notes">Notes</label>
                   <InputText
@@ -1201,6 +1379,127 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
           </div>
         </div>
       </Dialog>
+
+      <Sidebar
+        visible={cartVisible}
+        position="right"
+        onHide={() => setCartVisible(false)}
+        style={{ width: "400px" }}
+        className="p-sidebar-lg"
+      >
+        <div className="p-4">
+          <h2 className="text-xl font-bold mb-4">
+            Shopping Cart ({cart.length} items)
+          </h2>
+
+          {cart.length === 0 ? (
+            <div className="text-center p-4">
+              <i className="pi pi-shopping-cart text-4xl text-gray-400 mb-2"></i>
+              <p className="text-gray-500">Your cart is empty</p>
+            </div>
+          ) : (
+            <>
+              <div
+                className="cart-items"
+                style={{ maxHeight: "calc(100vh - 250px)", overflowY: "auto" }}
+              >
+                {cart.map((item) => (
+                  <div
+                    key={item._id}
+                    className="mb-4 p-3 border-round surface-100"
+                  >
+                    <div className="flex justify-content-between align-items-center mb-2">
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        <h3
+                          className={styles.medicineName}
+                          style={{
+                            fontWeight: "600",
+                            color: "rgba(0,0,0,0.87)",
+                          }}
+                        >
+                          {item.brandName || item.genericName}
+                        </h3>
+                        <h3
+                          className={styles.medicineName}
+                          style={{
+                            fontSize: "14px",
+                            color: "gray",
+                          }}
+                        >
+                          Brand: {item.genericName}
+                        </h3>
+                      </div>
+                      <Button
+                        icon="pi pi-trash"
+                        className="p-button-rounded p-button-danger p-button-text"
+                        onClick={() => handleRemoveFromCart(item._id)}
+                      />
+                    </div>
+
+                    <div className="flex align-items-center justify-content-between">
+                      <div className="flex align-items-center">
+                        <Button
+                          icon="pi pi-minus"
+                          className="p-button-rounded p-button-text"
+                          onClick={() =>
+                            handleQuantityChange(item._id, item.quantity - 1)
+                          }
+                        />
+                        <InputText
+                          type="number"
+                          value={item.quantity}
+                          onChange={(e) =>
+                            handleQuantityChange(
+                              item._id,
+                              parseInt(e.target.value)
+                            )
+                          }
+                          showButtons={false}
+                          min={1}
+                          max={100}
+                          className="mx-2"
+                          style={{ maxWidth: "5rem" }}
+                        />
+                        <Button
+                          icon="pi pi-plus"
+                          className="p-button-rounded p-button-text"
+                          onClick={() =>
+                            handleQuantityChange(item._id, item.quantity + 1)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border-top-1 surface-border pt-3 mt-3">
+                <p className="text-sm text-center text-gray-500 mb-2">
+                  Order Total Will Be Shared in WhatsApp After Medical Confirms
+                  Your Order
+                </p>
+                <div className="flex justify-content-between mb-2">
+                  <span>Delivery Charge:</span>
+                  <span>₹22</span>
+                </div>
+
+                <Button
+                  label="Proceed to Checkout"
+                  icon="pi pi-shopping-bag"
+                  className="w-full "
+                  style={{
+                    marginTop: "1rem",
+                  }}
+                  onClick={() => {
+                    setCartVisible(false);
+                    handleProceed();
+                  }}
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </Sidebar>
     </div>
   );
 };

@@ -96,11 +96,11 @@ const PharmacyList = () => {
         <div className={styles.pharmacyHeader}>
           <div className={styles.pharmacyInfo}>
             <h3 className={styles.pharmacyName}>{pharmacy.name}</h3>
-            <Tag
+            {/* <Tag
               value={pharmacy.hospital}
               severity="info"
               className={styles.pharmacyTag}
-            />
+            /> */}
           </div>
           <div className={styles.pharmacyDetails}>
             <div className={styles.detailItem}>
