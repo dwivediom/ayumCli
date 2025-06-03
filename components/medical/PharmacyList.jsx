@@ -95,7 +95,7 @@ const PharmacyList = () => {
       <div className={styles.pharmacyCard}>
         <div className={styles.pharmacyHeader}>
           <div className={styles.pharmacyInfo}>
-            <h3 className={styles.pharmacyName}>{pharmacy.name}</h3>
+            <h3 className={styles.pharmacyName}>{pharmacy.buisnessname}</h3>
             {/* <Tag
               value={pharmacy.hospital}
               severity="info"
@@ -148,25 +148,28 @@ const PharmacyList = () => {
           <div className={styles.searchSection}>
             <div className={styles.searchContainer}>
               <span className="p-input-icon-left w-full">
-                <i className="pi pi-search" />
                 <InputText
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search pharmacies..."
                   className={styles.searchInput}
                 />
+                {/* <i className="pi pi-search" /> */}
               </span>
               <Button
-                icon="pi pi-sliders-h"
+                icon="pi pi-search"
                 className={styles.filterButton}
                 onClick={() => setShowFilters((prev) => !prev)}
                 aria-label="Filters"
+                style={{
+                  marginTop: "1rem",
+                }}
               />
             </div>
 
             <div className={styles.cityFilter}>
               <span className="p-input-icon-left w-full">
-                <i className="pi pi-map-marker" />
+                {/* <i className="pi pi-map-marker" /> */}
                 <InputText
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
