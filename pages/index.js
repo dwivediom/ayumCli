@@ -229,6 +229,7 @@ export default function Home(props) {
               <Nashmukti />
               <BloodDonatebtn />
             </div>
+
             {isMobile ? (
               <EmblaCarousel page={"home"} />
             ) : (

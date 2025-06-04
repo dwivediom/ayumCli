@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import SearchBox from "./Carousel/Search/SearchBox";
 import styles from "../styles/Home.module.css";
 import styles2 from "../styles/booktest.module.css";
-
+import English from "../public/locales/en/index";
+import Hindi from "../public/locales/hi/index";
 import QuickSearch from "./QuickSearch";
 import Carousel2 from "./Carousel2";
 import HorizontalScroll from "./DemoAd";
@@ -16,6 +17,7 @@ import EmblaCarousel from "./Carousel/EmblaCarouselComp";
 import CityDropdown from "./CityDropdown";
 import LanguageModal from "./LanguageModal";
 import DoctorCard from "./DoctorCard";
+import { useRouter } from "next/router";
 
 const NewHomePage = () => {
   let [isMobile, setIsMobile] = useState(false);
@@ -136,6 +138,8 @@ const NewHomePage = () => {
     }
   };
 
+  const { lang } = useContext(AccountContext);
+  const router = useRouter();
   return (
     <div className={styles.mainshell}>
       {langmodal && <LanguageModal getdocs={getalldoc} />}
@@ -148,6 +152,41 @@ const NewHomePage = () => {
         }}
       />
       <QuickSearch />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "15px",
+          borderRadius: "8px",
+          marginTop: "5px",
+          background: "#008080",
+          color: "white",
+          fontWeight: "bold",
+          fontSize: "1rem",
+          cursor: "pointer",
+          transition: "all 0.3s ease",
+          marginTop: "10px",
+          position: "relative",
+        }}
+        onClick={() => {
+          router.push("/medical");
+        }}
+      >
+        <img
+          src="/deliveryicon.png"
+          alt="deliveryicon"
+          style={{
+            width: "40px",
+            height: "40px",
+            marginRight: "10px",
+            position: "absolute",
+            left: "10px",
+          }}
+        />{" "}
+        {lang == "en" ? English.ordermedicine : Hindi.ordermedicine}
+      </div>
+
       {isMobile ? (
         <EmblaCarousel slidesData={slidesData} page={"home"} />
       ) : (
