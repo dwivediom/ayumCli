@@ -37,4 +37,5 @@ module.exports = {
   userapp: "Appointments",
   twoclickmsg: "Get all healthcare services in just 2 clicks",
   thankmsg: "Thankyou for connecting with Ayum",
+  ordermedicine: "Order Medicines",
 };

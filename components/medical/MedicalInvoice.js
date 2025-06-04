@@ -99,7 +99,10 @@ const MedicalInvoice = ({
     } else {
       return {
         name: invoice?.customerInfo?.name || "N/A",
-        address: invoice?.customerInfo?.address || "N/A",
+        address:
+          typeof invoice.customerInfo?.address == "object"
+            ? invoice.customerInfo?.address?.street
+            : invoice.customerInfo?.address || "N/A",
         phone: invoice?.customerInfo?.phone || "N/A",
         gstin: "N/A",
       };
