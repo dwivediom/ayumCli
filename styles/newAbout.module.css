@@ -54,6 +54,208 @@ margin-right: 1rem;
   text-align: center;
 }
 
+.aboutContainer {
+  min-height: 100vh;
+  background-color: #f0f9f9;
+}
+
+.heroSection {
+  background: linear-gradient(135deg, #008080 0%, #006666 100%);
+  color: white;
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.heroContent h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.heroContent p {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  color: #e6f7f7;
+}
+
+.missionSection {
+  padding: 4rem 2rem;
+  background-color: white;
+  text-align: center;
+}
+
+.missionContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.missionContent h2 {
+  color: #008080;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.missionContent p {
+  font-size: 1.2rem;
+  color: #006666;
+  line-height: 1.6;
+}
+
+.featuresSection {
+  padding: 4rem 2rem;
+  background-color: #f0f9f9;
+}
+
+.featuresSection h2 {
+  text-align: center;
+  color: #008080;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.featureCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 128, 128, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 128, 128, 0.1);
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 128, 128, 0.15);
+  border-color: #008080;
+}
+
+.featureCard i {
+  font-size: 2.5rem;
+  color: #008080;
+  margin-bottom: 1rem;
+}
+
+.featureCard h3 {
+  color: #008080;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.featureCard p {
+  color: #006666;
+  line-height: 1.6;
+}
+
+.contactSection {
+  background: linear-gradient(135deg, #008080 0%, #006666 100%);
+  padding: 3rem 2rem;
+  text-align: center;
+  color: white;
+  /* position: sticky; */
+  top: 0;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 128, 128, 0.2);
+}
+
+.contactContent {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.contactContent h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.contactContent p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #e6f7f7;
+}
+
+.contactButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #ffffff;
+  color: #008080;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 128, 128, 0.2);
+  border: 2px solid #008080;
+}
+
+.contactButton:hover {
+  transform: scale(1.05);
+  background-color: #008080;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 128, 128, 0.3);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .heroContent h1 {
+    font-size: 2rem;
+  }
+
+  .heroContent p {
+    font-size: 1rem;
+  }
+
+  .missionContent h2,
+  .featuresSection h2,
+  .contactContent h2 {
+    font-size: 2rem;
+  }
+
+  .contactSection {
+    padding: 2rem 1rem;
+  }
+
+  .contactContent h2 {
+    font-size: 1.5rem;
+  }
+
+  .contactContent p {
+    font-size: 1rem;
+  }
+
+  .contactButton {
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .featureCard {
+    padding: 1.5rem;
+  }
+}
+
 
 
 

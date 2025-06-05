@@ -430,7 +430,7 @@ const MedicineRequests = () => {
           <div className={styles.summaryItem}>
             <span className={styles.summaryLabel}>Pharmacy:</span>
             <span className={styles.summaryValue}>
-              {request.pharmacyId?.name || 'Not specified'}
+              {request.pharmacyId?.name || "Not specified"}
             </span>
           </div>
           {request.orderType === "medicine_search" &&
@@ -699,13 +699,13 @@ const MedicineRequests = () => {
                 <div className={styles.detailsRow}>
                   <span className={styles.detailsLabel}>Pharmacy:</span>
                   <span className={styles.detailsValue}>
-                    {selectedRequest.pharmacyId?.name || 'Not specified'}
+                    {selectedRequest.pharmacyId?.name || "Not specified"}
                   </span>
                 </div>
                 <div className={styles.detailsRow}>
                   <span className={styles.detailsLabel}>Hospital/Clinic:</span>
                   <span className={styles.detailsValue}>
-                    {selectedRequest.pharmacyId?.hospital || 'Not specified'}
+                    {selectedRequest.pharmacyId?.hospital || "Not specified"}
                   </span>
                 </div>
               </div>
