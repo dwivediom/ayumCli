@@ -4,6 +4,7 @@ import { getServerSideProps } from "../index";
 import withAuth from "../../components/withAuth";
 
 const MedicalRequestsPage = () => {
+  // with auth
   return (
     <div>
       <MedicineRequests />
