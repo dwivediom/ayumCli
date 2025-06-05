@@ -1,6 +1,7 @@
-import React from 'react';
-import MedicineRequests from '../../components/medical/MedicineRequests';
-import { getServerSideProps } from '../index';
+import React from "react";
+import MedicineRequests from "../../components/medical/MedicineRequests";
+import { getServerSideProps } from "../index";
+import withAuth from "../../components/withAuth";
 
 const MedicalRequestsPage = () => {
   return (
@@ -10,4 +11,4 @@ const MedicalRequestsPage = () => {
   );
 };
 
-export default MedicalRequestsPage; 
+export default withAuth(MedicalRequestsPage);
