@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { DataView } from "primereact/dataview";
@@ -16,6 +16,9 @@ import PdfViewer from "./PdfViewer";
 import PrescriptionSelector from "./PrescriptionSelector";
 import { SelectButton } from "primereact/selectbutton";
 import { Sidebar } from "primereact/sidebar";
+import { AccountContext } from "../../context/AccountProvider";
+import English from "../../public/locales/en";
+import Hindi from "../../public/locales/hi";
 
 const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   const router = useRouter();
@@ -44,7 +47,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
     total: 0,
   });
   const searchTimeout = useRef(null);
-  const [selectionOption, setSelectionOption] = useState("search");
+  const [selectionOption, setSelectionOption] = useState();
   const [showPrescriptionDialog, setShowPrescriptionDialog] = useState(false);
   const [selectedPrescription, setSelectedPrescription] = useState(null);
   const [prescriptionForm, setPrescriptionForm] = useState({
@@ -449,7 +452,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                   }}
                 >
                   <Button
-                    label="Add to Cart"
+                    label={lang == "en" ? English.AddToCart : Hindi.AddToCart}
                     icon="pi pi-shopping-cart"
                     onClick={() => handleAddToCart(medicine)}
                     style={{ backgroundColor: "var(--teal-600)" }}
@@ -513,7 +516,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
         label="Cancel"
         icon="pi pi-times"
         onClick={() => {
-          setSelectionOption("search");
+          setSelectionOption();
           setShowPrescriptionDialog(false);
         }}
         className="p-button-text"
@@ -594,7 +597,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
           life: 3000,
         });
         setShowCallDialog(false);
-        setSelectedCallPrescription(null);
+        setSelectedCallPrescription();
         setCallForm({
           contactNumber: "",
           street: "",
@@ -688,15 +691,27 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       });
     }
   };
+  const { lang } = useContext(AccountContext);
 
   const [value, setValue] = useState(null);
   const items = [
-    { name: "Order via Prescription", value: "prescription" },
-    { name: "Search and add medicines to cart", value: "search" },
-    { name: "Call me for details", value: "call" },
+    {
+      name:
+        lang == "en"
+          ? English.OrderviaPrescription
+          : Hindi.OrderviaPrescription,
+      value: "prescription",
+    },
+    {
+      name:
+        lang == "en"
+          ? English.Searchandaddmedicines
+          : Hindi.Searchandaddmedicines,
+      value: "search",
+    },
+    { name: lang == "en" ? English.Callme : Hindi.Callme, value: "call" },
   ];
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
   }, []);
@@ -757,7 +772,13 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
         </div>
       </div> */}
 
-      <div className="card flex justify-content-center">
+      <div
+        style={{
+          marginTop: selectionOption ? "0" : "5rem",
+          transition: "margin-top 0.3s ease-in-out",
+        }}
+        className="card flex justify-content-center"
+      >
         <SelectButton
           value={selectionOption}
           onChange={(e) => setSelectionOption(e.value)}
@@ -766,8 +787,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
         />
       </div>
 
-      {/* Show only for 'search' option */}
-      {selectionOption === "search" && (
+      {selectionOption === "search" && selectionOption && (
         <>
           {/* New Component 1 Placeholder */}
           {/* <div className="customCard">
@@ -797,7 +817,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
               <InputText
                 value={searchTerm}
                 onChange={handleSearchChange}
-                placeholder="Search medicines..."
+                placeholder={
+                  lang == "en" ? English.SearchMedicines : Hindi.SearchMedicines
+                }
                 className="w-full"
                 style={{
                   borderTopRightRadius: 0,
@@ -820,9 +842,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 alignItems: "center",
                 justifyContent: "center",
                 background: "var(--teal-600)",
-                height: "50px",
+                height: "40px",
                 marginTop: "10px",
-                width: "60px",
+                width: "50px",
                 borderRadius: "50%",
                 position: "relative",
                 cursor: "pointer",
@@ -839,8 +861,8 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                   transform: "translate(-5%, -50%)",
                   background: "var(--orange-500)",
                   padding: "5px",
-                  width: "30px",
-                  height: "30px",
+                  width: "20px",
+                  height: "20px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -886,9 +908,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       )}
 
       <Dialog
-        header="Checkout Details"
+        header={lang == "en" ? English.CheckoutDetails : Hindi.CheckoutDetails}
         visible={showCheckoutDialog}
-        style={{ width: isMobile ? "95vw" : "50vw" }}
+        style={{ width: isMobile ? "100vw" : "50vw" }}
         footer={checkoutDialogFooter}
         onHide={() => setShowCheckoutDialog(false)}
       >
@@ -896,7 +918,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
           <div className={styles.formSection}>
             <h3>Contact Information</h3>
             <div className={styles.formGroup}>
-              <label htmlFor="contactNumber">Contact Number</label>
+              <label htmlFor="contactNumber">
+                {lang == "en" ? English.ContactNumber : Hindi.ContactNumber}
+              </label>
               <InputText
                 id="contactNumber"
                 value={checkoutForm.contactNumber}
@@ -906,7 +930,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     contactNumber: e.target.value,
                   })
                 }
-                placeholder="Enter contact number"
+                placeholder={
+                  lang == "en"
+                    ? English.EnterContactNumber
+                    : Hindi.EnterContactNumber
+                }
               />
             </div>
           </div>
@@ -921,7 +949,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 onChange={(e) =>
                   setCheckoutForm({ ...checkoutForm, street: e.target.value })
                 }
-                placeholder="Enter street address"
+                placeholder={
+                  lang == "en"
+                    ? English.EnterStreetAddress
+                    : Hindi.EnterStreetAddress
+                }
               />
             </div>
             <div className={styles.formGroup}>
@@ -932,7 +964,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 onChange={(e) =>
                   setCheckoutForm({ ...checkoutForm, city: e.target.value })
                 }
-                placeholder="Enter city"
+                placeholder={lang == "en" ? English.EnterCity : Hindi.EnterCity}
               />
             </div>
             <div className={styles.formGroup}>
@@ -943,7 +975,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 onChange={(e) =>
                   setCheckoutForm({ ...checkoutForm, state: e.target.value })
                 }
-                placeholder="Enter state"
+                placeholder={
+                  lang == "en" ? English.EnterState : Hindi.EnterState
+                }
               />
             </div>
             <div className={styles.formGroup}>
@@ -954,7 +988,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 onChange={(e) =>
                   setCheckoutForm({ ...checkoutForm, pincode: e.target.value })
                 }
-                placeholder="Enter pincode"
+                placeholder={
+                  lang == "en" ? English.EnterPincode : Hindi.EnterPincode
+                }
               />
             </div>
             <div className={styles.formGroup}>
@@ -965,7 +1001,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 onChange={(e) =>
                   setCheckoutForm({ ...checkoutForm, landmark: e.target.value })
                 }
-                placeholder="Enter landmark"
+                placeholder={
+                  lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
+                }
               />
             </div>
           </div>
@@ -981,7 +1019,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 onChange={(e) =>
                   setCheckoutForm({ ...checkoutForm, paymentMethod: e.value })
                 }
-                placeholder="Select payment method"
+                placeholder={
+                  lang == "en"
+                    ? English.SelectPaymentMethod
+                    : Hindi.SelectPaymentMethod
+                }
               />
             </div>
           </div>
@@ -996,7 +1038,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 onChange={(e) =>
                   setCheckoutForm({ ...checkoutForm, notes: e.target.value })
                 }
-                placeholder="Any additional notes or instructions"
+                placeholder={
+                  lang == "en" ? English.AdditionalNotes : Hindi.AdditionalNotes
+                }
               />
             </div>
           </div>
@@ -1004,14 +1048,18 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       </Dialog>
 
       <Dialog
-        header="Order via Prescription"
+        header={
+          lang == "en"
+            ? English.OrderviaPrescription
+            : Hindi.OrderviaPrescription
+        }
         visible={showPrescriptionDialog}
-        style={{ width: isMobile ? "95vw" : "60vw", maxWidth: 700 }}
+        style={{ width: isMobile ? "100vw" : "60vw", maxWidth: 700 }}
         footer={prescriptionDialogFooter}
         onHide={() => {
           setShowPrescriptionDialog(false);
           setSelectedPrescription(null);
-          setSelectionOption("search");
+          setSelectionOption();
         }}
       >
         <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
@@ -1038,7 +1086,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
             <div className={styles.checkoutForm}>
               <div className={styles.formSection}>
                 <div className={styles.formGroup}>
-                  <label htmlFor="presc-contactNumber">Contact Number</label>
+                  <label htmlFor="presc-contactNumber">
+                    {lang == "en" ? English.Contactnumber : Hindi.Contactnumber}
+                  </label>
                   <InputText
                     id="presc-contactNumber"
                     value={prescriptionForm.contactNumber}
@@ -1048,7 +1098,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                         contactNumber: e.target.value,
                       })
                     }
-                    placeholder="Enter contact number"
+                    placeholder={
+                      lang == "en" ? English.Contactnumber : Hindi.Contactnumber
+                    }
                   />
                 </div>
               </div>
@@ -1070,7 +1122,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                         street: e.target.value,
                       })
                     }
-                    placeholder="Enter street address"
+                    placeholder={
+                      lang == "en"
+                        ? English.EnterStreetAddress
+                        : Hindi.EnterStreetAddress
+                    }
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -1084,7 +1140,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                         city: e.target.value,
                       })
                     }
-                    placeholder="Enter city"
+                    placeholder={
+                      lang == "en" ? English.EnterCity : Hindi.EnterCity
+                    }
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -1098,7 +1156,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                         state: e.target.value,
                       })
                     }
-                    placeholder="Enter state"
+                    placeholder={
+                      lang == "en" ? English.EnterState : Hindi.EnterState
+                    }
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -1112,7 +1172,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                         pincode: e.target.value,
                       })
                     }
-                    placeholder="Enter pincode"
+                    placeholder={
+                      lang == "en" ? English.EnterPincode : Hindi.EnterPincode
+                    }
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -1126,7 +1188,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                         landmark: e.target.value,
                       })
                     }
-                    placeholder="Enter landmark"
+                    placeholder={
+                      lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
+                    }
                   />
                 </div>
               </div>
@@ -1146,7 +1210,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                         paymentMethod: e.value,
                       })
                     }
-                    placeholder="Select payment method"
+                    placeholder={
+                      lang == "en"
+                        ? English.SelectPaymentMethod
+                        : Hindi.SelectPaymentMethod
+                    }
                   />
                 </div>
               </div>
@@ -1165,7 +1233,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                         notes: e.target.value,
                       })
                     }
-                    placeholder="Any additional notes or instructions"
+                    placeholder={
+                      lang == "en"
+                        ? English.AdditionalNotes
+                        : Hindi.AdditionalNotes
+                    }
                   />
                 </div>
               </div>
@@ -1179,7 +1251,10 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
         header={enlargedFile ? enlargedFile.fileName || "Preview" : "Preview"}
         visible={showEnlargeDialog}
         style={{ width: "90vw", maxWidth: 900 }}
-        onHide={() => setShowEnlargeDialog(false)}
+        onHide={() => {
+          setShowEnlargeDialog(false);
+          setEnlargedFile(null);
+        }}
         modal
       >
         {enlargedFile &&
@@ -1201,22 +1276,25 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       </Dialog>
 
       <Dialog
-        header="Call Me For Details"
+        header={
+          lang == "en" ? English.CallMeForDetails : Hindi.CallMeForDetails
+        }
         visible={showCallDialog}
-        style={{ width: "60vw", maxWidth: 700 }}
+        style={{ width: isMobile ? "100vw" : "60vw", maxWidth: 700 }}
         footer={
           <div>
             <Button
-              label="Cancel"
+              label={lang == "en" ? English.Cancel : Hindi.Cancel}
               icon="pi pi-times"
               onClick={() => {
                 setShowCallDialog(false);
                 setSelectedCallPrescription(null);
+                setSelectionOption();
               }}
               className="p-button-text"
             />
             <Button
-              label="Submit"
+              label={lang == "en" ? English.Submit : Hindi.Submit}
               icon="pi pi-check"
               onClick={handleCallOrderSubmit}
               disabled={
@@ -1233,6 +1311,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
         onHide={() => {
           setShowCallDialog(false);
           setSelectedCallPrescription(null);
+          setSelectionOption();
         }}
       >
         <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
@@ -1269,7 +1348,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                         contactNumber: e.target.value,
                       })
                     }
-                    placeholder="Enter contact number"
+                    placeholder={
+                      lang == "en"
+                        ? English.EnterContactNumber
+                        : Hindi.EnterContactNumber
+                    }
                   />
                 </div>
               </div>
@@ -1282,7 +1365,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     onChange={(e) =>
                       setCallForm({ ...callForm, street: e.target.value })
                     }
-                    placeholder="Enter street address"
+                    placeholder={
+                      lang == "en"
+                        ? English.EnterStreetAddress
+                        : Hindi.EnterStreetAddress
+                    }
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -1293,7 +1380,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     onChange={(e) =>
                       setCallForm({ ...callForm, city: e.target.value })
                     }
-                    placeholder="Enter city"
+                    placeholder={
+                      lang == "en" ? English.EnterCity : Hindi.EnterCity
+                    }
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -1304,7 +1393,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     onChange={(e) =>
                       setCallForm({ ...callForm, state: e.target.value })
                     }
-                    placeholder="Enter state"
+                    placeholder={
+                      lang == "en" ? English.EnterState : Hindi.EnterState
+                    }
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -1315,7 +1406,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     onChange={(e) =>
                       setCallForm({ ...callForm, pincode: e.target.value })
                     }
-                    placeholder="Enter pincode"
+                    placeholder={
+                      lang == "en" ? English.EnterPincode : Hindi.EnterPincode
+                    }
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -1326,11 +1419,13 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     onChange={(e) =>
                       setCallForm({ ...callForm, landmark: e.target.value })
                     }
-                    placeholder="Enter landmark"
+                    placeholder={
+                      lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
+                    }
                   />
                 </div>
               </div>
-              <div className={styles.formSection}>
+              {/* <div className={styles.formSection}>
                 <div className={styles.formGroup}>
                   <label htmlFor="call-paymentMethod">Payment Method</label>
                   <Dropdown
@@ -1340,7 +1435,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     onChange={(e) =>
                       setCallForm({ ...callForm, paymentMethod: e.value })
                     }
-                    placeholder="Select payment method"
+                    placeholder={
+                      lang == "en"
+                        ? English.SelectPaymentMethod
+                        : Hindi.SelectPaymentMethod
+                    }
                   />
                 </div>
               </div>
@@ -1358,11 +1457,15 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                         preferredCallTime: e.target.value,
                       })
                     }
-                    placeholder="Enter preferred call time (e.g. 2025-04-27T10:00:00Z)"
+                    placeholder={
+                      lang == "en"
+                        ? English.EnterPreferredCallTime
+                        : Hindi.EnterPreferredCallTime
+                    }
                   />
                 </div>
-              </div>
-              <div className={styles.formSection}>
+              </div> */}
+              {/* <div className={styles.formSection}>
                 <div className={styles.formGroup}>
                   <label htmlFor="call-notes">Notes</label>
                   <InputText
@@ -1371,10 +1474,14 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     onChange={(e) =>
                       setCallForm({ ...callForm, notes: e.target.value })
                     }
-                    placeholder="Any additional notes or instructions"
+                    placeholder={
+                      lang == "en"
+                        ? English.AdditionalNotes
+                        : Hindi.AdditionalNotes
+                    }
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -1389,7 +1496,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       >
         <div className="p-4">
           <h2 className="text-xl font-bold mb-4">
-            Shopping Cart ({cart.length} items)
+            {lang == "en"
+              ? English.ShoppingCart.replace("{count}", cart.length)
+              : Hindi.ShoppingCart.replace("{count}", cart.length)}
           </h2>
 
           {cart.length === 0 ? (
@@ -1475,16 +1584,26 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
 
               <div className="border-top-1 surface-border pt-3 mt-3">
                 <p className="text-sm text-center text-gray-500 mb-2">
-                  Order Total Will Be Shared in WhatsApp After Medical Confirms
-                  Your Order
+                  {lang == "en"
+                    ? English.OrderTotalMessage
+                    : Hindi.OrderTotalMessage}
                 </p>
                 <div className="flex justify-content-between mb-2">
-                  <span>Delivery Charge:</span>
+                  <span>
+                    {lang == "en"
+                      ? English.DeliveryCharge
+                      : Hindi.DeliveryCharge}
+                    :
+                  </span>
                   <span>₹22</span>
                 </div>
 
                 <Button
-                  label="Proceed to Checkout"
+                  label={
+                    lang == "en"
+                      ? English.ProceedToCheckout
+                      : Hindi.ProceedToCheckout
+                  }
                   icon="pi pi-shopping-bag"
                   className="w-full "
                   style={{

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -9,6 +9,9 @@ import axios from "axios";
 import styles from "./styles.module.css";
 import { getAuthHeaders } from "../../config/api/labApi";
 import MedicineSelection from "./MedicineSelection";
+import English from "../../public/locales/en/index";
+import Hindi from "../../public/locales/hi/index";
+import { AccountContext } from "../../context/AccountProvider";
 
 const PharmacyList = () => {
   const toast = useRef(null);
@@ -116,7 +119,7 @@ const PharmacyList = () => {
 
         <div className={styles.pharmacyActions}>
           <Button
-            label="Contact"
+            label={lang == "en" ? English.Contact : Hindi.Contact}
             icon="pi pi-phone"
             // text
             // raised
@@ -124,7 +127,7 @@ const PharmacyList = () => {
             // className={`p-button-outlined ${styles.actionButton}`}
           />
           <Button
-            label="Select"
+            label={lang == "en" ? English.Select : Hindi.Select}
             icon="pi pi-check"
             // className={`p-button-success ${styles.actionButton}`}
             onClick={() => handlePharmacySelect(pharmacy)}
@@ -139,6 +142,7 @@ const PharmacyList = () => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
     setisMobile(mobile.matches);
   }, []);
+  const { lang } = useContext(AccountContext);
   return (
     <div className={styles.pharmacyList}>
       <Toast ref={toast} />
@@ -151,7 +155,9 @@ const PharmacyList = () => {
                 <InputText
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search pharmacies..."
+                  placeholder={
+                    lang == "en" ? English.searchpharmacy : Hindi.searchpharmacy
+                  }
                   className={styles.searchInput}
                 />
                 {/* <i className="pi pi-search" /> */}
@@ -173,7 +179,9 @@ const PharmacyList = () => {
                 <InputText
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  placeholder="Enter city"
+                  placeholder={
+                    lang == "en" ? English.EnterCity : Hindi.EnterCity
+                  }
                   className={styles.cityInput}
                 />
               </span>
@@ -187,7 +195,7 @@ const PharmacyList = () => {
               color: "rgb(53, 53, 53)",
             }}
           >
-            Choose a pharmacy
+            {lang == "en" ? English.ChoosePharmacy : Hindi.ChoosePharmacy}
           </p>
 
           <DataView

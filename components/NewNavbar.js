@@ -176,37 +176,7 @@ const Navbar = () => {
       setusertoken(temp);
     }
   }, []);
-  const itemsmenu = [
-    {
-      label: userdata?.email,
-      // icon: "pi pi-sign-out",
-      command: () => {
-        navigator.clipboard
-          .writeText(userdata?.email)
-          .then(() => {
-            // alert("Text copied to clipboard!");
-            toast.current.show({
-              severity: "info",
-              summary: "Copied",
-              detail: "Copied text to clipboard",
-              life: 3000,
-            });
-          })
-          .catch((err) => {
-            console.error("Failed to copy text: ", err);
-          });
-      },
-    },
-    {
-      label: "Profile",
-      icon: "pi pi-user",
-      command: () => {
-        console.log("Hii");
-
-        router.push("/profile");
-      },
-    },
-
+  const [itemsmenu, setitemsmenu] = useState([
     {
       label: "Hindi",
       icon: () => {
@@ -268,13 +238,7 @@ const Navbar = () => {
         setlang("en");
       },
     },
-    {
-      label: "Settings",
-      icon: "pi pi-cog",
-      command: () => {
-        router.push("/settings");
-      },
-    },
+
     {
       label: usertoken ? "Sign out" : "Log in",
       icon: "pi pi-sign-out",
@@ -309,7 +273,55 @@ const Navbar = () => {
     //   label: "Export",
     //   icon: "pi pi-upload",
     // },
-  ];
+  ]);
+
+  useEffect(() => {
+    if (typeof window != "undefined") {
+      let temp = window.localStorage.getItem("usertoken");
+      setusertoken(temp);
+      if (temp) {
+        setitemsmenu([
+          {
+            label: userdata?.email,
+            // icon: "pi pi-sign-out",
+            command: () => {
+              navigator.clipboard
+                .writeText(userdata?.email)
+                .then(() => {
+                  // alert("Text copied to clipboard!");
+                  toast.current.show({
+                    severity: "info",
+                    summary: "Copied",
+                    detail: "Copied text to clipboard",
+                    life: 3000,
+                  });
+                })
+                .catch((err) => {
+                  console.error("Failed to copy text: ", err);
+                });
+            },
+          },
+          {
+            label: "Profile",
+            icon: "pi pi-user",
+            command: () => {
+              console.log("Hii");
+
+              router.push("/profile");
+            },
+          },
+          ...itemsmenu,
+          {
+            label: "Settings",
+            icon: "pi pi-cog",
+            command: () => {
+              router.push("/settings");
+            },
+          },
+        ]);
+      }
+    }
+  }, []);
   const [showNotification, setshowNotification] = useState(false);
 
   const end = (
