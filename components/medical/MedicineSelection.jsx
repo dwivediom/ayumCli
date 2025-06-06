@@ -19,6 +19,7 @@ import { Sidebar } from "primereact/sidebar";
 import { AccountContext } from "../../context/AccountProvider";
 import English from "../../public/locales/en";
 import Hindi from "../../public/locales/hi";
+import AddressSelector from "./AddressSelector";
 
 const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   const router = useRouter();
@@ -50,6 +51,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   const [selectionOption, setSelectionOption] = useState();
   const [showPrescriptionDialog, setShowPrescriptionDialog] = useState(false);
   const [selectedPrescription, setSelectedPrescription] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const [prescriptionForm, setPrescriptionForm] = useState({
     contactNumber: "",
     street: "",
@@ -211,11 +213,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   const handleCheckoutSubmit = async () => {
     try {
       const deliveryAddress = {
-        street: checkoutForm.street,
-        city: checkoutForm.city,
-        state: checkoutForm.state,
-        pincode: checkoutForm.pincode,
-        landmark: checkoutForm.landmark,
+        street: selectedAddress?.street || "",
+        city: selectedAddress?.city,
+        state: selectedAddress?.state,
+        pincode: selectedAddress?.pincode,
+        landmark: selectedAddress?.landmark,
       };
 
       const items = cart.map((item) => ({
@@ -234,7 +236,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       const requestData = {
         pharmacyId,
         orderType: "medicine_search",
-        contactNumber: checkoutForm.contactNumber,
+        contactNumber: selectedAddress?.phone || "",
         deliveryAddress,
         payment: {
           method: checkoutForm.paymentMethod,
@@ -527,11 +529,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
         onClick={() => handlePrescriptionOrderSubmit()}
         disabled={
           !selectedPrescription ||
-          !prescriptionForm.contactNumber ||
-          !prescriptionForm.street ||
-          !prescriptionForm.city ||
-          !prescriptionForm.state ||
-          !prescriptionForm.pincode
+          !selectedAddress?.phone ||
+          !selectedAddress?.street ||
+          !selectedAddress?.city ||
+          !selectedAddress?.state ||
+          !selectedAddress?.pincode
         }
         autoFocus
       />
@@ -548,16 +550,16 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   const handleCallOrderSubmit = async () => {
     try {
       const deliveryAddress = {
-        street: callForm.street,
-        city: callForm.city,
-        state: callForm.state,
-        pincode: callForm.pincode,
-        landmark: callForm.landmark,
+        street: selectedAddress?.street || "",
+        city: selectedAddress?.city || "",
+        state: selectedAddress?.state || "",
+        pincode: selectedAddress?.pincode || "",
+        landmark: selectedAddress?.landmark || "",
       };
       const requestData = {
         pharmacyId,
         orderType: "call_required",
-        contactNumber: callForm.contactNumber,
+        contactNumber: selectedAddress?.phone || "",
         deliveryAddress,
         payment: {
           method: callForm.paymentMethod,
@@ -627,11 +629,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
     try {
       console.log(selectedPrescription, prescriptionForm, "value");
       const deliveryAddress = {
-        street: prescriptionForm?.street || "",
-        city: prescriptionForm?.city || "",
-        state: prescriptionForm?.state || "",
-        pincode: prescriptionForm?.pincode || "",
-        landmark: prescriptionForm?.landmark || "",
+        street: selectedAddress?.street || "",
+        city: selectedAddress?.city || "",
+        state: selectedAddress?.state || "",
+        pincode: selectedAddress?.pincode || "",
+        landmark: selectedAddress?.landmark || "",
       };
       console.log(
         deliveryAddress,
@@ -647,7 +649,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
           url: selectedPrescription?.url || selectedPrescription?.fileUrl,
         },
         orderType: "prescription_upload",
-        contactNumber: prescriptionForm?.contactNumber,
+        contactNumber: selectedAddress?.phone || "",
         deliveryAddress,
         payment: { method: prescriptionForm?.paymentMethod },
         notes: prescriptionForm?.notes,
@@ -915,7 +917,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
         onHide={() => setShowCheckoutDialog(false)}
       >
         <div className={styles.checkoutForm}>
-          <div className={styles.formSection}>
+          {/* <div className={styles.formSection}>
             <h3>Contact Information</h3>
             <div className={styles.formGroup}>
               <label htmlFor="contactNumber">
@@ -937,9 +939,13 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 }
               />
             </div>
-          </div>
+          </div> */}
 
-          <div className={styles.formSection}>
+          <AddressSelector
+            selectedAddress={selectedAddress}
+            setSelectedAddress={setSelectedAddress}
+          />
+          {/* <div className={styles.formSection}>
             <h3>Delivery Address</h3>
             <div className={styles.formGroup}>
               <label htmlFor="street">Street Address</label>
@@ -1006,7 +1012,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                 }
               />
             </div>
-          </div>
+          </div> */}
 
           <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
             <h3>Payment Details</h3>
@@ -1084,7 +1090,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
           <div style={{ flex: 2, minWidth: 300 }}>
             <h3>Order Details</h3>
             <div className={styles.checkoutForm}>
-              <div className={styles.formSection}>
+              {/* <div className={styles.formSection}>
                 <div className={styles.formGroup}>
                   <label htmlFor="presc-contactNumber">
                     {lang == "en" ? English.Contactnumber : Hindi.Contactnumber}
@@ -1103,8 +1109,12 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     }
                   />
                 </div>
-              </div>
-              <div
+              </div> */}
+              <AddressSelector
+                selectedAddress={selectedAddress}
+                setSelectedAddress={setSelectedAddress}
+              />
+              {/* <div
                 style={{
                   marginTop: "-1rem",
                   width: "100%",
@@ -1193,8 +1203,8 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     }
                   />
                 </div>
-              </div>
-              <div
+              </div> */}
+              {/* <div
                 style={{ marginTop: "-1rem" }}
                 className={styles.formSection}
               >
@@ -1217,7 +1227,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     }
                   />
                 </div>
-              </div>
+              </div> */}
               <div
                 style={{ marginTop: "-1rem" }}
                 className={styles.formSection}
@@ -1298,11 +1308,11 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
               icon="pi pi-check"
               onClick={handleCallOrderSubmit}
               disabled={
-                !callForm.contactNumber ||
-                !callForm.street ||
-                !callForm.city ||
-                !callForm.state ||
-                !callForm.pincode
+                !selectedAddress?.phone ||
+                !selectedAddress?.street ||
+                !selectedAddress?.city ||
+                !selectedAddress?.state ||
+                !selectedAddress?.pincode
               }
               autoFocus
             />
@@ -1336,7 +1346,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
           <div style={{ flex: 2, minWidth: 300 }}>
             <h3>Call Request Details</h3>
             <div className={styles.checkoutForm}>
-              <div className={styles.formSection}>
+              {/* <div className={styles.formSection}>
                 <div className={styles.formGroup}>
                   <label htmlFor="call-contactNumber">Contact Number</label>
                   <InputText
@@ -1355,8 +1365,12 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
                     }
                   />
                 </div>
-              </div>
-              <div className={styles.formSection}>
+              </div> */}
+              <AddressSelector
+                selectedAddress={selectedAddress}
+                setSelectedAddress={setSelectedAddress}
+              />
+              {/* <div className={styles.formSection}>
                 <div className={styles.formGroup}>
                   <label htmlFor="call-street">Street Address</label>
                   <InputText
