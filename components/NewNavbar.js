@@ -176,108 +176,11 @@ const Navbar = () => {
       setusertoken(temp);
     }
   }, []);
-  const [itemsmenu, setitemsmenu] = useState([
-    {
-      label: "Hindi",
-      icon: () => {
-        return (
-          <span
-            style={{
-              marginLeft: "-5px",
-              marginRight: "5px",
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-6"
-              style={{ width: "24px", height: "24px" }}
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
-              />
-            </svg>
-          </span>
-        );
-      },
-      command: () => {
-        localStorage.setItem("locale", "hi");
-        setlang("hi");
-      },
-    },
-    {
-      label: "English",
-      icon: () => {
-        return (
-          <span style={{ marginLeft: "-5px", marginRight: "5px" }}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-6"
-              style={{ width: "24px", height: "24px" }}
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
-              />
-            </svg>
-          </span>
-        );
-      },
-      command: () => {
-        localStorage.setItem("locale", "en");
-        setlang("en");
-      },
-    },
-
-    {
-      label: usertoken ? "Sign out" : "Log in",
-      icon: "pi pi-sign-out",
-      command: () => {
-        if (usertoken) {
-          console.log("Hii");
-          let lang = localStorage.getItem("locale");
-          let city = localStorage.getItem("city");
-
-          localStorage.clear();
-          sessionStorage.clear();
-
-          document.cookie.split(";").forEach((cookie) => {
-            document.cookie = cookie
-              .replace(/^ +/, "")
-              .replace(
-                /=.*/,
-                "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
-              );
-          });
-
-          localStorage.setItem("locale", lang);
-          localStorage.setItem("city", city);
-          router.push("/User/UserRegistrationPage");
-          window.location.reload();
-        } else {
-          router.push("/User/UserRegistrationPage");
-        }
-      },
-    },
-    // {
-    //   label: "Export",
-    //   icon: "pi pi-upload",
-    // },
-  ]);
+  const [itemsmenu, setitemsmenu] = useState([]);
 
   useEffect(() => {
     if (typeof window != "undefined") {
-      let temp = window.localStorage.getItem("usertoken");
+      let temp = localStorage.getItem("usertoken");
       setusertoken(temp);
       if (temp) {
         setitemsmenu([
@@ -302,6 +205,68 @@ const Navbar = () => {
             },
           },
           {
+            label: "Hindi",
+            icon: () => {
+              return (
+                <span
+                  style={{
+                    marginLeft: "-5px",
+                    marginRight: "5px",
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                    style={{ width: "24px", height: "24px" }}
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
+                    />
+                  </svg>
+                </span>
+              );
+            },
+            command: () => {
+              localStorage.setItem("locale", "hi");
+              setlang("hi");
+            },
+          },
+          {
+            label: "English",
+            icon: () => {
+              return (
+                <span style={{ marginLeft: "-5px", marginRight: "5px" }}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                    style={{ width: "24px", height: "24px" }}
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
+                    />
+                  </svg>
+                </span>
+              );
+            },
+            command: () => {
+              localStorage.setItem("locale", "en");
+              setlang("en");
+            },
+          },
+
+          {
             label: "Profile",
             icon: "pi pi-user",
             command: () => {
@@ -310,7 +275,6 @@ const Navbar = () => {
               router.push("/profile");
             },
           },
-          ...itemsmenu,
           {
             label: "Settings",
             icon: "pi pi-cog",
@@ -318,6 +282,109 @@ const Navbar = () => {
               router.push("/settings");
             },
           },
+          {
+            label: "Sign out",
+            icon: "pi pi-sign-out",
+            command: () => {
+              console.log("Hii");
+              let lang = localStorage.getItem("locale");
+              let city = localStorage.getItem("city");
+
+              localStorage.clear();
+              sessionStorage.clear();
+
+              document.cookie.split(";").forEach((cookie) => {
+                document.cookie = cookie
+                  .replace(/^ +/, "")
+                  .replace(
+                    /=.*/,
+                    "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
+                  );
+              });
+
+              localStorage.setItem("locale", lang);
+              localStorage.setItem("city", city);
+              router.push("/User/UserRegistrationPage");
+              window.location.reload();
+            },
+          },
+          ...itemsmenu,
+        ]);
+      } else {
+        setitemsmenu([
+          {
+            label: "Hindi",
+            icon: () => {
+              return (
+                <span
+                  style={{
+                    marginLeft: "-5px",
+                    marginRight: "5px",
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                    style={{ width: "24px", height: "24px" }}
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
+                    />
+                  </svg>
+                </span>
+              );
+            },
+            command: () => {
+              localStorage.setItem("locale", "hi");
+              setlang("hi");
+            },
+          },
+          {
+            label: "English",
+            icon: () => {
+              return (
+                <span style={{ marginLeft: "-5px", marginRight: "5px" }}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                    style={{ width: "24px", height: "24px" }}
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
+                    />
+                  </svg>
+                </span>
+              );
+            },
+            command: () => {
+              localStorage.setItem("locale", "en");
+              setlang("en");
+            },
+          },
+
+          {
+            label: "Log in",
+            icon: "pi pi-sign-out",
+            command: () => {
+              router.push("/User/UserRegistrationPage");
+            },
+          },
+          // {
+          //   label: "Export",
+          //   icon: "pi pi-upload",
+          // },
         ]);
       }
     }

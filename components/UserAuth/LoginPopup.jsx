@@ -61,9 +61,9 @@ const LoginPopup = ({ open, setOpen }) => {
     if (logindata.data) {
       localStorage.setItem("usertoken", logindata.data.token);
       setCookie("usertoken", logindata.data.token, 7);
-      localStorage.setItem("labuser", JSON.stringify(decodedjwt));
+      localStorage.setItem("labuser", JSON.stringify(logindata.data.user));
       localStorage.setItem("authStatus", true);
-      localStorage.setItem("userEmail" , decodedjwt.email)
+      localStorage.setItem("userEmail", decodedjwt.email);
       if (decodedjwt) {
         const logined = await adduser(decodedjwt);
         if (logined?.msg === "useradded" || "user already exist") {
