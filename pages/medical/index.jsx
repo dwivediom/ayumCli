@@ -1,6 +1,6 @@
-import React from 'react';
-import PharmacyList from '../../components/medical/PharmacyList';
-
+import React from "react";
+import PharmacyList from "../../components/medical/PharmacyList";
+import WithAuth from "../../components/Withauth";
 const MedicalPage = () => {
   return (
     <div>
@@ -9,4 +9,4 @@ const MedicalPage = () => {
   );
 };
 
-export default MedicalPage; 
+export default WithAuth(MedicalPage);
