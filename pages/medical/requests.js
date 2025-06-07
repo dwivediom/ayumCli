@@ -1,6 +1,6 @@
 import React from "react";
 import MedicineRequests from "../../components/medical/MedicineRequests";
-import WithAuth from "../../components/Withauth";
+import WithAuth from "../../components/WithAuth";
 const MedicalRequestsPage = () => {
   // with auth
   return (

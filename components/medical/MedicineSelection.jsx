@@ -693,7 +693,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
       });
     }
   };
-  const { lang } = useContext(AccountContext);
+  const { lang, sethidebottomnav, hidebottomnav } = useContext(AccountContext);
 
   const [value, setValue] = useState(null);
   const items = [
@@ -715,8 +715,13 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   ];
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
+    if (cart.length > 0) {
+      sethidebottomnav(true);
+    } else {
+      sethidebottomnav(false);
+    }
     setIsMobile(window.innerWidth < 768);
-  }, []);
+  }, [cart.length]);
 
   return (
     <div className={styles.medicineSelection}>
@@ -1633,6 +1638,87 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
           )}
         </div>
       </Sidebar>
+
+      {/* Bottom Nav  */}
+      <div
+        style={{
+          display: hidebottomnav ? "flex" : "none",
+          position: "fixed",
+          bottom: "0",
+          left: "0",
+          right: "0",
+          background: "white",
+          zIndex: "1000",
+          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "1rem",
+          width: "100vw",
+          borderTopLeftRadius: "14px",
+          borderTopRightRadius: "14px",
+          height: "70px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <i
+            className="pi pi-home"
+            style={{
+              fontSize: "28px",
+              color: "var(--teal-600)",
+            }}
+            onClick={() => {
+              router.push("/");
+            }}
+          ></i>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {/* <i className="pi pi-shopping-cart"></i> */}
+          <span
+            style={{
+              fontSize: "16px",
+              fontWeight: "600",
+              marginRight: "1rem",
+              color: "var(--surface-600)",
+              background: "var(--surface-50)",
+              padding: "0.5rem 1rem",
+              borderRadius: "6px",
+              boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            {cart.length}
+          </span>
+          <div
+            style={{
+              padding: "0.5rem 1.5rem",
+              borderRadius: "6px",
+              background:
+                "linear-gradient(to right, #00b09b,rgb(17, 119, 104))",
+              color: "white",
+              fontWeight: "600",
+              fontSize: "18px",
+              cursor: "pointer",
+              boxShadow: "2px 3px 5px  rgba(0, 0, 0, 0.1)",
+            }}
+            onClick={() => {
+              setCartVisible(true);
+            }}
+          >
+            Buy Now
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
