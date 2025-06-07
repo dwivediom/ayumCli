@@ -51,7 +51,7 @@ module.exports = {
   CheckoutDetails: "Checkout Details",
   ChoosePrescription: "Choose Prescription",
   OrderDetails: "Order Details",
-  CallMeForDetails: "Call Me For Details",
+  CallMeForDetails: "Call Medical For Details",
   CallRequestDetails: "Call Request Details",
   Preview: "Preview",
   ContactNumber: "Contact Number",

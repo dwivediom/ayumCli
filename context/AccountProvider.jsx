@@ -8,6 +8,7 @@ const AccountProvider = ({ children }) => {
   const [thankmodal, setthankmodal] = useState(false);
   const [threedotmodal, setthreedotmodal] = useState(false);
   const [msgopened, setmsgopened] = useState(false);
+  const [hidebottomnav, sethidebottomnav] = useState(false);
   const [account, setAccount] = useState();
   const [person, setperson] = useState(null);
   const [ActiveUsers, setActiveUsers] = useState([]);
@@ -100,6 +101,8 @@ const AccountProvider = ({ children }) => {
         closeDrawer,
         setclosingdrawerallowed,
         closingdrawerallowed,
+        hidebottomnav,
+        sethidebottomnav,
       }}
     >
       {children}
