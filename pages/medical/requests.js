@@ -1,6 +1,6 @@
 import React from "react";
 import MedicineRequests from "../../components/medical/MedicineRequests";
-import WithAuth from "../../components/WithAuth";
+import WithAuth1 from "../../components/WithAuth1";
 const MedicalRequestsPage = () => {
   // with auth
   return (
@@ -10,4 +10,4 @@ const MedicalRequestsPage = () => {
   );
 };
 
-export default WithAuth(MedicalRequestsPage);
+export default WithAuth1(MedicalRequestsPage);
