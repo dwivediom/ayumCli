@@ -6,7 +6,7 @@ import { Button } from "primereact/button";
 import { isTokenExpired } from "../public/utils/Utils";
 import { AccountContext } from "../context/AccountProvider";
 
-const WithAuth = (WrappedComponent) => {
+const WithAuth1 = (WrappedComponent) => {
   return function ProtectedRoute(props) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
@@ -57,4 +57,4 @@ const WithAuth = (WrappedComponent) => {
   };
 };
 
-export default WithAuth;
+export default WithAuth1;

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { AccountContext } from "../../context/AccountProvider";
-import WithAuth from "../../components/Withauth";
+import WithAuth1 from "../../components/WithAuth1";
 const BookAppointment = dynamic(
   import("../../components/UserProfile/BookAppointment")
 );
@@ -19,4 +19,4 @@ const BookAppointmentPage = () => {
   return <>{<BookAppointment />}</>;
 };
 
-export default WithAuth(BookAppointmentPage);
+export default WithAuth1(BookAppointmentPage);
