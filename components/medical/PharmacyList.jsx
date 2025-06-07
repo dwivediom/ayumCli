@@ -12,6 +12,7 @@ import MedicineSelection from "./MedicineSelection";
 import English from "../../public/locales/en/index";
 import Hindi from "../../public/locales/hi/index";
 import { AccountContext } from "../../context/AccountProvider";
+import ShareDialog from "./ShareDialog";
 
 const PharmacyList = () => {
   const toast = useRef(null);
@@ -21,6 +22,8 @@ const PharmacyList = () => {
   const [city, setCity] = useState("Rewa");
   const [selectedPharmacy, setSelectedPharmacy] = useState(null);
   const [showMedicineSelection, setShowMedicineSelection] = useState(false);
+  const [showShareDialog, setShowShareDialog] = useState(false);
+  const [selectedPharmacyForShare, setSelectedPharmacyForShare] = useState(null);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -93,17 +96,27 @@ const PharmacyList = () => {
     setSelectedPharmacy(null);
   };
 
+  const handleShare = (pharmacy) => {
+    setSelectedPharmacyForShare(pharmacy);
+    setShowShareDialog(true);
+  };
+
   const itemTemplate = (pharmacy) => {
     return (
       <div className={styles.pharmacyCard}>
         <div className={styles.pharmacyHeader}>
           <div className={styles.pharmacyInfo}>
             <h3 className={styles.pharmacyName}>{pharmacy.buisnessname}</h3>
-            {/* <Tag
-              value={pharmacy.hospital}
-              severity="info"
-              className={styles.pharmacyTag}
-            /> */}
+            {pharmacy.ayumUserName && (
+              <Button
+                icon="pi pi-share-alt"
+                rounded
+                text
+                severity="secondary"
+                onClick={() => handleShare(pharmacy)}
+                className={styles.shareButton}
+              />
+            )}
           </div>
           <div className={styles.pharmacyDetails}>
             <div className={styles.detailItem}>
@@ -121,15 +134,11 @@ const PharmacyList = () => {
           <Button
             label={lang == "en" ? English.Contact : Hindi.Contact}
             icon="pi pi-phone"
-            // text
-            // raised
             outlined
-            // className={`p-button-outlined ${styles.actionButton}`}
           />
           <Button
             label={lang == "en" ? English.Select : Hindi.Select}
             icon="pi pi-check"
-            // className={`p-button-success ${styles.actionButton}`}
             onClick={() => handlePharmacySelect(pharmacy)}
           />
         </div>
@@ -209,6 +218,12 @@ const PharmacyList = () => {
             totalRecords={pagination.total}
             loading={loading}
             className={styles.pharmacyDataView}
+          />
+
+          <ShareDialog
+            visible={showShareDialog}
+            onHide={() => setShowShareDialog(false)}
+            ayumUserName={selectedPharmacyForShare?.ayumUserName}
           />
         </>
       ) : (
