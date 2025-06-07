@@ -21,7 +21,7 @@ import English from "../../public/locales/en";
 import Hindi from "../../public/locales/hi";
 import AddressSelector from "./AddressSelector";
 
-const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
+const MedicineSelection = ({ pharmacyId, onMedicinesSelected, showProfile = true }) => {
   const router = useRouter();
   const toast = useRef(null);
   const [medicines, setMedicines] = useState([]);
@@ -724,998 +724,936 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected }) => {
   }, [cart.length]);
 
   return (
-    <div className={styles.medicineSelection}>
+    <div className={styles.container}>
       <Toast ref={toast} />
-
-      {/* Medicine Selection Options */}
-      {/* <div className={styles.selectionOptions} style={{ marginBottom: "2rem" }}>
-        <div style={{ marginBottom: "1rem" }}>
-          <RadioButton
-            inputId="prescription"
-            name="medicineOption"
-            value="prescription"
-            checked={selectionOption === "prescription"}
-            onChange={(e) => setSelectionOption(e.value)}
-          />
-          <label
-            htmlFor="prescription"
-            style={{ marginLeft: 8, fontWeight: 500 }}
-          >
-            Order everything as per prescription
-          </label>
+      {showProfile && (
+        <div className={styles.profileSection}>
+          {/* Profile content will be moved to a separate component */}
         </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <RadioButton
-            inputId="search"
-            name="medicineOption"
-            value="search"
-            checked={selectionOption === "search"}
+      )}
+      
+      <div className={styles.medicineSelectionSection}>
+
+
+        <div
+          style={{
+            marginTop: selectionOption ? "0" : "5rem",
+            transition: "margin-top 0.3s ease-in-out",
+          }}
+          className="card flex justify-content-center"
+        >
+          <SelectButton
+            value={selectionOption}
             onChange={(e) => setSelectionOption(e.value)}
+            optionLabel="name"
+            options={items}
           />
-          <label htmlFor="search" style={{ marginLeft: 8, fontWeight: 500 }}>
-            Search and add medicines to cart
-          </label>
         </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <RadioButton
-            inputId="call"
-            name="medicineOption"
-            value="call"
-            checked={selectionOption === "call"}
-            onChange={(e) => setSelectionOption(e.value)}
-          />
-          <label
-            htmlFor="call"
-            style={{ marginLeft: 8, fontWeight: 500, color: "#e57373" }}
-          >
-            Call me for details
-          </label>
-          {selectionOption === "call" && (
-            <div style={{ color: "#e57373", marginLeft: 32, fontSize: 14 }}>
-              A 1mg pharmacist will call you from 011-41183088 within 30 mins to
-              confirm medicines (8 am - 8 pm)
-            </div>
-          )}
-        </div>
-      </div> */}
 
-      <div
-        style={{
-          marginTop: selectionOption ? "0" : "5rem",
-          transition: "margin-top 0.3s ease-in-out",
-        }}
-        className="card flex justify-content-center"
-      >
-        <SelectButton
-          value={selectionOption}
-          onChange={(e) => setSelectionOption(e.value)}
-          optionLabel="name"
-          options={items}
-        />
-      </div>
-
-      {selectionOption === "search" && selectionOption && (
-        <>
-          {/* New Component 1 Placeholder */}
-          {/* <div className="customCard">
-            <strong>New Component 1</strong> (replace with actual component)
-          </div>
-          {/* New Component 2 Placeholder */}
-          {/* <div className="customCard">
-            <strong>New Component 2</strong> (replace with actual component)
-          </div> */}
-
-          <div
-            style={{
-              display: "flex",
-              gap: "1rem",
-              alignItems: "center",
-              justifyContent: "space-between",
-              position: "sticky",
-              top: "0",
-              zIndex: "1000",
-              background: "white",
-              borderRadius: "10px",
-              // boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            }}
-            className={styles.searchSection}
-          >
-            <div className={styles.searchInput}>
-              <InputText
-                value={searchTerm}
-                onChange={handleSearchChange}
-                placeholder={
-                  lang == "en" ? English.SearchMedicines : Hindi.SearchMedicines
-                }
-                className="w-full"
-                style={{
-                  borderTopRightRadius: 0,
-                  borderBottomRightRadius: 0,
-                }}
-              />
-              <Button
-                label={isMobile ? "" : "Search"}
-                icon="pi pi-search"
-                onClick={handleSearchButtonClick}
-                style={{
-                  borderTopLeftRadius: 0,
-                  borderBottomLeftRadius: 0,
-                }}
-              />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "var(--teal-600)",
-                height: "40px",
-                marginTop: "10px",
-                width: "50px",
-                borderRadius: "50%",
-                position: "relative",
-                cursor: "pointer",
-              }}
-              onClick={() => setCartVisible(true)}
-            >
-              <span
-                style={{
-                  fontSize: "1.2rem",
-                  color: "white",
-                  position: "absolute",
-                  top: "0%",
-                  right: "-10px",
-                  transform: "translate(-5%, -50%)",
-                  background: "var(--orange-500)",
-                  padding: "5px",
-                  width: "20px",
-                  height: "20px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "50%",
-                }}
-              >
-                {cart.length}
-              </span>
-              <i
-                style={{
-                  fontSize: "1.5rem",
-                  color: "white",
-                }}
-                className="pi pi-shopping-cart"
-              ></i>
-            </div>
-          </div>
-
-          {/* <DataView
-            value={medicines}
-            itemTemplate={itemTemplate}
-            paginator
-            rows={10}
-            totalRecords={pagination.total}
-            loading={loading}
-            className={styles.medicineDataView}
-          /> */}
-
-          {medicines.length > 0 && (
+        {selectionOption === "search" && selectionOption && (
+          <>
             <div
               style={{
                 display: "flex",
                 gap: "1rem",
-                flexWrap: "wrap",
-                padding: "1rem",
+                alignItems: "center",
+                justifyContent: "space-between",
+                position: "sticky",
+                top: "0",
+                zIndex: "1000",
+                background: "white",
+                borderRadius: "10px",
+                // boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
               }}
-              // className={styles.medicineDataView}
+              className={styles.searchSection}
             >
-              {medicines.map(itemTemplate)}
-            </div>
-          )}
-        </>
-      )}
-
-      <Dialog
-        header={lang == "en" ? English.CheckoutDetails : Hindi.CheckoutDetails}
-        visible={showCheckoutDialog}
-        style={{ width: isMobile ? "100vw" : "50vw" }}
-        footer={checkoutDialogFooter}
-        onHide={() => setShowCheckoutDialog(false)}
-      >
-        <div className={styles.checkoutForm}>
-          {/* <div className={styles.formSection}>
-            <h3>Contact Information</h3>
-            <div className={styles.formGroup}>
-              <label htmlFor="contactNumber">
-                {lang == "en" ? English.ContactNumber : Hindi.ContactNumber}
-              </label>
-              <InputText
-                id="contactNumber"
-                value={checkoutForm.contactNumber}
-                onChange={(e) =>
-                  setCheckoutForm({
-                    ...checkoutForm,
-                    contactNumber: e.target.value,
-                  })
-                }
-                placeholder={
-                  lang == "en"
-                    ? English.EnterContactNumber
-                    : Hindi.EnterContactNumber
-                }
-              />
-            </div>
-          </div> */}
-
-          <AddressSelector
-            selectedAddress={selectedAddress}
-            setSelectedAddress={setSelectedAddress}
-          />
-          {/* <div className={styles.formSection}>
-            <h3>Delivery Address</h3>
-            <div className={styles.formGroup}>
-              <label htmlFor="street">Street Address</label>
-              <InputText
-                id="street"
-                value={checkoutForm.street}
-                onChange={(e) =>
-                  setCheckoutForm({ ...checkoutForm, street: e.target.value })
-                }
-                placeholder={
-                  lang == "en"
-                    ? English.EnterStreetAddress
-                    : Hindi.EnterStreetAddress
-                }
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="city">City</label>
-              <InputText
-                id="city"
-                value={checkoutForm.city}
-                onChange={(e) =>
-                  setCheckoutForm({ ...checkoutForm, city: e.target.value })
-                }
-                placeholder={lang == "en" ? English.EnterCity : Hindi.EnterCity}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="state">State</label>
-              <InputText
-                id="state"
-                value={checkoutForm.state}
-                onChange={(e) =>
-                  setCheckoutForm({ ...checkoutForm, state: e.target.value })
-                }
-                placeholder={
-                  lang == "en" ? English.EnterState : Hindi.EnterState
-                }
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="pincode">Pincode</label>
-              <InputText
-                id="pincode"
-                value={checkoutForm.pincode}
-                onChange={(e) =>
-                  setCheckoutForm({ ...checkoutForm, pincode: e.target.value })
-                }
-                placeholder={
-                  lang == "en" ? English.EnterPincode : Hindi.EnterPincode
-                }
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="landmark">Landmark</label>
-              <InputText
-                id="landmark"
-                value={checkoutForm.landmark}
-                onChange={(e) =>
-                  setCheckoutForm({ ...checkoutForm, landmark: e.target.value })
-                }
-                placeholder={
-                  lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
-                }
-              />
-            </div>
-          </div> */}
-
-          <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
-            <h3>Payment Details</h3>
-            <div className={styles.formGroup}>
-              <label htmlFor="paymentMethod">Payment Method</label>
-              <Dropdown
-                id="paymentMethod"
-                value={checkoutForm.paymentMethod}
-                options={paymentMethods}
-                onChange={(e) =>
-                  setCheckoutForm({ ...checkoutForm, paymentMethod: e.value })
-                }
-                placeholder={
-                  lang == "en"
-                    ? English.SelectPaymentMethod
-                    : Hindi.SelectPaymentMethod
-                }
-              />
-            </div>
-          </div>
-
-          <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
-            <h3>Additional Information</h3>
-            <div className={styles.formGroup}>
-              <label htmlFor="notes">Notes</label>
-              <InputText
-                id="notes"
-                value={checkoutForm.notes}
-                onChange={(e) =>
-                  setCheckoutForm({ ...checkoutForm, notes: e.target.value })
-                }
-                placeholder={
-                  lang == "en" ? English.AdditionalNotes : Hindi.AdditionalNotes
-                }
-              />
-            </div>
-          </div>
-        </div>
-      </Dialog>
-
-      <Dialog
-        header={
-          lang == "en"
-            ? English.OrderviaPrescription
-            : Hindi.OrderviaPrescription
-        }
-        visible={showPrescriptionDialog}
-        style={{ width: isMobile ? "100vw" : "60vw", maxWidth: 700 }}
-        footer={prescriptionDialogFooter}
-        onHide={() => {
-          setShowPrescriptionDialog(false);
-          setSelectedPrescription(null);
-          setSelectionOption();
-        }}
-      >
-        <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-          <div style={{ flex: 1, minWidth: 260 }}>
-            <h3>Choose Prescription</h3>
-            <PrescriptionSelector
-              value={selectedPrescription}
-              onChange={(file) => {
-                setSelectedPrescription(file);
-                if (file) {
-                  toast.current?.show({
-                    severity: "success",
-                    summary: "Selected",
-                    detail: "Prescription selected",
-                    life: 2000,
-                  });
-                }
-              }}
-              getAuthHeaders={getAuthHeaders}
-            />
-          </div>
-          <div style={{ flex: 2, minWidth: 300 }}>
-            <h3>Order Details</h3>
-            <div className={styles.checkoutForm}>
-              {/* <div className={styles.formSection}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="presc-contactNumber">
-                    {lang == "en" ? English.Contactnumber : Hindi.Contactnumber}
-                  </label>
-                  <InputText
-                    id="presc-contactNumber"
-                    value={prescriptionForm.contactNumber}
-                    onChange={(e) =>
-                      setPrescriptionForm({
-                        ...prescriptionForm,
-                        contactNumber: e.target.value,
-                      })
-                    }
-                    placeholder={
-                      lang == "en" ? English.Contactnumber : Hindi.Contactnumber
-                    }
-                  />
-                </div>
-              </div> */}
-              <AddressSelector
-                selectedAddress={selectedAddress}
-                setSelectedAddress={setSelectedAddress}
-              />
-              {/* <div
-                style={{
-                  marginTop: "-1rem",
-                  width: "100%",
-                }}
-                className={styles.formSection}
-              >
-                <div className={styles.formGroup}>
-                  <label htmlFor="presc-street">Street Address</label>
-                  <InputText
-                    id="presc-street"
-                    value={prescriptionForm.street}
-                    onChange={(e) =>
-                      setPrescriptionForm({
-                        ...prescriptionForm,
-                        street: e.target.value,
-                      })
-                    }
-                    placeholder={
-                      lang == "en"
-                        ? English.EnterStreetAddress
-                        : Hindi.EnterStreetAddress
-                    }
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="presc-city">City</label>
-                  <InputText
-                    id="presc-city"
-                    value={prescriptionForm.city}
-                    onChange={(e) =>
-                      setPrescriptionForm({
-                        ...prescriptionForm,
-                        city: e.target.value,
-                      })
-                    }
-                    placeholder={
-                      lang == "en" ? English.EnterCity : Hindi.EnterCity
-                    }
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="presc-state">State</label>
-                  <InputText
-                    id="presc-state"
-                    value={prescriptionForm.state}
-                    onChange={(e) =>
-                      setPrescriptionForm({
-                        ...prescriptionForm,
-                        state: e.target.value,
-                      })
-                    }
-                    placeholder={
-                      lang == "en" ? English.EnterState : Hindi.EnterState
-                    }
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="presc-pincode">Pincode</label>
-                  <InputText
-                    id="presc-pincode"
-                    value={prescriptionForm.pincode}
-                    onChange={(e) =>
-                      setPrescriptionForm({
-                        ...prescriptionForm,
-                        pincode: e.target.value,
-                      })
-                    }
-                    placeholder={
-                      lang == "en" ? English.EnterPincode : Hindi.EnterPincode
-                    }
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="presc-landmark">Landmark</label>
-                  <InputText
-                    id="presc-landmark"
-                    value={prescriptionForm.landmark}
-                    onChange={(e) =>
-                      setPrescriptionForm({
-                        ...prescriptionForm,
-                        landmark: e.target.value,
-                      })
-                    }
-                    placeholder={
-                      lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
-                    }
-                  />
-                </div>
-              </div> */}
-              {/* <div
-                style={{ marginTop: "-1rem" }}
-                className={styles.formSection}
-              >
-                <div className={styles.formGroup}>
-                  <label htmlFor="presc-paymentMethod">Payment Method</label>
-                  <Dropdown
-                    id="presc-paymentMethod"
-                    value={prescriptionForm.paymentMethod}
-                    options={paymentMethods}
-                    onChange={(e) =>
-                      setPrescriptionForm({
-                        ...prescriptionForm,
-                        paymentMethod: e.value,
-                      })
-                    }
-                    placeholder={
-                      lang == "en"
-                        ? English.SelectPaymentMethod
-                        : Hindi.SelectPaymentMethod
-                    }
-                  />
-                </div>
-              </div> */}
-              <div
-                style={{ marginTop: "-1rem" }}
-                className={styles.formSection}
-              >
-                <div className={styles.formGroup}>
-                  <label htmlFor="presc-notes">Notes</label>
-                  <InputText
-                    id="presc-notes"
-                    value={prescriptionForm.notes}
-                    onChange={(e) =>
-                      setPrescriptionForm({
-                        ...prescriptionForm,
-                        notes: e.target.value,
-                      })
-                    }
-                    placeholder={
-                      lang == "en"
-                        ? English.AdditionalNotes
-                        : Hindi.AdditionalNotes
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Dialog>
-
-      {/* Enlarge Dialog */}
-      <Dialog
-        header={enlargedFile ? enlargedFile.fileName || "Preview" : "Preview"}
-        visible={showEnlargeDialog}
-        style={{ width: "90vw", maxWidth: 900 }}
-        onHide={() => {
-          setShowEnlargeDialog(false);
-          setEnlargedFile(null);
-        }}
-        modal
-      >
-        {enlargedFile &&
-          (enlargedFile.fileFormat &&
-          enlargedFile.fileFormat.startsWith("image") ? (
-            <img
-              src={enlargedFile.fileUrl}
-              alt={enlargedFile.fileName}
-              style={{
-                width: "100%",
-                maxHeight: "80vh",
-                objectFit: "contain",
-                borderRadius: 8,
-              }}
-            />
-          ) : (
-            <PdfViewer url={enlargedFile.fileUrl} />
-          ))}
-      </Dialog>
-
-      <Dialog
-        header={
-          lang == "en" ? English.CallMeForDetails : Hindi.CallMeForDetails
-        }
-        visible={showCallDialog}
-        style={{ width: isMobile ? "100vw" : "60vw", maxWidth: 700 }}
-        footer={
-          <div>
-            <Button
-              label={lang == "en" ? English.Cancel : Hindi.Cancel}
-              icon="pi pi-times"
-              onClick={() => {
-                setShowCallDialog(false);
-                setSelectedCallPrescription(null);
-                setSelectionOption();
-              }}
-              className="p-button-text"
-            />
-            <Button
-              label={lang == "en" ? English.Submit : Hindi.Submit}
-              icon="pi pi-check"
-              onClick={handleCallOrderSubmit}
-              disabled={
-                !selectedAddress?.phone ||
-                !selectedAddress?.street ||
-                !selectedAddress?.city ||
-                !selectedAddress?.state ||
-                !selectedAddress?.pincode
-              }
-              autoFocus
-            />
-          </div>
-        }
-        onHide={() => {
-          setShowCallDialog(false);
-          setSelectedCallPrescription(null);
-          setSelectionOption();
-        }}
-      >
-        <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-          <div style={{ flex: 1, minWidth: 260 }}>
-            <h3>Prescription</h3>
-            <PrescriptionSelector
-              value={selectedCallPrescription}
-              onChange={(file) => {
-                setSelectedCallPrescription(file);
-                if (file) {
-                  toast.current?.show({
-                    severity: "success",
-                    summary: "Selected",
-                    detail: "Prescription selected",
-                    life: 2000,
-                  });
-                }
-              }}
-              getAuthHeaders={getAuthHeaders}
-            />
-          </div>
-          <div style={{ flex: 2, minWidth: 300 }}>
-            <h3>Call Request Details</h3>
-            <div className={styles.checkoutForm}>
-              {/* <div className={styles.formSection}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="call-contactNumber">Contact Number</label>
-                  <InputText
-                    id="call-contactNumber"
-                    value={callForm.contactNumber}
-                    onChange={(e) =>
-                      setCallForm({
-                        ...callForm,
-                        contactNumber: e.target.value,
-                      })
-                    }
-                    placeholder={
-                      lang == "en"
-                        ? English.EnterContactNumber
-                        : Hindi.EnterContactNumber
-                    }
-                  />
-                </div>
-              </div> */}
-              <AddressSelector
-                selectedAddress={selectedAddress}
-                setSelectedAddress={setSelectedAddress}
-              />
-              {/* <div className={styles.formSection}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="call-street">Street Address</label>
-                  <InputText
-                    id="call-street"
-                    value={callForm.street}
-                    onChange={(e) =>
-                      setCallForm({ ...callForm, street: e.target.value })
-                    }
-                    placeholder={
-                      lang == "en"
-                        ? English.EnterStreetAddress
-                        : Hindi.EnterStreetAddress
-                    }
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="call-city">City</label>
-                  <InputText
-                    id="call-city"
-                    value={callForm.city}
-                    onChange={(e) =>
-                      setCallForm({ ...callForm, city: e.target.value })
-                    }
-                    placeholder={
-                      lang == "en" ? English.EnterCity : Hindi.EnterCity
-                    }
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="call-state">State</label>
-                  <InputText
-                    id="call-state"
-                    value={callForm.state}
-                    onChange={(e) =>
-                      setCallForm({ ...callForm, state: e.target.value })
-                    }
-                    placeholder={
-                      lang == "en" ? English.EnterState : Hindi.EnterState
-                    }
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="call-pincode">Pincode</label>
-                  <InputText
-                    id="call-pincode"
-                    value={callForm.pincode}
-                    onChange={(e) =>
-                      setCallForm({ ...callForm, pincode: e.target.value })
-                    }
-                    placeholder={
-                      lang == "en" ? English.EnterPincode : Hindi.EnterPincode
-                    }
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="call-landmark">Landmark</label>
-                  <InputText
-                    id="call-landmark"
-                    value={callForm.landmark}
-                    onChange={(e) =>
-                      setCallForm({ ...callForm, landmark: e.target.value })
-                    }
-                    placeholder={
-                      lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
-                    }
-                  />
-                </div>
-              </div>
-              {/* <div className={styles.formSection}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="call-paymentMethod">Payment Method</label>
-                  <Dropdown
-                    id="call-paymentMethod"
-                    value={callForm.paymentMethod}
-                    options={paymentMethods}
-                    onChange={(e) =>
-                      setCallForm({ ...callForm, paymentMethod: e.value })
-                    }
-                    placeholder={
-                      lang == "en"
-                        ? English.SelectPaymentMethod
-                        : Hindi.SelectPaymentMethod
-                    }
-                  />
-                </div>
-              </div>
-              <div className={styles.formSection}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="call-preferredCallTime">
-                    Preferred Call Time
-                  </label>
-                  <InputText
-                    id="call-preferredCallTime"
-                    value={callForm.preferredCallTime}
-                    onChange={(e) =>
-                      setCallForm({
-                        ...callForm,
-                        preferredCallTime: e.target.value,
-                      })
-                    }
-                    placeholder={
-                      lang == "en"
-                        ? English.EnterPreferredCallTime
-                        : Hindi.EnterPreferredCallTime
-                    }
-                  />
-                </div>
-              </div> */}
-              {/* <div className={styles.formSection}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="call-notes">Notes</label>
-                  <InputText
-                    id="call-notes"
-                    value={callForm.notes}
-                    onChange={(e) =>
-                      setCallForm({ ...callForm, notes: e.target.value })
-                    }
-                    placeholder={
-                      lang == "en"
-                        ? English.AdditionalNotes
-                        : Hindi.AdditionalNotes
-                    }
-                  />
-                </div>
-              </div> */}
-            </div>
-          </div>
-        </div>
-      </Dialog>
-
-      <Sidebar
-        visible={cartVisible}
-        position="right"
-        onHide={() => setCartVisible(false)}
-        style={{ width: "400px" }}
-        className="p-sidebar-lg"
-      >
-        <div className="p-4">
-          <h2 className="text-xl font-bold mb-4">
-            {lang == "en"
-              ? English.ShoppingCart.replace("{count}", cart.length)
-              : Hindi.ShoppingCart.replace("{count}", cart.length)}
-          </h2>
-
-          {cart.length === 0 ? (
-            <div className="text-center p-4">
-              <i className="pi pi-shopping-cart text-4xl text-gray-400 mb-2"></i>
-              <p className="text-gray-500">Your cart is empty</p>
-            </div>
-          ) : (
-            <>
-              <div
-                className="cart-items"
-                style={{ maxHeight: "calc(100vh - 250px)", overflowY: "auto" }}
-              >
-                {cart.map((item) => (
-                  <div
-                    key={item._id}
-                    className="mb-4 p-3 border-round surface-100"
-                  >
-                    <div className="flex justify-content-between align-items-center mb-2">
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <h3
-                          className={styles.medicineName}
-                          style={{
-                            fontWeight: "600",
-                            color: "rgba(0,0,0,0.87)",
-                          }}
-                        >
-                          {item.brandName || item.genericName}
-                        </h3>
-                        <h3
-                          className={styles.medicineName}
-                          style={{
-                            fontSize: "14px",
-                            color: "gray",
-                          }}
-                        >
-                          Brand: {item.genericName}
-                        </h3>
-                      </div>
-                      <Button
-                        icon="pi pi-trash"
-                        className="p-button-rounded p-button-danger p-button-text"
-                        onClick={() => handleRemoveFromCart(item._id)}
-                      />
-                    </div>
-
-                    <div className="flex align-items-center justify-content-between">
-                      <div className="flex align-items-center">
-                        <Button
-                          icon="pi pi-minus"
-                          className="p-button-rounded p-button-text"
-                          onClick={() =>
-                            handleQuantityChange(item._id, item.quantity - 1)
-                          }
-                        />
-                        <InputText
-                          type="number"
-                          value={item.quantity}
-                          onChange={(e) =>
-                            handleQuantityChange(
-                              item._id,
-                              parseInt(e.target.value)
-                            )
-                          }
-                          showButtons={false}
-                          min={1}
-                          max={100}
-                          className="mx-2"
-                          style={{ maxWidth: "5rem" }}
-                        />
-                        <Button
-                          icon="pi pi-plus"
-                          className="p-button-rounded p-button-text"
-                          onClick={() =>
-                            handleQuantityChange(item._id, item.quantity + 1)
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="border-top-1 surface-border pt-3 mt-3">
-                <p className="text-sm text-center text-gray-500 mb-2">
-                  {lang == "en"
-                    ? English.OrderTotalMessage
-                    : Hindi.OrderTotalMessage}
-                </p>
-                <div className="flex justify-content-between mb-2">
-                  <span>
-                    {lang == "en"
-                      ? English.DeliveryCharge
-                      : Hindi.DeliveryCharge}
-                    :
-                  </span>
-                  <span>₹22</span>
-                </div>
-
-                <Button
-                  label={
-                    lang == "en"
-                      ? English.ProceedToCheckout
-                      : Hindi.ProceedToCheckout
+              <div className={styles.searchInput}>
+                <InputText
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  placeholder={
+                    lang == "en" ? English.SearchMedicines : Hindi.SearchMedicines
                   }
-                  icon="pi pi-shopping-bag"
-                  className="w-full "
+                  className="w-full"
                   style={{
-                    marginTop: "1rem",
+                    borderTopRightRadius: 0,
+                    borderBottomRightRadius: 0,
                   }}
-                  onClick={() => {
-                    setCartVisible(false);
-                    handleProceed();
+                />
+                <Button
+                  label={isMobile ? "" : "Search"}
+                  icon="pi pi-search"
+                  onClick={handleSearchButtonClick}
+                  style={{
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
                   }}
                 />
               </div>
-            </>
-          )}
-        </div>
-      </Sidebar>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "var(--teal-600)",
+                  height: "40px",
+                  marginTop: "10px",
+                  width: "50px",
+                  borderRadius: "50%",
+                  position: "relative",
+                  cursor: "pointer",
+                }}
+                onClick={() => setCartVisible(true)}
+              >
+                <span
+                  style={{
+                    fontSize: "1.2rem",
+                    color: "white",
+                    position: "absolute",
+                    top: "0%",
+                    right: "-10px",
+                    transform: "translate(-5%, -50%)",
+                    background: "var(--orange-500)",
+                    padding: "5px",
+                    width: "20px",
+                    height: "20px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: "50%",
+                  }}
+                >
+                  {cart.length}
+                </span>
+                <i
+                  style={{
+                    fontSize: "1.5rem",
+                    color: "white",
+                  }}
+                  className="pi pi-shopping-cart"
+                ></i>
+              </div>
+            </div>
 
-      {/* Bottom Nav  */}
-      <div
-        style={{
-          display: hidebottomnav ? "flex" : "none",
-          position: "fixed",
-          bottom: "0",
-          left: "0",
-          right: "0",
-          background: "white",
-          zIndex: "1000",
-          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem",
-          width: "100vw",
-          borderTopLeftRadius: "14px",
-          borderTopRightRadius: "14px",
-          height: "70px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            {medicines.length > 0 && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  flexWrap: "wrap",
+                  padding: "1rem",
+                }}
+                // className={styles.medicineDataView}
+              >
+                {medicines.map(itemTemplate)}
+              </div>
+            )}
+          </>
+        )}
+
+        <Dialog
+          header={lang == "en" ? English.CheckoutDetails : Hindi.CheckoutDetails}
+          visible={showCheckoutDialog}
+          style={{ width: isMobile ? "100vw" : "50vw" }}
+          footer={checkoutDialogFooter}
+          onHide={() => setShowCheckoutDialog(false)}
+        >
+          <div className={styles.checkoutForm}>
+            {/* <div className={styles.formSection}>
+              <h3>Contact Information</h3>
+              <div className={styles.formGroup}>
+                <label htmlFor="contactNumber">
+                  {lang == "en" ? English.ContactNumber : Hindi.ContactNumber}
+                </label>
+                <InputText
+                  id="contactNumber"
+                  value={checkoutForm.contactNumber}
+                  onChange={(e) =>
+                    setCheckoutForm({
+                      ...checkoutForm,
+                      contactNumber: e.target.value,
+                    })
+                  }
+                  placeholder={
+                    lang == "en"
+                      ? English.EnterContactNumber
+                      : Hindi.EnterContactNumber
+                  }
+                />
+              </div>
+            </div> */}
+
+            <AddressSelector
+              selectedAddress={selectedAddress}
+              setSelectedAddress={setSelectedAddress}
+            />
+            {/* <div className={styles.formSection}>
+              <h3>Delivery Address</h3>
+              <div className={styles.formGroup}>
+                <label htmlFor="street">Street Address</label>
+                <InputText
+                  id="street"
+                  value={checkoutForm.street}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, street: e.target.value })
+                  }
+                  placeholder={
+                    lang == "en"
+                      ? English.EnterStreetAddress
+                      : Hindi.EnterStreetAddress
+                  }
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="city">City</label>
+                <InputText
+                  id="city"
+                  value={checkoutForm.city}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, city: e.target.value })
+                  }
+                  placeholder={lang == "en" ? English.EnterCity : Hindi.EnterCity}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="state">State</label>
+                <InputText
+                  id="state"
+                  value={checkoutForm.state}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, state: e.target.value })
+                  }
+                  placeholder={
+                    lang == "en" ? English.EnterState : Hindi.EnterState
+                  }
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="pincode">Pincode</label>
+                <InputText
+                  id="pincode"
+                  value={checkoutForm.pincode}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, pincode: e.target.value })
+                  }
+                  placeholder={
+                    lang == "en" ? English.EnterPincode : Hindi.EnterPincode
+                  }
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="landmark">Landmark</label>
+                <InputText
+                  id="landmark"
+                  value={checkoutForm.landmark}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, landmark: e.target.value })
+                  }
+                  placeholder={
+                    lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
+                  }
+                />
+              </div>
+            </div> */}
+
+            <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
+              <h3>Payment Details</h3>
+              <div className={styles.formGroup}>
+                <label htmlFor="paymentMethod">Payment Method</label>
+                <Dropdown
+                  id="paymentMethod"
+                  value={checkoutForm.paymentMethod}
+                  options={paymentMethods}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, paymentMethod: e.value })
+                  }
+                  placeholder={
+                    lang == "en"
+                      ? English.SelectPaymentMethod
+                      : Hindi.SelectPaymentMethod
+                  }
+                />
+              </div>
+            </div>
+
+            <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
+              <h3>Additional Information</h3>
+              <div className={styles.formGroup}>
+                <label htmlFor="notes">Notes</label>
+                <InputText
+                  id="notes"
+                  value={checkoutForm.notes}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, notes: e.target.value })
+                  }
+                  placeholder={
+                    lang == "en" ? English.AdditionalNotes : Hindi.AdditionalNotes
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </Dialog>
+
+        <Dialog
+          header={
+            lang == "en"
+              ? English.OrderviaPrescription
+              : Hindi.OrderviaPrescription
+          }
+          visible={showPrescriptionDialog}
+          style={{ width: isMobile ? "100vw" : "60vw", maxWidth: 700 }}
+          footer={prescriptionDialogFooter}
+          onHide={() => {
+            setShowPrescriptionDialog(false);
+            setSelectedPrescription(null);
+            setSelectionOption();
           }}
         >
-          <i
-            className="pi pi-home"
-            style={{
-              fontSize: "28px",
-              color: "var(--teal-600)",
-            }}
-            onClick={() => {
-              router.push("/");
-            }}
-          ></i>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+            <div style={{ flex: 1, minWidth: 260 }}>
+              <h3>Choose Prescription</h3>
+              <PrescriptionSelector
+                value={selectedPrescription}
+                onChange={(file) => {
+                  setSelectedPrescription(file);
+                  if (file) {
+                    toast.current?.show({
+                      severity: "success",
+                      summary: "Selected",
+                      detail: "Prescription selected",
+                      life: 2000,
+                    });
+                  }
+                }}
+                getAuthHeaders={getAuthHeaders}
+              />
+            </div>
+            <div style={{ flex: 2, minWidth: 300 }}>
+              <h3>Order Details</h3>
+              <div className={styles.checkoutForm}>
+                {/* <div className={styles.formSection}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="presc-contactNumber">
+                      {lang == "en" ? English.Contactnumber : Hindi.Contactnumber}
+                    </label>
+                    <InputText
+                      id="presc-contactNumber"
+                      value={prescriptionForm.contactNumber}
+                      onChange={(e) =>
+                        setPrescriptionForm({
+                          ...prescriptionForm,
+                          contactNumber: e.target.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en" ? English.Contactnumber : Hindi.Contactnumber
+                      }
+                    />
+                  </div>
+                </div> */}
+                <AddressSelector
+                  selectedAddress={selectedAddress}
+                  setSelectedAddress={setSelectedAddress}
+                />
+                {/* <div
+                  style={{
+                    marginTop: "-1rem",
+                    width: "100%",
+                  }}
+                  className={styles.formSection}
+                >
+                  <div className={styles.formGroup}>
+                    <label htmlFor="presc-street">Street Address</label>
+                    <InputText
+                      id="presc-street"
+                      value={prescriptionForm.street}
+                      onChange={(e) =>
+                        setPrescriptionForm({
+                          ...prescriptionForm,
+                          street: e.target.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en"
+                          ? English.EnterStreetAddress
+                          : Hindi.EnterStreetAddress
+                      }
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="presc-city">City</label>
+                    <InputText
+                      id="presc-city"
+                      value={prescriptionForm.city}
+                      onChange={(e) =>
+                        setPrescriptionForm({
+                          ...prescriptionForm,
+                          city: e.target.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en" ? English.EnterCity : Hindi.EnterCity
+                      }
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="presc-state">State</label>
+                    <InputText
+                      id="presc-state"
+                      value={prescriptionForm.state}
+                      onChange={(e) =>
+                        setPrescriptionForm({
+                          ...prescriptionForm,
+                          state: e.target.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en" ? English.EnterState : Hindi.EnterState
+                      }
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="presc-pincode">Pincode</label>
+                    <InputText
+                      id="presc-pincode"
+                      value={prescriptionForm.pincode}
+                      onChange={(e) =>
+                        setPrescriptionForm({
+                          ...prescriptionForm,
+                          pincode: e.target.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en" ? English.EnterPincode : Hindi.EnterPincode
+                      }
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="presc-landmark">Landmark</label>
+                    <InputText
+                      id="presc-landmark"
+                      value={prescriptionForm.landmark}
+                      onChange={(e) =>
+                        setPrescriptionForm({
+                          ...prescriptionForm,
+                          landmark: e.target.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
+                      }
+                    />
+                  </div>
+                </div> */}
+                {/* <div
+                  style={{ marginTop: "-1rem" }}
+                  className={styles.formSection}
+                >
+                  <div className={styles.formGroup}>
+                    <label htmlFor="presc-paymentMethod">Payment Method</label>
+                    <Dropdown
+                      id="presc-paymentMethod"
+                      value={prescriptionForm.paymentMethod}
+                      options={paymentMethods}
+                      onChange={(e) =>
+                        setPrescriptionForm({
+                          ...prescriptionForm,
+                          paymentMethod: e.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en"
+                          ? English.SelectPaymentMethod
+                          : Hindi.SelectPaymentMethod
+                      }
+                    />
+                  </div>
+                </div> */}
+                <div
+                  style={{ marginTop: "-1rem" }}
+                  className={styles.formSection}
+                >
+                  <div className={styles.formGroup}>
+                    <label htmlFor="presc-notes">Notes</label>
+                    <InputText
+                      id="presc-notes"
+                      value={prescriptionForm.notes}
+                      onChange={(e) =>
+                        setPrescriptionForm({
+                          ...prescriptionForm,
+                          notes: e.target.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en"
+                          ? English.AdditionalNotes
+                          : Hindi.AdditionalNotes
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Dialog>
+
+        {/* Enlarge Dialog */}
+        <Dialog
+          header={enlargedFile ? enlargedFile.fileName || "Preview" : "Preview"}
+          visible={showEnlargeDialog}
+          style={{ width: "90vw", maxWidth: 900 }}
+          onHide={() => {
+            setShowEnlargeDialog(false);
+            setEnlargedFile(null);
+          }}
+          modal
+        >
+          {enlargedFile &&
+            (enlargedFile.fileFormat &&
+            enlargedFile.fileFormat.startsWith("image") ? (
+              <img
+                src={enlargedFile.fileUrl}
+                alt={enlargedFile.fileName}
+                style={{
+                  width: "100%",
+                  maxHeight: "80vh",
+                  objectFit: "contain",
+                  borderRadius: 8,
+                }}
+              />
+            ) : (
+              <PdfViewer url={enlargedFile.fileUrl} />
+            ))}
+        </Dialog>
+
+        <Dialog
+          header={
+            lang == "en" ? English.CallMeForDetails : Hindi.CallMeForDetails
+          }
+          visible={showCallDialog}
+          style={{ width: isMobile ? "100vw" : "60vw", maxWidth: 700 }}
+          footer={
+            <div>
+              <Button
+                label={lang == "en" ? English.Cancel : Hindi.Cancel}
+                icon="pi pi-times"
+                onClick={() => {
+                  setShowCallDialog(false);
+                  setSelectedCallPrescription(null);
+                  setSelectionOption();
+                }}
+                className="p-button-text"
+              />
+              <Button
+                label={lang == "en" ? English.Submit : Hindi.Submit}
+                icon="pi pi-check"
+                onClick={handleCallOrderSubmit}
+                disabled={
+                  !selectedAddress?.phone ||
+                  !selectedAddress?.street ||
+                  !selectedAddress?.city ||
+                  !selectedAddress?.state ||
+                  !selectedAddress?.pincode
+                }
+                autoFocus
+              />
+            </div>
+          }
+          onHide={() => {
+            setShowCallDialog(false);
+            setSelectedCallPrescription(null);
+            setSelectionOption();
           }}
         >
-          {/* <i className="pi pi-shopping-cart"></i> */}
-          <span
-            style={{
-              fontSize: "16px",
-              fontWeight: "600",
-              marginRight: "1rem",
-              color: "var(--surface-600)",
-              background: "var(--surface-50)",
-              padding: "0.5rem 1rem",
-              borderRadius: "6px",
-              boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            {cart.length}
-          </span>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+            <div style={{ flex: 1, minWidth: 260 }}>
+              <h3>Prescription</h3>
+              <PrescriptionSelector
+                value={selectedCallPrescription}
+                onChange={(file) => {
+                  setSelectedCallPrescription(file);
+                  if (file) {
+                    toast.current?.show({
+                      severity: "success",
+                      summary: "Selected",
+                      detail: "Prescription selected",
+                      life: 2000,
+                    });
+                  }
+                }}
+                getAuthHeaders={getAuthHeaders}
+              />
+            </div>
+            <div style={{ flex: 2, minWidth: 300 }}>
+              <h3>Call Request Details</h3>
+              <div className={styles.checkoutForm}>
+                {/* <div className={styles.formSection}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="call-contactNumber">Contact Number</label>
+                    <InputText
+                      id="call-contactNumber"
+                      value={callForm.contactNumber}
+                      onChange={(e) =>
+                        setCallForm({
+                          ...callForm,
+                          contactNumber: e.target.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en"
+                          ? English.EnterContactNumber
+                          : Hindi.EnterContactNumber
+                      }
+                    />
+                  </div>
+                </div> */}
+                <AddressSelector
+                  selectedAddress={selectedAddress}
+                  setSelectedAddress={setSelectedAddress}
+                />
+                {/* <div className={styles.formSection}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="call-street">Street Address</label>
+                    <InputText
+                      id="call-street"
+                      value={callForm.street}
+                      onChange={(e) =>
+                        setCallForm({ ...callForm, street: e.target.value })
+                      }
+                      placeholder={
+                        lang == "en"
+                          ? English.EnterStreetAddress
+                          : Hindi.EnterStreetAddress
+                      }
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="call-city">City</label>
+                    <InputText
+                      id="call-city"
+                      value={callForm.city}
+                      onChange={(e) =>
+                        setCallForm({ ...callForm, city: e.target.value })
+                      }
+                      placeholder={
+                        lang == "en" ? English.EnterCity : Hindi.EnterCity
+                      }
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="call-state">State</label>
+                    <InputText
+                      id="call-state"
+                      value={callForm.state}
+                      onChange={(e) =>
+                        setCallForm({ ...callForm, state: e.target.value })
+                      }
+                      placeholder={
+                        lang == "en" ? English.EnterState : Hindi.EnterState
+                      }
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="call-pincode">Pincode</label>
+                    <InputText
+                      id="call-pincode"
+                      value={callForm.pincode}
+                      onChange={(e) =>
+                        setCallForm({ ...callForm, pincode: e.target.value })
+                      }
+                      placeholder={
+                        lang == "en" ? English.EnterPincode : Hindi.EnterPincode
+                      }
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="call-landmark">Landmark</label>
+                    <InputText
+                      id="call-landmark"
+                      value={callForm.landmark}
+                      onChange={(e) =>
+                        setCallForm({ ...callForm, landmark: e.target.value })
+                      }
+                      placeholder={
+                        lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
+                      }
+                    />
+                  </div>
+                </div>
+                {/* <div className={styles.formSection}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="call-paymentMethod">Payment Method</label>
+                    <Dropdown
+                      id="call-paymentMethod"
+                      value={callForm.paymentMethod}
+                      options={paymentMethods}
+                      onChange={(e) =>
+                        setCallForm({ ...callForm, paymentMethod: e.value })
+                      }
+                      placeholder={
+                        lang == "en"
+                          ? English.SelectPaymentMethod
+                          : Hindi.SelectPaymentMethod
+                      }
+                    />
+                  </div>
+                </div>
+                <div className={styles.formSection}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="call-preferredCallTime">
+                      Preferred Call Time
+                    </label>
+                    <InputText
+                      id="call-preferredCallTime"
+                      value={callForm.preferredCallTime}
+                      onChange={(e) =>
+                        setCallForm({
+                          ...callForm,
+                          preferredCallTime: e.target.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en"
+                          ? English.EnterPreferredCallTime
+                          : Hindi.EnterPreferredCallTime
+                      }
+                    />
+                  </div>
+                </div> */}
+                {/* <div className={styles.formSection}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="call-notes">Notes</label>
+                    <InputText
+                      id="call-notes"
+                      value={callForm.notes}
+                      onChange={(e) =>
+                        setCallForm({ ...callForm, notes: e.target.value })
+                      }
+                      placeholder={
+                        lang == "en"
+                          ? English.AdditionalNotes
+                          : Hindi.AdditionalNotes
+                      }
+                    />
+                  </div>
+                </div> */}
+              </div>
+            </div>
+          </div>
+        </Dialog>
+
+        <Sidebar
+          visible={cartVisible}
+          position="right"
+          onHide={() => setCartVisible(false)}
+          style={{ width: "400px" }}
+          className="p-sidebar-lg"
+        >
+          <div className="p-4">
+            <h2 className="text-xl font-bold mb-4">
+              {lang == "en"
+                ? English.ShoppingCart.replace("{count}", cart.length)
+                : Hindi.ShoppingCart.replace("{count}", cart.length)}
+            </h2>
+
+            {cart.length === 0 ? (
+              <div className="text-center p-4">
+                <i className="pi pi-shopping-cart text-4xl text-gray-400 mb-2"></i>
+                <p className="text-gray-500">Your cart is empty</p>
+              </div>
+            ) : (
+              <>
+                <div
+                  className="cart-items"
+                  style={{ maxHeight: "calc(100vh - 250px)", overflowY: "auto" }}
+                >
+                  {cart.map((item) => (
+                    <div
+                      key={item._id}
+                      className="mb-4 p-3 border-round surface-100"
+                    >
+                      <div className="flex justify-content-between align-items-center mb-2">
+                        <div style={{ display: "flex", flexDirection: "column" }}>
+                          <h3
+                            className={styles.medicineName}
+                            style={{
+                              fontWeight: "600",
+                              color: "rgba(0,0,0,0.87)",
+                            }}
+                          >
+                            {item.brandName || item.genericName}
+                          </h3>
+                          <h3
+                            className={styles.medicineName}
+                            style={{
+                              fontSize: "14px",
+                              color: "gray",
+                            }}
+                          >
+                            Brand: {item.genericName}
+                          </h3>
+                        </div>
+                        <Button
+                          icon="pi pi-trash"
+                          className="p-button-rounded p-button-danger p-button-text"
+                          onClick={() => handleRemoveFromCart(item._id)}
+                        />
+                      </div>
+
+                      <div className="flex align-items-center justify-content-between">
+                        <div className="flex align-items-center">
+                          <Button
+                            icon="pi pi-minus"
+                            className="p-button-rounded p-button-text"
+                            onClick={() =>
+                              handleQuantityChange(item._id, item.quantity - 1)
+                            }
+                          />
+                          <InputText
+                            type="number"
+                            value={item.quantity}
+                            onChange={(e) =>
+                              handleQuantityChange(
+                                item._id,
+                                parseInt(e.target.value)
+                              )
+                            }
+                            showButtons={false}
+                            min={1}
+                            max={100}
+                            className="mx-2"
+                            style={{ maxWidth: "5rem" }}
+                          />
+                          <Button
+                            icon="pi pi-plus"
+                            className="p-button-rounded p-button-text"
+                            onClick={() =>
+                              handleQuantityChange(item._id, item.quantity + 1)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="border-top-1 surface-border pt-3 mt-3">
+                  <p className="text-sm text-center text-gray-500 mb-2">
+                    {lang == "en"
+                      ? English.OrderTotalMessage
+                      : Hindi.OrderTotalMessage}
+                  </p>
+                  <div className="flex justify-content-between mb-2">
+                    <span>
+                      {lang == "en"
+                        ? English.DeliveryCharge
+                        : Hindi.DeliveryCharge}
+                      :
+                    </span>
+                    <span>₹22</span>
+                  </div>
+
+                  <Button
+                    label={
+                      lang == "en"
+                        ? English.ProceedToCheckout
+                        : Hindi.ProceedToCheckout
+                    }
+                    icon="pi pi-shopping-bag"
+                    className="w-full "
+                    style={{
+                      marginTop: "1rem",
+                    }}
+                    onClick={() => {
+                      setCartVisible(false);
+                      handleProceed();
+                    }}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        </Sidebar>
+
+        {/* Bottom Nav  */}
+        <div
+          style={{
+            display: hidebottomnav ? "flex" : "none",
+            position: "fixed",
+            bottom: "0",
+            left: "0",
+            right: "0",
+            background: "white",
+            zIndex: "1000",
+            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "1rem",
+            width: "100vw",
+            borderTopLeftRadius: "14px",
+            borderTopRightRadius: "14px",
+            height: "70px",
+          }}
+        >
           <div
             style={{
-              padding: "0.5rem 1.5rem",
-              borderRadius: "6px",
-              background:
-                "linear-gradient(to right, #00b09b,rgb(17, 119, 104))",
-              color: "white",
-              fontWeight: "600",
-              fontSize: "18px",
-              cursor: "pointer",
-              boxShadow: "2px 3px 5px  rgba(0, 0, 0, 0.1)",
-            }}
-            onClick={() => {
-              setCartVisible(true);
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            Buy Now
+            <i
+              className="pi pi-home"
+              style={{
+                fontSize: "28px",
+                color: "var(--teal-600)",
+              }}
+              onClick={() => {
+                router.push("/");
+              }}
+            ></i>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {/* <i className="pi pi-shopping-cart"></i> */}
+            <span
+              style={{
+                fontSize: "16px",
+                fontWeight: "600",
+                marginRight: "1rem",
+                color: "var(--surface-600)",
+                background: "var(--surface-50)",
+                padding: "0.5rem 1rem",
+                borderRadius: "6px",
+                boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              {cart.length}
+            </span>
+            <div
+              style={{
+                padding: "0.5rem 1.5rem",
+                borderRadius: "6px",
+                background:
+                  "linear-gradient(to right, #00b09b,rgb(17, 119, 104))",
+                color: "white",
+                fontWeight: "600",
+                fontSize: "18px",
+                cursor: "pointer",
+                boxShadow: "2px 3px 5px  rgba(0, 0, 0, 0.1)",
+              }}
+              onClick={() => {
+                setCartVisible(true);
+              }}
+            >
+              Buy Now
+            </div>
           </div>
         </div>
       </div>
