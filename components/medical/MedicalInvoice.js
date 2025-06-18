@@ -38,7 +38,7 @@ const MedicalInvoice = ({
       total: item?.total?.toFixed(2) || 0,
     }));
   };
-
+  // invoice data
   const invoiceData = transformInvoiceData(invoice);
 
   const handlePrint = () => {
