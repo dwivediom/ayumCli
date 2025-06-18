@@ -14,22 +14,13 @@ const MedicalInvoice = ({
   showinvoice,
   setshowinvoice,
   showaspage,
+  store,
 }) => {
   const [storeDetails, setStoreDetails] = useState(null);
   const invoiceRef = useRef();
 
   useEffect(() => {
-    // Get store details from localStorage
-    console.log(invoice, "invoice");
-    const docData = localStorage.getItem("DocData");
-    if (docData) {
-      try {
-        const parsedData = JSON.parse(docData);
-        setStoreDetails(parsedData);
-      } catch (error) {
-        console.error("Error parsing DocData:", error);
-      }
-    }
+    setStoreDetails(store);
   }, []);
 
   // Transform the invoice data into the required format
@@ -38,13 +29,8 @@ const MedicalInvoice = ({
 
     return invoice.items.map((item) => ({
       item: item?.brandName || item?.genericName || "N/A",
-      exp:
-        invoice?.batchDetails
-          ?.find((batch) => batch._id === item.batchId)
-          ?.expiryDate.split("T")[0] || "N/A",
-      batch:
-        invoice?.batchDetails?.find((batch) => batch._id === item.batchId)
-          ?.batchNumber || "N/A",
+      exp: item?.expiryDate.split("T")[0] || "N/A",
+      batch: item?.batchNumber || "N/A",
       hsn: item?.hsn || "N/A",
       qty: item?.quantity || 0,
       mrp: item?.mrp || 0,
@@ -120,7 +106,14 @@ const MedicalInvoice = ({
   }, []);
   const invoicecontent = () => {
     return (
-      <div>
+      <div
+        style={{
+          background: "white",
+          borderRadius: "10px",
+          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+          padding: "10px",
+        }}
+      >
         <div className="flex justify-end gap-2">
           <Button
             label="Download"
@@ -139,7 +132,7 @@ const MedicalInvoice = ({
           <div className="max-w-4xl mx-auto border border-black  font-mono">
             <div className="text-center">
               <h2 className="text-xl font-bold uppercase">
-                {storeDetails?.name || "Medical Store"}
+                {storeDetails?.buisnessname || "Medical Store"}
               </h2>
               <p>{storeDetails?.bio || "Store Description"}</p>
               <p>
@@ -273,9 +266,30 @@ const MedicalInvoice = ({
           </div> */}
               <div>
                 <p className="text-right">
-                  For: <strong>{storeDetails?.name || "Medical Store"}</strong>
+                  <strong>
+                    {storeDetails?.buisnessname || "Medical Store"}
+                  </strong>
                 </p>
-                <p className="text-right mt-10">(Authorized Signatory)</p>
+                <div
+                  style={{
+                    position: "relative",
+                    height: "150px",
+                  }}
+                >
+                  <img
+                    src={storeDetails?.signature}
+                    alt="logo"
+                    className="w-20 h-20"
+                    style={{
+                      width: "200px",
+                      height: "100px",
+                      position: "absolute",
+                      bottom: "30px",
+                      right: "-20px",
+                    }}
+                  />
+                  <p className="text-right mt-10">(Authorized Signatory)</p>
+                </div>
               </div>
             </div>
 
@@ -292,7 +306,7 @@ const MedicalInvoice = ({
                 </li>
                 <li>
                   Make all cheques payable to{" "}
-                  {storeDetails?.name || "Medical Store"}.
+                  {storeDetails?.buisnessname || "Medical Store"}.
                 </li>
                 {storeDetails?.insurances &&
                   storeDetails.insurances.length > 0 && (
