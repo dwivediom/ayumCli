@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
-const host = process.env.NEXT_PUBLIC_B_PORT;
+const host = process.env.NEXT_PUBLIC_B_PORT || "http://localhost:5001";
 
 // List of 20 specialties and easy terms
 const specialists = [
@@ -51,6 +51,20 @@ const getCities = async () => {
   }
 };
 
+// Function to get all medical store usernames
+const getMedicalStoreUsernames = async () => {
+  try {
+    const response = await axios({
+      url: `https://server.ayum.in/api/ayum/medical-stores/usernames`,
+      method: "get",
+    });
+    return response.data.data || [];
+  } catch (error) {
+    console.error("Error fetching medical store usernames:", error);
+    return [];
+  }
+};
+
 // Generate URLs for the specialists and easy terms
 const generateSpecialistUrls = (city, hostd) => {
   const urls = [];
@@ -78,6 +92,16 @@ const generateUrlList = async (idList) => {
   const hostd = "https://www.ayum.in";
   const statPageList = ["", "Contact", "About"];
   const allUrlData = [];
+
+  // Add medical store URLs
+  const medicalStoreUsernames = await getMedicalStoreUsernames();
+  medicalStoreUsernames.forEach(username => {
+    const urlData = {
+      url: `${hostd}/medical-store/${username}`,
+      changefreq: "weekly",
+    };
+    allUrlData.push(urlData);
+  });
 
   if (Array.isArray(idList) && idList.length > 0) {
     idList.forEach((id) => {
