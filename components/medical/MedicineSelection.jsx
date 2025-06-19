@@ -213,6 +213,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected, showProfile = true
   const handleCheckoutSubmit = async () => {
     try {
       const deliveryAddress = {
+        customerName: selectedAddress?.name || "",
         street: selectedAddress?.street || "",
         city: selectedAddress?.city,
         state: selectedAddress?.state,
@@ -550,6 +551,7 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected, showProfile = true
   const handleCallOrderSubmit = async () => {
     try {
       const deliveryAddress = {
+        customerName: selectedAddress?.name || "",
         street: selectedAddress?.street || "",
         city: selectedAddress?.city || "",
         state: selectedAddress?.state || "",
@@ -627,8 +629,8 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected, showProfile = true
   const handlePrescriptionOrderSubmit = async () => {
     if (!selectedPrescription) return;
     try {
-      console.log(selectedPrescription, prescriptionForm, "value");
       const deliveryAddress = {
+        customerName: selectedAddress?.name || "",
         street: selectedAddress?.street || "",
         city: selectedAddress?.city || "",
         state: selectedAddress?.state || "",
