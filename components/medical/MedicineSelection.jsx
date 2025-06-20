@@ -220,6 +220,7 @@ const MedicineSelection = ({
   const handleCheckoutSubmit = async () => {
     try {
       const deliveryAddress = {
+        customerName: selectedAddress?.name || "",
         street: selectedAddress?.street || "",
         city: selectedAddress?.city,
         state: selectedAddress?.state,
@@ -557,6 +558,7 @@ const MedicineSelection = ({
   const handleCallOrderSubmit = async () => {
     try {
       const deliveryAddress = {
+        customerName: selectedAddress?.name || "",
         street: selectedAddress?.street || "",
         city: selectedAddress?.city || "",
         state: selectedAddress?.state || "",
@@ -634,8 +636,8 @@ const MedicineSelection = ({
   const handlePrescriptionOrderSubmit = async () => {
     if (!selectedPrescription) return;
     try {
-      console.log(selectedPrescription, prescriptionForm, "value");
       const deliveryAddress = {
+        customerName: selectedAddress?.name || "",
         street: selectedAddress?.street || "",
         city: selectedAddress?.city || "",
         state: selectedAddress?.state || "",
