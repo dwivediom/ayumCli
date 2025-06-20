@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  useMemo,
+  useCallback,
+} from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { DataView } from "primereact/dataview";
@@ -21,6 +28,457 @@ import English from "../../public/locales/en";
 import Hindi from "../../public/locales/hi";
 import AddressSelector from "./AddressSelector";
 
+// Move SearchOrderPage outside the main component
+const SearchOrderPage = React.memo(
+  ({
+    pharmacyId,
+    loading,
+    medicines,
+    cart,
+    handleAddToCart,
+    handleQuantityChange,
+    handleRemoveFromCart,
+    lang,
+    setCartVisible,
+    setSelectionOption,
+    setLoading,
+    setMedicines,
+    setPagination,
+    toast,
+  }) => {
+    const [searchTerm, setSearchTerm] = useState("");
+    const searchTimeoutRef = useRef(null);
+
+    const fetchMedicines2 = useCallback(
+      async (search = "") => {
+        try {
+          setLoading(true);
+
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_B_PORT}/api/medical/user/pharmacy/medicines`,
+            {
+              params: {
+                pharmacyId,
+                searchTerm: search,
+              },
+              headers: getAuthHeaders(),
+            }
+          );
+
+          if (response.data) {
+            setMedicines(response.data.medicines || []);
+            setPagination({
+              currentPage: response.data.currentPage,
+              totalPages: response.data.totalPages,
+              total: response.data.total,
+            });
+          } else {
+            setMedicines([]);
+            toast.current.show({
+              severity: "error",
+              summary: "Error",
+              detail: "Failed to fetch medicines",
+              life: 3000,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching medicines:", error);
+          setMedicines([]);
+          toast.current.show({
+            severity: "error",
+            summary: "Error",
+            detail: "Failed to fetch medicines. Please try again.",
+            life: 3000,
+          });
+        } finally {
+          setLoading(false);
+        }
+      },
+      [pharmacyId, setLoading, setMedicines, setPagination, toast]
+    );
+
+    const handleSearchChange = useCallback(
+      (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+
+        // Clear existing timeout
+        if (searchTimeoutRef.current) {
+          clearTimeout(searchTimeoutRef.current);
+        }
+
+        // Set new timeout for debounced API call
+        searchTimeoutRef.current = setTimeout(() => {
+          fetchMedicines2(value);
+        }, 300);
+      },
+      [fetchMedicines2]
+    );
+
+    const handleClearSearch = useCallback(() => {
+      setSearchTerm("");
+      fetchMedicines2("");
+    }, [fetchMedicines2]);
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+      return () => {
+        if (searchTimeoutRef.current) {
+          clearTimeout(searchTimeoutRef.current);
+        }
+      };
+    }, []);
+
+    return (
+      <div className={styles.searchOrderPage}>
+        {/* Premium Header */}
+        <div className={styles.searchHeader}>
+          <div className={styles.headerTop}>
+            <Button
+              icon="pi pi-arrow-left"
+              className="p-button-text p-button-rounded"
+              onClick={() => setSelectionOption()}
+              style={{
+                marginRight: "1rem",
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                background: "var(--surface-100)",
+                border: "1px solid var(--surface-200)",
+              }}
+            />
+            <div className={styles.headerContent}>
+              <h1 className={styles.searchPageTitle}>
+                {lang == "en"
+                  ? English.Searchandaddmedicines
+                  : Hindi.Searchandaddmedicines}
+              </h1>
+              <p className={styles.searchPageSubtitle}>
+                {lang == "en"
+                  ? "Find and order your medicines easily"
+                  : "अपनी दवाएं आसानी से खोजें और ऑर्डर करें"}
+              </p>
+            </div>
+            <div
+              className={styles.cartButton}
+              onClick={() => setCartVisible(true)}
+            >
+              <i className="pi pi-shopping-cart"></i>
+              {cart.length > 0 && (
+                <span className={styles.cartBadge}>{cart.length}</span>
+              )}
+            </div>
+          </div>
+
+          {/* Premium Search Bar */}
+          <div className={styles.searchBarContainer}>
+            <InputText
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder={
+                lang == "en"
+                  ? "Search medicines, brands, or symptoms..."
+                  : "दवाएं, ब्रांड या लक्षण खोजें..."
+              }
+              style={{
+                boxShadow: "0px 5px 10px  rgba(0, 0, 0, 0.1)",
+                border: "none",
+                borderRadius: "10px",
+                padding: "1rem",
+                width: "100%",
+                fontSize: "16px",
+              }}
+            />
+            {searchTerm && (
+              <Button
+                icon="pi pi-times"
+                className="p-button-text p-button-rounded"
+                onClick={handleClearSearch}
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                  background: "var(--surface-100)",
+                }}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Medicine Results - Now using memoized component */}
+        <div className={styles.medicineResults}>
+          <MedicineResults
+            loading={loading}
+            medicines={medicines}
+            searchTerm={searchTerm}
+            cart={cart}
+            handleAddToCart={handleAddToCart}
+            handleQuantityChange={handleQuantityChange}
+            handleRemoveFromCart={handleRemoveFromCart}
+            lang={lang}
+          />
+        </div>
+
+        {/* Floating Cart Button */}
+        {cart.length > 0 && (
+          <div
+            className={styles.floatingCartButton}
+            onClick={() => setCartVisible(true)}
+          >
+            <div className={styles.cartIcon}>
+              <i className="pi pi-shopping-cart"></i>
+              <span className={styles.cartCount}>{cart.length}</span>
+            </div>
+            <div className={styles.cartInfo}>
+              <span className={styles.cartText}>
+                {lang == "en" ? "View Cart" : "कार्ट देखें"}
+              </span>
+              <span className={styles.cartTotal}>
+                ₹
+                {cart.reduce(
+                  (sum, item) => sum + item.price * item.quantity,
+                  0
+                )}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+);
+
+SearchOrderPage.displayName = "SearchOrderPage";
+
+// Move MedicineResults outside as well
+const MedicineResults = React.memo(
+  ({
+    loading,
+    medicines,
+    searchTerm,
+    cart,
+    handleAddToCart,
+    handleQuantityChange,
+    handleRemoveFromCart,
+    lang,
+  }) => {
+    const itemTemplate = (medicine) => {
+      const cartItem = cart.find((item) => item._id === medicine._id);
+      const isInCart = !!cartItem;
+
+      return (
+        <div className={styles.medicineCard}>
+          <div className={styles.medicineContent}>
+            {/* Product Image Section */}
+            <div className={styles.medicineImage}>
+              {medicine.category?.toLowerCase() === "tablet" ? (
+                <img src="/capsule.png" alt="Tablet" width="60" height="60" />
+              ) : medicine.category?.toLowerCase() === "syrup" ? (
+                <img src="/syrup.png" alt="Syrup" width="60" height="60" />
+              ) : medicine.category?.toLowerCase() === "injection" ? (
+                <img
+                  src="/injection.png"
+                  alt="Injection"
+                  width="60"
+                  height="60"
+                />
+              ) : medicine.category?.toLowerCase() === "capsule" ? (
+                <img src="/capsule.png" alt="Capsule" width="60" height="60" />
+              ) : medicine.category?.toLowerCase() === "powder" ? (
+                <img src="/powder.png" alt="Powder" width="60" height="60" />
+              ) : medicine.category?.toLowerCase() === "ointment" ? (
+                <img
+                  src="/ointment.png"
+                  alt="Ointment"
+                  width="60"
+                  height="60"
+                />
+              ) : (
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="8"
+                    fill="#2ecc71"
+                    stroke="#2ecc71"
+                    strokeWidth="2"
+                  />
+                  <path d="M12 8V16" stroke="white" strokeWidth="2" />
+                  <path d="M8 12H16" stroke="white" strokeWidth="2" />
+                </svg>
+              )}
+            </div>
+
+            {/* Product Info Section */}
+            <div className={styles.medicineInfo}>
+              <div className={styles.medicineHeader}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <h3
+                    className={styles.medicineName}
+                    style={{
+                      fontWeight: "600",
+                      color: "rgba(0,0,0,0.87)",
+                    }}
+                  >
+                    {medicine.brandName || medicine.genericName}
+                  </h3>
+                  <h3
+                    className={styles.medicineName}
+                    style={{
+                      fontSize: "14px",
+                      color: "gray",
+                    }}
+                  >
+                    Brand: {medicine.genericName}
+                  </h3>
+                </div>
+
+                <Tag
+                  value={medicine.category || "Other"}
+                  style={{
+                    padding: "5px",
+                    borderRadius: "4px",
+                    fontSize: "16px",
+                  }}
+                  severity="info"
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className={styles.medicineActions}>
+                {isInCart ? (
+                  <div className={styles.quantityControls}>
+                    <div className={styles.quantityInput}>
+                      <Button
+                        icon="pi pi-minus"
+                        className="p-button-rounded p-button-text"
+                        onClick={() =>
+                          handleQuantityChange(
+                            medicine._id,
+                            cartItem.quantity - 1
+                          )
+                        }
+                      />
+                      <InputNumber
+                        value={cartItem.quantity}
+                        onValueChange={(e) =>
+                          handleQuantityChange(medicine._id, e.value)
+                        }
+                        showButtons={false}
+                        min={1}
+                        max={100}
+                        className={styles.quantityNumber}
+                      />
+                      <Button
+                        icon="pi pi-plus"
+                        className="p-button-rounded p-button-text"
+                        onClick={() =>
+                          handleQuantityChange(
+                            medicine._id,
+                            cartItem.quantity + 1
+                          )
+                        }
+                      />
+                    </div>
+                    <Button
+                      icon="pi pi-trash"
+                      className="p-button-rounded p-button-danger"
+                      onClick={() => handleRemoveFromCart(medicine._id)}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      width: "100%",
+                      justifyContent: "flex-end",
+                      padding: "5px",
+                      background: "var(--surface-50)",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <Button
+                      label={lang == "en" ? English.AddToCart : Hindi.AddToCart}
+                      icon="pi pi-shopping-cart"
+                      onClick={() => handleAddToCart(medicine)}
+                      style={{ backgroundColor: "var(--teal-600)" }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    if (loading) {
+      return (
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingSpinner}>
+            <i className="pi pi-spin pi-spinner"></i>
+          </div>
+          <p className={styles.loadingText}>
+            {lang == "en" ? "Searching medicines..." : "दवाएं खोज रहे हैं..."}
+          </p>
+        </div>
+      );
+    }
+
+    if (medicines.length > 0) {
+      return (
+        <div className={styles.medicineGrid}>{medicines.map(itemTemplate)}</div>
+      );
+    }
+
+    if (searchTerm) {
+      return (
+        <div className={styles.noResults}>
+          <div className={styles.noResultsIcon}>
+            <i className="pi pi-search"></i>
+          </div>
+          <h3 className={styles.noResultsTitle}>
+            {lang == "en" ? "No medicines found" : "कोई दवा नहीं मिली"}
+          </h3>
+          <p className={styles.noResultsText}>
+            {lang == "en"
+              ? "Try searching with different keywords or check spelling"
+              : "अलग-अलग कीवर्ड से खोजें या स्पेलिंग जांचें"}
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className={styles.welcomeState}>
+        <div className={styles.welcomeIcon}>
+          <i className="pi pi-heart"></i>
+        </div>
+        <h3 className={styles.welcomeTitle}>
+          {lang == "en"
+            ? "Start searching for medicines"
+            : "दवाओं की खोज शुरू करें"}
+        </h3>
+        <p className={styles.welcomeText}>
+          {lang == "en"
+            ? "Search for medicines by name, brand, or symptoms to get started"
+            : "शुरू करने के लिए नाम, ब्रांड या लक्षणों से दवाएं खोजें"}
+        </p>
+      </div>
+    );
+  }
+);
+
+MedicineResults.displayName = "MedicineResults";
+
+// Main component
 const MedicineSelection = ({
   pharmacyId,
   onMedicinesSelected,
@@ -30,14 +488,7 @@ const MedicineSelection = ({
   const toast = useRef(null);
   const [medicines, setMedicines] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
-  useEffect(() => {
-    if (window !== undefined) {
-      window.scrollTo(0, 0);
-    }
-    console.log(cart);
-  }, [cart]);
   const [showCheckoutDialog, setShowCheckoutDialog] = useState(false);
   const [checkoutForm, setCheckoutForm] = useState({
     contactNumber: "",
@@ -87,6 +538,15 @@ const MedicineSelection = ({
   const [selectedCallPrescription, setSelectedCallPrescription] =
     useState(null);
   const [cartVisible, setCartVisible] = useState(false);
+
+  // Add a new ref for bottom nav timeout
+  const bottomNavTimeout = useRef(null);
+
+  // Add this ref
+  const prevCartLength = useRef(0);
+
+  // Add this ref at the top with other refs
+  const prevBottomNavState = useRef(false);
 
   const getMedicineTypeIcon = (type) => {
     switch (type?.toLowerCase()) {
@@ -156,7 +616,7 @@ const MedicineSelection = ({
     fetchMedicines();
   }, [pharmacyId]);
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = useCallback((e) => {
     const value = e.target.value;
     setSearchTerm(value);
 
@@ -166,52 +626,61 @@ const MedicineSelection = ({
 
     searchTimeout.current = setTimeout(() => {
       fetchMedicines(value);
-    }, 500);
-  };
+    }, 300);
+  }, []);
 
   const handleSearchButtonClick = () => {
     fetchMedicines(searchTerm);
   };
 
-  const handleAddToCart = (medicine) => {
-    const existingItem = cart.find((item) => item._id === medicine._id);
+  const handleAddToCart = useCallback(
+    (medicine) => {
+      const existingItem = cart.find((item) => item._id === medicine._id);
 
-    if (existingItem) {
+      if (existingItem) {
+        setCart(
+          cart.map((item) =>
+            item._id === medicine._id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          )
+        );
+      } else {
+        setCart([...cart, { ...medicine, quantity: 1 }]);
+      }
+
+      toast.current.show({
+        severity: "success",
+        summary: "Added to Cart",
+        detail: `${medicine.brandName || medicine.genericName} added to cart`,
+        life: 2000,
+      });
+    },
+    [cart]
+  );
+
+  const handleRemoveFromCart = useCallback(
+    (medicineId) => {
+      setCart(cart.filter((item) => item._id !== medicineId));
+    },
+    [cart]
+  );
+
+  const handleQuantityChange = useCallback(
+    (medicineId, quantity) => {
+      if (quantity < 1) {
+        handleRemoveFromCart(medicineId);
+        return;
+      }
+
       setCart(
         cart.map((item) =>
-          item._id === medicine._id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+          item._id === medicineId ? { ...item, quantity } : item
         )
       );
-    } else {
-      setCart([...cart, { ...medicine, quantity: 1 }]);
-    }
-
-    toast.current.show({
-      severity: "success",
-      summary: "Added to Cart",
-      detail: `${medicine.brandName || medicine.genericName} added to cart`,
-      life: 2000,
-    });
-  };
-
-  const handleRemoveFromCart = (medicineId) => {
-    setCart(cart.filter((item) => item._id !== medicineId));
-  };
-
-  const handleQuantityChange = (medicineId, quantity) => {
-    if (quantity < 1) {
-      handleRemoveFromCart(medicineId);
-      return;
-    }
-
-    setCart(
-      cart.map((item) =>
-        item._id === medicineId ? { ...item, quantity } : item
-      )
-    );
-  };
+    },
+    [cart, handleRemoveFromCart]
+  );
 
   const handleProceed = () => {
     setShowCheckoutDialog(true);
@@ -237,7 +706,7 @@ const MedicineSelection = ({
       }));
 
       const subtotal = items.reduce((sum, item) => sum + item.total, 0);
-      const deliveryCharge = 40;
+      const deliveryCharge = 22;
       const tax = subtotal * 0.05; // 5% tax
       const total = subtotal + deliveryCharge + tax;
 
@@ -393,19 +862,6 @@ const MedicineSelection = ({
                 severity="info"
               />
             </div>
-
-            {/* <div className={styles.medicineDetails}>
-              <div className={styles.detailItem}>
-                <i className="pi pi-tag" style={{ color: "#2ecc71" }}></i>
-                <span className={styles.price}>
-                  ₹{medicine.packaging?.split(" ")[1] || "N/A"}
-                </span>
-              </div>
-              <div className={styles.detailItem}>
-                <i className="pi pi-box" style={{ color: "#2ecc71" }}></i>
-                <span>{medicine.packaging?.split(" ")[0] || "N/A"} units</span>
-              </div>
-            </div> */}
 
             {/* Action Buttons */}
             <div className={styles.medicineActions}>
@@ -723,14 +1179,34 @@ const MedicineSelection = ({
     { name: lang == "en" ? English.Callme : Hindi.Callme, value: "call" },
   ];
   const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
-    if (cart.length > 0) {
-      sethidebottomnav(true);
-    } else {
-      sethidebottomnav(false);
+    const currentCartLength = cart.length;
+    const shouldHideBottomNav = currentCartLength > 0;
+
+    // Only update if cart length actually changed AND bottom nav state needs to change
+    if (prevCartLength.current !== currentCartLength) {
+      if (shouldHideBottomNav !== prevBottomNavState.current) {
+        sethidebottomnav(shouldHideBottomNav);
+        prevBottomNavState.current = shouldHideBottomNav;
+      }
+      prevCartLength.current = currentCartLength;
     }
-    setIsMobile(window.innerWidth < 768);
+
+    // Set mobile state only once
+    if (typeof window !== "undefined" && !isMobile) {
+      setIsMobile(window.innerWidth < 768);
+    }
   }, [cart.length]);
+
+  // Add this useEffect for cleanup
+  useEffect(() => {
+    return () => {
+      if (searchTimeout.current) {
+        clearTimeout(searchTimeout.current);
+      }
+    };
+  }, []);
 
   // Custom selection cards component
   const SelectionCards = () => {
@@ -851,18 +1327,6 @@ const MedicineSelection = ({
               <h3 className={styles.cardTitle}>{card.title}</h3>
               <p className={styles.cardSubtitle}>{card.subtitle}</p>
               <p className={styles.cardDescription}>{card.description}</p>
-
-              {/* <div className={styles.cardFeatures}>
-                {card.features.map((feature, index) => (
-                  <div key={index} className={styles.featureItem}>
-                    <i
-                      className="pi pi-check"
-                      style={{ color: "rgba(255,255,255,0.9)" }}
-                    ></i>
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div> */}
             </div>
 
             <div className={styles.cardFooter}>
@@ -1013,15 +1477,10 @@ const MedicineSelection = ({
         <Button
           label={lang == "en" ? "Place Order" : "ऑर्डर करें"}
           icon="pi pi-check-circle"
-          onClick={handlePrescriptionOrderSubmit}
-          disabled={
-            !selectedPrescription ||
-            !selectedAddress?.phone ||
-            !selectedAddress?.street ||
-            !selectedAddress?.city ||
-            !selectedAddress?.state ||
-            !selectedAddress?.pincode
-          }
+          onClick={() => {
+            setCartVisible(false);
+            handleProceed();
+          }}
           className={styles.submitButtonClean}
         />
       </div>
@@ -1140,152 +1599,6 @@ const MedicineSelection = ({
     </div>
   );
 
-  // Premium Search and Order Page
-  const SearchOrderPage = () => (
-    <div className={styles.searchOrderPage}>
-      {/* Premium Header */}
-      <div className={styles.searchHeader}>
-        <div className={styles.headerTop}>
-          <Button
-            icon="pi pi-arrow-left"
-            className="p-button-text p-button-rounded"
-            onClick={() => setSelectionOption()}
-            style={{
-              marginRight: "1rem",
-              width: "40px",
-              height: "40px",
-              borderRadius: "50%",
-              background: "var(--surface-100)",
-              border: "1px solid var(--surface-200)",
-            }}
-          />
-          <div className={styles.headerContent}>
-            <h1 className={styles.searchPageTitle}>
-              {lang == "en"
-                ? English.Searchandaddmedicines
-                : Hindi.Searchandaddmedicines}
-            </h1>
-            <p className={styles.searchPageSubtitle}>
-              {lang == "en"
-                ? "Find and order your medicines easily"
-                : "अपनी दवाएं आसानी से खोजें और ऑर्डर करें"}
-            </p>
-          </div>
-          <div
-            className={styles.cartButton}
-            onClick={() => setCartVisible(true)}
-          >
-            <i className="pi pi-shopping-cart"></i>
-            {cart.length > 0 && (
-              <span className={styles.cartBadge}>{cart.length}</span>
-            )}
-          </div>
-        </div>
-
-        {/* Premium Search Bar */}
-        <div className={styles.searchBarContainer}>
-          <div className={styles.searchBar}>
-            <div className={styles.searchIcon}>
-              <i className="pi pi-search"></i>
-            </div>
-            <InputText
-              value={searchTerm}
-              onChange={handleSearchChange}
-              placeholder={
-                lang == "en"
-                  ? "Search medicines, brands, or symptoms..."
-                  : "दवाएं, ब्रांड या लक्षण खोजें..."
-              }
-              className={styles.searchInput}
-            />
-            {searchTerm && (
-              <Button
-                icon="pi pi-times"
-                className="p-button-text p-button-rounded"
-                onClick={() => setSearchTerm("")}
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50%",
-                  background: "var(--surface-100)",
-                }}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Medicine Results */}
-      <div className={styles.medicineResults}>
-        {loading ? (
-          <div className={styles.loadingContainer}>
-            <div className={styles.loadingSpinner}>
-              <i className="pi pi-spin pi-spinner"></i>
-            </div>
-            <p className={styles.loadingText}>
-              {lang == "en" ? "Searching medicines..." : "दवाएं खोज रहे हैं..."}
-            </p>
-          </div>
-        ) : medicines.length > 0 ? (
-          <div className={styles.medicineGrid}>
-            {medicines.map(itemTemplate)}
-          </div>
-        ) : searchTerm ? (
-          <div className={styles.noResults}>
-            <div className={styles.noResultsIcon}>
-              <i className="pi pi-search"></i>
-            </div>
-            <h3 className={styles.noResultsTitle}>
-              {lang == "en" ? "No medicines found" : "कोई दवा नहीं मिली"}
-            </h3>
-            <p className={styles.noResultsText}>
-              {lang == "en"
-                ? "Try searching with different keywords or check spelling"
-                : "अलग-अलग कीवर्ड से खोजें या स्पेलिंग जांचें"}
-            </p>
-          </div>
-        ) : (
-          <div className={styles.welcomeState}>
-            <div className={styles.welcomeIcon}>
-              <i className="pi pi-heart"></i>
-            </div>
-            <h3 className={styles.welcomeTitle}>
-              {lang == "en"
-                ? "Start searching for medicines"
-                : "दवाओं की खोज शुरू करें"}
-            </h3>
-            <p className={styles.welcomeText}>
-              {lang == "en"
-                ? "Search for medicines by name, brand, or symptoms to get started"
-                : "शुरू करने के लिए नाम, ब्रांड या लक्षणों से दवाएं खोजें"}
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Floating Cart Button */}
-      {cart.length > 0 && (
-        <div
-          className={styles.floatingCartButton}
-          onClick={() => setCartVisible(true)}
-        >
-          <div className={styles.cartIcon}>
-            <i className="pi pi-shopping-cart"></i>
-            <span className={styles.cartCount}>{cart.length}</span>
-          </div>
-          <div className={styles.cartInfo}>
-            <span className={styles.cartText}>
-              {lang == "en" ? "View Cart" : "कार्ट देखें"}
-            </span>
-            <span className={styles.cartTotal}>
-              ₹{cart.reduce((sum, item) => sum + item.price * item.quantity, 0)}
-            </span>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
   return (
     <div className={styles.container}>
       <Toast ref={toast} />
@@ -1311,7 +1624,22 @@ const MedicineSelection = ({
         ) : selectionOption === "call" ? (
           <CallRequestPage />
         ) : (
-          <SearchOrderPage />
+          <SearchOrderPage
+            pharmacyId={pharmacyId}
+            loading={loading}
+            medicines={medicines}
+            cart={cart}
+            handleAddToCart={handleAddToCart}
+            handleQuantityChange={handleQuantityChange}
+            handleRemoveFromCart={handleRemoveFromCart}
+            lang={lang}
+            setCartVisible={setCartVisible}
+            setSelectionOption={setSelectionOption}
+            setLoading={setLoading}
+            setMedicines={setMedicines}
+            setPagination={setPagination}
+            toast={toast}
+          />
         )}
       </div>
 
@@ -1406,32 +1734,7 @@ const MedicineSelection = ({
             </div>
 
             <div className={styles.cartFooter}>
-              <div className={styles.cartSummary}>
-                <div className={styles.summaryRow}>
-                  <span>{lang == "en" ? "Subtotal" : "कुल राशि"}</span>
-                  <span>
-                    ₹
-                    {cart.reduce(
-                      (sum, item) => sum + item.price * item.quantity,
-                      0
-                    )}
-                  </span>
-                </div>
-                <div className={styles.summaryRow}>
-                  <span>{lang == "en" ? "Delivery" : "डिलीवरी"}</span>
-                  <span>₹40</span>
-                </div>
-                <div className={styles.summaryRow}>
-                  <span>{lang == "en" ? "Total" : "कुल"}</span>
-                  <span className={styles.totalAmount}>
-                    ₹
-                    {cart.reduce(
-                      (sum, item) => sum + item.price * item.quantity,
-                      0
-                    ) + 40}
-                  </span>
-                </div>
-              </div>
+              <div className={styles.cartSummary}></div>
               <Button
                 label={lang == "en" ? "Proceed to Checkout" : "चेकआउट करें"}
                 icon="pi pi-shopping-bag"
@@ -1524,6 +1827,149 @@ const MedicineSelection = ({
           </div>
         </div>
       </div>
+      <Dialog
+        header={lang == "en" ? English.CheckoutDetails : Hindi.CheckoutDetails}
+        visible={showCheckoutDialog}
+        style={{ width: isMobile ? "100vw" : "50vw" }}
+        footer={checkoutDialogFooter}
+        onHide={() => setShowCheckoutDialog(false)}
+      >
+        <div className={styles.checkoutForm}>
+          {/* <div className={styles.formSection}>
+              <h3>Contact Information</h3>
+              <div className={styles.formGroup}>
+                <label htmlFor="contactNumber">
+                  {lang == "en" ? English.ContactNumber : Hindi.ContactNumber}
+                </label>
+                <InputText
+                  id="contactNumber"
+                  value={checkoutForm.contactNumber}
+                  onChange={(e) =>
+                    setCheckoutForm({
+                      ...checkoutForm,
+                      contactNumber: e.target.value,
+                    })
+                  }
+                  placeholder={
+                    lang == "en"
+                      ? English.EnterContactNumber
+                      : Hindi.EnterContactNumber
+                  }
+                />
+              </div>
+            </div> */}
+
+          <AddressSelector
+            selectedAddress={selectedAddress}
+            setSelectedAddress={setSelectedAddress}
+          />
+          {/* <div className={styles.formSection}>
+              <h3>Delivery Address</h3>
+              <div className={styles.formGroup}>
+                <label htmlFor="street">Street Address</label>
+                <InputText
+                  id="street"
+                  value={checkoutForm.street}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, street: e.target.value })
+                  }
+                  placeholder={
+                    lang == "en"
+                      ? English.EnterStreetAddress
+                      : Hindi.EnterStreetAddress
+                  }
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="city">City</label>
+                <InputText
+                  id="city"
+                  value={checkoutForm.city}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, city: e.target.value })
+                  }
+                  placeholder={lang == "en" ? English.EnterCity : Hindi.EnterCity}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="state">State</label>
+                <InputText
+                  id="state"
+                  value={checkoutForm.state}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, state: e.target.value })
+                  }
+                  placeholder={
+                    lang == "en" ? English.EnterState : Hindi.EnterState
+                  }
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="pincode">Pincode</label>
+                <InputText
+                  id="pincode"
+                  value={checkoutForm.pincode}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, pincode: e.target.value })
+                  }
+                  placeholder={
+                    lang == "en" ? English.EnterPincode : Hindi.EnterPincode
+                  }
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="landmark">Landmark</label>
+                <InputText
+                  id="landmark"
+                  value={checkoutForm.landmark}
+                  onChange={(e) =>
+                    setCheckoutForm({ ...checkoutForm, landmark: e.target.value })
+                  }
+                  placeholder={
+                    lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
+                  }
+                />
+              </div>
+            </div> */}
+
+          <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
+            <h3>Payment Details</h3>
+            <div className={styles.formGroup}>
+              <label htmlFor="paymentMethod">Payment Method</label>
+              <Dropdown
+                id="paymentMethod"
+                value={checkoutForm.paymentMethod}
+                options={paymentMethods}
+                onChange={(e) =>
+                  setCheckoutForm({ ...checkoutForm, paymentMethod: e.value })
+                }
+                placeholder={
+                  lang == "en"
+                    ? English.SelectPaymentMethod
+                    : Hindi.SelectPaymentMethod
+                }
+              />
+            </div>
+          </div>
+
+          <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
+            <h3>Additional Information</h3>
+            <div className={styles.formGroup}>
+              <label htmlFor="notes">Notes</label>
+              <InputText
+                id="notes"
+                value={checkoutForm.notes}
+                onChange={(e) =>
+                  setCheckoutForm({ ...checkoutForm, notes: e.target.value })
+                }
+                placeholder={
+                  lang == "en" ? English.AdditionalNotes : Hindi.AdditionalNotes
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </Dialog>
     </div>
   );
 };
