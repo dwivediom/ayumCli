@@ -21,7 +21,11 @@ import English from "../../public/locales/en";
 import Hindi from "../../public/locales/hi";
 import AddressSelector from "./AddressSelector";
 
-const MedicineSelection = ({ pharmacyId, onMedicinesSelected, showProfile = true }) => {
+const MedicineSelection = ({
+  pharmacyId,
+  onMedicinesSelected,
+  showProfile = true,
+}) => {
   const router = useRouter();
   const toast = useRef(null);
   const [medicines, setMedicines] = useState([]);
@@ -29,6 +33,9 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected, showProfile = true
   const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
   useEffect(() => {
+    if (window !== undefined) {
+      window.scrollTo(0, 0);
+    }
     console.log(cart);
   }, [cart]);
   const [showCheckoutDialog, setShowCheckoutDialog] = useState(false);
@@ -723,6 +730,560 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected, showProfile = true
     setIsMobile(window.innerWidth < 768);
   }, [cart.length]);
 
+  // Custom selection cards component
+  const SelectionCards = () => {
+    const cards = [
+      {
+        id: "prescription",
+        title:
+          lang == "en"
+            ? English.OrderviaPrescription
+            : Hindi.OrderviaPrescription,
+        subtitle:
+          lang == "en"
+            ? "Upload your prescription"
+            : "अपना प्रिस्क्रिप्शन अपलोड करें",
+        description:
+          lang == "en"
+            ? "Simply upload your doctor's prescription and we'll deliver your medicines right to your doorstep"
+            : "बस अपने डॉक्टर का प्रिस्क्रिप्शन अपलोड करें और हम आपकी दवाएं आपके घर तक पहुंचा देंगे",
+        icon: "pi pi-file-pdf",
+        gradient: "linear-gradient(135deg, #4c63d2 0%, #5a3d8a 100%)",
+        iconBg: "rgba(76, 99, 210, 0.15)",
+        iconColor: "#4c63d2",
+        features: [
+          lang == "en" ? "Fast processing" : "तेज प्रोसेसिंग",
+          lang == "en" ? "Expert verification" : "विशेषज्ञ सत्यापन",
+          lang == "en" ? "Same day delivery" : "स्वयं दिन डिलीवरी",
+        ],
+      },
+      {
+        id: "search",
+        title:
+          lang == "en"
+            ? English.Searchandaddmedicines
+            : Hindi.Searchandaddmedicines,
+        subtitle:
+          lang == "en"
+            ? "Browse and select medicines"
+            : "दवाओं को ब्राउज़ करें और चुनें",
+        description:
+          lang == "en"
+            ? "Search through our extensive medicine catalog and add items to your cart for easy ordering"
+            : "हमारे विस्तृत दवा कैटलॉग में खोजें और आसान ऑर्डरिंग के लिए आइटम को अपनी कार्ट में जोड़ें",
+        icon: "pi pi-search",
+        gradient: "linear-gradient(135deg, #d63384 0%, #dc3545 100%)",
+        iconBg: "rgba(214, 51, 132, 0.15)",
+        iconColor: "#d63384",
+        features: [
+          lang == "en" ? "Wide selection" : "विस्तृत चयन",
+          lang == "en" ? "Price comparison" : "मूल्य तुलना",
+          lang == "en" ? "Stock availability" : "स्टॉक उपलब्धता",
+        ],
+      },
+      {
+        id: "call",
+        title: lang == "en" ? English.Callme : Hindi.Callme,
+        subtitle:
+          lang == "en"
+            ? "Get expert consultation"
+            : "विशेषज्ञ परामर्श प्राप्त करें",
+        description:
+          lang == "en"
+            ? "Speak directly with our pharmacy experts for personalized medicine recommendations and guidance"
+            : "व्यक्तिगत दवा सिफारिशों और मार्गदर्शन के लिए हमारे फार्मेसी विशेषज्ञों से सीधे बात करें",
+        icon: "pi pi-phone",
+        gradient: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
+        iconBg: "rgba(13, 110, 253, 0.15)",
+        iconColor: "#0d6efd",
+        features: [
+          lang == "en" ? "Expert consultation" : "विशेषज्ञ परामर्श",
+          lang == "en" ? "Personalized advice" : "व्यक्तिगत सलाह",
+          lang == "en" ? "Flexible timing" : "लचीला समय",
+        ],
+      },
+    ];
+
+    return (
+      <div className={styles.selectionCardsContainer}>
+        {cards.map((card) => (
+          <div
+            key={card.id}
+            className={styles.selectionCard}
+            onClick={() => {
+              setSelectionOption(card.id);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            style={{
+              background: card.gradient,
+              cursor: "pointer",
+              transform:
+                selectionOption === card.id ? "scale(1.02)" : "scale(1)",
+              boxShadow:
+                selectionOption === card.id
+                  ? "0 20px 40px rgba(0,0,0,0.25)"
+                  : "0 10px 30px rgba(0,0,0,0.15)",
+            }}
+          >
+            <div className={styles.cardHeader}>
+              <div
+                className={styles.cardIcon}
+                style={{
+                  backgroundColor: card.iconBg,
+                  color: card.iconColor,
+                }}
+              >
+                <i className={card.icon}></i>
+              </div>
+              <div className={styles.cardBadge}>
+                {selectionOption === card.id && (
+                  <i
+                    className="pi pi-check-circle"
+                    style={{ color: "white" }}
+                  ></i>
+                )}
+              </div>
+            </div>
+
+            <div className={styles.cardContent}>
+              <h3 className={styles.cardTitle}>{card.title}</h3>
+              <p className={styles.cardSubtitle}>{card.subtitle}</p>
+              <p className={styles.cardDescription}>{card.description}</p>
+
+              {/* <div className={styles.cardFeatures}>
+                {card.features.map((feature, index) => (
+                  <div key={index} className={styles.featureItem}>
+                    <i
+                      className="pi pi-check"
+                      style={{ color: "rgba(255,255,255,0.9)" }}
+                    ></i>
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div> */}
+            </div>
+
+            <div className={styles.cardFooter}>
+              <div className={styles.cardAction}>
+                <span>{lang == "en" ? "Select Option" : "विकल्प चुनें"}</span>
+                <i className="pi pi-arrow-right"></i>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // Premium Prescription Order Page
+  const PrescriptionOrderPage = () => (
+    <div className={styles.premiumPageClean}>
+      <div className={styles.pageHeaderClean}>
+        <Button
+          icon="pi pi-arrow-left"
+          className="p-button-text p-button-rounded"
+          onClick={() => setSelectionOption()}
+          style={{
+            marginRight: "1rem",
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            background: "var(--surface-100)",
+            border: "1px solid var(--surface-200)",
+          }}
+        />
+        <div className={styles.headerContentClean}>
+          <h1 className={styles.pageTitleClean}>
+            {lang == "en"
+              ? English.OrderviaPrescription
+              : Hindi.OrderviaPrescription}
+          </h1>
+          <p className={styles.pageSubtitleClean}>
+            {lang == "en"
+              ? "Upload your prescription and we'll take care of the rest"
+              : "अपना प्रिस्क्रिप्शन अपलोड करें और हम बाकी का ध्यान रखेंगे"}
+          </p>
+        </div>
+      </div>
+
+      <div className={styles.pageContentClean}>
+        <div className={styles.sectionClean}>
+          <div className={styles.sectionHeaderClean}>
+            <div className={styles.sectionIconClean}>
+              <i className="pi pi-file-pdf"></i>
+            </div>
+            <div>
+              <h2 className={styles.sectionTitleClean}>
+                {lang == "en"
+                  ? "Upload Prescription"
+                  : "प्रिस्क्रिप्शन अपलोड करें"}
+              </h2>
+              <p className={styles.sectionDescriptionClean}>
+                {lang == "en"
+                  ? "Upload a clear image or PDF of your doctor's prescription"
+                  : "अपने डॉक्टर के प्रिस्क्रिप्शन की स्पष्ट छवि या PDF अपलोड करें"}
+              </p>
+            </div>
+          </div>
+
+          <div className={styles.uploadSectionClean}>
+            <PrescriptionSelector
+              value={selectedPrescription}
+              onChange={(file) => {
+                setSelectedPrescription(file);
+                if (file) {
+                  toast.current?.show({
+                    severity: "success",
+                    summary: "Selected",
+                    detail: "Prescription selected",
+                    life: 2000,
+                  });
+                }
+              }}
+              getAuthHeaders={getAuthHeaders}
+            />
+          </div>
+        </div>
+
+        <div className={styles.sectionClean}>
+          <div className={styles.sectionHeaderClean}>
+            <div className={styles.sectionIconClean}>
+              <i className="pi pi-map-marker"></i>
+            </div>
+            <div>
+              <h2 className={styles.sectionTitleClean}>
+                {lang == "en" ? "Delivery Address" : "डिलीवरी पता"}
+              </h2>
+              <p className={styles.sectionDescriptionClean}>
+                {lang == "en"
+                  ? "Where should we deliver your medicines?"
+                  : "हम आपकी दवाएं कहां पहुंचाएं?"}
+              </p>
+            </div>
+          </div>
+
+          <div className={styles.addressSectionClean}>
+            <AddressSelector
+              selectedAddress={selectedAddress}
+              setSelectedAddress={setSelectedAddress}
+            />
+          </div>
+        </div>
+
+        <div className={styles.sectionClean}>
+          <div className={styles.sectionHeaderClean}>
+            <div className={styles.sectionIconClean}>
+              <i className="pi pi-comment"></i>
+            </div>
+            <div>
+              <h2 className={styles.sectionTitleClean}>
+                {lang == "en" ? "Additional Notes" : "अतिरिक्त नोट्स"}
+              </h2>
+              <p className={styles.sectionDescriptionClean}>
+                {lang == "en"
+                  ? "Any special instructions or preferences?"
+                  : "कोई विशेष निर्देश या प्राथमिकताएं?"}
+              </p>
+            </div>
+          </div>
+
+          <div className={styles.notesSectionClean}>
+            <InputText
+              value={prescriptionForm.notes}
+              onChange={(e) =>
+                setPrescriptionForm({
+                  ...prescriptionForm,
+                  notes: e.target.value,
+                })
+              }
+              placeholder={
+                lang == "en"
+                  ? "Enter any additional notes or instructions..."
+                  : "कोई अतिरिक्त नोट्स या निर्देश दर्ज करें..."
+              }
+              className={styles.notesInputClean}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.pageFooterClean}>
+        <Button
+          label={lang == "en" ? "Place Order" : "ऑर्डर करें"}
+          icon="pi pi-check-circle"
+          onClick={handlePrescriptionOrderSubmit}
+          disabled={
+            !selectedPrescription ||
+            !selectedAddress?.phone ||
+            !selectedAddress?.street ||
+            !selectedAddress?.city ||
+            !selectedAddress?.state ||
+            !selectedAddress?.pincode
+          }
+          className={styles.submitButtonClean}
+        />
+      </div>
+    </div>
+  );
+
+  // Premium Call Request Page
+  const CallRequestPage = () => (
+    <div className={styles.premiumPageClean}>
+      <div className={styles.pageHeaderClean}>
+        <Button
+          icon="pi pi-arrow-left"
+          className="p-button-text p-button-rounded"
+          onClick={() => setSelectionOption()}
+          style={{
+            marginRight: "1rem",
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            background: "var(--surface-100)",
+            border: "1px solid var(--surface-200)",
+          }}
+        />
+        <div className={styles.headerContentClean}>
+          <h1 className={styles.pageTitleClean}>
+            {lang == "en" ? English.Callme : Hindi.Callme}
+          </h1>
+          <p className={styles.pageSubtitleClean}>
+            {lang == "en"
+              ? "Get expert consultation and personalized medicine recommendations"
+              : "विशेषज्ञ परामर्श और व्यक्तिगत दवा सिफारिशें प्राप्त करें"}
+          </p>
+        </div>
+      </div>
+
+      <div className={styles.pageContentClean}>
+        <div className={styles.sectionClean}>
+          <div className={styles.sectionHeaderClean}>
+            <div className={styles.sectionIconClean}>
+              <i className="pi pi-file-pdf"></i>
+            </div>
+            <div>
+              <h2 className={styles.sectionTitleClean}>
+                {lang == "en"
+                  ? "Prescription (Optional)"
+                  : "प्रिस्क्रिप्शन (वैकल्पिक)"}
+              </h2>
+              <p className={styles.sectionDescriptionClean}>
+                {lang == "en"
+                  ? "Upload your prescription if you have one for better consultation"
+                  : "बेहतर परामर्श के लिए यदि आपके पास है तो अपना प्रिस्क्रिप्शन अपलोड करें"}
+              </p>
+            </div>
+          </div>
+
+          <div className={styles.uploadSectionClean}>
+            <PrescriptionSelector
+              value={selectedCallPrescription}
+              onChange={(file) => {
+                setSelectedCallPrescription(file);
+                if (file) {
+                  toast.current?.show({
+                    severity: "success",
+                    summary: "Selected",
+                    detail: "Prescription selected",
+                    life: 2000,
+                  });
+                }
+              }}
+              getAuthHeaders={getAuthHeaders}
+            />
+          </div>
+        </div>
+
+        <div className={styles.sectionClean}>
+          <div className={styles.sectionHeaderClean}>
+            <div className={styles.sectionIconClean}>
+              <i className="pi pi-map-marker"></i>
+            </div>
+            <div>
+              <h2 className={styles.sectionTitleClean}>
+                {lang == "en" ? "Contact Information" : "संपर्क जानकारी"}
+              </h2>
+              <p className={styles.sectionDescriptionClean}>
+                {lang == "en"
+                  ? "Where can we reach you for consultation?"
+                  : "हम आपसे परामर्श के लिए कहां संपर्क कर सकते हैं?"}
+              </p>
+            </div>
+          </div>
+
+          <div className={styles.addressSectionClean}>
+            <AddressSelector
+              selectedAddress={selectedAddress}
+              setSelectedAddress={setSelectedAddress}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.pageFooterClean}>
+        <Button
+          label={lang == "en" ? "Request Call" : "कॉल का अनुरोध करें"}
+          icon="pi pi-phone"
+          onClick={handleCallOrderSubmit}
+          disabled={
+            !selectedAddress?.phone ||
+            !selectedAddress?.street ||
+            !selectedAddress?.city ||
+            !selectedAddress?.state ||
+            !selectedAddress?.pincode
+          }
+          className={styles.submitButtonClean}
+        />
+      </div>
+    </div>
+  );
+
+  // Premium Search and Order Page
+  const SearchOrderPage = () => (
+    <div className={styles.searchOrderPage}>
+      {/* Premium Header */}
+      <div className={styles.searchHeader}>
+        <div className={styles.headerTop}>
+          <Button
+            icon="pi pi-arrow-left"
+            className="p-button-text p-button-rounded"
+            onClick={() => setSelectionOption()}
+            style={{
+              marginRight: "1rem",
+              width: "40px",
+              height: "40px",
+              borderRadius: "50%",
+              background: "var(--surface-100)",
+              border: "1px solid var(--surface-200)",
+            }}
+          />
+          <div className={styles.headerContent}>
+            <h1 className={styles.searchPageTitle}>
+              {lang == "en"
+                ? English.Searchandaddmedicines
+                : Hindi.Searchandaddmedicines}
+            </h1>
+            <p className={styles.searchPageSubtitle}>
+              {lang == "en"
+                ? "Find and order your medicines easily"
+                : "अपनी दवाएं आसानी से खोजें और ऑर्डर करें"}
+            </p>
+          </div>
+          <div
+            className={styles.cartButton}
+            onClick={() => setCartVisible(true)}
+          >
+            <i className="pi pi-shopping-cart"></i>
+            {cart.length > 0 && (
+              <span className={styles.cartBadge}>{cart.length}</span>
+            )}
+          </div>
+        </div>
+
+        {/* Premium Search Bar */}
+        <div className={styles.searchBarContainer}>
+          <div className={styles.searchBar}>
+            <div className={styles.searchIcon}>
+              <i className="pi pi-search"></i>
+            </div>
+            <InputText
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder={
+                lang == "en"
+                  ? "Search medicines, brands, or symptoms..."
+                  : "दवाएं, ब्रांड या लक्षण खोजें..."
+              }
+              className={styles.searchInput}
+            />
+            {searchTerm && (
+              <Button
+                icon="pi pi-times"
+                className="p-button-text p-button-rounded"
+                onClick={() => setSearchTerm("")}
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                  background: "var(--surface-100)",
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Medicine Results */}
+      <div className={styles.medicineResults}>
+        {loading ? (
+          <div className={styles.loadingContainer}>
+            <div className={styles.loadingSpinner}>
+              <i className="pi pi-spin pi-spinner"></i>
+            </div>
+            <p className={styles.loadingText}>
+              {lang == "en" ? "Searching medicines..." : "दवाएं खोज रहे हैं..."}
+            </p>
+          </div>
+        ) : medicines.length > 0 ? (
+          <div className={styles.medicineGrid}>
+            {medicines.map(itemTemplate)}
+          </div>
+        ) : searchTerm ? (
+          <div className={styles.noResults}>
+            <div className={styles.noResultsIcon}>
+              <i className="pi pi-search"></i>
+            </div>
+            <h3 className={styles.noResultsTitle}>
+              {lang == "en" ? "No medicines found" : "कोई दवा नहीं मिली"}
+            </h3>
+            <p className={styles.noResultsText}>
+              {lang == "en"
+                ? "Try searching with different keywords or check spelling"
+                : "अलग-अलग कीवर्ड से खोजें या स्पेलिंग जांचें"}
+            </p>
+          </div>
+        ) : (
+          <div className={styles.welcomeState}>
+            <div className={styles.welcomeIcon}>
+              <i className="pi pi-heart"></i>
+            </div>
+            <h3 className={styles.welcomeTitle}>
+              {lang == "en"
+                ? "Start searching for medicines"
+                : "दवाओं की खोज शुरू करें"}
+            </h3>
+            <p className={styles.welcomeText}>
+              {lang == "en"
+                ? "Search for medicines by name, brand, or symptoms to get started"
+                : "शुरू करने के लिए नाम, ब्रांड या लक्षणों से दवाएं खोजें"}
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Floating Cart Button */}
+      {cart.length > 0 && (
+        <div
+          className={styles.floatingCartButton}
+          onClick={() => setCartVisible(true)}
+        >
+          <div className={styles.cartIcon}>
+            <i className="pi pi-shopping-cart"></i>
+            <span className={styles.cartCount}>{cart.length}</span>
+          </div>
+          <div className={styles.cartInfo}>
+            <span className={styles.cartText}>
+              {lang == "en" ? "View Cart" : "कार्ट देखें"}
+            </span>
+            <span className={styles.cartTotal}>
+              ₹{cart.reduce((sum, item) => sum + item.price * item.quantity, 0)}
+            </span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className={styles.container}>
       <Toast ref={toast} />
@@ -731,929 +1292,233 @@ const MedicineSelection = ({ pharmacyId, onMedicinesSelected, showProfile = true
           {/* Profile content will be moved to a separate component */}
         </div>
       )}
-      
+
       <div className={styles.medicineSelectionSection}>
+        {!selectionOption ? (
+          <div
+            style={{
+              marginTop: "1rem",
+              transition: "margin-top 0.3s ease-in-out",
+            }}
+            className="card flex justify-content-center"
+          >
+            <SelectionCards />
+          </div>
+        ) : selectionOption === "prescription" ? (
+          <PrescriptionOrderPage />
+        ) : selectionOption === "call" ? (
+          <CallRequestPage />
+        ) : (
+          <SearchOrderPage />
+        )}
+      </div>
 
-
-        <div
-          style={{
-            marginTop: selectionOption ? "0" : "5rem",
-            transition: "margin-top 0.3s ease-in-out",
-          }}
-          className="card flex justify-content-center"
-        >
-          <SelectButton
-            value={selectionOption}
-            onChange={(e) => setSelectionOption(e.value)}
-            optionLabel="name"
-            options={items}
+      {/* Enhanced Cart Sidebar */}
+      <Sidebar
+        visible={cartVisible}
+        position="right"
+        onHide={() => setCartVisible(false)}
+        style={{ width: "100%", maxWidth: "400px" }}
+        className={styles.premiumCartSidebar}
+      >
+        <div className={styles.cartHeader}>
+          <h2 className={styles.cartTitle}>
+            {lang == "en" ? "Shopping Cart" : "शॉपिंग कार्ट"}
+          </h2>
+          <Button
+            icon="pi pi-times"
+            className="p-button-text p-button-rounded"
+            onClick={() => setCartVisible(false)}
           />
         </div>
 
-        {selectionOption === "search" && selectionOption && (
-          <>
-            <div
-              style={{
-                display: "flex",
-                gap: "1rem",
-                alignItems: "center",
-                justifyContent: "space-between",
-                position: "sticky",
-                top: "0",
-                zIndex: "1000",
-                background: "white",
-                borderRadius: "10px",
-                // boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-              }}
-              className={styles.searchSection}
-            >
-              <div className={styles.searchInput}>
-                <InputText
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  placeholder={
-                    lang == "en" ? English.SearchMedicines : Hindi.SearchMedicines
-                  }
-                  className="w-full"
-                  style={{
-                    borderTopRightRadius: 0,
-                    borderBottomRightRadius: 0,
-                  }}
-                />
-                <Button
-                  label={isMobile ? "" : "Search"}
-                  icon="pi pi-search"
-                  onClick={handleSearchButtonClick}
-                  style={{
-                    borderTopLeftRadius: 0,
-                    borderBottomLeftRadius: 0,
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: "var(--teal-600)",
-                  height: "40px",
-                  marginTop: "10px",
-                  width: "50px",
-                  borderRadius: "50%",
-                  position: "relative",
-                  cursor: "pointer",
-                }}
-                onClick={() => setCartVisible(true)}
-              >
-                <span
-                  style={{
-                    fontSize: "1.2rem",
-                    color: "white",
-                    position: "absolute",
-                    top: "0%",
-                    right: "-10px",
-                    transform: "translate(-5%, -50%)",
-                    background: "var(--orange-500)",
-                    padding: "5px",
-                    width: "20px",
-                    height: "20px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: "50%",
-                  }}
-                >
-                  {cart.length}
-                </span>
-                <i
-                  style={{
-                    fontSize: "1.5rem",
-                    color: "white",
-                  }}
-                  className="pi pi-shopping-cart"
-                ></i>
-              </div>
+        {cart.length === 0 ? (
+          <div className={styles.emptyCart}>
+            <div className={styles.emptyCartIcon}>
+              <i className="pi pi-shopping-cart"></i>
             </div>
-
-            {medicines.length > 0 && (
-              <div
-                style={{
-                  display: "flex",
-                  gap: "1rem",
-                  flexWrap: "wrap",
-                  padding: "1rem",
-                }}
-                // className={styles.medicineDataView}
-              >
-                {medicines.map(itemTemplate)}
-              </div>
-            )}
-          </>
-        )}
-
-        <Dialog
-          header={lang == "en" ? English.CheckoutDetails : Hindi.CheckoutDetails}
-          visible={showCheckoutDialog}
-          style={{ width: isMobile ? "100vw" : "50vw" }}
-          footer={checkoutDialogFooter}
-          onHide={() => setShowCheckoutDialog(false)}
-        >
-          <div className={styles.checkoutForm}>
-            {/* <div className={styles.formSection}>
-              <h3>Contact Information</h3>
-              <div className={styles.formGroup}>
-                <label htmlFor="contactNumber">
-                  {lang == "en" ? English.ContactNumber : Hindi.ContactNumber}
-                </label>
-                <InputText
-                  id="contactNumber"
-                  value={checkoutForm.contactNumber}
-                  onChange={(e) =>
-                    setCheckoutForm({
-                      ...checkoutForm,
-                      contactNumber: e.target.value,
-                    })
-                  }
-                  placeholder={
-                    lang == "en"
-                      ? English.EnterContactNumber
-                      : Hindi.EnterContactNumber
-                  }
-                />
-              </div>
-            </div> */}
-
-            <AddressSelector
-              selectedAddress={selectedAddress}
-              setSelectedAddress={setSelectedAddress}
-            />
-            {/* <div className={styles.formSection}>
-              <h3>Delivery Address</h3>
-              <div className={styles.formGroup}>
-                <label htmlFor="street">Street Address</label>
-                <InputText
-                  id="street"
-                  value={checkoutForm.street}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, street: e.target.value })
-                  }
-                  placeholder={
-                    lang == "en"
-                      ? English.EnterStreetAddress
-                      : Hindi.EnterStreetAddress
-                  }
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="city">City</label>
-                <InputText
-                  id="city"
-                  value={checkoutForm.city}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, city: e.target.value })
-                  }
-                  placeholder={lang == "en" ? English.EnterCity : Hindi.EnterCity}
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="state">State</label>
-                <InputText
-                  id="state"
-                  value={checkoutForm.state}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, state: e.target.value })
-                  }
-                  placeholder={
-                    lang == "en" ? English.EnterState : Hindi.EnterState
-                  }
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="pincode">Pincode</label>
-                <InputText
-                  id="pincode"
-                  value={checkoutForm.pincode}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, pincode: e.target.value })
-                  }
-                  placeholder={
-                    lang == "en" ? English.EnterPincode : Hindi.EnterPincode
-                  }
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="landmark">Landmark</label>
-                <InputText
-                  id="landmark"
-                  value={checkoutForm.landmark}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, landmark: e.target.value })
-                  }
-                  placeholder={
-                    lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
-                  }
-                />
-              </div>
-            </div> */}
-
-            <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
-              <h3>Payment Details</h3>
-              <div className={styles.formGroup}>
-                <label htmlFor="paymentMethod">Payment Method</label>
-                <Dropdown
-                  id="paymentMethod"
-                  value={checkoutForm.paymentMethod}
-                  options={paymentMethods}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, paymentMethod: e.value })
-                  }
-                  placeholder={
-                    lang == "en"
-                      ? English.SelectPaymentMethod
-                      : Hindi.SelectPaymentMethod
-                  }
-                />
-              </div>
-            </div>
-
-            <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
-              <h3>Additional Information</h3>
-              <div className={styles.formGroup}>
-                <label htmlFor="notes">Notes</label>
-                <InputText
-                  id="notes"
-                  value={checkoutForm.notes}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, notes: e.target.value })
-                  }
-                  placeholder={
-                    lang == "en" ? English.AdditionalNotes : Hindi.AdditionalNotes
-                  }
-                />
-              </div>
-            </div>
-          </div>
-        </Dialog>
-
-        <Dialog
-          header={
-            lang == "en"
-              ? English.OrderviaPrescription
-              : Hindi.OrderviaPrescription
-          }
-          visible={showPrescriptionDialog}
-          style={{ width: isMobile ? "100vw" : "60vw", maxWidth: 700 }}
-          footer={prescriptionDialogFooter}
-          onHide={() => {
-            setShowPrescriptionDialog(false);
-            setSelectedPrescription(null);
-            setSelectionOption();
-          }}
-        >
-          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 260 }}>
-              <h3>Choose Prescription</h3>
-              <PrescriptionSelector
-                value={selectedPrescription}
-                onChange={(file) => {
-                  setSelectedPrescription(file);
-                  if (file) {
-                    toast.current?.show({
-                      severity: "success",
-                      summary: "Selected",
-                      detail: "Prescription selected",
-                      life: 2000,
-                    });
-                  }
-                }}
-                getAuthHeaders={getAuthHeaders}
-              />
-            </div>
-            <div style={{ flex: 2, minWidth: 300 }}>
-              <h3>Order Details</h3>
-              <div className={styles.checkoutForm}>
-                {/* <div className={styles.formSection}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="presc-contactNumber">
-                      {lang == "en" ? English.Contactnumber : Hindi.Contactnumber}
-                    </label>
-                    <InputText
-                      id="presc-contactNumber"
-                      value={prescriptionForm.contactNumber}
-                      onChange={(e) =>
-                        setPrescriptionForm({
-                          ...prescriptionForm,
-                          contactNumber: e.target.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en" ? English.Contactnumber : Hindi.Contactnumber
-                      }
-                    />
-                  </div>
-                </div> */}
-                <AddressSelector
-                  selectedAddress={selectedAddress}
-                  setSelectedAddress={setSelectedAddress}
-                />
-                {/* <div
-                  style={{
-                    marginTop: "-1rem",
-                    width: "100%",
-                  }}
-                  className={styles.formSection}
-                >
-                  <div className={styles.formGroup}>
-                    <label htmlFor="presc-street">Street Address</label>
-                    <InputText
-                      id="presc-street"
-                      value={prescriptionForm.street}
-                      onChange={(e) =>
-                        setPrescriptionForm({
-                          ...prescriptionForm,
-                          street: e.target.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en"
-                          ? English.EnterStreetAddress
-                          : Hindi.EnterStreetAddress
-                      }
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="presc-city">City</label>
-                    <InputText
-                      id="presc-city"
-                      value={prescriptionForm.city}
-                      onChange={(e) =>
-                        setPrescriptionForm({
-                          ...prescriptionForm,
-                          city: e.target.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en" ? English.EnterCity : Hindi.EnterCity
-                      }
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="presc-state">State</label>
-                    <InputText
-                      id="presc-state"
-                      value={prescriptionForm.state}
-                      onChange={(e) =>
-                        setPrescriptionForm({
-                          ...prescriptionForm,
-                          state: e.target.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en" ? English.EnterState : Hindi.EnterState
-                      }
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="presc-pincode">Pincode</label>
-                    <InputText
-                      id="presc-pincode"
-                      value={prescriptionForm.pincode}
-                      onChange={(e) =>
-                        setPrescriptionForm({
-                          ...prescriptionForm,
-                          pincode: e.target.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en" ? English.EnterPincode : Hindi.EnterPincode
-                      }
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="presc-landmark">Landmark</label>
-                    <InputText
-                      id="presc-landmark"
-                      value={prescriptionForm.landmark}
-                      onChange={(e) =>
-                        setPrescriptionForm({
-                          ...prescriptionForm,
-                          landmark: e.target.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
-                      }
-                    />
-                  </div>
-                </div> */}
-                {/* <div
-                  style={{ marginTop: "-1rem" }}
-                  className={styles.formSection}
-                >
-                  <div className={styles.formGroup}>
-                    <label htmlFor="presc-paymentMethod">Payment Method</label>
-                    <Dropdown
-                      id="presc-paymentMethod"
-                      value={prescriptionForm.paymentMethod}
-                      options={paymentMethods}
-                      onChange={(e) =>
-                        setPrescriptionForm({
-                          ...prescriptionForm,
-                          paymentMethod: e.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en"
-                          ? English.SelectPaymentMethod
-                          : Hindi.SelectPaymentMethod
-                      }
-                    />
-                  </div>
-                </div> */}
-                <div
-                  style={{ marginTop: "-1rem" }}
-                  className={styles.formSection}
-                >
-                  <div className={styles.formGroup}>
-                    <label htmlFor="presc-notes">Notes</label>
-                    <InputText
-                      id="presc-notes"
-                      value={prescriptionForm.notes}
-                      onChange={(e) =>
-                        setPrescriptionForm({
-                          ...prescriptionForm,
-                          notes: e.target.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en"
-                          ? English.AdditionalNotes
-                          : Hindi.AdditionalNotes
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Dialog>
-
-        {/* Enlarge Dialog */}
-        <Dialog
-          header={enlargedFile ? enlargedFile.fileName || "Preview" : "Preview"}
-          visible={showEnlargeDialog}
-          style={{ width: "90vw", maxWidth: 900 }}
-          onHide={() => {
-            setShowEnlargeDialog(false);
-            setEnlargedFile(null);
-          }}
-          modal
-        >
-          {enlargedFile &&
-            (enlargedFile.fileFormat &&
-            enlargedFile.fileFormat.startsWith("image") ? (
-              <img
-                src={enlargedFile.fileUrl}
-                alt={enlargedFile.fileName}
-                style={{
-                  width: "100%",
-                  maxHeight: "80vh",
-                  objectFit: "contain",
-                  borderRadius: 8,
-                }}
-              />
-            ) : (
-              <PdfViewer url={enlargedFile.fileUrl} />
-            ))}
-        </Dialog>
-
-        <Dialog
-          header={
-            lang == "en" ? English.CallMeForDetails : Hindi.CallMeForDetails
-          }
-          visible={showCallDialog}
-          style={{ width: isMobile ? "100vw" : "60vw", maxWidth: 700 }}
-          footer={
-            <div>
-              <Button
-                label={lang == "en" ? English.Cancel : Hindi.Cancel}
-                icon="pi pi-times"
-                onClick={() => {
-                  setShowCallDialog(false);
-                  setSelectedCallPrescription(null);
-                  setSelectionOption();
-                }}
-                className="p-button-text"
-              />
-              <Button
-                label={lang == "en" ? English.Submit : Hindi.Submit}
-                icon="pi pi-check"
-                onClick={handleCallOrderSubmit}
-                disabled={
-                  !selectedAddress?.phone ||
-                  !selectedAddress?.street ||
-                  !selectedAddress?.city ||
-                  !selectedAddress?.state ||
-                  !selectedAddress?.pincode
-                }
-                autoFocus
-              />
-            </div>
-          }
-          onHide={() => {
-            setShowCallDialog(false);
-            setSelectedCallPrescription(null);
-            setSelectionOption();
-          }}
-        >
-          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 260 }}>
-              <h3>Prescription</h3>
-              <PrescriptionSelector
-                value={selectedCallPrescription}
-                onChange={(file) => {
-                  setSelectedCallPrescription(file);
-                  if (file) {
-                    toast.current?.show({
-                      severity: "success",
-                      summary: "Selected",
-                      detail: "Prescription selected",
-                      life: 2000,
-                    });
-                  }
-                }}
-                getAuthHeaders={getAuthHeaders}
-              />
-            </div>
-            <div style={{ flex: 2, minWidth: 300 }}>
-              <h3>Call Request Details</h3>
-              <div className={styles.checkoutForm}>
-                {/* <div className={styles.formSection}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="call-contactNumber">Contact Number</label>
-                    <InputText
-                      id="call-contactNumber"
-                      value={callForm.contactNumber}
-                      onChange={(e) =>
-                        setCallForm({
-                          ...callForm,
-                          contactNumber: e.target.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en"
-                          ? English.EnterContactNumber
-                          : Hindi.EnterContactNumber
-                      }
-                    />
-                  </div>
-                </div> */}
-                <AddressSelector
-                  selectedAddress={selectedAddress}
-                  setSelectedAddress={setSelectedAddress}
-                />
-                {/* <div className={styles.formSection}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="call-street">Street Address</label>
-                    <InputText
-                      id="call-street"
-                      value={callForm.street}
-                      onChange={(e) =>
-                        setCallForm({ ...callForm, street: e.target.value })
-                      }
-                      placeholder={
-                        lang == "en"
-                          ? English.EnterStreetAddress
-                          : Hindi.EnterStreetAddress
-                      }
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="call-city">City</label>
-                    <InputText
-                      id="call-city"
-                      value={callForm.city}
-                      onChange={(e) =>
-                        setCallForm({ ...callForm, city: e.target.value })
-                      }
-                      placeholder={
-                        lang == "en" ? English.EnterCity : Hindi.EnterCity
-                      }
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="call-state">State</label>
-                    <InputText
-                      id="call-state"
-                      value={callForm.state}
-                      onChange={(e) =>
-                        setCallForm({ ...callForm, state: e.target.value })
-                      }
-                      placeholder={
-                        lang == "en" ? English.EnterState : Hindi.EnterState
-                      }
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="call-pincode">Pincode</label>
-                    <InputText
-                      id="call-pincode"
-                      value={callForm.pincode}
-                      onChange={(e) =>
-                        setCallForm({ ...callForm, pincode: e.target.value })
-                      }
-                      placeholder={
-                        lang == "en" ? English.EnterPincode : Hindi.EnterPincode
-                      }
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="call-landmark">Landmark</label>
-                    <InputText
-                      id="call-landmark"
-                      value={callForm.landmark}
-                      onChange={(e) =>
-                        setCallForm({ ...callForm, landmark: e.target.value })
-                      }
-                      placeholder={
-                        lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
-                      }
-                    />
-                  </div>
-                </div>
-                {/* <div className={styles.formSection}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="call-paymentMethod">Payment Method</label>
-                    <Dropdown
-                      id="call-paymentMethod"
-                      value={callForm.paymentMethod}
-                      options={paymentMethods}
-                      onChange={(e) =>
-                        setCallForm({ ...callForm, paymentMethod: e.value })
-                      }
-                      placeholder={
-                        lang == "en"
-                          ? English.SelectPaymentMethod
-                          : Hindi.SelectPaymentMethod
-                      }
-                    />
-                  </div>
-                </div>
-                <div className={styles.formSection}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="call-preferredCallTime">
-                      Preferred Call Time
-                    </label>
-                    <InputText
-                      id="call-preferredCallTime"
-                      value={callForm.preferredCallTime}
-                      onChange={(e) =>
-                        setCallForm({
-                          ...callForm,
-                          preferredCallTime: e.target.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en"
-                          ? English.EnterPreferredCallTime
-                          : Hindi.EnterPreferredCallTime
-                      }
-                    />
-                  </div>
-                </div> */}
-                {/* <div className={styles.formSection}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="call-notes">Notes</label>
-                    <InputText
-                      id="call-notes"
-                      value={callForm.notes}
-                      onChange={(e) =>
-                        setCallForm({ ...callForm, notes: e.target.value })
-                      }
-                      placeholder={
-                        lang == "en"
-                          ? English.AdditionalNotes
-                          : Hindi.AdditionalNotes
-                      }
-                    />
-                  </div>
-                </div> */}
-              </div>
-            </div>
-          </div>
-        </Dialog>
-
-        <Sidebar
-          visible={cartVisible}
-          position="right"
-          onHide={() => setCartVisible(false)}
-          style={{ width: "400px" }}
-          className="p-sidebar-lg"
-        >
-          <div className="p-4">
-            <h2 className="text-xl font-bold mb-4">
+            <h3 className={styles.emptyCartTitle}>
+              {lang == "en" ? "Your cart is empty" : "आपकी कार्ट खाली है"}
+            </h3>
+            <p className={styles.emptyCartText}>
               {lang == "en"
-                ? English.ShoppingCart.replace("{count}", cart.length)
-                : Hindi.ShoppingCart.replace("{count}", cart.length)}
-            </h2>
-
-            {cart.length === 0 ? (
-              <div className="text-center p-4">
-                <i className="pi pi-shopping-cart text-4xl text-gray-400 mb-2"></i>
-                <p className="text-gray-500">Your cart is empty</p>
-              </div>
-            ) : (
-              <>
-                <div
-                  className="cart-items"
-                  style={{ maxHeight: "calc(100vh - 250px)", overflowY: "auto" }}
-                >
-                  {cart.map((item) => (
-                    <div
-                      key={item._id}
-                      className="mb-4 p-3 border-round surface-100"
-                    >
-                      <div className="flex justify-content-between align-items-center mb-2">
-                        <div style={{ display: "flex", flexDirection: "column" }}>
-                          <h3
-                            className={styles.medicineName}
-                            style={{
-                              fontWeight: "600",
-                              color: "rgba(0,0,0,0.87)",
-                            }}
-                          >
-                            {item.brandName || item.genericName}
-                          </h3>
-                          <h3
-                            className={styles.medicineName}
-                            style={{
-                              fontSize: "14px",
-                              color: "gray",
-                            }}
-                          >
-                            Brand: {item.genericName}
-                          </h3>
-                        </div>
+                ? "Add some medicines to get started"
+                : "शुरू करने के लिए कुछ दवाएं जोड़ें"}
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className={styles.cartItems}>
+              {cart.map((item) => (
+                <div key={item._id} className={styles.cartItemCard}>
+                  <div className={styles.cartItemImage}>
+                    <img
+                      src={
+                        item.category?.toLowerCase() === "tablet"
+                          ? "/capsule.png"
+                          : item.category?.toLowerCase() === "syrup"
+                          ? "/syrup.png"
+                          : item.category?.toLowerCase() === "injection"
+                          ? "/injection.png"
+                          : "/capsule.png"
+                      }
+                      alt={item.brandName}
+                    />
+                  </div>
+                  <div className={styles.cartItemContent}>
+                    <div className={styles.cartItemInfo}>
+                      <h4 className={styles.cartItemName}>
+                        {item.brandName || item.genericName}
+                      </h4>
+                      <p className={styles.cartItemBrand}>{item.genericName}</p>
+                    </div>
+                    <div className={styles.cartItemActions}>
+                      <div className={styles.cartQuantityControls}>
                         <Button
-                          icon="pi pi-trash"
-                          className="p-button-rounded p-button-danger p-button-text"
-                          onClick={() => handleRemoveFromCart(item._id)}
+                          icon="pi pi-minus"
+                          className="p-button-rounded p-button-text"
+                          onClick={() =>
+                            handleQuantityChange(item._id, item.quantity - 1)
+                          }
+                        />
+                        <span className={styles.cartQuantity}>
+                          {item.quantity}
+                        </span>
+                        <Button
+                          icon="pi pi-plus"
+                          className="p-button-rounded p-button-text"
+                          onClick={() =>
+                            handleQuantityChange(item._id, item.quantity + 1)
+                          }
                         />
                       </div>
-
-                      <div className="flex align-items-center justify-content-between">
-                        <div className="flex align-items-center">
-                          <Button
-                            icon="pi pi-minus"
-                            className="p-button-rounded p-button-text"
-                            onClick={() =>
-                              handleQuantityChange(item._id, item.quantity - 1)
-                            }
-                          />
-                          <InputText
-                            type="number"
-                            value={item.quantity}
-                            onChange={(e) =>
-                              handleQuantityChange(
-                                item._id,
-                                parseInt(e.target.value)
-                              )
-                            }
-                            showButtons={false}
-                            min={1}
-                            max={100}
-                            className="mx-2"
-                            style={{ maxWidth: "5rem" }}
-                          />
-                          <Button
-                            icon="pi pi-plus"
-                            className="p-button-rounded p-button-text"
-                            onClick={() =>
-                              handleQuantityChange(item._id, item.quantity + 1)
-                            }
-                          />
-                        </div>
-                      </div>
+                      <Button
+                        icon="pi pi-trash"
+                        className="p-button-rounded p-button-danger p-button-text"
+                        onClick={() => handleRemoveFromCart(item._id)}
+                      />
                     </div>
-                  ))}
-                </div>
-
-                <div className="border-top-1 surface-border pt-3 mt-3">
-                  <p className="text-sm text-center text-gray-500 mb-2">
-                    {lang == "en"
-                      ? English.OrderTotalMessage
-                      : Hindi.OrderTotalMessage}
-                  </p>
-                  <div className="flex justify-content-between mb-2">
-                    <span>
-                      {lang == "en"
-                        ? English.DeliveryCharge
-                        : Hindi.DeliveryCharge}
-                      :
-                    </span>
-                    <span>₹22</span>
                   </div>
-
-                  <Button
-                    label={
-                      lang == "en"
-                        ? English.ProceedToCheckout
-                        : Hindi.ProceedToCheckout
-                    }
-                    icon="pi pi-shopping-bag"
-                    className="w-full "
-                    style={{
-                      marginTop: "1rem",
-                    }}
-                    onClick={() => {
-                      setCartVisible(false);
-                      handleProceed();
-                    }}
-                  />
                 </div>
-              </>
-            )}
-          </div>
-        </Sidebar>
+              ))}
+            </div>
 
-        {/* Bottom Nav  */}
+            <div className={styles.cartFooter}>
+              <div className={styles.cartSummary}>
+                <div className={styles.summaryRow}>
+                  <span>{lang == "en" ? "Subtotal" : "कुल राशि"}</span>
+                  <span>
+                    ₹
+                    {cart.reduce(
+                      (sum, item) => sum + item.price * item.quantity,
+                      0
+                    )}
+                  </span>
+                </div>
+                <div className={styles.summaryRow}>
+                  <span>{lang == "en" ? "Delivery" : "डिलीवरी"}</span>
+                  <span>₹40</span>
+                </div>
+                <div className={styles.summaryRow}>
+                  <span>{lang == "en" ? "Total" : "कुल"}</span>
+                  <span className={styles.totalAmount}>
+                    ₹
+                    {cart.reduce(
+                      (sum, item) => sum + item.price * item.quantity,
+                      0
+                    ) + 40}
+                  </span>
+                </div>
+              </div>
+              <Button
+                label={lang == "en" ? "Proceed to Checkout" : "चेकआउट करें"}
+                icon="pi pi-shopping-bag"
+                onClick={() => {
+                  setCartVisible(false);
+                  handleProceed();
+                }}
+                className={styles.checkoutButton}
+              />
+            </div>
+          </>
+        )}
+      </Sidebar>
+
+      <div
+        style={{
+          display: hidebottomnav ? "flex" : "none",
+          position: "fixed",
+          bottom: "0",
+          left: "0",
+          right: "0",
+          background: "white",
+          zIndex: "1000",
+          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "1rem",
+          width: "100vw",
+          borderTopLeftRadius: "14px",
+          borderTopRightRadius: "14px",
+          height: "70px",
+        }}
+      >
         <div
           style={{
-            display: hidebottomnav ? "flex" : "none",
-            position: "fixed",
-            bottom: "0",
-            left: "0",
-            right: "0",
-            background: "white",
-            zIndex: "1000",
-            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            justifyContent: "space-between",
+            display: "flex",
             alignItems: "center",
-            padding: "1rem",
-            width: "100vw",
-            borderTopLeftRadius: "14px",
-            borderTopRightRadius: "14px",
-            height: "70px",
+            justifyContent: "center",
           }}
         >
-          <div
+          <i
+            className="pi pi-home"
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              fontSize: "28px",
+              color: "var(--teal-600)",
+            }}
+            onClick={() => {
+              router.push("/");
+            }}
+          ></i>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <span
+            style={{
+              fontSize: "16px",
+              fontWeight: "600",
+              marginRight: "1rem",
+              color: "var(--surface-600)",
+              background: "var(--surface-50)",
+              padding: "0.5rem 1rem",
+              borderRadius: "6px",
+              boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.1)",
             }}
           >
-            <i
-              className="pi pi-home"
-              style={{
-                fontSize: "28px",
-                color: "var(--teal-600)",
-              }}
-              onClick={() => {
-                router.push("/");
-              }}
-            ></i>
-          </div>
+            {cart.length}
+          </span>
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              padding: "0.5rem 1.5rem",
+              borderRadius: "6px",
+              background:
+                "linear-gradient(to right, #00b09b,rgb(17, 119, 104))",
+              color: "white",
+              fontWeight: "600",
+              fontSize: "18px",
+              cursor: "pointer",
+              boxShadow: "2px 3px 5px  rgba(0, 0, 0, 0.1)",
+            }}
+            onClick={() => {
+              setCartVisible(true);
             }}
           >
-            {/* <i className="pi pi-shopping-cart"></i> */}
-            <span
-              style={{
-                fontSize: "16px",
-                fontWeight: "600",
-                marginRight: "1rem",
-                color: "var(--surface-600)",
-                background: "var(--surface-50)",
-                padding: "0.5rem 1rem",
-                borderRadius: "6px",
-                boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              {cart.length}
-            </span>
-            <div
-              style={{
-                padding: "0.5rem 1.5rem",
-                borderRadius: "6px",
-                background:
-                  "linear-gradient(to right, #00b09b,rgb(17, 119, 104))",
-                color: "white",
-                fontWeight: "600",
-                fontSize: "18px",
-                cursor: "pointer",
-                boxShadow: "2px 3px 5px  rgba(0, 0, 0, 0.1)",
-              }}
-              onClick={() => {
-                setCartVisible(true);
-              }}
-            >
-              Buy Now
-            </div>
+            Buy Now
           </div>
         </div>
       </div>
