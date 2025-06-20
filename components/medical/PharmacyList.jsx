@@ -151,7 +151,7 @@ const PharmacyList = () => {
           icon={randomBadge.icon}
           className={styles.cleanBadge}
         />
-
+        {/* test commit */}
         <div className={styles.cardBody}>
           <div className={styles.mainInfo}>
             <Avatar
