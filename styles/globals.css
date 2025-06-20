@@ -55,3 +55,8 @@ fieldset{
 .pi-map-marker{
   color: white !important;
 } */
+
+.p-dropdown-item.p-highlight{
+  background-color: #00c9b8 !important;
+  color: white !important;
+}
