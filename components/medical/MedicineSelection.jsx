@@ -712,7 +712,18 @@ const MedicineSelection = ({
 
       const requestData = {
         pharmacyId,
-        orderType: "medicine_search",
+        orderType:
+          selectionOption == "prescription"
+            ? "prescription_upload"
+            : selectionOption == "call"
+            ? "call_required"
+            : "medicine_search",
+        prescription:
+          selectionOption == "prescription"
+            ? selectedPrescription
+            : selectionOption == "call"
+            ? selectedCallPrescription
+            : null,
         contactNumber: selectedAddress?.phone || "",
         deliveryAddress,
         payment: {
@@ -1831,7 +1842,13 @@ const MedicineSelection = ({
         header={lang == "en" ? English.CheckoutDetails : Hindi.CheckoutDetails}
         visible={showCheckoutDialog}
         style={{ width: isMobile ? "100vw" : "50vw" }}
-        footer={checkoutDialogFooter}
+        footer={
+          selectionOption == "prescription"
+            ? prescriptionDialogFooter
+            : selectionOption == "call"
+            ? callDialogFooter
+            : checkoutDialogFooter
+        }
         onHide={() => setShowCheckoutDialog(false)}
       >
         <div className={styles.checkoutForm}>
