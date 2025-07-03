@@ -1489,8 +1489,14 @@ const MedicineSelection = ({
           label={lang == "en" ? "Place Order" : "ऑर्डर करें"}
           icon="pi pi-check-circle"
           onClick={() => {
-            setCartVisible(false);
-            handleProceed();
+            if (selectionOption === "prescription") {
+              handlePrescriptionOrderSubmit();
+            } else if (selectionOption === "call") {
+              handleCallOrderSubmit();
+            } else {
+              setCartVisible(false);
+              handleProceed();
+            }
           }}
           className={styles.submitButtonClean}
         />
@@ -1846,7 +1852,7 @@ const MedicineSelection = ({
           selectionOption == "prescription"
             ? prescriptionDialogFooter
             : selectionOption == "call"
-            ? callDialogFooter
+            ? checkoutDialogFooter
             : checkoutDialogFooter
         }
         onHide={() => setShowCheckoutDialog(false)}
