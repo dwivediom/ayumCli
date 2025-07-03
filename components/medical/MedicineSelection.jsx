@@ -712,7 +712,18 @@ const MedicineSelection = ({
 
       const requestData = {
         pharmacyId,
-        orderType: "medicine_search",
+        orderType:
+          selectionOption == "prescription"
+            ? "prescription_upload"
+            : selectionOption == "call"
+            ? "call_required"
+            : "medicine_search",
+        prescription:
+          selectionOption == "prescription"
+            ? selectedPrescription
+            : selectionOption == "call"
+            ? selectedCallPrescription
+            : null,
         contactNumber: selectedAddress?.phone || "",
         deliveryAddress,
         payment: {
@@ -1478,8 +1489,14 @@ const MedicineSelection = ({
           label={lang == "en" ? "Place Order" : "ऑर्डर करें"}
           icon="pi pi-check-circle"
           onClick={() => {
-            setCartVisible(false);
-            handleProceed();
+            if (selectionOption === "prescription") {
+              handlePrescriptionOrderSubmit();
+            } else if (selectionOption === "call") {
+              handleCallOrderSubmit();
+            } else {
+              setCartVisible(false);
+              handleProceed();
+            }
           }}
           className={styles.submitButtonClean}
         />
@@ -1831,7 +1848,13 @@ const MedicineSelection = ({
         header={lang == "en" ? English.CheckoutDetails : Hindi.CheckoutDetails}
         visible={showCheckoutDialog}
         style={{ width: isMobile ? "100vw" : "50vw" }}
-        footer={checkoutDialogFooter}
+        footer={
+          selectionOption == "prescription"
+            ? prescriptionDialogFooter
+            : selectionOption == "call"
+            ? checkoutDialogFooter
+            : checkoutDialogFooter
+        }
         onHide={() => setShowCheckoutDialog(false)}
       >
         <div className={styles.checkoutForm}>
