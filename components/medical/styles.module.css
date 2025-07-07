@@ -2941,3 +2941,115 @@ width: 100% !important;
 }
 
 /* ... rest of existing styles ... */ 
+
+.orderConfirmScreen {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f7fa 0%, #fff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem 1.5rem 1rem;
+  text-align: center;
+}
+
+.orderConfirmHeader {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #009688;
+  margin-bottom: 1.2rem;
+  letter-spacing: 2px;
+}
+
+.ayumText {
+  font-family: 'Pacifico', cursive, sans-serif;
+  color: #009688;
+  font-size: 2.5rem;
+  letter-spacing: 3px;
+}
+
+.checkmarkContainer {
+  margin-bottom: 1.5rem;
+}
+
+.checkmark {
+  width: 90px;
+  height: 90px;
+  display: block;
+  stroke-width: 2;
+  stroke: #4caf50;
+  stroke-miterlimit: 10;
+  margin: 0 auto 1rem auto;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 4px 24px rgba(76, 175, 80, 0.15);
+}
+
+.checkmarkCircle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke: #4caf50;
+  fill: none;
+  animation: strokeCircle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmarkCheck {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke-width: 3;
+  stroke: #4caf50;
+  animation: strokeCheck 0.4s 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+@keyframes strokeCircle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes strokeCheck {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.orderConfirmText {
+  margin-bottom: 2rem;
+}
+
+.orderPlaced {
+  color: #009688;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.thankYou {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.soon {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+
+.gotoOrdersBtn {
+  background: linear-gradient(90deg, #009688 0%, #4caf50 100%);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 0.9rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 12px rgba(0, 150, 136, 0.12);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.gotoOrdersBtn:hover {
+  background: linear-gradient(90deg, #00796b 0%, #388e3c 100%);
+  transform: translateY(-2px) scale(1.03);
+} 
