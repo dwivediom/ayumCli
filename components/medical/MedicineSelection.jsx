@@ -27,6 +27,7 @@ import { AccountContext } from "../../context/AccountProvider";
 import English from "../../public/locales/en";
 import Hindi from "../../public/locales/hi";
 import AddressSelector from "./AddressSelector";
+import OrderConfirmation from "./OrderConfirmation";
 
 // Move SearchOrderPage outside the main component
 const SearchOrderPage = React.memo(
@@ -539,6 +540,10 @@ const MedicineSelection = ({
     useState(null);
   const [cartVisible, setCartVisible] = useState(false);
 
+  // Add new state for order confirmation
+  const [showOrderConfirmation, setShowOrderConfirmation] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
+
   // Add a new ref for bottom nav timeout
   const bottomNavTimeout = useRef(null);
 
@@ -747,16 +752,28 @@ const MedicineSelection = ({
       );
 
       if (response.data) {
+        // Set order details and show confirmation
+        setOrderDetails({
+          orderId: response.data.orderId || response.data._id,
+          items: items,
+          total: total,
+          deliveryAddress: deliveryAddress,
+          orderType: requestData.orderType,
+        });
+
+        setShowCheckoutDialog(false);
+        setShowOrderConfirmation(true);
+
+        // Clear cart after successful order
+        setCart([]);
+        setSelectionOption();
+
         toast.current.show({
           severity: "success",
           summary: "Order Created",
           detail: "Your medicine request has been created successfully!",
           life: 3000,
         });
-        setShowCheckoutDialog(false);
-        setTimeout(() => {
-          router.push("/medical/requests");
-        }, 1000);
       }
     } catch (error) {
       console.error("Error creating medicine request:", error);
@@ -1068,13 +1085,19 @@ const MedicineSelection = ({
         }
       );
       if (response.data) {
-        toast.current?.show({
-          severity: "success",
-          summary: "Request Created",
-          detail: "Your call request has been created!",
-          life: 3000,
+        // Set order details and show confirmation
+        setOrderDetails({
+          orderId: response.data.orderId || response.data._id,
+          items: [],
+          total: 0,
+          deliveryAddress: deliveryAddress,
+          orderType: "call_required",
         });
+
         setShowCallDialog(false);
+        setShowOrderConfirmation(true);
+
+        // Clear form data
         setSelectedCallPrescription();
         setCallForm({
           contactNumber: "",
@@ -1087,7 +1110,14 @@ const MedicineSelection = ({
           paymentMethod: "cash",
           preferredCallTime: "",
         });
-        setTimeout(() => router.push("/medical/requests"), 1000);
+        setSelectionOption();
+
+        toast.current?.show({
+          severity: "success",
+          summary: "Request Created",
+          detail: "Your call request has been created!",
+          life: 3000,
+        });
       }
     } catch (error) {
       toast.current?.show({
@@ -1140,13 +1170,19 @@ const MedicineSelection = ({
         }
       );
       if (response.data) {
-        toast.current?.show({
-          severity: "success",
-          summary: "Order Created",
-          detail: "Your prescription order has been created!",
-          life: 3000,
+        // Set order details and show confirmation
+        setOrderDetails({
+          orderId: response.data.orderId || response.data._id,
+          items: [],
+          total: 0,
+          deliveryAddress: deliveryAddress,
+          orderType: "prescription_upload",
         });
+
         setShowPrescriptionDialog(false);
+        setShowOrderConfirmation(true);
+
+        // Clear form data
         setSelectedPrescription(null);
         setPrescriptionForm({
           contactNumber: "",
@@ -1158,7 +1194,14 @@ const MedicineSelection = ({
           notes: "",
           paymentMethod: "cash",
         });
-        setTimeout(() => router.push("/medical/requests"), 1000);
+        setSelectionOption();
+
+        toast.current?.show({
+          severity: "success",
+          summary: "Order Created",
+          detail: "Your prescription order has been created!",
+          life: 3000,
+        });
       }
     } catch (error) {
       toast.current?.show({
@@ -1619,380 +1662,421 @@ const MedicineSelection = ({
   return (
     <div className={styles.container}>
       <Toast ref={toast} />
-      {showProfile && (
-        <div className={styles.profileSection}>
-          {/* Profile content will be moved to a separate component */}
-        </div>
-      )}
 
-      <div className={styles.medicineSelectionSection}>
-        {!selectionOption ? (
-          <div
-            style={{
-              marginTop: "1rem",
-              transition: "margin-top 0.3s ease-in-out",
-            }}
-            className="card flex justify-content-center"
-          >
-            <SelectionCards />
-          </div>
-        ) : selectionOption === "prescription" ? (
-          <PrescriptionOrderPage />
-        ) : selectionOption === "call" ? (
-          <CallRequestPage />
-        ) : (
-          <SearchOrderPage
-            pharmacyId={pharmacyId}
-            loading={loading}
-            medicines={medicines}
-            cart={cart}
-            handleAddToCart={handleAddToCart}
-            handleQuantityChange={handleQuantityChange}
-            handleRemoveFromCart={handleRemoveFromCart}
-            lang={lang}
-            setCartVisible={setCartVisible}
-            setSelectionOption={setSelectionOption}
-            setLoading={setLoading}
-            setMedicines={setMedicines}
-            setPagination={setPagination}
-            toast={toast}
-          />
-        )}
-      </div>
-
-      {/* Enhanced Cart Sidebar */}
-      <Sidebar
-        visible={cartVisible}
-        position="right"
-        onHide={() => setCartVisible(false)}
-        style={{ width: "100%", maxWidth: "400px" }}
-        className={styles.premiumCartSidebar}
-      >
-        <div className={styles.cartHeader}>
-          <h2 className={styles.cartTitle}>
-            {lang == "en" ? "Shopping Cart" : "शॉपिंग कार्ट"}
-          </h2>
-          <Button
-            icon="pi pi-times"
-            className="p-button-text p-button-rounded"
-            onClick={() => setCartVisible(false)}
-          />
-        </div>
-
-        {cart.length === 0 ? (
-          <div className={styles.emptyCart}>
-            <div className={styles.emptyCartIcon}>
-              <i className="pi pi-shopping-cart"></i>
+      {/* Show OrderConfirmation when order is confirmed */}
+      {showOrderConfirmation ? (
+        <OrderConfirmation
+          lang={lang}
+          soundType="default"
+          orderDetails={orderDetails}
+          onClose={() => {
+            setShowOrderConfirmation(false);
+            setOrderDetails(null);
+            router.push("/medical/requests");
+          }}
+        />
+      ) : (
+        <>
+          {showProfile && (
+            <div className={styles.profileSection}>
+              {/* Profile content will be moved to a separate component */}
             </div>
-            <h3 className={styles.emptyCartTitle}>
-              {lang == "en" ? "Your cart is empty" : "आपकी कार्ट खाली है"}
-            </h3>
-            <p className={styles.emptyCartText}>
-              {lang == "en"
-                ? "Add some medicines to get started"
-                : "शुरू करने के लिए कुछ दवाएं जोड़ें"}
-            </p>
+          )}
+
+          <div className={styles.medicineSelectionSection}>
+            {!selectionOption ? (
+              <div
+                style={{
+                  marginTop: "1rem",
+                  transition: "margin-top 0.3s ease-in-out",
+                }}
+                className="card flex justify-content-center"
+              >
+                <SelectionCards />
+              </div>
+            ) : selectionOption === "prescription" ? (
+              <PrescriptionOrderPage />
+            ) : selectionOption === "call" ? (
+              <CallRequestPage />
+            ) : (
+              <SearchOrderPage
+                pharmacyId={pharmacyId}
+                loading={loading}
+                medicines={medicines}
+                cart={cart}
+                handleAddToCart={handleAddToCart}
+                handleQuantityChange={handleQuantityChange}
+                handleRemoveFromCart={handleRemoveFromCart}
+                lang={lang}
+                setCartVisible={setCartVisible}
+                setSelectionOption={setSelectionOption}
+                setLoading={setLoading}
+                setMedicines={setMedicines}
+                setPagination={setPagination}
+                toast={toast}
+              />
+            )}
           </div>
-        ) : (
-          <>
-            <div className={styles.cartItems}>
-              {cart.map((item) => (
-                <div key={item._id} className={styles.cartItemCard}>
-                  <div className={styles.cartItemImage}>
-                    <img
-                      src={
-                        item.category?.toLowerCase() === "tablet"
-                          ? "/capsule.png"
-                          : item.category?.toLowerCase() === "syrup"
-                          ? "/syrup.png"
-                          : item.category?.toLowerCase() === "injection"
-                          ? "/injection.png"
-                          : "/capsule.png"
-                      }
-                      alt={item.brandName}
-                    />
-                  </div>
-                  <div className={styles.cartItemContent}>
-                    <div className={styles.cartItemInfo}>
-                      <h4 className={styles.cartItemName}>
-                        {item.brandName || item.genericName}
-                      </h4>
-                      <p className={styles.cartItemBrand}>{item.genericName}</p>
-                    </div>
-                    <div className={styles.cartItemActions}>
-                      <div className={styles.cartQuantityControls}>
-                        <Button
-                          icon="pi pi-minus"
-                          className="p-button-rounded p-button-text"
-                          onClick={() =>
-                            handleQuantityChange(item._id, item.quantity - 1)
+
+          {/* Enhanced Cart Sidebar */}
+          <Sidebar
+            visible={cartVisible}
+            position="right"
+            onHide={() => setCartVisible(false)}
+            style={{ width: "100%", maxWidth: "400px" }}
+            className={styles.premiumCartSidebar}
+          >
+            <div className={styles.cartHeader}>
+              <h2 className={styles.cartTitle}>
+                {lang == "en" ? "Shopping Cart" : "शॉपिंग कार्ट"}
+              </h2>
+              <Button
+                icon="pi pi-times"
+                className="p-button-text p-button-rounded"
+                onClick={() => setCartVisible(false)}
+              />
+            </div>
+
+            {cart.length === 0 ? (
+              <div className={styles.emptyCart}>
+                <div className={styles.emptyCartIcon}>
+                  <i className="pi pi-shopping-cart"></i>
+                </div>
+                <h3 className={styles.emptyCartTitle}>
+                  {lang == "en" ? "Your cart is empty" : "आपकी कार्ट खाली है"}
+                </h3>
+                <p className={styles.emptyCartText}>
+                  {lang == "en"
+                    ? "Add some medicines to get started"
+                    : "शुरू करने के लिए कुछ दवाएं जोड़ें"}
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className={styles.cartItems}>
+                  {cart.map((item) => (
+                    <div key={item._id} className={styles.cartItemCard}>
+                      <div className={styles.cartItemImage}>
+                        <img
+                          src={
+                            item.category?.toLowerCase() === "tablet"
+                              ? "/capsule.png"
+                              : item.category?.toLowerCase() === "syrup"
+                              ? "/syrup.png"
+                              : item.category?.toLowerCase() === "injection"
+                              ? "/injection.png"
+                              : "/capsule.png"
                           }
-                        />
-                        <span className={styles.cartQuantity}>
-                          {item.quantity}
-                        </span>
-                        <Button
-                          icon="pi pi-plus"
-                          className="p-button-rounded p-button-text"
-                          onClick={() =>
-                            handleQuantityChange(item._id, item.quantity + 1)
-                          }
+                          alt={item.brandName}
                         />
                       </div>
-                      <Button
-                        icon="pi pi-trash"
-                        className="p-button-rounded p-button-danger p-button-text"
-                        onClick={() => handleRemoveFromCart(item._id)}
-                      />
+                      <div className={styles.cartItemContent}>
+                        <div className={styles.cartItemInfo}>
+                          <h4 className={styles.cartItemName}>
+                            {item.brandName || item.genericName}
+                          </h4>
+                          <p className={styles.cartItemBrand}>
+                            {item.genericName}
+                          </p>
+                        </div>
+                        <div className={styles.cartItemActions}>
+                          <div className={styles.cartQuantityControls}>
+                            <Button
+                              icon="pi pi-minus"
+                              className="p-button-rounded p-button-text"
+                              onClick={() =>
+                                handleQuantityChange(
+                                  item._id,
+                                  item.quantity - 1
+                                )
+                              }
+                            />
+                            <span className={styles.cartQuantity}>
+                              {item.quantity}
+                            </span>
+                            <Button
+                              icon="pi pi-plus"
+                              className="p-button-rounded p-button-text"
+                              onClick={() =>
+                                handleQuantityChange(
+                                  item._id,
+                                  item.quantity + 1
+                                )
+                              }
+                            />
+                          </div>
+                          <Button
+                            icon="pi pi-trash"
+                            className="p-button-rounded p-button-danger p-button-text"
+                            onClick={() => handleRemoveFromCart(item._id)}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            <div className={styles.cartFooter}>
-              <div className={styles.cartSummary}></div>
-              <Button
-                label={lang == "en" ? "Proceed to Checkout" : "चेकआउट करें"}
-                icon="pi pi-shopping-bag"
-                onClick={() => {
-                  setCartVisible(false);
-                  handleProceed();
-                }}
-                className={styles.checkoutButton}
-              />
-            </div>
-          </>
-        )}
-      </Sidebar>
+                <div className={styles.cartFooter}>
+                  <div className={styles.cartSummary}></div>
+                  <Button
+                    label={lang == "en" ? "Proceed to Checkout" : "चेकआउट करें"}
+                    icon="pi pi-shopping-bag"
+                    onClick={() => {
+                      setCartVisible(false);
+                      handleProceed();
+                    }}
+                    className={styles.checkoutButton}
+                  />
+                </div>
+              </>
+            )}
+          </Sidebar>
 
-      <div
-        style={{
-          display: hidebottomnav ? "flex" : "none",
-          position: "fixed",
-          bottom: "0",
-          left: "0",
-          right: "0",
-          background: "white",
-          zIndex: "1000",
-          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem",
-          width: "100vw",
-          borderTopLeftRadius: "14px",
-          borderTopRightRadius: "14px",
-          height: "70px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <i
-            className="pi pi-home"
-            style={{
-              fontSize: "28px",
-              color: "var(--teal-600)",
-            }}
-            onClick={() => {
-              router.push("/");
-            }}
-          ></i>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <span
-            style={{
-              fontSize: "16px",
-              fontWeight: "600",
-              marginRight: "1rem",
-              color: "var(--surface-600)",
-              background: "var(--surface-50)",
-              padding: "0.5rem 1rem",
-              borderRadius: "6px",
-              boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            {cart.length}
-          </span>
           <div
             style={{
-              padding: "0.5rem 1.5rem",
-              borderRadius: "6px",
-              background:
-                "linear-gradient(to right, #00b09b,rgb(17, 119, 104))",
-              color: "white",
-              fontWeight: "600",
-              fontSize: "18px",
-              cursor: "pointer",
-              boxShadow: "2px 3px 5px  rgba(0, 0, 0, 0.1)",
-            }}
-            onClick={() => {
-              setCartVisible(true);
+              display: hidebottomnav ? "flex" : "none",
+              position: "fixed",
+              bottom: "0",
+              left: "0",
+              right: "0",
+              background: "white",
+              zIndex: "1000",
+              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "1rem",
+              width: "100vw",
+              borderTopLeftRadius: "14px",
+              borderTopRightRadius: "14px",
+              height: "70px",
             }}
           >
-            Buy Now
-          </div>
-        </div>
-      </div>
-      <Dialog
-        header={lang == "en" ? English.CheckoutDetails : Hindi.CheckoutDetails}
-        visible={showCheckoutDialog}
-        style={{ width: isMobile ? "100vw" : "50vw" }}
-        footer={
-          selectionOption == "prescription"
-            ? prescriptionDialogFooter
-            : selectionOption == "call"
-            ? checkoutDialogFooter
-            : checkoutDialogFooter
-        }
-        onHide={() => setShowCheckoutDialog(false)}
-      >
-        <div className={styles.checkoutForm}>
-          {/* <div className={styles.formSection}>
-              <h3>Contact Information</h3>
-              <div className={styles.formGroup}>
-                <label htmlFor="contactNumber">
-                  {lang == "en" ? English.ContactNumber : Hindi.ContactNumber}
-                </label>
-                <InputText
-                  id="contactNumber"
-                  value={checkoutForm.contactNumber}
-                  onChange={(e) =>
-                    setCheckoutForm({
-                      ...checkoutForm,
-                      contactNumber: e.target.value,
-                    })
-                  }
-                  placeholder={
-                    lang == "en"
-                      ? English.EnterContactNumber
-                      : Hindi.EnterContactNumber
-                  }
-                />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <i
+                className="pi pi-home"
+                style={{
+                  fontSize: "28px",
+                  color: "var(--teal-600)",
+                }}
+                onClick={() => {
+                  router.push("/");
+                }}
+              ></i>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  marginRight: "1rem",
+                  color: "var(--surface-600)",
+                  background: "var(--surface-50)",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "6px",
+                  boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                {cart.length}
+              </span>
+              <div
+                style={{
+                  padding: "0.5rem 1.5rem",
+                  borderRadius: "6px",
+                  background:
+                    "linear-gradient(to right, #00b09b,rgb(17, 119, 104))",
+                  color: "white",
+                  fontWeight: "600",
+                  fontSize: "18px",
+                  cursor: "pointer",
+                  boxShadow: "2px 3px 5px  rgba(0, 0, 0, 0.1)",
+                }}
+                onClick={() => {
+                  setCartVisible(true);
+                }}
+              >
+                Buy Now
               </div>
-            </div> */}
-
-          <AddressSelector
-            selectedAddress={selectedAddress}
-            setSelectedAddress={setSelectedAddress}
-          />
-          {/* <div className={styles.formSection}>
-              <h3>Delivery Address</h3>
-              <div className={styles.formGroup}>
-                <label htmlFor="street">Street Address</label>
-                <InputText
-                  id="street"
-                  value={checkoutForm.street}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, street: e.target.value })
-                  }
-                  placeholder={
-                    lang == "en"
-                      ? English.EnterStreetAddress
-                      : Hindi.EnterStreetAddress
-                  }
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="city">City</label>
-                <InputText
-                  id="city"
-                  value={checkoutForm.city}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, city: e.target.value })
-                  }
-                  placeholder={lang == "en" ? English.EnterCity : Hindi.EnterCity}
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="state">State</label>
-                <InputText
-                  id="state"
-                  value={checkoutForm.state}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, state: e.target.value })
-                  }
-                  placeholder={
-                    lang == "en" ? English.EnterState : Hindi.EnterState
-                  }
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="pincode">Pincode</label>
-                <InputText
-                  id="pincode"
-                  value={checkoutForm.pincode}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, pincode: e.target.value })
-                  }
-                  placeholder={
-                    lang == "en" ? English.EnterPincode : Hindi.EnterPincode
-                  }
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="landmark">Landmark</label>
-                <InputText
-                  id="landmark"
-                  value={checkoutForm.landmark}
-                  onChange={(e) =>
-                    setCheckoutForm({ ...checkoutForm, landmark: e.target.value })
-                  }
-                  placeholder={
-                    lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
-                  }
-                />
-              </div>
-            </div> */}
-
-          <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
-            <h3>Payment Details</h3>
-            <div className={styles.formGroup}>
-              <label htmlFor="paymentMethod">Payment Method</label>
-              <Dropdown
-                id="paymentMethod"
-                value={checkoutForm.paymentMethod}
-                options={paymentMethods}
-                onChange={(e) =>
-                  setCheckoutForm({ ...checkoutForm, paymentMethod: e.value })
-                }
-                placeholder={
-                  lang == "en"
-                    ? English.SelectPaymentMethod
-                    : Hindi.SelectPaymentMethod
-                }
-              />
             </div>
           </div>
+          <Dialog
+            header={
+              lang == "en" ? English.CheckoutDetails : Hindi.CheckoutDetails
+            }
+            visible={showCheckoutDialog}
+            style={{ width: isMobile ? "100vw" : "50vw" }}
+            footer={
+              selectionOption == "prescription"
+                ? prescriptionDialogFooter
+                : selectionOption == "call"
+                ? checkoutDialogFooter
+                : checkoutDialogFooter
+            }
+            onHide={() => setShowCheckoutDialog(false)}
+          >
+            <div className={styles.checkoutForm}>
+              {/* <div className={styles.formSection}>
+                  <h3>Contact Information</h3>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="contactNumber">
+                      {lang == "en" ? English.ContactNumber : Hindi.ContactNumber}
+                    </label>
+                    <InputText
+                      id="contactNumber"
+                      value={checkoutForm.contactNumber}
+                      onChange={(e) =>
+                        setCheckoutForm({
+                          ...checkoutForm,
+                          contactNumber: e.target.value,
+                        })
+                      }
+                      placeholder={
+                        lang == "en"
+                          ? English.EnterContactNumber
+                          : Hindi.EnterContactNumber
+                      }
+                    />
+                  </div>
+                </div> */}
 
-          <div style={{ marginTop: "-1rem" }} className={styles.formSection}>
-            <h3>Additional Information</h3>
-            <div className={styles.formGroup}>
-              <label htmlFor="notes">Notes</label>
-              <InputText
-                id="notes"
-                value={checkoutForm.notes}
-                onChange={(e) =>
-                  setCheckoutForm({ ...checkoutForm, notes: e.target.value })
-                }
-                placeholder={
-                  lang == "en" ? English.AdditionalNotes : Hindi.AdditionalNotes
-                }
+              <AddressSelector
+                selectedAddress={selectedAddress}
+                setSelectedAddress={setSelectedAddress}
               />
+              {/* <div className={styles.formSection}>
+                    <h3>Delivery Address</h3>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="street">Street Address</label>
+                      <InputText
+                        id="street"
+                        value={checkoutForm.street}
+                        onChange={(e) =>
+                          setCheckoutForm({ ...checkoutForm, street: e.target.value })
+                        }
+                        placeholder={
+                          lang == "en"
+                            ? English.EnterStreetAddress
+                            : Hindi.EnterStreetAddress
+                        }
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="city">City</label>
+                      <InputText
+                        id="city"
+                        value={checkoutForm.city}
+                        onChange={(e) =>
+                          setCheckoutForm({ ...checkoutForm, city: e.target.value })
+                        }
+                        placeholder={lang == "en" ? English.EnterCity : Hindi.EnterCity}
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="state">State</label>
+                      <InputText
+                        id="state"
+                        value={checkoutForm.state}
+                        onChange={(e) =>
+                          setCheckoutForm({ ...checkoutForm, state: e.target.value })
+                        }
+                        placeholder={
+                          lang == "en" ? English.EnterState : Hindi.EnterState
+                        }
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="pincode">Pincode</label>
+                      <InputText
+                        id="pincode"
+                        value={checkoutForm.pincode}
+                        onChange={(e) =>
+                          setCheckoutForm({ ...checkoutForm, pincode: e.target.value })
+                        }
+                        placeholder={
+                          lang == "en" ? English.EnterPincode : Hindi.EnterPincode
+                        }
+                      />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="landmark">Landmark</label>
+                      <InputText
+                        id="landmark"
+                        value={checkoutForm.landmark}
+                        onChange={(e) =>
+                          setCheckoutForm({ ...checkoutForm, landmark: e.target.value })
+                        }
+                        placeholder={
+                          lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
+                        }
+                      />
+                    </div>
+                  </div> */}
+
+              <div
+                style={{ marginTop: "-1rem" }}
+                className={styles.formSection}
+              >
+                <h3>Payment Details</h3>
+                <div className={styles.formGroup}>
+                  <label htmlFor="paymentMethod">Payment Method</label>
+                  <Dropdown
+                    id="paymentMethod"
+                    value={checkoutForm.paymentMethod}
+                    options={paymentMethods}
+                    onChange={(e) =>
+                      setCheckoutForm({
+                        ...checkoutForm,
+                        paymentMethod: e.value,
+                      })
+                    }
+                    placeholder={
+                      lang == "en"
+                        ? English.SelectPaymentMethod
+                        : Hindi.SelectPaymentMethod
+                    }
+                  />
+                </div>
+              </div>
+
+              <div
+                style={{ marginTop: "-1rem" }}
+                className={styles.formSection}
+              >
+                <h3>Additional Information</h3>
+                <div className={styles.formGroup}>
+                  <label htmlFor="notes">Notes</label>
+                  <InputText
+                    id="notes"
+                    value={checkoutForm.notes}
+                    onChange={(e) =>
+                      setCheckoutForm({
+                        ...checkoutForm,
+                        notes: e.target.value,
+                      })
+                    }
+                    placeholder={
+                      lang == "en"
+                        ? English.AdditionalNotes
+                        : Hindi.AdditionalNotes
+                    }
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </Dialog>
+          </Dialog>
+        </>
+      )}
     </div>
   );
 };
