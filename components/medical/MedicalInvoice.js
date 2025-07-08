@@ -221,6 +221,9 @@ const MedicalInvoice = ({
               <p>
                 <strong>Discount:</strong> ₹{invoice.totalAmount?.discount || 0}
               </p>
+              <p>
+                <strong>CN Amount:</strong> ₹{invoice.totalAmount?.cnAmount || 0}
+              </p>
               <p className="font-bold text-base">
                 Total: ₹{invoice.totalAmount?.netAmount || 0}
               </p>
