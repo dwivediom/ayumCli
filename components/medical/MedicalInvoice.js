@@ -29,7 +29,7 @@ const MedicalInvoice = ({
 
     return invoice.items.map((item) => ({
       item: item?.brandName || item?.genericName || "N/A",
-      exp: item?.expiryDate.split("T")[0] || "N/A",
+      exp: item?.expiryDate?.split("T")[0] || "N/A",
       batch: item?.batchNumber || "N/A",
       hsn: item?.hsn || "N/A",
       qty: item?.quantity || 0,
@@ -222,7 +222,8 @@ const MedicalInvoice = ({
                 <strong>Discount:</strong> ₹{invoice.totalAmount?.discount || 0}
               </p>
               <p>
-                <strong>CN Amount:</strong> ₹{invoice.totalAmount?.cnAmount || 0}
+                <strong>CN Amount:</strong> ₹
+                {invoice.totalAmount?.cnAmount || 0}
               </p>
               <p className="font-bold text-base">
                 Total: ₹{invoice.totalAmount?.netAmount || 0}
