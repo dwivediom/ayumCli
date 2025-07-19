@@ -38,6 +38,7 @@ module.exports = {
   twoclickmsg: "Get all healthcare services in just 2 clicks",
   thankmsg: "Thankyou for connecting with Ayum",
   ordermedicine: "Order Medicines",
+  booklabtest: "Book Lab Test",
   ChoosePharmacy: "Choose a pharmacy",
   searchpharmacy: "Search Pharmacy",
   EnterCity: "Enter City",

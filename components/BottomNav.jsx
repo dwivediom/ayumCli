@@ -32,10 +32,12 @@ const BottomNav = () => {
           transform: translateX(-50%);
           background: #fff;
           border-radius: 32px;
+          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0px;
           box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
           width: 100vw;
           max-width: 480px;
-          height: 64px;
+          height: 54px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -118,12 +120,12 @@ const BottomNav = () => {
                     backgroundColor:
                       router.pathname === item.href ? "teal" : "transparent",
                     borderRadius: "50%",
-                    width: "55px",
+                    width: "45px",
                     transform:
                       router.pathname === item.href
-                        ? "translateY(-20px)"
+                        ? "translateY(-10px)"
                         : "translateY(0px)",
-                    height: "55px",
+                    height: "45px",
                     display: "flex",
                     alignItems: "center",
                     zIndex: "102",

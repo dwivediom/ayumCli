@@ -1,0 +1,51 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .label {
+      font-family: sans-serif;
+      font-size: 42px;
+      font-weight: 600;
+      fill: #000;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    .desc {
+      font-family: sans-serif;
+      font-size: 16px;
+      fill: #fff;
+      text-anchor: middle;
+    }
+    .icon-stroke {
+      stroke: #fff;
+      stroke-width: 2;
+      fill: none;
+    }
+  </style>
+
+  <!-- Pillar 1: COMPLETE -->
+  <rect x="10" y="100" width="120" height="250" rx="20" fill="#00b090"/>
+  <polygon points="70,20 110,60 70,100 30,60" fill="white" stroke="#00b090" stroke-width="5"/>
+  <text x="70" y="60" class="label">C</text>
+  <text x="70" y="170" class="desc">COMPLETE</text>
+  <circle cx="70" cy="240" r="20" class="icon-stroke"/>
+  <circle cx="62" cy="232" r="3" fill="white"/>
+  <circle cx="75" cy="247" r="3" fill="white"/>
+  <circle cx="73" cy="235" r="3" fill="white"/>
+
+  <!-- Pillar 2: BLOOD -->
+  <rect x="140" y="100" width="120" height="250" rx="20" fill="#f7941d"/>
+  <polygon points="200,20 240,60 200,100 160,60" fill="white" stroke="#f7941d" stroke-width="5"/>
+  <text x="200" y="60" class="label">B</text>
+  <text x="200" y="170" class="desc">BLOOD</text>
+  <path d="M170,235 q30,-30 60,0 q-30,30 -60,0" class="icon-stroke"/>
+  <circle cx="185" cy="235" r="4" fill="white"/>
+  <circle cx="215" cy="235" r="4" fill="white"/>
+
+  <!-- Pillar 3: COUNT -->
+  <rect x="270" y="100" width="120" height="250" rx="20" fill="#e8432e"/>
+  <polygon points="330,20 370,60 330,100 290,60" fill="white" stroke="#e8432e" stroke-width="5"/>
+  <text x="330" y="60" class="label">C</text>
+  <text x="330" y="170" class="desc">COUNT</text>
+  <circle cx="320" cy="240" r="12" class="icon-stroke"/>
+  <circle cx="350" cy="260" r="8" class="icon-stroke"/>
+  <circle cx="330" cy="280" r="5" class="icon-stroke"/>
+</svg>

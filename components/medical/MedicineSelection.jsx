@@ -29,6 +29,207 @@ import Hindi from "../../public/locales/hi";
 import AddressSelector from "./AddressSelector";
 import OrderConfirmation from "./OrderConfirmation";
 
+// New Compact Selection Screen Component
+const SelectionScreen = ({ onSelectOption, lang }) => {
+  const selectionOptions = [
+    {
+      id: "prescription",
+      title:
+        lang === "en"
+          ? English.OrderviaPrescription
+          : Hindi.OrderviaPrescription,
+      subtitle:
+        lang === "en" ? "Upload prescription" : "प्रिस्क्रिप्शन अपलोड करें",
+      description:
+        lang === "en"
+          ? "Upload your doctor's prescription"
+          : "अपने डॉक्टर का प्रिस्क्रिप्शन अपलोड करें",
+      icon: "pi pi-file-pdf",
+      image: "/prescription-icon.png", // We'll use a prescription document icon
+      color: "#667eea",
+      bgColor: "#f0f4ff",
+    },
+    {
+      id: "search",
+      title:
+        lang === "en"
+          ? English.Searchandaddmedicines
+          : Hindi.Searchandaddmedicines,
+      subtitle: lang === "en" ? "Browse medicines" : "दवाएं ब्राउज़ करें",
+      description:
+        lang === "en"
+          ? "Search and add medicines to cart"
+          : "दवाएं खोजें और कार्ट में जोड़ें",
+      icon: "pi pi-search",
+      image: "/searchill.png", // Using existing search image
+      color: "#f093fb",
+      bgColor: "#fef0ff",
+    },
+    {
+      id: "call",
+      title: lang === "en" ? English.Callme : Hindi.Callme,
+      subtitle: lang === "en" ? "Expert consultation" : "विशेषज्ञ परामर्श",
+      description:
+        lang === "en"
+          ? "Talk to pharmacy experts"
+          : "फार्मेसी विशेषज्ञों से बात करें",
+      icon: "pi pi-phone",
+      image: "/phone-icon.png", // We'll use a phone icon
+      color: "#4facfe",
+      bgColor: "#f0f9ff",
+    },
+  ];
+
+  return (
+    <div className={styles.compactSelectionScreen}>
+      {/* Compact Header */}
+      <div
+        style={{
+          paddingTop: "0",
+        }}
+        className={styles.compactHeader}
+      >
+        <h1 className={styles.compactTitle}>
+          {lang === "en"
+            ? "How would you like to order?"
+            : "आप कैसे ऑर्डर करना चाहते हैं?"}
+        </h1>
+        {/* <p className={styles.compactSubtitle}>
+          {lang === "en"
+            ? "Choose the most convenient way to get your medicines"
+            : "अपनी दवाएं प्राप्त करने का सबसे सुविधाजनक तरीका चुनें"}
+        </p> */}
+      </div>
+
+      {/* Compact Selection Cards */}
+      <div className={styles.compactCardsGrid}>
+        {selectionOptions.map((option) => (
+          <div
+            key={option.id}
+            className={styles.compactCard}
+            onClick={() => onSelectOption(option.id)}
+          >
+            {/* Card Image */}
+            <div className={styles.cardImageSection}>
+              <div
+                className={styles.cardImageContainer}
+                style={{ backgroundColor: option.bgColor }}
+              >
+                {option.id === "prescription" ? (
+                  <div className={styles.prescriptionIcon}>
+                    <i
+                      className="pi pi-file-pdf"
+                      style={{ color: option.color, fontSize: "2rem" }}
+                    />
+                  </div>
+                ) : option.id === "search" ? (
+                  <img
+                    src={option.image}
+                    alt="Search"
+                    className={styles.cardImage}
+                  />
+                ) : (
+                  <div className={styles.phoneIcon}>
+                    <i
+                      className="pi pi-phone"
+                      style={{ color: option.color, fontSize: "2rem" }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Card Content */}
+            <div className={styles.compactCardContent}>
+              <h3 className={styles.compactCardTitle}>{option.title}</h3>
+              <p className={styles.compactCardSubtitle}>{option.subtitle}</p>
+              <p className={styles.compactCardDescription}>
+                {option.description}
+              </p>
+
+              {/* Compact Features */}
+              <div className={styles.compactFeatures}>
+                {option.id === "prescription" && (
+                  <>
+                    <span className={styles.featureTag}>Fast processing</span>
+                    <span className={styles.featureTag}>
+                      Expert verification
+                    </span>
+                  </>
+                )}
+                {option.id === "search" && (
+                  <>
+                    <span className={styles.featureTag}>Wide selection</span>
+                    <span className={styles.featureTag}>Price comparison</span>
+                  </>
+                )}
+                {option.id === "call" && (
+                  <>
+                    <span className={styles.featureTag}>
+                      Expert consultation
+                    </span>
+                    <span className={styles.featureTag}>
+                      Personalized advice
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Selection Indicator */}
+            <div className={styles.selectionIndicator}>
+              <i
+                className="pi pi-arrow-right"
+                style={{ color: option.color }}
+              />
+            </div>
+          </div>
+        ))}
+        <div className={styles.compactFooter}>
+          <div className={styles.footerBadge}>
+            <i className="pi pi-check-circle" />
+            <span>
+              {lang === "en"
+                ? "Free delivery on all orders"
+                : "सभी ऑर्डर पर मुफ्त डिलीवरी"}
+            </span>
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0px",
+            padding: "10px",
+            border: "1px solid #e0e0e0",
+            backgroundColor: "#f0f0f0",
+            color: "rgba(37, 37, 37, 0.87)",
+            borderRadius: "5px",
+            fontSize: "12px",
+            fontStyle: "italic",
+            borderRadius: "5px",
+            margin: "10px",
+          }}
+        >
+          <span>Pharmacy - Samdariya Medical Store</span>
+          <span>Address - Rewa Madhya Pradesh</span>
+          <span>DL No - XXXXXXX</span>
+        </div>
+      </div>
+
+      {/* Compact Footer */}
+      <div className={styles.compactFooter}>
+        <div className={styles.footerBadge}>
+          <i className="pi pi-search" />
+          <span>
+            {lang === "en" ? "Explore more pharmacies" : "अधिक फार्मेसी खोजें"}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Move SearchOrderPage outside the main component
 const SearchOrderPage = React.memo(
   ({
@@ -181,26 +382,12 @@ const SearchOrderPage = React.memo(
                   ? "Search medicines, brands, or symptoms..."
                   : "दवाएं, ब्रांड या लक्षण खोजें..."
               }
-              style={{
-                boxShadow: "0px 5px 10px  rgba(0, 0, 0, 0.1)",
-                border: "none",
-                borderRadius: "10px",
-                padding: "1rem",
-                width: "100%",
-                fontSize: "16px",
-              }}
             />
             {searchTerm && (
               <Button
                 icon="pi pi-times"
                 className="p-button-text p-button-rounded"
                 onClick={handleClearSearch}
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50%",
-                  background: "var(--surface-100)",
-                }}
               />
             )}
           </div>
@@ -786,21 +973,24 @@ const MedicineSelection = ({
     }
   };
 
-  const checkoutDialogFooter = (
-    <div>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        onClick={() => setShowCheckoutDialog(false)}
-        className="p-button-text"
-      />
-      <Button
-        label="Submit"
-        icon="pi pi-check"
-        onClick={handleCheckoutSubmit}
-        autoFocus
-      />
-    </div>
+  const checkoutDialogFooter = useMemo(
+    () => (
+      <div>
+        <Button
+          label="Cancel"
+          icon="pi pi-times"
+          onClick={() => setShowCheckoutDialog(false)}
+          className="p-button-text"
+        />
+        <Button
+          label="Submit"
+          icon="pi pi-check"
+          onClick={handleCheckoutSubmit}
+          autoFocus
+        />
+      </div>
+    ),
+    [setShowCheckoutDialog, handleCheckoutSubmit]
   );
 
   const paymentMethods = [
@@ -929,7 +1119,7 @@ const MedicineSelection = ({
                   </div>
                   <Button
                     icon="pi pi-trash"
-                    className="p-button-rounded p-button-danger"
+                    className="p-button-rounded p-button-danger p-button-text"
                     onClick={() => handleRemoveFromCart(medicine._id)}
                   />
                 </div>
@@ -1004,32 +1194,41 @@ const MedicineSelection = ({
   }, [selectionOption]);
 
   // Dialog JSX
-  const prescriptionDialogFooter = (
-    <div>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        onClick={() => {
-          setSelectionOption();
-          setShowPrescriptionDialog(false);
-        }}
-        className="p-button-text"
-      />
-      <Button
-        icon="pi pi-check-circle"
-        label="Order"
-        onClick={() => handlePrescriptionOrderSubmit()}
-        disabled={
-          !selectedPrescription ||
-          !selectedAddress?.phone ||
-          !selectedAddress?.street ||
-          !selectedAddress?.city ||
-          !selectedAddress?.state ||
-          !selectedAddress?.pincode
-        }
-        autoFocus
-      />
-    </div>
+  const prescriptionDialogFooter = useMemo(
+    () => (
+      <div>
+        <Button
+          label="Cancel"
+          icon="pi pi-times"
+          onClick={() => {
+            setSelectionOption();
+            setShowPrescriptionDialog(false);
+          }}
+          className="p-button-text"
+        />
+        <Button
+          icon="pi pi-check-circle"
+          label="Order"
+          onClick={() => handlePrescriptionOrderSubmit()}
+          disabled={
+            !selectedPrescription ||
+            !selectedAddress?.phone ||
+            !selectedAddress?.street ||
+            !selectedAddress?.city ||
+            !selectedAddress?.state ||
+            !selectedAddress?.pincode
+          }
+          autoFocus
+        />
+      </div>
+    ),
+    [
+      setSelectionOption,
+      setShowPrescriptionDialog,
+      handlePrescriptionOrderSubmit,
+      selectedPrescription,
+      selectedAddress,
+    ]
   );
 
   // Open call dialog when radio selected
@@ -1396,7 +1595,24 @@ const MedicineSelection = ({
   };
 
   // Premium Prescription Order Page
-  const PrescriptionOrderPage = () => (
+  const PrescriptionOrderPage = ({
+    lang,
+    English,
+    Hindi,
+    selectionOption,
+    setSelectionOption,
+    selectedPrescription,
+    setSelectedPrescription,
+    toast,
+    selectedAddress,
+    setSelectedAddress,
+    prescriptionForm,
+    setPrescriptionForm,
+    handlePrescriptionOrderSubmit,
+    handleCallOrderSubmit,
+    setCartVisible,
+    handleProceed,
+  }) => (
     <div className={styles.premiumPageClean}>
       <div className={styles.pageHeaderClean}>
         <Button
@@ -1509,17 +1725,18 @@ const MedicineSelection = ({
 
           <div className={styles.notesSectionClean}>
             <InputText
-              value={prescriptionForm.notes}
-              onChange={(e) =>
+              // value={prescriptionForm.notes}
+
+              onMouseOut={(e) => {
                 setPrescriptionForm({
                   ...prescriptionForm,
                   notes: e.target.value,
-                })
-              }
+                });
+              }}
               placeholder={
-                lang == "en"
-                  ? "Enter any additional notes or instructions..."
-                  : "कोई अतिरिक्त नोट्स या निर्देश दर्ज करें..."
+                prescriptionForm.notes != ""
+                  ? prescriptionForm.notes
+                  : "Enter any additional notes or instructions..."
               }
               className={styles.notesInputClean}
             />
@@ -1659,11 +1876,23 @@ const MedicineSelection = ({
     </div>
   );
 
+  const handleSelectionOption = (option) => {
+    setSelectionOption(option);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleBackToSelection = () => {
+    setSelectionOption(null);
+    setCart([]);
+    setSelectedPrescription(null);
+    setSelectedCallPrescription(null);
+    setSelectedAddress(null);
+  };
+
   return (
     <div className={styles.container}>
       <Toast ref={toast} />
 
-      {/* Show OrderConfirmation when order is confirmed */}
       {showOrderConfirmation ? (
         <OrderConfirmation
           lang={lang}
@@ -1678,24 +1907,34 @@ const MedicineSelection = ({
       ) : (
         <>
           {showProfile && (
-            <div className={styles.profileSection}>
-              {/* Profile content will be moved to a separate component */}
-            </div>
+            <div className={styles.profileSection}>{/* Profile content */}</div>
           )}
 
           <div className={styles.medicineSelectionSection}>
             {!selectionOption ? (
-              <div
-                style={{
-                  marginTop: "1rem",
-                  transition: "margin-top 0.3s ease-in-out",
-                }}
-                className="card flex justify-content-center"
-              >
-                <SelectionCards />
-              </div>
+              <SelectionScreen
+                onSelectOption={handleSelectionOption}
+                lang={lang}
+              />
             ) : selectionOption === "prescription" ? (
-              <PrescriptionOrderPage />
+              <PrescriptionOrderPage
+                lang={lang}
+                English={English}
+                Hindi={Hindi}
+                selectionOption={selectionOption}
+                setSelectionOption={setSelectionOption}
+                selectedPrescription={selectedPrescription}
+                setSelectedPrescription={setSelectedPrescription}
+                toast={toast}
+                selectedAddress={selectedAddress}
+                setSelectedAddress={setSelectedAddress}
+                prescriptionForm={prescriptionForm}
+                setPrescriptionForm={setPrescriptionForm}
+                handlePrescriptionOrderSubmit={handlePrescriptionOrderSubmit}
+                handleCallOrderSubmit={handleCallOrderSubmit}
+                setCartVisible={setCartVisible}
+                handleProceed={handleProceed}
+              />
             ) : selectionOption === "call" ? (
               <CallRequestPage />
             ) : (
@@ -1709,7 +1948,7 @@ const MedicineSelection = ({
                 handleRemoveFromCart={handleRemoveFromCart}
                 lang={lang}
                 setCartVisible={setCartVisible}
-                setSelectionOption={setSelectionOption}
+                setSelectionOption={handleBackToSelection}
                 setLoading={setLoading}
                 setMedicines={setMedicines}
                 setPagination={setPagination}

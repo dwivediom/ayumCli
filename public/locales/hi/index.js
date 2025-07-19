@@ -38,6 +38,7 @@ module.exports = {
   twoclickmsg: "पाइये सभी स्वास्थ्य सुविधाएं मात्र 2 क्लिक में ",
   thankmsg: "आयुम के साथ जुड़ने के लिए धन्यवाद",
   ordermedicine: "दवाइयाँ मंगवाएं",
+  booklabtest: "जांच बुक करें",
   ChoosePharmacy: "मेडिकल स्टोर चुनें",
   searchpharmacy: "मेडिकल स्टोर खोजें",
   EnterCity: "शहर दर्ज करें",

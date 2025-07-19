@@ -16,7 +16,8 @@ const Navbar = () => {
   const [profilepic, setprofilepic] = useState();
   const [loggedemail, setloggedemail] = useState();
   const [name, setname] = useState();
-  const { lang, setlang } = useContext(AccountContext);
+  const { lang, setlang, hidenavbar, sethidenavbar } =
+    useContext(AccountContext);
   const [mobile, setmobile] = useState(false);
   useEffect(() => {
     console.log(screen.width, "screen width hai");
@@ -118,7 +119,12 @@ const Navbar = () => {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <nav className={`${bgSecColor}  z-10 w-full  `}>
+      <nav
+        style={{
+          display: hidenavbar ? "none" : "block",
+        }}
+        className={`${bgSecColor}  z-10 w-full  `}
+      >
         <div className=" mx-auto max-w-7xl px-1 sm:px-2  lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">

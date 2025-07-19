@@ -16,7 +16,7 @@ const AccountProvider = ({ children }) => {
   const [admindialog, setadmindialog] = useState(false);
   const [adminmode, setadminmode] = useState(false);
   const [closingdrawerallowed, setclosingdrawerallowed] = useState(true);
-
+  const [hidenavbar, sethidenavbar] = useState(false);
   const [mobilevalue, setmobilevalue] = useState(false);
   const [uplodedmsg, setuplodedmsg] = useState(true);
   const [msgprivate, setmsgprivate] = useState(false);
@@ -103,6 +103,8 @@ const AccountProvider = ({ children }) => {
         closingdrawerallowed,
         hidebottomnav,
         sethidebottomnav,
+        hidenavbar,
+        sethidenavbar,
       }}
     >
       {children}

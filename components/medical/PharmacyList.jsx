@@ -34,7 +34,21 @@ const PharmacyList = () => {
     total: 0,
   });
 
-  const [showFilters, setShowFilters] = useState(false);
+  // Filter options for chip filters
+  const filterOptions = [
+    { id: "verified", label: "Verified", icon: "pi pi-check-circle" },
+    { id: "homeDelivery", label: "Home Delivery", icon: "pi pi-home" },
+    { id: "expressDelivery", label: "Express Delivery", icon: "pi pi-bolt" },
+    // {
+    //   id: "cashOnDelivery",
+    //   label: "Cash on Delivery",
+    //   icon: "pi pi-money-bill",
+    // },
+    { id: "discount", label: "Discount Available", icon: "pi pi-tag" },
+  ];
+
+  const [activeFilters, setActiveFilters] = useState([]);
+
   useEffect(() => {
     fetchPharmacies();
   }, [city]);
@@ -93,9 +107,7 @@ const PharmacyList = () => {
   };
 
   const handleMedicinesSelected = (selectedMedicines) => {
-    // Handle the selected medicines here
     console.log("Selected medicines:", selectedMedicines);
-    // You can add your logic here to process the selected medicines
     setShowMedicineSelection(false);
     setSelectedPharmacy(null);
   };
@@ -105,22 +117,12 @@ const PharmacyList = () => {
     setShowShareDialog(true);
   };
 
-  // Badge options for dynamic display
-  const badgeOptions = [
-    // { label: "Free Delivery", icon: "pi pi-truck" },
-    // { label: "50% OFF", icon: "pi pi-percentage" },
-    // { label: "24/7 Available", icon: "pi pi-clock" },
-    { label: "Verified", icon: "pi pi-check-circle" },
-    // { label: "Express Delivery", icon: "pi pi-bolt" },
-    // { label: "Cash on Delivery", icon: "pi pi-money-bill" },
-    // { label: "Discount Available", icon: "pi pi-tag" },
-    // { label: "Home Delivery", icon: "pi pi-home" },
-  ];
-
-  // Function to get random badge
-  const getRandomBadge = () => {
-    // return badgeOptions[Math.floor(Math.random() * badgeOptions.length)];
-    return badgeOptions[0];
+  const handleFilterToggle = (filterId) => {
+    setActiveFilters((prev) =>
+      prev.includes(filterId)
+        ? prev.filter((id) => id !== filterId)
+        : [...prev, filterId]
+    );
   };
 
   // Function to open Google Maps directions
@@ -141,17 +143,18 @@ const PharmacyList = () => {
   };
 
   const itemTemplate = (pharmacy) => {
-    const randomBadge = getRandomBadge();
-    const phoneNumber = pharmacy.phone || "9630330030"; // Fallback phone number
+    const phoneNumber = pharmacy.phone || "9630330030";
 
     return (
       <div className={styles.cleanPharmacyCard}>
-        <Chip
-          label={randomBadge.label}
-          icon={randomBadge.icon}
-          className={styles.cleanBadge}
-        />
-        {/* test commit */}
+        <div className={styles.cardHeader}>
+          <Chip
+            label="Verified"
+            icon="pi pi-check-circle"
+            className={styles.verifiedBadge}
+          />
+        </div>
+
         <div className={styles.cardBody}>
           <div className={styles.mainInfo}>
             <Avatar
@@ -189,42 +192,43 @@ const PharmacyList = () => {
 
           <div className={styles.actionButtons}>
             <div
-              style={{ display: "flex", gap: "1rem", justifyContent: "center" }}
+              style={{
+                display: "flex",
+                gap: "0.5rem",
+              }}
             >
               <Button
                 label="Call"
                 icon="pi pi-phone"
                 outlined
                 onClick={() => makePhoneCall(phoneNumber)}
-                className={`${styles.actionButton} ${styles.callButton}`}
+                // className={styles.actionButton}
+                style={{
+                  width: "10rem",
+                }}
               />
               <Button
                 label="Directions"
                 icon="pi pi-map-marker"
                 outlined
                 onClick={() => openDirections(pharmacy)}
-                className={`${styles.actionButton} ${styles.directionsButton}`}
+                // className={styles.actionButton}
+                style={{
+                  width: "10rem",
+                }}
               />
             </div>
             <Button
               label={lang == "en" ? English.Select : Hindi.Select}
               icon="pi pi-check"
               onClick={() => handlePharmacySelect(pharmacy)}
-              className={styles.selectButton}
+              // className={styles.selectButton}
+              style={{
+                width: "100%",
+              }}
             />
           </div>
         </div>
-
-        {/* <div className={styles.cardFooter}>
-          <div className={styles.footerItem}>
-            <i className="pi pi-star-fill" style={{ color: "#FFD700" }}></i>
-            <span>4.5</span>
-          </div>
-          <div className={styles.footerItem}>
-            <i className="pi pi-clock" style={{ color: "#9C27B0" }}></i>
-            <span>30-45 min</span>
-          </div>
-        </div> */}
       </div>
     );
   };
@@ -234,126 +238,149 @@ const PharmacyList = () => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
     setisMobile(mobile.matches);
   }, []);
+
   const { lang } = useContext(AccountContext);
+
   return (
     <div className={styles.pharmacyList}>
       <Toast ref={toast} />
 
       {!showMedicineSelection ? (
         <>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              paddingTop: "10px",
-            }}
-          >
-            <InputText
-              value={searchTerm}
+          <div className={styles.pharmacyListAppContainer}>
+            {/* Search Section */}
+            <div
               style={{
-                width: "100%",
-                borderRadius: "8px",
-                padding: "15px",
-                marginBottom: "10px",
-                backgroundColor: "white",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                borderTopRightRadius: "0px",
-                borderBottomRightRadius: "0px",
+                height: "4.5rem",
               }}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder={
-                lang == "en" ? English.searchpharmacy : Hindi.searchpharmacy
-              }
-            />
-            {/* <i className="pi pi-search" /> */}
-            <Button
-              icon="pi pi-search"
-              style={{
-                height: "3rem",
-                marginTop: "-10px",
-                borderTopLeftRadius: "0px",
-                borderBottomLeftRadius: "0px",
-              }}
-              onClick={() => setShowFilters((prev) => !prev)}
-              aria-label="Filters"
-            />
-
-            {/* <div className={styles.cityFilter}>
-              <span className="p-input-icon-left w-full">
+              className={styles.searchSection}
+            >
+              <div
+                className={styles.searchBarContainer}
+                style={{
+                  // border: "2px solid red",
+                  height: "3rem",
+                }}
+              >
+                <div className={styles.searchIcon}>
+                  <i className="pi pi-search" />
+                </div>
                 <InputText
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder={
-                    lang == "en" ? English.EnterCity : Hindi.EnterCity
+                    lang == "en" ? English.searchpharmacy : Hindi.searchpharmacy
                   }
-                  className={styles.cityInput}
+                  className={styles.searchInput}
+                  // className={styles.searchInput}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 />
-              </span>
-            </div> */}
-          </div>
-          <div>
-            <Dropdown
-              options={[
-                { name: "Rewa", code: "Rewa" },
-                { name: "Bhopal", code: "Bhopal" },
-                { name: "Indore", code: "Indore" },
-                { name: "Jhansi", code: "Jhansi" },
-                { name: "Gwalior", code: "Gwalior" },
-              ]}
-              optionLabel="name"
-              itemTemplate={(option) => (
-                <div className="flex align-items-center">
+                {searchTerm && (
+                  <Button
+                    icon="pi pi-times"
+                    className={styles.clearButton}
+                    onClick={() => setSearchTerm("")}
+                    text
+                    rounded
+                    aria-label="Clear"
+                  />
+                )}
+                <Button
+                  icon="pi pi-filter"
+                  className={styles.filterButton}
+                  text
+                  style={{
+                    // border: "2px solid red",
+                    // height: "3rem",
+                    minWidth: "3rem",
+                  }}
+                  rounded
+                  aria-label="Filters"
+                />
+              </div>
+            </div>
+
+            {/* City Filter */}
+            <div className={styles.cityDropdownContainer}>
+              <Dropdown
+                options={[
+                  { name: "Rewa", code: "Rewa" },
+                  { name: "Bhopal", code: "Bhopal" },
+                  { name: "Indore", code: "Indore" },
+                  { name: "Jhansi", code: "Jhansi" },
+                  { name: "Gwalior", code: "Gwalior" },
+                ]}
+                optionLabel="name"
+                value={city}
+                onChange={(e) => setCity(e.value)}
+                placeholder={lang == "en" ? "Select City" : "शहर चुनें"}
+                className={styles.cityDropdown}
+                itemTemplate={(option) => (
+                  <div className={styles.dropdownItem}>
+                    <i
+                      className="pi pi-map-marker"
+                      style={{ color: "#4CAF50" }}
+                    />
+                    <span>{option.name}</span>
+                  </div>
+                )}
+              />
+            </div>
+
+            {/* Filter Chips */}
+            <div className={styles.filterChipsSection}>
+              <div className={styles.filterChips}>
+                {filterOptions.map((filter) => (
+                  <div
+                    key={filter.id}
+                    className={`${styles.filterChip} ${
+                      activeFilters.includes(filter.id)
+                        ? styles.activeFilterChip
+                        : ""
+                    }`}
+                    onClick={() => handleFilterToggle(filter.id)}
+                  >
+                    <i className={filter.icon}></i>
+                    <span>{filter.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Page Title */}
+            <div className={styles.pageTitle}>
+              <h2>
+                {lang == "en" ? English.ChoosePharmacy : Hindi.ChoosePharmacy}
+              </h2>
+            </div>
+
+            {/* Pharmacy List */}
+            <div className={styles.pharmacyDataView}>
+              {loading ? (
+                <div className={styles.loadingContainer}>
                   <i
-                    className="pi pi-map-marker"
-                    style={{ color: "#4CAF50" }}
+                    className="pi pi-spin pi-spinner"
+                    style={{ fontSize: "2rem" }}
                   ></i>
-                  <span>{option.name}</span>
+                  <p>Loading pharmacies...</p>
+                </div>
+              ) : pharmacies.length > 0 ? (
+                pharmacies.map((pharmacy) => itemTemplate(pharmacy))
+              ) : (
+                <div className={styles.noResults}>
+                  <p>
+                    No pharmacies found. Try adjusting your search criteria.
+                  </p>
                 </div>
               )}
-              optionValue="code"
-              value={city}
-              onChange={(e) => setCity(e.value)}
-              placeholder="Select a City"
-              className="w-full"
-              style={{
-                borderRadius: "8px",
-                // marginBottom: "10px",
-                maxWidth: "12rem",
-              }}
+            </div>
+
+            <ShareDialog
+              visible={showShareDialog}
+              onHide={() => setShowShareDialog(false)}
+              ayumUserName={selectedPharmacyForShare?.ayumUserName}
             />
           </div>
-          <p
-            style={{
-              textAlign: "center",
-              fontSize: "1.2rem",
-              fontWeight: "bold",
-              color: "rgb(53, 53, 53)",
-            }}
-          >
-            {lang == "en" ? English.ChoosePharmacy : Hindi.ChoosePharmacy}
-          </p>
-
-          {/* <DataView
-            value={pharmacies}
-            itemTemplate={itemTemplate}
-            paginator
-            rows={8}
-            style={{
-              marginTop: "-1.5rem",
-            }}
-            totalRecords={pagination.total}
-            loading={loading}
-            className={styles.pharmacyDataView}
-          /> */}
-          <div className={styles.pharmacyDataView}>
-            {pharmacies.map((pharmacy) => itemTemplate(pharmacy))}
-          </div>
-
-          <ShareDialog
-            visible={showShareDialog}
-            onHide={() => setShowShareDialog(false)}
-            ayumUserName={selectedPharmacyForShare?.ayumUserName}
-          />
         </>
       ) : (
         <MedicineSelection

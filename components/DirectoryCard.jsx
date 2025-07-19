@@ -267,6 +267,7 @@ ${linktext}`;
     }
   };
   const toast = useRef();
+  const [showFullAddress, setShowFullAddress] = useState(false);
   return (
     <div>
       {docid && (
@@ -400,853 +401,287 @@ ${linktext}`;
       </Snackbar> */}
       <Toast ref={toast} />
       <div
-        // style={{
-        //   minHeight: showreview && "32rem",
-        // }}
-        className={`${styles.directorysubshell}`}
+        style={{
+          background: "#fff",
+          borderRadius: "20px",
+          boxShadow: "0 4px 24px 0 rgba(0,0,0,0.08)",
+          border: "1.5px solid #f1f5f9",
+          padding: "2rem 1.5rem 1.5rem 1.5rem",
+          margin: "0.5rem 0",
+          maxWidth: 370,
+          width: isMobile ? "100vw" : "23rem",
+          minHeight: "22rem",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+        key={key}
       >
         <div
           style={{
-            height: show ? "fit-content" : "100%",
-            minHeight: showreview && "32rem",
-
-            width:
-              isMobile && showreview
-                ? "100%"
-                : !isMobile && !showreview && "23rem",
-            margin: isMobile && !showreview && "auto",
-            borderBottomLeftRadius: showreview && isMobile && "0",
-            borderBottomRightRadius: "0px",
-            borderTopRightRadius: showreview && isMobile && "24px",
-            borderRadius: !showreview && "24px",
-            // width: router.query.docid && "95%",
-            // margin: "auto",
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            marginBottom: 12,
+            gap: 10,
           }}
-          key={key}
-          className={`${styles.directorycard}`}
         >
-          {/* <Snackbar
-            open={showsnackbar}
-            autoHideDuration={6000}
-            onClose={() => {
-              setshowsnackbar(false);
-            }}
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            key={"top" + "right"}
-          >
-            <Alert
-              onClose={() => setshowsnackbar(false)}
-              severity={severity}
-              variant="filled"
-              sx={{ width: "100%" }}
-            >
-              {snackmsg}
-            </Alert>
-          </Snackbar> */}
-          <Dialog
-            visible={sharemodal}
-            onHide={() => {
-              setcpied(false);
-              setsharemodal(false);
-            }}
-            style={{ width: isMobile ? "95vw" : "20rem" }}
-          >
+          {/* Name and Specialty */}
+          <div style={{ flex: 1, minWidth: 0 }}>
             <div
-              onClick={() => {
-                shareOnWhatsApp(item?.name);
-              }}
-              className={`${styles.shareonwhatsapp}`}
-            >
-              Share On <i className="pi pi-whatsapp"></i>
-            </div>
-            <div className={`${styles.copylinkdiv}`}>
-              <div className={`${styles.copylink}`}>
-                {" "}
-                <div>{linktext}</div>
-              </div>
-              <span onClick={() => copyToClipboard(linktext)}>
-                <i className="pi pi-check-circle"></i>
-                {copied ? "Copied" : "Copy"}
-              </span>
-            </div>
-          </Dialog>
-          <Dialog
-            position="top"
-            style={{ marginTop: "6rem" }}
-            visible={callmodal}
-            onHide={() => setcallmodal(false)}
-          >
-            {selectedphones?.length > 0 &&
-              selectedphones.map((item, index) => {
-                return (
-                  item &&
-                  item != "" && (
-                    <div
-                      key={index}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                      className={`${styles.callitem}`}
-                    >
-                      <div style={{ padding: "5px 10px" }}>{item}</div>
-
-                      <Button
-                        style={{
-                          background: "#008080",
-                          borderRadius: "4px",
-                          padding: "7px 10px",
-                          color: "white",
-                        }}
-                        label="Call"
-                        onClick={() => {
-                          handleCall(item);
-                        }}
-                        raised
-                        icon="pi pi-phone"
-                      />
-                    </div>
-                  )
-                );
-              })}
-          </Dialog>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "10px",
-              // width: router.query.docid && "fit-content",
-              // gap: router.query.docid && "1rem",
-            }}
-          >
-            {/* <div
-        //   style={{
-        //     display: "flex",
-        //     gap: "2px",
-        //     alignItems: "center",
-        //     background: "rgb(0, 127, 147,0.3)",
-        //     borderRadius: "24px",
-        //     color: "black",
-        //     padding: "3px 8px",
-        //   }}
-        // >
-        
-        //   <svg
-        //     xmlns="http://www.w3.org/2000/svg"
-        //     fill="none"
-        //     viewBox="0 0 26 26"
-        //     stroke-width="1.5"
-        //     stroke="currentColor"
-        //     class="w-6 h-6"
-        //   >
-        //     <path
-        //       strokeLinecap="round"
-        //       stroke-linejoin="round"
-        //       d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-        //     />
-        //     <path
-        //       strokeLinecap="round"
-        //       stroke-linejoin="round"
-        //       d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-        //     />
-        //   </svg>
-        //   {item.city}
-        // </div>{" "} */}
-            <span
               style={{
-                display: "flex",
-                padding: "3px 10px",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "3px",
-                background: "var(--teal-100)",
-                borderRadius: "24px",
+                fontWeight: 700,
+                fontSize: "1.18rem",
+                color: "#222",
+                lineHeight: 1.2,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: 180,
               }}
+              title={item.name}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 26 26"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-                style={{ width: "25px", height: "25px" }}
-              >
-                <path
-                  strokeLinecap="round"
-                  stroke-linejoin="round"
-                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-                <path
-                  strokeLinecap="round"
-                  stroke-linejoin="round"
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                />
-              </svg>{" "}
-              {item.city}
-            </span>
-            <span
+              {item.name}
+            </div>
+            <div
               style={{
-                display: "flex",
-                padding: "3px 10px",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "3px",
-                cursor: "pointer",
-                background: "var(--teal-100)",
-                borderRadius: "24px",
+                color: "#6b7280",
+                fontWeight: 500,
+                fontSize: "1.01rem",
+                marginTop: 2,
+                lineHeight: 1.2,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: 180,
               }}
-              onClick={() => {
-                // let link = isLocal ? "http://localhost:3000" : "https://ayum.in";
-                let link = "https://ayum.in";
-                link = link + "/doctor";
-                link = link + "?docid=" + item._id;
-                setlinktext(link);
-                setsharemodal(true);
-              }}
+              title={item.specialist}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24"
-                viewBox="0 0 24 24"
-                width="24"
-                focusable="false"
-                style={{
-                  pointerEvents: "none",
-                  display: "inherit",
-                  width: "100%",
-                  height: "100%",
-                }}
-              >
-                <path d="M15 5.63 20.66 12 15 18.37V14h-1c-3.96 0-7.14 1-9.75 3.09 1.84-4.07 5.11-6.4 9.89-7.1l.86-.13V5.63M14 3v6C6.22 10.13 3.11 15.33 2 21c2.78-3.97 6.44-6 12-6v6l8-9-8-9z" />
-              </svg>
-              Share
-            </span>
+              {item.specialist}
+            </div>
           </div>
-          <div className={`${styles.carddeatilbox}`}>
-            <div
-              // style={{ boxShadow: "inset 1px 1px 5px rgba(0,0,0,0.2)" }}
-              onClick={() => {
-                if (router.pathname != "/doctor")
-                  router.push(`/doctor?docid=${item._id}`);
-              }}
-            >
-              <div
+          {/* Rating and Share */}
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            {item.averageRating && (
+              <span
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  flexWrap: "wrap",
-                  gap: "10px",
+                  background: "#fef3c7",
+                  color: "#d97706",
+                  borderRadius: "999px",
+                  fontSize: "1.01rem",
+                  fontWeight: 700,
+                  padding: "0.18rem 0.8rem",
+                  gap: "0.3rem",
+                  boxShadow: "0 1px 4px #fde68a44",
                 }}
               >
-                <div className={`${styles.cardname}`}>{item.name} </div>{" "}
-                {item.averageRating ? (
-                  <span
-                    onClick={() => {
-                      window.scrollBy({ top: 580, behavior: "smooth" });
-                    }}
-                    className={`${styles.reviewbadge}`}
-                  >
-                    {item.averageRating.toFixed(1)}
-                    <i className="pi pi-star-fill"></i>
-                  </span>
-                ) : (
-                  <span className={`${styles.reviewbadgenotrated}`}>
-                    Not rated yet
-                  </span>
-                )}
-              </div>
-              {item.phone && (
-                <div>
-                  {" "}
-                  <span className="font-bold">Phone :</span> {item.phone}
-                </div>
-              )}
-
-              <div>
-                <span className="font-bold">Specialist :</span>{" "}
-                {item.specialist}{" "}
-              </div>
-              {doctimings && doctimings != "" && (
-                <div>
-                  <span className="font-bold">Time :</span>{" "}
-                  <div
-                    style={{
-                      display: "flex",
-                      overflow: "auto",
-                      paddingRight: "4rem",
-                      justifyContent: "left",
-                      background: "rgba(0,0,0,0.04)",
-                      borderRadius: "4px",
-                      padding: "5px",
-                      width: "20rem",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                    className={styles.timingscroll}
-                  >
-                    {istimetstring
-                      ? item.timeing
-                      : Array.isArray(Object.keys(doctimings)) &&
-                        Object.keys(doctimings).map((x) => {
-                          return (
-                            <div
-                              style={{
-                                boxShadow: "2px 3px 5px rgba(0,0,0,0.1)",
-                                // maxHeight: "10rem",
-                                background: "white",
-                                height: "fit-content",
-                                minWidth: "8rem",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                            >
-                              <span
-                                style={{ color: "teal", fontWeight: "500" }}
-                              >
-                                {" "}
-                                {x}{" "}
-                              </span>{" "}
-                              <span
-                                style={{
-                                  textAlign: "center",
-                                  fontSize: "13px",
-                                }}
-                              >
-                                {" "}
-                                {doctimings[x]}
-                              </span>
-                            </div>
-                          );
-                        })}
-                  </div>
-                </div>
-              )}
-
-              {/* <div className={`${styles.showmorebox}`}>
-          <span onClick={() => setShow(!show)} className={`${styles.showmore}`}>
-            {show ? "Hide details" : "More details..."}{" "}
-            <span className="text-lg">&#x2193;</span>
-          </span>
-        </div> */}
-
-              <div style={{ maxWidth: "23rem" }}>
-                <span className="font-bold">Address :</span> {item.address}
-              </div>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "5px",
-                background: "var(--surface-100)",
-                boxShadow: "2px 3px 5px rgba(101, 101, 101, 0.2)",
-                // width: router.query.docid && "fit-content",
-                // gap: router.query.docid && "1rem,
+                <i
+                  className="pi pi-star-fill"
+                  style={{ fontSize: "1.1rem" }}
+                ></i>
+                {item.averageRating.toFixed(1)}
+              </span>
+            )}
+            <button
+              onClick={() => {
+                let link = "https://ayum.in/doctor?docid=" + item._id;
+                setlinktext(link);
+                setsharemodal(true);
               }}
+              style={{
+                background: "rgba(0,128,128,0.07)",
+                border: "none",
+                color: "#009688",
+                fontWeight: 600,
+                fontSize: "1.1rem",
+                cursor: "pointer",
+                borderRadius: "50%",
+                width: 32,
+                height: 32,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "background 0.18s",
+              }}
+              title="Share"
             >
-              <a
-                href={
-                  item?.maplinkurl
-                    ? item.maplinkurl
-                    : `https://www.google.com/maps/search/?api=1&query=${`${item.latitude} , ${item.longitude}`}`
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                {/* <Button
-                  style={{
-                    // background: "rgb(0, 127, 147)",
-                    color: "rgb(0, 127, 147)",
-                    borderRadius: "4px",
-                    padding: "4px 10px",
-                    border: "1.5px solid rgb(0, 127, 147 , 0.6)",
-                  }}
-                  startIcon={
-                    <LocationOnIcon style={{ color: "rgb(0, 127, 147)" }} />
-                  }
-                  variant="outlined"
-                >
-                  View On Map
-                </Button> */}
-                <Button
-                  label="View On Map"
-                  style={{ color: "white" }}
-                  raised
-                  onClick={() => {}}
-                  icon="pi pi-map-marker"
-                />
-              </a>
-              {/* <Button
-                style={{
-                  background: "#005e6d",
-                  borderRadius: "4px",
-                  padding: "4px 10px",
-                }}
-                variant="contained"
-                startIcon={<CallIcon style={{ color: "white" }} />}
-                onClick={() => {
-                  // handleCall(item?.phone);
-                  const splitArray = item?.phone && item?.phone.split(/[,\s]+/);
-                  setselectedphones(splitArray);
-                  setcallmodal(true);
-                }}
-              >
-                Call
-              </Button>{" "} */}
-              <Button
-                label="Call"
-                style={{
-                  color: "white",
-                }}
-                onClick={() => {
-                  // handleCall(item?.phone);
-                  const splitArray = item?.phone && item?.phone.split(/[,\s]+/);
-                  setselectedphones(splitArray);
-                  setcallmodal(true);
-                }}
-                icon="pi pi-phone"
-              />
-            </div>
-            {/* <form action="#" onSubmit={() => {}}> */}
-
-            {reviewgiven
-              ? showreview &&
-                (loading ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      paddingTop: "2rem",
-                    }}
-                  >
-                    <Image
-                      src={"/loader.svg"}
-                      width={30}
-                      height={30}
-                      alt="Loading..."
-                    />
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      marginTop: "1rem",
-                      textAlign: "center",
-                      fontSize: "1.02rem",
-                      background: "#EDEDED",
-                      borderRadius: "8px",
-                      padding: "10px 6px",
-                      fontWeight: "500",
-                      position: "relative",
-                    }}
-                  >
-                    <div
-                      style={{
-                        textAlign: "center",
-                        fontWeight: "bold",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "rgb(0, 119, 119)",
-                      }}
-                    >
-                      <span>
-                        <Rating
-                          value={reviewgiven.rating}
-                          readOnly
-                          cancel={false}
-                        />
-                      </span>{" "}
-                      <span>Rating Given By You</span>
-                    </div>
-
-                    {!tempreview && (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          background: "rgb(218, 218, 218)",
-                          borderRadius: "4px",
-                          width: "fit-content",
-                          margin: "auto",
-                          marginTop: "10px",
-                          gap: "4px",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          settempreview(reviewgiven);
-                          setreviewgiven(null);
-                        }}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          x="0px"
-                          y="0px"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M 19.171875 2 C 18.448125 2 17.724375 2.275625 17.171875 2.828125 L 16 4 L 20 8 L 21.171875 6.828125 C 22.275875 5.724125 22.275875 3.933125 21.171875 2.828125 C 20.619375 2.275625 19.895625 2 19.171875 2 z M 14.5 5.5 L 3 17 L 3 21 L 7 21 L 18.5 9.5 L 14.5 5.5 z"></path>
-                        </svg>
-                        Edit review
-                      </div>
-                    )}
-                  </div>
-                ))
-              : showreview && (
-                  <div>
-                    <p>Review {item?.name?.slice(0, 25)}...</p>
-
-                    <Rating
-                      style={{
-                        background: "var(--surface-100)",
-                        color: "blue",
-                      }}
-                      defaultValue={0}
-                      value={setreviewpayload.rating}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                        setreviewpayload({
-                          ...reviewpayload,
-                          rating: e.target.value,
-                        });
-                      }}
-                      cancel={false}
-                    />
-
-                    {/* <StyledRating
-                      name="customized-color"
-                      defaultValue={0}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                        setreviewpayload({
-                          ...reviewpayload,
-                          rating: e.target.value,
-                        });
-                      }}
-                      // getLabelText={(review.rating) =>
-                      //   `value${} Heart${value !== 1 ? "s" : ""}`
-                      // }
-                      precision={0.5}
-                      icon={
-                        <StarIcon
-                          style={{ fontSize: "30px" }}
-                          fontSize="inherit"
-                        />
-                      }
-                      emptyIcon={
-                        <StarBorder
-                          style={{ fontSize: "30px" }}
-                          fontSize="inherit"
-                        />
-                      }
-                    /> */}
-                    {reviewpayload?.rating && (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          flexWrap: "wrap",
-                          gap: "10px",
-                        }}
-                      >
-                        {lang == "hi"
-                          ? HindiRating.map((rev) => {
-                              if (rev.rating == reviewpayload?.rating) {
-                                return rev.comments.map((com) => {
-                                  return (
-                                    <span
-                                      style={{
-                                        padding: "3px 10px",
-                                        border: "1px solid #005E6D",
-                                        fontSize: "13px",
-                                        borderRadius: "24px",
-                                        color: "#005E6D",
-                                      }}
-                                      onClick={() => {
-                                        setreviewpayload({
-                                          ...reviewpayload,
-                                          comment: com,
-                                        });
-                                      }}
-                                    >
-                                      {com}
-                                    </span>
-                                  );
-                                });
-                              }
-                            })
-                          : EnglishRating.map((rev) => {
-                              if (rev.rating == reviewpayload.rating) {
-                                return rev.comments.map((com) => {
-                                  return (
-                                    <span
-                                      style={{
-                                        padding: "2px 5px",
-                                        borderRadius: "24px",
-                                        border: "1px solid #005E6D",
-                                        fontSize: "13px",
-                                        color: "#005E6D",
-                                      }}
-                                      onClick={() => {
-                                        setreviewpayload({
-                                          ...reviewpayload,
-                                          comment: com,
-                                        });
-                                      }}
-                                    >
-                                      {com}
-                                    </span>
-                                  );
-                                });
-                              }
-                            })}
-                      </div>
-                    )}
-                    {reviewpayload.rating && (
-                      <div
-                        className={`${styles.reviewinput}`}
-                        style={{ width: "100%", display: "flex" }}
-                      >
-                        <input
-                          onChange={(e) => {
-                            setreviewpayload({
-                              ...reviewpayload,
-                              comment: e.target.value,
-                            });
-                          }}
-                          // disabled={!reviewpayload.rating}
-                          value={reviewpayload?.comment || ""}
-                          placeholder="Enter Your Review"
-                        />{" "}
-                        <span
-                          onClick={() => {
-                            if (reviewpayload?.rating) {
-                              handleSubmit();
-                            }
-                          }}
-                          style={{ color: "white", padding: "3px" }}
-                        >
-                          {/* <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class="size-6"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-                          />
-                        </svg> */}
-                          Submit
-                        </span>
-                      </div>
-                    )}
-
-                    {tempreview && (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          background: "rgb(218, 218, 218)",
-                          borderRadius: "4px",
-                          width: "fit-content",
-                          margin: "auto",
-                          marginTop: "10px",
-                          gap: "4px",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          setreviewgiven(tempreview);
-                          settempreview(null);
-                        }}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          x="0px"
-                          y="0px"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M 4.9902344 3.9902344 A 1.0001 1.0001 0 0 0 4.2929688 5.7070312 L 10.585938 12 L 4.2929688 18.292969 A 1.0001 1.0001 0 1 0 5.7070312 19.707031 L 12 13.414062 L 18.292969 19.707031 A 1.0001 1.0001 0 1 0 19.707031 18.292969 L 13.414062 12 L 19.707031 5.7070312 A 1.0001 1.0001 0 0 0 18.980469 3.9902344 A 1.0001 1.0001 0 0 0 18.292969 4.2929688 L 12 10.585938 L 5.7070312 4.2929688 A 1.0001 1.0001 0 0 0 4.9902344 3.9902344 z"></path>
-                        </svg>
-                        Close
-                      </div>
-                    )}
-                  </div>
-                )}
+              <i className="pi pi-share-alt" style={{ fontSize: "1.1rem" }}></i>
+            </button>
           </div>
         </div>
-        {showreview && (
+
+        {/* Info Rows */}
+        <div
+          style={{
+            margin: "1.2rem 0 0.5rem 0",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.7rem",
+          }}
+        >
+          {/* Phone */}
           <div
             style={{
-              height: showreview && "32rem",
-              overflow: "auto",
-              borderRadius: isMobile && "0",
-              width: isMobile ? "100%" : "25rem",
-              minWidth: !isMobile && "21rem",
+              display: "flex",
+              alignItems: "center",
+              color: "#222",
+              fontSize: "1.07rem",
+              gap: 10,
             }}
-            className={`${styles.reviewshell}`}
           >
-            <h3
+            <i
+              className="pi pi-phone"
+              style={{ color: "#009688", fontSize: "1.1rem" }}
+            />
+            <span style={{ color: "#444", fontWeight: 500, marginLeft: 6 }}>
+              {item.phone || "Not available"}
+            </span>
+          </div>
+          {/* Timings */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              color: "#222",
+              fontSize: "1.07rem",
+              gap: 10,
+            }}
+          >
+            <i
+              className="pi pi-clock"
+              style={{ color: "#009688", fontSize: "1.1rem" }}
+            />
+            <span style={{ color: "#222", fontWeight: 500 }}>
+              {doctimings && !istimetstring
+                ? Object.values(doctimings)[0]
+                : item.timeing || "Not available"}
+            </span>
+          </div>
+          {/* Address */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              color: "#222",
+              fontSize: "1.07rem",
+              gap: 10,
+            }}
+          >
+            <i
+              className="pi pi-map-marker"
+              style={{ color: "#009688", fontSize: "1.1rem" }}
+            />
+            <span style={{ color: "#444", fontWeight: 500 }}>
+              {item.address ? (
+                showFullAddress || item.address.length <= 28 ? (
+                  item.address
+                ) : (
+                  <>
+                    {item.address.slice(0, 28)}...
+                    <span
+                      style={{
+                        color: "#009688",
+                        cursor: "pointer",
+                        marginLeft: 4,
+                        fontWeight: 600,
+                      }}
+                      onClick={() => setShowFullAddress(true)}
+                    >
+                      See more
+                    </span>
+                  </>
+                )
+              ) : (
+                "No address added"
+              )}
+              {showFullAddress && item.address && item.address.length > 28 && (
+                <span
+                  style={{
+                    color: "#009688",
+                    cursor: "pointer",
+                    marginLeft: 8,
+                    fontWeight: 600,
+                  }}
+                  onClick={() => setShowFullAddress(false)}
+                >
+                  See less
+                </span>
+              )}
+            </span>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div
+          style={{
+            borderTop: "1.5px solid #f1f5f9",
+            margin: "1.2rem 0 1.1rem 0",
+          }}
+        />
+
+        {/* Actions */}
+        <div style={{ display: "flex", gap: "1rem" }}>
+          <a
+            href={
+              item?.maplinkurl
+                ? item.maplinkurl
+                : `https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`
+            }
+            target="_blank"
+            rel="noreferrer"
+            style={{ flex: 1, textDecoration: "none" }}
+          >
+            <button
               style={{
-                textAlign: "center",
-                fontWeight: "600",
-                padding: "10px",
-                position: "sticky",
-                color: "#fff",
-                top: "0",
-                fontSize: "1.05rem",
-                zIndex: "10",
-                background: "#008f9f",
+                width: "100%",
+                background: "#fff",
+                color: "#009688",
+                border: "1.5px solid #e0f2f1",
+                borderRadius: "12px",
+                height: "48px",
+                fontWeight: 700,
+                fontSize: "1.09rem",
+                cursor: "pointer",
+                boxShadow: "0 1px 4px rgba(0,128,128,0.07)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
               }}
             >
-              Reviews From Ayum User's
-            </h3>
-            <div style={{ background: "rgb(245, 245, 245)" }}>
-              {loading ? (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    minWidth: "20rem",
-                    width: "100%",
-                    paddingTop: "2rem",
-                  }}
-                >
-                  <Image
-                    src={"/loader.svg"}
-                    width={30}
-                    height={30}
-                    alt="Loading..."
-                  />
-                </div>
-              ) : (
-                <>
-                  <div>
-                    {reviews.length > 0 ? (
-                      reviews.map((review, index) => (
-                        <div
-                          key={index}
-                          style={{
-                            padding: "10px",
-                            borderRadius: "18px",
-                            marginBottom: "10px",
-                            width: "96%",
-                            margin: "auto",
-                            boxShadow: "0 3px 5px rgba(0,0,0,0.1)",
-                          }}
-                        >
-                          <Rating
-                            value={review.rating}
-                            readOnly
-                            cancel={false}
-                            style={{ marginBottom: "5px" }}
-                          />{" "}
-                          <div
-                            style={{
-                              display: "flex",
-                              textAlign: "left",
-                              flexDirection: "column",
-                              width: "100%",
-                            }}
-                          >
-                            <div style={{}}>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "5px",
-                                  width: "100%",
-                                }}
-                              >
-                                <img
-                                  src={
-                                    review?.userprofile || "/deafaultpro.jpg"
-                                  }
-                                  style={{
-                                    height: "35px",
-                                    width: "35px",
-                                    borderRadius: "50%",
-                                    objectFit: "cover",
-                                  }}
-                                />
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                  }}
-                                >
-                                  <span style={{ fontSize: "13px" }}>
-                                    {review?.name}
-                                  </span>{" "}
-                                  <span
-                                    style={{
-                                      fontSize: "10px",
-                                    }}
-                                  >
-                                    {formatDate(review?.created)}
-                                  </span>
-                                </div>{" "}
-                              </div>
-                            </div>
-
-                            <p
-                              style={{
-                                fontSize: "14px",
-                              }}
-                            >
-                              {review?.description}
-                            </p>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <div
-                        style={{
-                          width: "20rem",
-                          textAlign: "center",
-                          display: "flex",
-                          justifyContent: "center",
-                          flexDirection: "column",
-                          gap: "10px",
-                          alignItems: "center",
-
-                          margin: "auto",
-                        }}
-                      >
-                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEnElEQVR4nO2ZbUxTVxiAD3aDLPwYsqpDt2xhssQo4oBREwNmOihsCJgIKMOPxA2NZcmWbArbpBCXkMwYxsxm3XADXAF7LvSDUnSt9txOyQbVZR9hIEpBs68skmxLpobBu5xT2mG5wGovt/3RN3mT0/ecc+/z3HtPbu4pQuEIRzjCgXS2FYgjJQjzHyGOdyCODCOOjCGO3EUcD4gjfyBMfkMcfwVxfDviyNuo3b4eqWFRcK8eduS6gSnkfSTmf0SYFAUHXtcTe9/gvqnriZVeADsU4gnwacEQKBVR4CXpBThSJZoAR6qkF8CkQSwBGXfhlOT8sVrLJbEEHm/uuCK5wPJm/a9iCTzR1H5LcoGlWtNtsQTimo13JReIabFMiCWwmB5L6og7bZjMOPExlPFWeO+rc/D55W5wfN8Fg4NmuHm1E8audcK4y8SStmmN9tExdCydU8ZbgR6DHktyASiOB5YjpsCy2H2csIA/Ac6aF+Hghtui3YHK9L+htyYHSRXgrL4JfVUAH+y+B+bEgQ2gUaXPCivYf3wPQJ8awKm+Ia2As3oGIIXTlGfMKjBrv7NaYoHemhwmMayfDPgRcuknKDxcVmdLJuAVGTENBCwwYuyXHNwr4DJ+IoKAJngCo4bnRRDYFDQBJjFiuhAAPAkqPBMYNceDy/i7/4vXeAtuGFeiUAgYNmSAyzjmF/xoZzoKpRg8fyoJhrTzww+1wMGKV19DoRYKZX4jeyF9ewxg4FOA6zoAl8GdtE1rtM9ZDYqsvJ/XZmZGo1CJZ7PztiqU+VNv1PmTjk3L2lKOQiQi0pR5/X4LKPOHUCjEioraQgr0TMGO8W5H/bzwdExywfZxOuext2q3Bo+c7sxhcvFRdR27ok+VV0KiyQL/zAFP++iYlapDbM7Sd4/TT0oHwvZU6cAtliiE+ZMIk0n6PZuw7w0GI6/VsO/bBnJyVgHaR8d4pJ98/bBnY2sCYf5DpPshcmHhtXY5woSf/kGeWPIyg4nW6NjvZR02+LPvyAz4v3qPQJzeysY8XH+azVm1W+W7Q3cJGW3LFga+w/oI4siA745CcsEOBvNgc7e3prY1zRCgNU//Qw16NiepaM/MXQrM9yPtl4vFhQeIQJicFdoSSc3dxmAWtdm8tegOO/z0da0XnrZpzdP/gPYcm5OypVh4qwUTs7gCnH2n70kizpwH+dRipLnkwCFW8/TvPdvmFaBtTz2y0QwJ+93rRpFdAAn734TIpi4BEVIiDrxOJ0OYXPc9gVxVAU8nr4eUzS9AyqYc1qa1/zZsefiu5yhLmafWYoV123Z5pRVTmVS4C2StVt9H6ao4f0Fhx2ah2xyfkcWgz5i6odXYxdrx6Zn3jFF26Vl6fi9/5ygDTty+F6IazRD1WSesKXmF1eIOHxO6C88FLsDx9YICG90CbSYLtBjMboGNWXNuIa4pLWOwMXWN3lpMXROrrS7dJ7Sg3xdDoEcIxvMITU+5qnJOgdTcQgY7/XGRtX7Baqm5RUKL+aIYAr8IwbgXcQW76jRpe/oiFspvBq6x/L91RM8dcGD+zlxQ/qTfApi/E7hAONCCxr8pUjjJRsqE5QAAAABJRU5ErkJggg=="></img>
-                        <h5> No Reviews Found!</h5>
-                        <h6 style={{ color: "#005E6D", fontWeight: "600" }}>
-                          Give your valuable review in just two Clicks
-                        </h6>
-                      </div>
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        )}
+              <i className="pi pi-map-marker" style={{ fontSize: "1.1em" }} />
+              View Map
+            </button>
+          </a>
+          <button
+            style={{
+              flex: 1,
+              background: "#009688",
+              color: "#fff",
+              border: "none",
+              borderRadius: "12px",
+              height: "48px",
+              fontWeight: 700,
+              fontSize: "1.09rem",
+              cursor: "pointer",
+              boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+            }}
+            onClick={() => {
+              const splitArray = item?.phone && item?.phone.split(/[,\s]+/);
+              setselectedphones(splitArray);
+              setcallmodal(true);
+            }}
+          >
+            <i className="pi pi-phone" style={{ fontSize: "1.1em" }} />
+            Call Now
+          </button>
+        </div>
       </div>
     </div>
   );

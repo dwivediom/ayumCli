@@ -23,6 +23,8 @@ const Navbar = () => {
     setpopup,
     collapseopen,
     setcollapse,
+    hidenavbar,
+    sethidenavbar,
   } = useContext(AccountContext);
 
   useEffect(() => {
@@ -696,11 +698,11 @@ const Navbar = () => {
       <Toast ref={toast} />
       <nav
         className={` fixed top-0 z-10 w-full left-0 `}
-        style={{ zIndex: "100" }}
+        style={{ zIndex: "100", display: hidenavbar ? "none" : "block" }}
       >
         <div
           style={{
-            boxShadow: "0 0 5px 7px rgba(0,0,0,0.05)",
+            boxShadow: "0 0 5px 7px rgba(0, 0, 0, 0)",
             height: "3.5rem",
             overflow: "hidden",
             background: "white",

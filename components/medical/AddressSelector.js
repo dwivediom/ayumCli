@@ -28,12 +28,14 @@ const AddressSelector = (props) => {
 
   useEffect(() => {
     let temp = JSON.parse(localStorage.getItem("labuser"));
-    temp.address = temp.address.map((address, index) => ({
-      ...address,
-      id: index,
-    }));
+    if (temp) {
+      temp.address = temp.address.map((address, index) => ({
+        ...address,
+        id: index,
+      }));
+    }
 
-    setaddresslist(temp.address || []);
+    setaddresslist(temp?.address || []);
   }, [addresslist]);
 
   const handleAddressChange = (e) => {

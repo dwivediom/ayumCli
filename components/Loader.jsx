@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import { Skeleton } from "primereact/skeleton";
+import { useRouter } from "next/router";
 
-const Loader = () => {
+const Loader = ({ ssrRoute }) => {
   const [count, setCount] = useState(29900);
+  const router = useRouter();
 
   const totalUsers = 30000;
   useEffect(() => {
@@ -22,6 +24,7 @@ const Loader = () => {
         width: "100vw",
         height: "100vh",
         position: "relative",
+        display: ssrRoute.includes(router.pathname) ? "none" : "block",
       }}
     >
       <div style={{ position: "relative" }}>

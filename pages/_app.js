@@ -31,7 +31,7 @@ import "../styles/globals.css"; // Load global styles last, if needed
 import { requestNotificationPermission } from "../push-notification";
 import useDeviceId from "../utils/useDeviceId";
 import Authverify from "../components/AuthVerify";
-import { refreshFcmToken , ensureFcmToken} from "../push-notification";
+import { refreshFcmToken, ensureFcmToken } from "../push-notification";
 import { registerDeviceToken } from "../routes/notify";
 import { SocketProvider } from "../context/SocketContext";
 
@@ -41,42 +41,33 @@ function MyApp({ Component, pageProps, AccountContext }) {
   const [loading, setLoading] = useState(true);
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
 
-
   // Use the token as needed
   useEffect(() => {
-    const userEmail = localStorage.getItem('userEmail') || null;
+    const userEmail = localStorage.getItem("userEmail") || null;
     let local_fcm_token = fcmToken || localStorage.getItem("fcmToken") || null;
     useDeviceId(userEmail);
     if (fcmToken || local_fcm_token) {
-      let deviceId = localStorage.getItem("deviceId")
-      registerDeviceToken(deviceId, fcmToken)
-
+      let deviceId = localStorage.getItem("deviceId");
+      registerDeviceToken(deviceId, fcmToken);
     }
 
-
-
     if (fcmToken) {
-
-
       if (localStorage.fcmToken != fcmToken && localStorage.userjwt) {
         updateuser(localStorage.userjwt, { FCMtoken: fcmToken });
 
-        const deviceId = localStorage.getItem("deviceId")
-        let local_fcm_token = fcmToken || localStorage.getItem("fcmToken")
-        registerDeviceToken(deviceId, fcmToken)
+        const deviceId = localStorage.getItem("deviceId");
+        let local_fcm_token = fcmToken || localStorage.getItem("fcmToken");
+        registerDeviceToken(deviceId, fcmToken);
       } else {
         localStorage.setItem("fcmToken", fcmToken);
-        let deviceId = localStorage.getItem("deviceId")
-        let local_fcm_token = fcmToken || localStorage.getItem("fcmToken")
-        registerDeviceToken(deviceId, local_fcm_token)
-
+        let deviceId = localStorage.getItem("deviceId");
+        let local_fcm_token = fcmToken || localStorage.getItem("fcmToken");
+        registerDeviceToken(deviceId, local_fcm_token);
       }
     } else {
-      console.log("unable  to get fcm token ")
+      console.log("unable  to get fcm token ");
     }
   }, [fcmToken]);
-
-
 
   // Send pageview with a custom path
 
@@ -88,26 +79,27 @@ function MyApp({ Component, pageProps, AccountContext }) {
     });
   }, []);
 
-  
-
-
   useEffect(() => {
     const relod = async () => {
-      if ('serviceWorker' in navigator) {
+      if ("serviceWorker" in navigator) {
         // Register the custom service worker (next-pwa will output this as /service-worker.js)
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(registration => {
-            console.log('Service Worker registered with scope:', registration.scope);
+        navigator.serviceWorker
+          .register("/service-worker.js")
+          .then((registration) => {
+            console.log(
+              "Service Worker registered with scope:",
+              registration.scope
+            );
           })
-          .catch(err => {
-            console.error('Service Worker registration failed:', err);
+          .catch((err) => {
+            console.error("Service Worker registration failed:", err);
           });
 
         // Listen for messages from the service worker.
-        navigator.serviceWorker.addEventListener('message', event => {
-          if (event.data && event.data.type === 'REFRESH_TOKEN') {
-            console.log('Received message from Service Worker: REFRESH_TOKEN');
-            refreshFcmToken()
+        navigator.serviceWorker.addEventListener("message", (event) => {
+          if (event.data && event.data.type === "REFRESH_TOKEN") {
+            console.log("Received message from Service Worker: REFRESH_TOKEN");
+            refreshFcmToken();
             // For example, call Firebase Messaging to get a new token and update your backend.
           }
         });
@@ -120,23 +112,19 @@ function MyApp({ Component, pageProps, AccountContext }) {
     relod();
   }, []);
 
-
-
-
   useEffect(() => {
-   
-   
     const verifyToken = async () => {
       try {
         // Check permission and ensure token exists
         const token = await ensureFcmToken();
-        
+
         if (token) {
-          const deviceId = localStorage.getItem('deviceId');
+          const deviceId = localStorage.getItem("deviceId");
           if (!deviceId) {
             // Generate deviceId if it doesn't exist
-            const newDeviceId = 'device_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('deviceId', newDeviceId);
+            const newDeviceId =
+              "device_" + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem("deviceId", newDeviceId);
           }
 
           // Register token with backend
@@ -148,29 +136,26 @@ function MyApp({ Component, pageProps, AccountContext }) {
           // }
         }
       } catch (error) {
-        console.error('Error verifying token:', error);
-      } 
+        console.error("Error verifying token:", error);
+      }
     };
     let local_fcm_token = localStorage.getItem("fcmToken");
-    if (!local_fcm_token){
-         verifyToken();}
-  }, );
-
-
+    if (!local_fcm_token) {
+      verifyToken();
+    }
+  });
 
   useEffect(() => {
     // Call our robust notification permission request function on page load.
-    requestNotificationPermission().then(permission => {
-      if (permission !== 'granted') {
+    requestNotificationPermission().then((permission) => {
+      if (permission !== "granted") {
         // Optionally, show your own UI here to instruct the user to enable notifications manually.
-        console.warn("Notifications are not enabled. Please enable notifications in your browser settings for the best experience.");
+        console.warn(
+          "Notifications are not enabled. Please enable notifications in your browser settings for the best experience."
+        );
       }
     });
-
-
-
   }, []);
-
 
   useEffect(() => {
     // Check if the Web Push API is supported
@@ -184,9 +169,8 @@ function MyApp({ Component, pageProps, AccountContext }) {
     }
   }, []);
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    console.log("loading", loading, router.pathname);
+    setLoading(false);
   }, []);
 
   Router.events.on("routeChangeStart", (url) => {
@@ -202,6 +186,7 @@ function MyApp({ Component, pageProps, AccountContext }) {
     "/User/BookAppointmentPage",
     "/User/userAppo",
   ]; // Add your public routes here
+  const SSRroutes = ["/", "/doctor"];
   const router = useRouter();
   return (
     <>
@@ -209,11 +194,10 @@ function MyApp({ Component, pageProps, AccountContext }) {
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_B_GOOGLE_CLIENT_ID}
         >
-
           <AccountProvider>
             <SocketProvider>
               <ReduxProvider store={store}>
-                {loading && (
+                {loading &&
                   // <div
                   //   style={{
                   //     width: "100vw",
@@ -230,8 +214,11 @@ function MyApp({ Component, pageProps, AccountContext }) {
                   //     alt="Loading..."
                   //   />
                   // </div>
-                  <Loader />
-                )}
+                  (SSRroutes.includes(router.pathname) ? (
+                    <Loader ssrRoute={SSRroutes} />
+                  ) : (
+                    ""
+                  ))}
 
                 <div
                   style={{
