@@ -9,6 +9,7 @@ const AccountProvider = ({ children }) => {
   const [threedotmodal, setthreedotmodal] = useState(false);
   const [msgopened, setmsgopened] = useState(false);
   const [hidebottomnav, sethidebottomnav] = useState(false);
+  const [hidebottomnav2, sethidebottomnav2] = useState(false);
   const [account, setAccount] = useState();
   const [person, setperson] = useState(null);
   const [ActiveUsers, setActiveUsers] = useState([]);
@@ -105,6 +106,8 @@ const AccountProvider = ({ children }) => {
         sethidebottomnav,
         hidenavbar,
         sethidenavbar,
+        hidebottomnav2,
+        sethidebottomnav2,
       }}
     >
       {children}

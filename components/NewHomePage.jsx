@@ -1,20 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import SearchBox from "./Carousel/Search/SearchBox";
 import styles from "../styles/Home.module.css";
 import styles2 from "../styles/booktest.module.css";
 import English from "../public/locales/en/index";
 import Hindi from "../public/locales/hi/index";
-import QuickSearch from "./QuickSearch";
-import Carousel2 from "./Carousel2";
-import HorizontalScroll from "./DemoAd";
 import { getDoc, getOnboardedDoc, showMore } from "../routes/directory";
 import DirectoryCard from "./DirectoryCard";
 import Image from "next/image";
 import { AccountContext } from "../context/AccountProvider";
 // import { Dialog, Modal } from "@mui/material";
 // import TextField from "@mui/material/TextField";
-import EmblaCarousel from "./Carousel/EmblaCarouselComp";
-import CityDropdown from "./CityDropdown";
 import LanguageModal from "./LanguageModal";
 import DoctorCard from "./DoctorCard";
 import { useRouter } from "next/router";
@@ -252,8 +246,7 @@ const NewHomePage = () => {
   const [loading, setloading] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Skin");
 
-  const { admindialog, setadmindialog, setadminmode, langmodal } =
-    useContext(AccountContext);
+  const { langmodal } = useContext(AccountContext);
   const [showload, setshowload] = useState();
   const [full, setfull] = useState(false);
   const [docs, setdocs] = useState([]);
@@ -373,8 +366,6 @@ const NewHomePage = () => {
     }
   };
 
-  const { lang } = useContext(AccountContext);
-  const router = useRouter();
   return (
     <div className={styles.mainshell}>
       {langmodal && <LanguageModal getdocs={getalldoc} />}

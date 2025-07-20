@@ -15,8 +15,14 @@ const navItems = [
 ];
 
 const BottomNav = () => {
-  const { hidebottomnav, lang, adminmode, sethidebottomnav } =
-    useContext(AccountContext);
+  const {
+    hidebottomnav,
+    lang,
+    adminmode,
+    sethidebottomnav,
+    hidebottomnav2,
+    sethidebottomnav2,
+  } = useContext(AccountContext);
   const router = useRouter();
   const activeIndex = navItems.findIndex(
     (item) => router.pathname === item.href
@@ -96,7 +102,7 @@ const BottomNav = () => {
           color: #339966;
         }
       `}</style>
-      <div style={{ display: hidebottomnav ? "none" : "block" }}>
+      <div style={{ display: hidebottomnav2 ? "none" : "block" }}>
         <div className="bottom-nav-container">
           <div className="nav-items-wrapper">
             {/* Floating Action Button (FAB) that moves to active nav */}
@@ -128,6 +134,8 @@ const BottomNav = () => {
                     height: "45px",
                     display: "flex",
                     alignItems: "center",
+                    zIndex: "102",
+
                     zIndex: "102",
 
                     justifyContent: "center",
