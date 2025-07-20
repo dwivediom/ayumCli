@@ -104,27 +104,7 @@ const ServiceSelection = ({
       );
 
       if (response.data && !response.data.error) {
-        const transformedTests = response.data.data.map((test) => ({
-          _id: test.testTemplateId,
-          name: test.testName,
-          category: test.category,
-          sampleRequirements:
-            typeof test.sampleRequirements === "string"
-              ? test.sampleRequirements
-              : `${test.sampleRequirements.sampleType} (${test.sampleRequirements.volume}) - ${test.sampleRequirements.specialInstructions}`,
-          labs: test.offeredBy
-            ? test.offeredBy.map((lab) => ({
-                labId: lab.labId,
-                labName: lab.labName,
-                price: lab.price,
-                turnaroundTime: lab.turnaroundTime,
-                additionalInfo: lab.additionalInfo,
-                homeCollectionAvailable: lab.homeCollectionAvailable,
-              }))
-            : [],
-        }));
-
-        setTests(transformedTests);
+        setTests(response.data.data);
         setPagination({
           total: response.data.pagination.total,
           page: response.data.pagination.page,
@@ -261,7 +241,7 @@ const ServiceSelection = ({
           <div className={styles.testDetailRow}>
             <span className={styles.testDetailLabel}>Contains</span>
             <span className={styles.testDetailValue}>
-              {testDetails.testCount} tests
+              {test?.testIds?.length} tests
             </span>
             <i
               className="pi pi-chevron-down"
@@ -271,7 +251,7 @@ const ServiceSelection = ({
           <div className={styles.testDetailRow}>
             <span className={styles.testDetailLabel}>Report</span>
             <span className={styles.testDetailValue}>
-              within {testDetails.reportTime}
+              within {test?.reportTime}
             </span>
           </div>
         </div>
