@@ -21,7 +21,9 @@ const NewCheckoutPageLab = (props) => {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
+    gender: "",
     phone: "",
+    email: "",
     date: null,
     time: "10:00 AM",
     homeCollection: true,
@@ -135,11 +137,11 @@ const NewCheckoutPageLab = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.age || !formData.phone) {
+    if (!formData.name || !formData.age || !formData.gender || !formData.phone) {
       toast.current.show({
         severity: "warn",
         summary: "Warning",
-        detail: "Please fill all required fields",
+        detail: "Please fill all required fields (Name, Age, Gender, Phone)",
         life: 3000,
       });
       return;
@@ -174,16 +176,16 @@ const NewCheckoutPageLab = (props) => {
     // Prepare the booking request body according to the API specification
     const bookingDetails = {
       labId: labId,
-      tests: selectedTests.map((test) => ({
-        name: test.name,
-        templateId: test._id,
-        testId: test._id,
-      })),
-      homeCollection: formData.homeCollection,
+      packageIds: selectedTests.map((test) => test._id),
+      homeCollection: {
+        required: formData.homeCollection
+      },
       patientDetails: {
         name: formData.name,
         age: formData.age,
+        gender: formData.gender || "male",
         phone: formData.phone,
+        email: formData.email || "",
       },
     };
 
@@ -364,11 +366,38 @@ const NewCheckoutPageLab = (props) => {
                 />
               </div>
               <div className={styles.formField}>
+                <label className={styles.fieldLabel}>Gender *</label>
+                <Dropdown
+                  value={formData.gender}
+                  options={[
+                    { label: "Male", value: "male" },
+                    { label: "Female", value: "female" },
+                    { label: "Other", value: "other" }
+                  ]}
+                  onChange={(e) => handleInputChange("gender", e.value)}
+                  placeholder="Select gender"
+                  className={styles.inputField}
+                />
+              </div>
+            </div>
+
+            <div className={styles.formRow}>
+              <div className={styles.formField}>
                 <label className={styles.fieldLabel}>Phone *</label>
                 <InputText
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   placeholder="Phone number"
+                  className={styles.inputField}
+                />
+              </div>
+              <div className={styles.formField}>
+                <label className={styles.fieldLabel}>Email</label>
+                <InputText
+                  value={formData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  placeholder="Email address"
+                  type="email"
                   className={styles.inputField}
                 />
               </div>

@@ -17,7 +17,9 @@ const BookingForm = ({ selectedLab, selectedTests, onBookingComplete, loading })
   const [formData, setFormData] = useState({
     name: '',
     age: null,
+    gender: 'male',
     phone: '',
+    email: '',
     homeCollection: false,
     date: null,
     time: null
@@ -151,11 +153,11 @@ const BookingForm = ({ selectedLab, selectedTests, onBookingComplete, loading })
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.age || !formData.phone) {
+    if (!formData.name || !formData.age || !formData.gender || !formData.phone) {
       toast.current.show({
         severity: 'warn',
         summary: 'Warning',
-        detail: 'Please fill all required fields',
+        detail: 'Please fill all required fields (Name, Age, Gender, Phone)',
         life: 3000
       });
       return;
@@ -201,16 +203,16 @@ const BookingForm = ({ selectedLab, selectedTests, onBookingComplete, loading })
     // Prepare the booking request body according to the API specification
     const bookingDetails = {
       labId: labId,
-      tests: selectedTests.map(test => ({
-        name: test.testName,
-        templateId: test.testTemplateId,
-        testId: test.testTemplateId // Using templateId as testId if not available
-      })),
-      homeCollection: formData.homeCollection,
+      packageIds: selectedTests.map(test => test.testTemplateId),
+      homeCollection: {
+        required: formData.homeCollection
+      },
       patientDetails: {
         name: formData.name,
         age: formData.age,
-        phone: formData.phone
+        gender: formData.gender || "male",
+        phone: formData.phone,
+        email: formData.email || ""
       }
     };
 
@@ -334,11 +336,39 @@ const BookingForm = ({ selectedLab, selectedTests, onBookingComplete, loading })
           </div>
 
           <div className={styles.formField}>
+            <label>Gender *</label>
+            <Dropdown
+              name="gender"
+              value={formData.gender}
+              options={[
+                { label: "Male", value: "male" },
+                { label: "Female", value: "female" },
+                { label: "Other", value: "other" }
+              ]}
+              onChange={(e) => setFormData(prev => ({ ...prev, gender: e.value }))}
+              placeholder="Select gender"
+              className="w-full"
+            />
+          </div>
+
+          <div className={styles.formField}>
             <label>Phone Number *</label>
             <InputText
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
+              className="w-full"
+            />
+          </div>
+
+          <div className={styles.formField}>
+            <label>Email</label>
+            <InputText
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              type="email"
+              placeholder="Enter email address"
               className="w-full"
             />
           </div>
