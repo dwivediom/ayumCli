@@ -113,7 +113,7 @@ const HeroSection = () => {
           boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
           border: "1px solid #e9ecef",
           height: "175px",
-          backgroundImage: "url('/labbanner4.jpeg')",
+          backgroundImage: "url('/labbanner3.jpeg')",
           backgroundSize: "cover", // Keeps full image visible
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
