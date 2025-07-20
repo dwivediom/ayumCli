@@ -176,33 +176,33 @@ const ServiceSelection = ({
     onTestsSelected(selectedTests, city);
   };
 
-  const { hidebottomnav, sethidebottomnav } = useContext(AccountContext);
+  const { hidebottomnav2, sethidebottomnav2 } = useContext(AccountContext);
   useEffect(() => {
-    sethidebottomnav(true);
+    sethidebottomnav2(true);
   }, []);
 
   const getTestIcon = (testName) => {
     // Determine icon based on test name or category
-    const name = testName.toLowerCase();
-    if (name.includes("cbc") || name.includes("blood"))
+    const name = testName?.toLowerCase();
+    if (name?.includes("cbc") || name?.includes("blood"))
       return "/labicons/blood.png";
-    if (name.includes("urine")) return "/labicons/urine.png";
-    if (name.includes("package")) return "/labicons/all.png";
-    if (name.includes("dengue") || name.includes("fever"))
+    if (name?.includes("urine")) return "/labicons/urine.png";
+    if (name?.includes("package")) return "/labicons/all.png";
+    if (name?.includes("dengue") || name?.includes("fever"))
       return "/labicons/blood.png";
     return "/labicons/blood.png"; // default
   };
 
   const getTestDetails = (test) => {
     // Generate test details based on test name
-    const name = test.name.toLowerCase();
-    if (name.includes("cbc")) {
+    const name = test?.name?.toLowerCase();
+    if (name?.includes("cbc")) {
       return { testCount: 21, reportTime: "18 hours" };
-    } else if (name.includes("urine")) {
+    } else if (name?.includes("urine")) {
       return { testCount: 19, reportTime: "18 hours" };
-    } else if (name.includes("dengue")) {
+    } else if (name?.includes("dengue")) {
       return { testCount: 1, reportTime: "18 hours" };
-    } else if (name.includes("fever package")) {
+    } else if (name?.includes("fever package")) {
       return { testCount: 49, reportTime: "18 hours", isPackage: true };
     }
     return { testCount: 1, reportTime: "18 hours" };
@@ -228,9 +228,19 @@ const ServiceSelection = ({
       <div className={styles.newTestCard}>
         {/* Icon and Test Name */}
         <div className={styles.testHeader}>
-          <div className={styles.testIcon}>
-            <img src={getTestIcon(test.name)} alt={test.name} />
-          </div>
+          <img
+            src={getTestIcon(test.name)}
+            alt={test.name}
+            style={{
+              width: "30px",
+              height: "30px",
+              objectFit: "contain",
+              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+              borderRadius: "5px",
+              padding: "5px",
+              backgroundColor: "#fff",
+            }}
+          />
           <div className={styles.testInfo}>
             <h3 className={styles.testName}>{test.name}</h3>
           </div>
@@ -251,7 +261,7 @@ const ServiceSelection = ({
           <div className={styles.testDetailRow}>
             <span className={styles.testDetailLabel}>Report</span>
             <span className={styles.testDetailValue}>
-              within {test?.reportTime}
+              within {test?.turnaroundTime}
             </span>
           </div>
         </div>
@@ -260,14 +270,19 @@ const ServiceSelection = ({
         <div className={styles.cardFooter}>
           <div className={styles.pricingSection}>
             <div className={styles.currentPrice}>
-              ₹{bestLab ? bestLab.price : "N/A"}
+              ₹{test?.sellingPrice ? test?.sellingPrice : "N/A"}
             </div>
-            {discount > 0 && (
-              <div className={styles.priceInfo}>
-                <span className={styles.originalPrice}>₹{originalPrice}</span>
-                <span className={styles.discount}>{discount}% off</span>
-              </div>
-            )}
+
+            <div className={styles.priceInfo}>
+              <span className={styles.originalPrice}>₹{test.price}</span>
+              <span className={styles.discount}>
+                {(
+                  ((test.price - test.sellingPrice) / test.price) *
+                  100
+                ).toFixed(0)}
+                % off
+              </span>
+            </div>
           </div>
           <Button
             label="BOOK"
