@@ -12,6 +12,7 @@ import ServiceSelection from "../../components/LabBooking/ServiceSelection";
 import LabList from "../../components/LabBooking/LabList";
 import BookingForm from "../../components/LabBooking/BookingForm";
 import styles from "../../components/LabBooking/styles.module.css";
+import NewCheckoutPageLab from "../../components/LabBooking/NewCheckoutPageLab";
 
 const LabBookingPage = () => {
   const router = useRouter();
@@ -24,9 +25,16 @@ const LabBookingPage = () => {
 
   // Get base URL from environment variable
   const baseUrl = process.env.NEXT_PUBLIC_B_PORT || "http://localhost:5001";
+  useEffect(() => {
+    const selectedTests = localStorage.getItem("selectedTests");
+    if (selectedTests) {
+      setSelectedTests(JSON.parse(selectedTests));
+    }
+  }, []);
 
   const handleTestSelection = (tests, selectedCity) => {
     setSelectedTests(tests);
+    localStorage.setItem("selectedTests", JSON.stringify(tests));
     setCity(selectedCity);
     setStep(2);
   };
@@ -90,24 +98,29 @@ const LabBookingPage = () => {
   return (
     <div className={styles.container}>
       <Toast ref={toast} />
-      {step === 1 && <ServiceSelection onTestsSelected={handleTestSelection} />}
-
+      {step === 1 && (
+        <ServiceSelection
+          onTestsSelected={handleTestSelection}
+          selectedTests={selectedTests}
+          setSelectedTests={setSelectedTests}
+        />
+      )}
       {step === 2 && (
-        <LabList
-          selectedTests={selectedTests}
-          city={city}
-          onLabSelected={handleLabSelection}
-        />
+        <>
+          <NewCheckoutPageLab
+            selectedLab={selectedLab}
+            selectedTests={selectedTests}
+            onBookingComplete={handleBookingComplete}
+            onBack={() => setStep(1)}
+          />
+          {/* <LabList
+              selectedTests={selectedTests}
+              city={city}
+              onLabSelected={handleLabSelection}
+            /> */}
+        </>
       )}
-
-      {step === 3 && (
-        <BookingForm
-          selectedLab={selectedLab}
-          selectedTests={selectedTests}
-          onBookingComplete={handleBookingComplete}
-          loading={loading}
-        />
-      )}
+      =
     </div>
   );
 };

@@ -29,9 +29,8 @@ const categories = [
   { label: "Gynae" },
   // { label: "Brain" },
   { label: "Liver" },
-  { label: "Kidney" },
+  { label: "Stomach" },
   { label: "More", icon: "+" },
-  // { label: "Stomach" },
 ];
 
 const HeroSection = () => {
@@ -265,7 +264,11 @@ const NewHomePage = () => {
   const [onboardeddocs, setonboardeddocs] = useState([]);
   async function getalldoc() {
     setloading(true);
-    const gotdata = await getDoc(localStorage.getItem("city"), "home");
+    const gotdata = await getDoc(
+      localStorage.getItem("city"),
+      "home",
+      activeCategory === "More" ? "" : activeCategory
+    );
     setdocs(gotdata.data);
     const onboarddoc = await getOnboardedDoc();
     console.log("onboarddocmapvalue");
@@ -276,7 +279,8 @@ const NewHomePage = () => {
     if (!langmodal) {
       getalldoc();
     }
-  }, [langmodal]);
+  }, [langmodal, activeCategory]);
+
   const ShowMoreDoc = async () => {
     setshowload(true);
     const data = await showMore();
@@ -490,29 +494,7 @@ const NewHomePage = () => {
             />
           </div>
         ) : (
-          !docs?.length && (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    padding: "1rem",
-                    marginTop: "10px",
-                    borderRadius: "36px",
-                  }}
-                  className={`${styles2.submitbtn} shadow-lg`}
-                  onClick={() => handleClick()}
-                >
-                  Request to Add this Doctor
-                </div>
-              </div>
-            </>
-          )
+          <></>
         )}
         {loading ? (
           <div
@@ -559,6 +541,8 @@ const NewHomePage = () => {
                 boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
                 border: "1px solid #e9ecef",
                 marginLeft: "-5px",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               {categories.map((cat) => (
@@ -612,8 +596,8 @@ const NewHomePage = () => {
                 </button>
               ))}
             </div>
-            {docs.length > 0 &&
-              docs.map((item) => {
+            {docs?.length > 0 &&
+              docs?.map((item) => {
                 return <DirectoryCard key={item._id} item={item && item} />;
               })}
             <div
@@ -625,6 +609,7 @@ const NewHomePage = () => {
               }}
             >
               {onboardeddocs?.length > 0 &&
+                activeCategory === "More" &&
                 onboardeddocs?.map((item) => {
                   return (
                     <DoctorCard
@@ -646,6 +631,29 @@ const NewHomePage = () => {
           <></>
         )}
       </div>
+      {!docs?.length && activeCategory === "More" && (
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                padding: "1rem",
+                marginTop: "10px",
+                borderRadius: "36px",
+              }}
+              className={`${styles2.submitbtn} shadow-lg`}
+              onClick={() => handleClick()}
+            >
+              Request to Add this Doctor
+            </div>
+          </div>
+        </>
+      )}
       <div className="pb-20 ">
         {full ? (
           <div

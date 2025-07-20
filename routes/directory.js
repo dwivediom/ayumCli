@@ -3,10 +3,10 @@ import axios from "axios";
 const key = process.env.NEXT_PUBLIC_S_KEY;
 const host = process.env.NEXT_PUBLIC_B_PORT;
 
-export const getDoc = async (city, pagename) => {
+export const getDoc = async (city, pagename, specialist) => {
   try {
     const newdata = await axios({
-      url: `${host}/api/docdirectory/getall?city=${city}&page=${pagename}`,
+      url: `${host}/api/docdirectory/getall?city=${city}&page=${pagename}&specialist=${specialist}`,
       method: "get",
     });
 

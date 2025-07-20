@@ -16,14 +16,18 @@ import {
 } from "../../config/api/labApi";
 import { AccountContext } from "../../context/AccountProvider";
 
-const ServiceSelection = ({ onTestsSelected }) => {
+const ServiceSelection = ({
+  onTestsSelected,
+  selectedTests,
+  setSelectedTests,
+}) => {
   const toast = useRef(null);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchText, setSearchText] = useState("");
   const [city, setCity] = useState("Rewa");
   const [tests, setTests] = useState([]);
-  const [selectedTests, setSelectedTests] = useState([]);
+  // const [selectedTests, setSelectedTests] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     total: 0,
@@ -46,7 +50,7 @@ const ServiceSelection = ({ onTestsSelected }) => {
   // Filter options
   const filterOptions = [
     { id: "sort", label: "Sort By", icon: "pi pi-sort" },
-    { id: "filters", label: "All filters", icon: "pi pi-filter" },
+    // { id: "filters", label: "All filters", icon: "pi pi-filter" },
     { id: "sameDay", label: "Same day report", icon: "pi pi-clock" },
   ];
 
@@ -92,23 +96,9 @@ const ServiceSelection = ({ onTestsSelected }) => {
     try {
       setLoading(true);
 
-      const params = {
-        city: city,
-        page: pagination.page,
-        limit: 10,
-      };
-
-      if (selectedCategory && selectedCategory !== "all") {
-        params.category = selectedCategory;
-      }
-      if (searchText) {
-        params.search = searchText;
-      }
-
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/lab/user/tests/all-offered`,
+        `${process.env.NEXT_PUBLIC_B_PORT}/api/lab/user/tests/all-offered?city=${city}&searchText=${searchText}&category=${selectedCategory}&page=${pagination.page}&limit=10`,
         {
-          params,
           headers: getAuthHeaders(),
         }
       );
@@ -301,11 +291,12 @@ const ServiceSelection = ({ onTestsSelected }) => {
           </div>
           <Button
             label="BOOK"
-            className={styles.bookButton}
+            // className={styles.bookButton}
             onClick={(e) => {
               e.stopPropagation();
               handleTestSelection(test);
             }}
+            outlined
           />
         </div>
 
@@ -417,12 +408,30 @@ const ServiceSelection = ({ onTestsSelected }) => {
           style={{
             width: "100%",
             padding: "1rem 0.5rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
           className={styles.proceedContent}
         >
-          {/* <div className={styles.selectedCount}>
-            {selectedTests.length} Tests Selected
-          </div> */}
+          <div
+            className={styles.selectedCount}
+            style={{
+              fontSize: "1rem",
+              fontWeight: "600",
+              border: "1px solid #00b9af",
+              color: "#00b9af",
+              padding: "0.5rem 1rem",
+              borderRadius: "0.5rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
+            }}
+          >
+            <i className="pi pi-check"></i>
+            {selectedTests.length}
+          </div>
           <Button
             label={`Book ${selectedTests.length > 1 ? "Tests" : "Test"}`}
             icon="pi pi-arrow-right"
@@ -431,6 +440,7 @@ const ServiceSelection = ({ onTestsSelected }) => {
               marginTop: "-0.3rem",
               width: "15rem",
               marginRight: "0.5rem",
+              backgroundColor: "#00b9af",
             }}
             onClick={handleProceed}
             disabled={selectedTests.length === 0}
