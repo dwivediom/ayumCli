@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { TabView, TabPanel } from 'primereact/tabview';
-import { Button } from 'primereact/button';
-import { useRouter } from 'next/router';
-import BookingList from '../../components/LabBooking/BookingList';
-import styles from '../../components/LabBooking/styles.module.css';
+import React, { useState } from "react";
+import { TabView, TabPanel } from "primereact/tabview";
+import { Button } from "primereact/button";
+import { useRouter } from "next/router";
+import BookingList from "../../components/LabBooking/BookingList";
+import styles from "../../components/LabBooking/styles.module.css";
 
 const LabBookingsPage = () => {
   const router = useRouter();
@@ -11,31 +11,43 @@ const LabBookingsPage = () => {
 
   const handleTabChange = (e) => {
     setActiveTabIndex(e.index);
-    
+
     // If user clicks on "Create Booking" tab, redirect to lab page
     if (e.index === 1) {
-      router.push('/lab');
+      router.push("/lab");
     }
   };
 
   return (
     <div className={styles.bookingListContainer}>
-      <div className={styles.pageHeader}>
-        <h1>Lab Bookings</h1>
-        <Button 
-          label="Create New Booking" 
-          icon="pi pi-plus" 
-          onClick={() => router.push('/lab')}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1rem",
+          padding: "1rem",
+          backgroundColor: "#f0f0f0",
+          borderRadius: "10px",
+          marginBottom: "1rem",
+        }}
+      >
+        {/* <h2>Lab Bookings</h2> */}
+        <Button
+          label="Create New Booking"
+          icon="pi pi-plus"
+          onClick={() => router.push("/lab")}
           className="p-button-primary"
         />
       </div>
-      
-      <TabView activeIndex={activeTabIndex} onTabChange={handleTabChange}>
-        <TabPanel header="My Bookings">
-          <BookingList />
-        </TabPanel>
-        
-        <TabPanel header="Create Booking">
+
+      {/* <TabView activeIndex={activeTabIndex} onTabChange={handleTabChange}> */}
+      {/* <TabPanel header="My Bookings"> */}
+      <BookingList />
+      {/* </TabPanel> */}
+
+      {/* <TabPanel header="Create Booking">
           <div className={styles.createBookingRedirect}>
             <p>To create a new booking, please go to the lab services page.</p>
             <Button 
@@ -45,10 +57,10 @@ const LabBookingsPage = () => {
               className="p-button-primary"
             />
           </div>
-        </TabPanel>
-      </TabView>
+        </TabPanel> */}
+      {/* </TabView> */}
     </div>
   );
 };
 
-export default LabBookingsPage; 
+export default LabBookingsPage;

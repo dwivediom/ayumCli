@@ -14,6 +14,8 @@ import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { ProgressSpinner } from "primereact/progressspinner";
 import styles from "./styles.module.css";
+import AddressSelector from "../medical/AddressSelector";
+import PrescriptionSelector from "../medical/PrescriptionSelector";
 
 const NewCheckoutPageLab = (props) => {
   const { selectedLab, selectedTests, onBookingComplete, onBack } = props;
@@ -29,6 +31,9 @@ const NewCheckoutPageLab = (props) => {
     homeCollection: true,
   });
 
+  const [selectedAddress, setSelectedAddress] = useState(null);
+
+  const [selectedPrescription, setSelectedPrescription] = useState(null);
   const [addressData, setAddressData] = useState({
     street: "",
     houseNumber: "",
@@ -85,13 +90,12 @@ const NewCheckoutPageLab = (props) => {
   // Calculate totals based on ServiceSelection.js data structure
   const calculateSubtotal = () => {
     return selectedTests.reduce((total, test) => {
-      const bestLab = test.labs && test.labs.length > 0 ? test.labs[0] : null;
-      return total + (bestLab?.price || 0);
+      return total + (test?.sellingPrice || 0);
     }, 0);
   };
 
   const calculateHomeCollectionCharge = () => {
-    return formData.homeCollection ? 200 : 0; // ₹200 for home collection
+    return formData.homeCollection ? 0 : 0; // ₹200 for home collection
   };
 
   const calculateTotal = () => {
@@ -134,10 +138,28 @@ const NewCheckoutPageLab = (props) => {
     return "/labicons/blood.png";
   };
 
+  useEffect(() => {
+    if (selectedAddress) {
+      setFormData({
+        name: selectedAddress.name,
+        phone: selectedAddress.phone,
+        address: selectedAddress.address,
+        city: selectedAddress.city,
+        gender: selectedAddress.gender,
+        age: selectedAddress.age,
+      });
+    }
+  }, [selectedAddress]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!formData.name || !formData.age || !formData.gender || !formData.phone) {
+    console.log(formData, selectedAddress);
+    if (
+      !formData.name ||
+      !formData.age ||
+      !formData.gender ||
+      !formData.phone
+    ) {
       toast.current.show({
         severity: "warn",
         summary: "Warning",
@@ -178,7 +200,7 @@ const NewCheckoutPageLab = (props) => {
       labId: labId,
       packageIds: selectedTests.map((test) => test._id),
       homeCollection: {
-        required: formData.homeCollection
+        required: formData.homeCollection,
       },
       patientDetails: {
         name: formData.name,
@@ -187,6 +209,7 @@ const NewCheckoutPageLab = (props) => {
         phone: formData.phone,
         email: formData.email || "",
       },
+      prescription: selectedPrescription,
     };
 
     // Add preferred slot if date is selected
@@ -305,38 +328,48 @@ const NewCheckoutPageLab = (props) => {
 
       <div className={styles.checkoutContainer}>
         {/* Selected Tests */}
-        <div className={styles.testsCard} style={{ height: "fit-content" }}>
-          <div className={styles.cardHeader}>
-            <i className="pi pi-list"></i>
-            <h3>Selected Tests ({selectedTests?.length || 0})</h3>
-          </div>
-
-          <div className={styles.testsList}>
-            {selectedTests?.map((test, index) => {
-              const bestLab =
-                test.labs && test.labs.length > 0 ? test.labs[0] : null;
-              return (
-                <div key={index} className={styles.testItem}>
-                  <div className={styles.testIcon}>
-                    <img src={getTestIcon(test.name)} alt={test.name} />
-                  </div>
-                  <div className={styles.testInfo}>
-                    <h4 className={styles.testName}>{test.name}</h4>
-                    <p className={styles.testCategory}>
-                      {test.category || "General"}
-                    </p>
-                  </div>
-                  <div className={styles.testPrice}>
-                    <span className={styles.price}>₹{bestLab?.price || 0}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+        <div className={styles.cardHeader}>
+          <i className="pi pi-list"></i>
+          <h3>Selected Tests ({selectedTests?.length || 0})</h3>
         </div>
+        {selectedTests?.map((test, index) => {
+          return (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                backgroundColor: "#fff",
+                padding: "10px",
+                gap: "5px",
+                borderRadius: "5px",
+                boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+                margin: "5px",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    color: "#000",
+                  }}
+                >
+                  {test.name.charAt(0).toUpperCase() + test.name.slice(1)}
+                </div>
+                <div style={{ fontSize: "0.8rem", color: "#666" }}>
+                  {test.category || "General"}
+                </div>
+              </div>
+
+              <div style={{ fontSize: "1rem", fontWeight: "bold" }}>
+                ₹{test.sellingPrice || 0}
+              </div>
+            </div>
+          );
+        })}
 
         {/* Patient Details Form */}
-        <div className={styles.formCard}>
+        {/* <div className={styles.formCard}>
           <div className={styles.cardHeader}>
             <i className="pi pi-user"></i>
             <h3>Patient Details</h3>
@@ -403,8 +436,36 @@ const NewCheckoutPageLab = (props) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
+        <div
+          style={{
+            width: "fit-content",
+            padding: "2px 10px",
+
+            borderRadius: "24px",
+            backgroundColor: "rgba(112, 248, 241, 0.1)",
+            color: "rgb(0, 189, 180)",
+            border: "1px solid rgb(8, 171, 163)",
+            margin: "10px auto",
+          }}
+        >
+          <i className="pi pi-check-circle"></i> Free Home Collection
+        </div>
+        <div
+          style={{
+            width: "100%",
+            margin: "10px auto",
+            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+            padding: "10px",
+            borderRadius: "5px",
+          }}
+        >
+          <PrescriptionSelector
+            selectedPrescription={selectedPrescription}
+            setSelectedPrescription={setSelectedPrescription}
+          />
+        </div>
         {/* Date & Time Selection */}
         <div className={styles.formCard}>
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
@@ -442,94 +503,6 @@ const NewCheckoutPageLab = (props) => {
             </div> */}
           </div>
         </div>
-
-        {/* Home Collection Address */}
-        {formData.homeCollection && (
-          <div className={styles.formCard}>
-            <div className={styles.cardHeader}>
-              <i className="pi pi-map-marker"></i>
-              <h3>Collection Address</h3>
-            </div>
-
-            <div className={styles.formGrid}>
-              <div className={styles.formRow}>
-                {/* <div className={styles.formField}>
-                  <label className={styles.fieldLabel}>House/Flat No.</label>
-                  <InputText
-                    value={addressData.houseNumber}
-                    onChange={(e) =>
-                      handleAddressChange("houseNumber", e.target.value)
-                    }
-                    placeholder="House/Flat No."
-                    className={styles.inputField}
-                  />
-                </div> */}
-                <div className={styles.formField}>
-                  <label className={styles.fieldLabel}>Street *</label>
-                  <InputText
-                    value={addressData.street}
-                    onChange={(e) =>
-                      handleAddressChange("street", e.target.value)
-                    }
-                    placeholder="Street address"
-                    className={styles.inputField}
-                  />
-                </div>
-              </div>
-
-              {/* <div className={styles.formField}>
-                <label className={styles.fieldLabel}>Area/Locality</label>
-                <InputText
-                  value={addressData.suburb}
-                  onChange={(e) =>
-                    handleAddressChange("suburb", e.target.value)
-                  }
-                  placeholder="Area/Locality"
-                  className={styles.inputField}
-                />
-              </div> */}
-
-              <div className={styles.formRow}>
-                <div className={styles.formField}>
-                  <label className={styles.fieldLabel}>City *</label>
-                  <InputText
-                    value={addressData.city}
-                    onChange={(e) =>
-                      handleAddressChange("city", e.target.value)
-                    }
-                    placeholder="City"
-                    className={styles.inputField}
-                  />
-                </div>
-                <div className={styles.formField}>
-                  <label className={styles.fieldLabel}>State</label>
-                  <InputText
-                    value={addressData.state}
-                    onChange={(e) =>
-                      handleAddressChange("state", e.target.value)
-                    }
-                    placeholder="State"
-                    className={styles.inputField}
-                  />
-                </div>
-              </div>
-
-              <div className={styles.formField}>
-                <label className={styles.fieldLabel}>Postal Code</label>
-                <InputText
-                  value={addressData.postalCode}
-                  onChange={(e) =>
-                    handleAddressChange("postalCode", e.target.value)
-                  }
-                  placeholder="Postal Code"
-                  className={styles.inputField}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Price Breakdown */}
         <div className={styles.priceCard}>
           <div className={styles.cardHeader}>
             <i className="pi pi-credit-card"></i>
@@ -561,10 +534,19 @@ const NewCheckoutPageLab = (props) => {
             </div>
           </div>
         </div>
+        <AddressSelector
+          selectedAddress={selectedAddress}
+          setSelectedAddress={setSelectedAddress}
+        />
+
+        {/* Home Collection Address */}
+
+        {/* Price Breakdown */}
 
         {/* Book Now Button */}
         <div className={styles.bookButtonSection}>
           <Button
+            style={{ width: "100%" }}
             label={
               formLoading ? (
                 <div className={styles.loadingContent}>
@@ -579,7 +561,16 @@ const NewCheckoutPageLab = (props) => {
               )
             }
             onClick={handleSubmit}
-            disabled={formLoading}
+            disabled={
+              formLoading ||
+              !selectedTests.length ||
+              !formData.date ||
+              !formData.time ||
+              !formData.name ||
+              !formData.age ||
+              !formData.gender ||
+              !formData.phone
+            }
             className={styles.bookButton}
           />
         </div>

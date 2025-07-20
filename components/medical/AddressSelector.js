@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import React, { useEffect, useState, useRef } from "react";
@@ -238,7 +239,7 @@ const AddressSelector = (props) => {
 
       <Dialog
         header="Add New Address"
-        style={{ width: isMobile ? "100vw" : "500px" }}
+        style={{ width: isMobile ? "100vw" : "500px", height: "100vh" }}
         visible={showAddressForm}
         onHide={() => setShowAddressForm(false)}
         className="address-dialog"
@@ -248,6 +249,7 @@ const AddressSelector = (props) => {
             <InputText
               value={newAddress.name}
               onChange={handleAddressChange}
+              style={{ fontSize: "1rem", width: "100%" }}
               placeholder="Full Name"
               name="name"
               className="p-inputtext-lg"
@@ -257,8 +259,38 @@ const AddressSelector = (props) => {
             <InputText
               value={newAddress.phone}
               onChange={handleAddressChange}
+              style={{ fontSize: "1rem", width: "100%" }}
               placeholder="Phone Number"
               name="phone"
+              className="p-inputtext-lg"
+            />
+          </div>
+          <div className="form-row">
+            <Dropdown
+              value={newAddress.gender}
+              style={{ fontSize: "1rem", width: "100%" }}
+              options={[
+                { name: "Male", value: "male" },
+                { name: "Female", value: "female" },
+                { name: "Other", value: "other" },
+              ]}
+              onChange={(e) => {
+                setNewAddress({ ...newAddress, gender: e.value });
+              }}
+              placeholder="Gender"
+              name="name"
+              optionLabel="name"
+              optionValue="value"
+              className="p-inputtext-lg"
+            />
+          </div>
+          <div className="form-row">
+            <InputText
+              value={newAddress.age}
+              onChange={handleAddressChange}
+              style={{ fontSize: "1rem", width: "100%" }}
+              placeholder="Age"
+              name="age"
               className="p-inputtext-lg"
             />
           </div>
@@ -266,6 +298,7 @@ const AddressSelector = (props) => {
             <Button
               onClick={handleGetLocation}
               icon="pi pi-map-marker"
+              style={{ fontSize: "1rem", width: "100%" }}
               label={
                 isLoadingLocation
                   ? "Getting Location..."
@@ -282,6 +315,7 @@ const AddressSelector = (props) => {
               onChange={handleAddressChange}
               placeholder="Street Address"
               name="street"
+              style={{ fontSize: "1rem", width: "100%" }}
               className="p-inputtext-lg"
             />
           </div>
@@ -291,6 +325,7 @@ const AddressSelector = (props) => {
               onChange={handleAddressChange}
               placeholder="City"
               name="city"
+              style={{ fontSize: "1rem", width: "100%" }}
               className="p-inputtext-lg"
             />
           </div>
@@ -300,6 +335,7 @@ const AddressSelector = (props) => {
               onChange={handleAddressChange}
               placeholder="State"
               name="state"
+              style={{ fontSize: "1rem", width: "100%" }}
               className="p-inputtext-lg"
             />
           </div>
@@ -309,6 +345,7 @@ const AddressSelector = (props) => {
               onChange={handleAddressChange}
               placeholder="Pincode"
               name="pincode"
+              style={{ fontSize: "1rem", width: "100%" }}
               className="p-inputtext-lg"
             />
           </div>
@@ -318,6 +355,7 @@ const AddressSelector = (props) => {
               onChange={handleAddressChange}
               placeholder="Landmark (Optional)"
               name="landmark"
+              style={{ fontSize: "1rem", width: "100%" }}
               className="p-inputtext-lg"
             />
           </div>
@@ -326,6 +364,7 @@ const AddressSelector = (props) => {
               onClick={handleAddAddress}
               label="Save Address"
               icon="pi pi-check"
+              style={{ fontSize: "1rem" }}
             />
           </div>
         </div>

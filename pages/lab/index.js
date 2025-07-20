@@ -82,7 +82,7 @@ const LabBookingPage = () => {
         life: 3000,
       });
 
-      router.push("/lab/bookings");
+      window.location.href = "/lab/bookings";
     } catch (error) {
       toast.current.show({
         severity: "error",

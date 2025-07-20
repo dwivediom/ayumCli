@@ -49,9 +49,9 @@ const ServiceSelection = ({
 
   // Filter options
   const filterOptions = [
-    { id: "sort", label: "Sort By", icon: "pi pi-sort" },
+    // { id: "sort", label: "Sort By", icon: "pi pi-sort" },
     // { id: "filters", label: "All filters", icon: "pi pi-filter" },
-    { id: "sameDay", label: "Same day report", icon: "pi pi-clock" },
+    // { id: "sameDay", label: "Same day report", icon: "pi pi-clock" },
   ];
 
   useEffect(() => {
@@ -227,7 +227,15 @@ const ServiceSelection = ({
     return (
       <div className={styles.newTestCard}>
         {/* Icon and Test Name */}
-        <div className={styles.testHeader}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            // padding: "0.5rem",
+            gap: "0.5rem",
+          }}
+        >
           <img
             src={getTestIcon(test.name)}
             alt={test.name}
@@ -241,9 +249,10 @@ const ServiceSelection = ({
               backgroundColor: "#fff",
             }}
           />
-          <div className={styles.testInfo}>
-            <h3 className={styles.testName}>{test.name}</h3>
-          </div>
+
+          <h3 style={{ fontSize: "1rem" }}>
+            {test.name.charAt(0).toUpperCase() + test.name.slice(1)}
+          </h3>
         </div>
 
         {/* Test Details */}
@@ -267,7 +276,15 @@ const ServiceSelection = ({
         </div>
 
         {/* Pricing and Book Button */}
-        <div className={styles.cardFooter}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
           <div className={styles.pricingSection}>
             <div className={styles.currentPrice}>
               ₹{test?.sellingPrice ? test?.sellingPrice : "N/A"}
@@ -287,6 +304,10 @@ const ServiceSelection = ({
           <Button
             label="BOOK"
             // className={styles.bookButton}
+            style={{
+              height: "2.5rem",
+              width: "7rem",
+            }}
             onClick={(e) => {
               e.stopPropagation();
               handleTestSelection(test);
@@ -346,7 +367,7 @@ const ServiceSelection = ({
       </div>
 
       {/* Filter Chips */}
-      <div className={styles.filterSection}>
+      {/* <div className={styles.filterSection}>
         <div className={styles.filterChips}>
           {filterOptions.map((filter) => (
             <div key={filter.id} className={styles.filterChip}>
@@ -355,7 +376,7 @@ const ServiceSelection = ({
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Tests Display */}
       <div className={styles.testsSection}>
