@@ -157,19 +157,8 @@ const NewCheckoutPageLab = (props) => {
       return;
     }
 
-    // Check if labId is available
-    if (!selectedLab) {
-      toast.current.show({
-        severity: "error",
-        summary: "Lab Selection Error",
-        detail: "Please select a lab before booking",
-        life: 3000,
-      });
-      return;
-    }
-
     // Get the labId from the selected lab
-    const labId = selectedLab.labId;
+    const labId = "6877707ce00e458e6207dbb6";
 
     if (!labId) {
       console.error("Selected lab data:", selectedLab);
