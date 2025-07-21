@@ -23,8 +23,8 @@ const PharmacyList = () => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [city, setCity] = useState();
-  const [selectedPharmacy, setSelectedPharmacy] = useState(null);
-  const [showMedicineSelection, setShowMedicineSelection] = useState(false);
+  const [selectedPharmacy, setSelectedPharmacy] = useState({});
+  const [showMedicineSelection, setShowMedicineSelection] = useState(true);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [selectedPharmacyForShare, setSelectedPharmacyForShare] =
     useState(null);
@@ -50,8 +50,18 @@ const PharmacyList = () => {
   const [activeFilters, setActiveFilters] = useState([]);
 
   useEffect(() => {
+    GetAyumPharmacyParams();
     fetchPharmacies();
   }, [city]);
+
+  const GetAyumPharmacyParams = async () => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_B_PORT}/api/medical/user/ayumpartner`,
+      { headers: getAuthHeaders() }
+    );
+    const ayumPharmacy = response.data.data;
+    setSelectedPharmacy(ayumPharmacy);
+  };
 
   const fetchPharmacies = async (search = "") => {
     try {
@@ -384,8 +394,9 @@ const PharmacyList = () => {
         </>
       ) : (
         <MedicineSelection
-          pharmacyId={selectedPharmacy._id}
+          pharmacyId={selectedPharmacy?._id}
           onMedicinesSelected={handleMedicinesSelected}
+          selectedPharmacy={selectedPharmacy}
         />
       )}
     </div>

@@ -405,20 +405,25 @@ const MedicineRequests = () => {
           <div className={styles.requestInfo}>
             <div className={styles.requestNumber}>
               <i className={getOrderTypeIcon(request.orderType)}></i>
-              Order #{request.orderId}
+              Order Id - #{request.orderId}
             </div>
-            <div className={styles.orderTypeTag}>
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+              }}
+            >
               <Tag
                 value={getOrderTypeLabel(request.orderType)}
                 severity="info"
                 className={styles.orderTypeTag}
               />
+              <Tag
+                value={getStatusLabel(request.status)}
+                severity={getStatusSeverity(request.status)}
+                className={styles.requestStatus}
+              />
             </div>
-            <Tag
-              value={getStatusLabel(request.status)}
-              severity={getStatusSeverity(request.status)}
-              className={styles.requestStatus}
-            />
           </div>
           <div className={styles.requestDate}>
             <i className="pi pi-calendar"></i>
@@ -905,7 +910,7 @@ const MedicineRequests = () => {
     <div className={styles.medicineRequests}>
       <Toast ref={toast} />
 
-      <div className={styles.filtersSection}>
+      {/* <div className={styles.filtersSection}>
         <div className={styles.filterGroup}>
           <label>Status</label>
           <Dropdown
@@ -949,9 +954,10 @@ const MedicineRequests = () => {
             })
           }
         />
-      </div>
+      </div> */}
 
-      <div className={styles.searchContainer}>
+      <h3 style={{ textAlign: "center", margin: "1rem 0" }}>My Orders</h3>
+      {/* <div className={styles.searchContainer}>
         <IconField style={{ width: "100%" }} iconPosition="left">
           <InputIcon className="pi pi-search" />
           <InputText
@@ -962,7 +968,7 @@ const MedicineRequests = () => {
             style={{ width: "100%" }}
           />
         </IconField>
-      </div>
+      </div> */}
 
       {/* <DataView
         value={requests.filter(request =>

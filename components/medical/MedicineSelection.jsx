@@ -30,7 +30,7 @@ import AddressSelector from "./AddressSelector";
 import OrderConfirmation from "./OrderConfirmation";
 
 // New Compact Selection Screen Component
-const SelectionScreen = ({ onSelectOption, lang }) => {
+const SelectionScreen = ({ onSelectOption, lang, selectedPharmacy }) => {
   const selectionOptions = [
     {
       id: "prescription",
@@ -211,9 +211,14 @@ const SelectionScreen = ({ onSelectOption, lang }) => {
             margin: "10px",
           }}
         >
-          <span>Pharmacy - Samdariya Medical Store</span>
-          <span>Address - Rewa Madhya Pradesh</span>
-          <span>DL No - XXXXXXX</span>
+          <span>Pharmacy - {selectedPharmacy?.buisnessname}</span>
+          <span>
+            Address -{" "}
+            {selectedPharmacy?.city
+              ? selectedPharmacy?.city
+              : selectedPharmacy?.address}
+          </span>
+          <span>DL No - {selectedPharmacy?.licenseNo}</span>
         </div>
       </div>
 
@@ -671,6 +676,7 @@ const MedicineSelection = ({
   pharmacyId,
   onMedicinesSelected,
   showProfile = true,
+  selectedPharmacy,
 }) => {
   const router = useRouter();
   const toast = useRef(null);
@@ -805,7 +811,9 @@ const MedicineSelection = ({
   };
 
   useEffect(() => {
-    fetchMedicines();
+    if (pharmacyId) {
+      fetchMedicines();
+    }
   }, [pharmacyId]);
 
   const handleSearchChange = useCallback((e) => {
@@ -1238,8 +1246,10 @@ const MedicineSelection = ({
     }
   }, [selectionOption]);
 
+  const [orderLoading, setOrderLoading] = useState(false);
   const handleCallOrderSubmit = async () => {
     try {
+      setOrderLoading(true);
       const deliveryAddress = {
         customerName: selectedAddress?.name || "",
         street: selectedAddress?.street || "",
@@ -1317,6 +1327,7 @@ const MedicineSelection = ({
           detail: "Your call request has been created!",
           life: 3000,
         });
+        setOrderLoading(false);
       }
     } catch (error) {
       toast.current?.show({
@@ -1325,13 +1336,25 @@ const MedicineSelection = ({
         detail: "Failed to create call request",
         life: 3000,
       });
+      setOrderLoading(false);
+    } finally {
+      setOrderLoading(false);
     }
   };
 
   // Add back the handlePrescriptionOrderSubmit function
   const handlePrescriptionOrderSubmit = async () => {
-    if (!selectedPrescription) return;
+    if (!selectedPrescription) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Please select a prescription",
+        life: 3000,
+      });
+      return;
+    }
     try {
+      setOrderLoading(true);
       const deliveryAddress = {
         customerName: selectedAddress?.name || "",
         street: selectedAddress?.street || "",
@@ -1401,6 +1424,7 @@ const MedicineSelection = ({
           detail: "Your prescription order has been created!",
           life: 3000,
         });
+        setOrderLoading(false);
       }
     } catch (error) {
       toast.current?.show({
@@ -1409,9 +1433,13 @@ const MedicineSelection = ({
         detail: "Failed to create order",
         life: 3000,
       });
+      setOrderLoading(false);
+    } finally {
+      setOrderLoading(false);
     }
   };
-  const { lang, sethidebottomnav, hidebottomnav } = useContext(AccountContext);
+  const { lang, sethidebottomnav2, hidebottomnav2 } =
+    useContext(AccountContext);
 
   const [value, setValue] = useState(null);
   const items = [
@@ -1432,7 +1460,13 @@ const MedicineSelection = ({
     { name: lang == "en" ? English.Callme : Hindi.Callme, value: "call" },
   ];
   const [isMobile, setIsMobile] = useState(false);
-
+  useEffect(() => {
+    sethidebottomnav2(true);
+    return () => {
+      sethidebottomnav2(false);
+    };
+  }, []);
+  const [showcartbottomnav, setshowcartbottomnav] = useState(false);
   useEffect(() => {
     const currentCartLength = cart.length;
     const shouldHideBottomNav = currentCartLength > 0;
@@ -1440,7 +1474,7 @@ const MedicineSelection = ({
     // Only update if cart length actually changed AND bottom nav state needs to change
     if (prevCartLength.current !== currentCartLength) {
       if (shouldHideBottomNav !== prevBottomNavState.current) {
-        sethidebottomnav(shouldHideBottomNav);
+        setshowcartbottomnav(shouldHideBottomNav);
         prevBottomNavState.current = shouldHideBottomNav;
       }
       prevCartLength.current = currentCartLength;
@@ -1744,7 +1778,19 @@ const MedicineSelection = ({
         </div>
       </div>
 
-      <div className={styles.pageFooterClean}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          position: "fixed",
+          bottom: "0",
+          width: "100%",
+          background: "white",
+          padding: "10px",
+          borderTop: "1px solid #e0e0e0",
+          zIndex: "1000",
+        }}
+      >
         <Button
           label={lang == "en" ? "Place Order" : "ऑर्डर करें"}
           icon="pi pi-check-circle"
@@ -1758,6 +1804,7 @@ const MedicineSelection = ({
               handleProceed();
             }
           }}
+          loading={orderLoading}
           className={styles.submitButtonClean}
         />
       </div>
@@ -1915,6 +1962,7 @@ const MedicineSelection = ({
               <SelectionScreen
                 onSelectOption={handleSelectionOption}
                 lang={lang}
+                selectedPharmacy={selectedPharmacy}
               />
             ) : selectionOption === "prescription" ? (
               <PrescriptionOrderPage
@@ -2073,7 +2121,7 @@ const MedicineSelection = ({
 
           <div
             style={{
-              display: hidebottomnav ? "flex" : "none",
+              display: showcartbottomnav ? "flex" : "none",
               position: "fixed",
               bottom: "0",
               left: "0",
