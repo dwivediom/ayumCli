@@ -27,39 +27,125 @@ const categories = [
   { label: "More", icon: "+" },
 ];
 
-const HeroSection = () => {
+const cities = ["Rewa", "Bhopal", "Indore", "Jabalpur", "Satna"]; // Add more as needed
+
+const HeroSection = ({ city, setCity }) => {
   const router = useRouter();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Array of background images to cycle through
+  const backgroundImages = [
+    "url('/labbanner3.jpeg')",
+    "url('/ordermedicine.jpeg')",
+    "url('/labbanner2.jpeg')",
+    "url('/labbanner4.jpeg')",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+
+      setTimeout(() => {
+        setCurrentImageIndex(
+          (prevIndex) => (prevIndex + 1) % backgroundImages.length
+        );
+        setIsTransitioning(false);
+      }, 1000); // Wait 1 second before changing image
+    }, 8000); // Change image every 8 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    let mobile = window && window.matchMedia("(max-width: 550px)");
+    setIsMobile(mobile.matches);
+  }, []);
   return (
     <div
       style={{
         background: "#fff",
         borderRadius: "18px",
         padding: "1rem",
-        maxWidth: 420,
-        width: "100%",
-        marginLeft: "-2px",
-        // margin: "1rem auto 0 auto",
-        // margin: "auto",
+        maxWidth: !isMobile ? 420 : "100%",
+        minWidth: !isMobile ? "900px" : "100%",
+        margin: "0 auto",
+        marginLeft: !isMobile ? "-2px" : "0",
         boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
         border: "1px solid rgba(188, 246, 253, 0.81)",
       }}
     >
-      <div
-        style={{
-          position: "relative",
-        }}
-      >
+      <div style={{ position: "relative" }}>
         <Typewriter text="Hello. How can we care for you today?" />
         <div
           style={{
             position: "absolute",
-            bottom: 0,
-            right: 0,
-            color: "#666",
+            bottom: "5px",
+            right: "5px",
             fontWeight: 500,
+            zIndex: 10,
           }}
         >
-          <i className="pi pi-map-marker"></i>Rewa
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              background: "#e6fffa",
+              color: "#008080",
+              borderRadius: "999px",
+              padding: "0.25rem 0.9rem 0.25rem 0.7rem",
+              border: "1.5px solid #b2f5ea",
+              fontWeight: 600,
+              fontSize: "1rem",
+              cursor: "pointer",
+              boxShadow: "0 1px 4px rgba(0,128,128,0.10)",
+              position: "relative",
+              minWidth: 80,
+              userSelect: "none",
+            }}
+            onClick={() => setDropdownOpen((v) => !v)}
+          >
+            <i className="pi pi-map-marker" style={{ marginRight: 6 }} />
+            {city}
+            <span style={{ marginLeft: 8, fontSize: 14 }}>▼</span>
+            {dropdownOpen && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "110%",
+                  right: 0,
+                  background: "#fff",
+                  border: "1px solid #b2f5ea",
+                  borderRadius: "10px",
+                  boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
+                  zIndex: 100,
+                  minWidth: 120,
+                  padding: "0.3rem 0",
+                }}
+              >
+                {cities.map((c) => (
+                  <div
+                    key={c}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      cursor: "pointer",
+                      color: c === city ? "#008080" : "#333",
+                      background: c === city ? "#e6fffa" : "#fff",
+                      fontWeight: c === city ? 700 : 500,
+                    }}
+                    onClick={() => {
+                      setCity(c);
+                      localStorage.setItem("city", c);
+                      setDropdownOpen(false);
+                    }}
+                  >
+                    {c}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -94,52 +180,44 @@ const HeroSection = () => {
         />
       </div>
 
-      {/* Specialist Card */}
+      {/* Specialist Card with animated background */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          background: "linear-gradient(90deg, #f8f9fa 60%, #fff 100%)",
+          // background: "linear-gradient(90deg, #f8f9fa 60%, #fff 100%)",
           borderRadius: "12px",
           padding: "1.8rem 1.2rem",
           marginBottom: "1rem",
           boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
-          border: "1px solid #e9ecef",
           height: "175px",
-          backgroundImage: "url('/labbanner3.jpeg')",
-          backgroundSize: "cover", // Keeps full image visible
+          backgroundImage: backgroundImages[currentImageIndex],
+          backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
+          transition: "opacity 1s ease-in-out",
+          position: "relative",
+          opacity: isTransitioning ? 0 : 1,
         }}
       >
-        <div style={{ flex: 1 }}>
-          {/* <div
-            style={{
-              fontWeight: 700,
-              fontSize: "1.02rem",
-              color: "#008080",
-              marginBottom: 2,
-            }}
-          >
-            Need a skin specialist?
-          </div>
-          <div style={{ color: "#6c757d", fontSize: "0.93rem" }}>
-            Let us help.
-          </div> */}
-        </div>
-        {/* <img
-          src="https://randomuser.me/api/portraits/women/44.jpg"
-          alt="Doctor"
+        {/* Overlay for smooth transition effect */}
+        <div
           style={{
-            width: 44,
-            height: 44,
-            borderRadius: "50%",
-            objectFit: "cover",
-            marginLeft: "0.7rem",
-            border: "2px solid #fff",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: isTransitioning
+              ? "linear-gradient(90deg, rgba(248,249,250,0.3) 60%, rgba(255,255,255,0.3) 100%)"
+              : "",
+            borderRadius: "12px",
+            pointerEvents: "none",
           }}
-        /> */}
+        />
+        <div style={{ flex: 1, position: "relative", zIndex: 1 }}>
+          {/* Content can go here */}
+        </div>
       </div>
 
       {/* Action Buttons */}
@@ -245,6 +323,7 @@ const NewHomePage = () => {
   let [isMobile, setIsMobile] = useState(false);
   const [loading, setloading] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Skin");
+  const [city, setCity] = useState();
 
   const { langmodal } = useContext(AccountContext);
   const [showload, setshowload] = useState();
@@ -253,12 +332,17 @@ const NewHomePage = () => {
   useEffect(() => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
     setIsMobile(mobile.matches);
+    setCity(
+      window && localStorage.getItem("city")
+        ? localStorage.getItem("city")
+        : "Rewa"
+    );
   }, []);
   const [onboardeddocs, setonboardeddocs] = useState([]);
   async function getalldoc() {
     setloading(true);
     const gotdata = await getDoc(
-      localStorage.getItem("city"),
+      city,
       "home",
       activeCategory === "More" ? "" : activeCategory
     );
@@ -371,7 +455,7 @@ const NewHomePage = () => {
       {langmodal && <LanguageModal getdocs={getalldoc} />}
 
       {/* New Design Code Starts */}
-      <HeroSection />
+      <HeroSection city={city} setCity={setCity} />
       {/* New Design Code Ends */}
 
       {/* <SearchBox
@@ -458,6 +542,7 @@ const NewHomePage = () => {
       )}
 
       <CityDropdown getdocs={getalldoc} /> */}
+
       <div
         style={{
           width: "100%",
@@ -505,87 +590,98 @@ const NewHomePage = () => {
           </div>
         ) : docs?.length > 0 || onboardeddocs?.length > 0 ? (
           <>
-            <p
-              style={{
-                fontSize: "1.1rem",
-                fontWeight: "600",
-                marginBottom: "0.5rem",
-                marginTop: "1.5rem",
-                marginBottom: "-1rem",
-              }}
-            >
-              Find Doctors In{" "}
-              <span style={{ color: "#008080", fontWeight: "700" }}>
-                {localStorage.getItem("city")}
-              </span>
-            </p>
             <div
               style={{
                 display: "flex",
-                gap: "0.4rem",
-                marginTop: "1rem",
-                marginBottom: "-1rem",
-                flexWrap: "wrap",
-                backgroundColor: "white",
-                borderRadius: "16px",
-                padding: "0.5rem",
-                boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
-                border: "1px solid #e9ecef",
-                marginLeft: "-5px",
-                justifyContent: "center",
+                flexDirection: "column",
                 alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
               }}
             >
-              {categories.map((cat) => (
-                <button
-                  key={cat.label}
-                  onClick={() => setActiveCategory(cat.label)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    background:
-                      activeCategory === cat.label ? "#e6fffa" : "#f8f9fa",
-                    color: activeCategory === cat.label ? "#008080" : "#495057",
-                    border:
-                      activeCategory === cat.label
-                        ? "1px solid #b2f5ea"
-                        : "1px solid #e9ecef",
-                    borderRadius: "999px",
-                    padding: "0.32rem 1rem",
-                    fontWeight: 500,
-                    fontSize: "0.98rem",
-                    cursor: "pointer",
-                    boxShadow:
-                      activeCategory === cat.label
-                        ? "0 1px 4px rgba(0,128,128,0.15)"
-                        : "none",
-                    transition: "all 0.18s",
-                    minWidth: 0,
-                  }}
-                >
-                  {cat.icon && (
-                    <span
-                      style={{
-                        width: 18,
-                        height: 18,
-                        borderRadius: "50%",
-                        background: "#fff",
-                        color: "#008080",
-                        fontWeight: 700,
-                        marginRight: 5,
-                        border: "1.2px solid #008080",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: 13,
-                      }}
-                    >
-                      {cat.icon}
-                    </span>
-                  )}
-                  {cat.label}
-                </button>
-              ))}
+              <p
+                style={{
+                  fontSize: "1.1rem",
+                  fontWeight: "600",
+                  marginBottom: "0.5rem",
+                  marginTop: "1.5rem",
+                  marginBottom: "-1rem",
+                }}
+              >
+                Find Doctors In{" "}
+                <span style={{ color: "#008080", fontWeight: "700" }}>
+                  {localStorage.getItem("city")}
+                </span>
+              </p>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "0.4rem",
+                  marginTop: "1rem",
+                  marginBottom: "-1rem",
+                  flexWrap: "wrap",
+                  backgroundColor: "white",
+                  borderRadius: "16px",
+                  padding: "0.5rem",
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
+                  border: "1px solid #e9ecef",
+                  marginLeft: "-5px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {categories.map((cat) => (
+                  <button
+                    key={cat.label}
+                    onClick={() => setActiveCategory(cat.label)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      background:
+                        activeCategory === cat.label ? "#e6fffa" : "#f8f9fa",
+                      color:
+                        activeCategory === cat.label ? "#008080" : "#495057",
+                      border:
+                        activeCategory === cat.label
+                          ? "1px solid #b2f5ea"
+                          : "1px solid #e9ecef",
+                      borderRadius: "999px",
+                      padding: "0.32rem 1rem",
+                      fontWeight: 500,
+                      fontSize: "0.98rem",
+                      cursor: "pointer",
+                      boxShadow:
+                        activeCategory === cat.label
+                          ? "0 1px 4px rgba(0,128,128,0.15)"
+                          : "none",
+                      transition: "all 0.18s",
+                      minWidth: 0,
+                    }}
+                  >
+                    {cat.icon && (
+                      <span
+                        style={{
+                          width: 18,
+                          height: 18,
+                          borderRadius: "50%",
+                          background: "#fff",
+                          color: "#008080",
+                          fontWeight: 700,
+                          marginRight: 5,
+                          border: "1.2px solid #008080",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: 13,
+                        }}
+                      >
+                        {cat.icon}
+                      </span>
+                    )}
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
             </div>
             {docs?.length > 0 &&
               docs?.map((item) => {

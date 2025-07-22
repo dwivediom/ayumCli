@@ -468,3 +468,19 @@ padding-top: 1rem;
   top: 0;
   background-color: #0F172A;
 }
+
+.animatedBackground {
+  animation: backgroundFade 4s ease-in-out infinite;
+}
+
+@keyframes backgroundFade {
+  0%, 25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  75%, 100% {
+    opacity: 1;
+  }
+}

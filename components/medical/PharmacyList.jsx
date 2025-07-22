@@ -61,6 +61,7 @@ const PharmacyList = () => {
     );
     const ayumPharmacy = response.data.data;
     setSelectedPharmacy(ayumPharmacy);
+    setShowMedicineSelection(true);
   };
 
   const fetchPharmacies = async (search = "") => {
@@ -153,16 +154,18 @@ const PharmacyList = () => {
   };
 
   const itemTemplate = (pharmacy) => {
-    const phoneNumber = pharmacy.phone || "9630330030";
+    const phoneNumber = pharmacy.phone || "9425681022";
 
     return (
       <div className={styles.cleanPharmacyCard}>
         <div className={styles.cardHeader}>
-          <Chip
-            label="Verified"
-            icon="pi pi-check-circle"
-            className={styles.verifiedBadge}
-          />
+          {pharmacy.verified && (
+            <Chip
+              label="Verified"
+              icon="pi pi-check-circle"
+              className={styles.verifiedBadge}
+            />
+          )}
         </div>
 
         <div className={styles.cardBody}>
@@ -231,7 +234,10 @@ const PharmacyList = () => {
             <Button
               label={lang == "en" ? English.Select : Hindi.Select}
               icon="pi pi-check"
-              onClick={() => handlePharmacySelect(pharmacy)}
+              onClick={() => {
+                handlePharmacySelect(pharmacy);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               // className={styles.selectButton}
               style={{
                 width: "100%",
@@ -397,6 +403,7 @@ const PharmacyList = () => {
           pharmacyId={selectedPharmacy?._id}
           onMedicinesSelected={handleMedicinesSelected}
           selectedPharmacy={selectedPharmacy}
+          setShowMedicineSelection={setShowMedicineSelection}
         />
       )}
     </div>

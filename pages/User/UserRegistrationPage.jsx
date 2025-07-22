@@ -182,7 +182,7 @@ const UserRegistrationPage = () => {
           </div>
         </div>
         <Dialog
-          header="Session expired"
+          header="Session expireds"
           visible={expired}
           onHide={() => {
             setexpired(false);

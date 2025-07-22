@@ -549,10 +549,10 @@ const Checkout = () => {
         className={styles.dialog}
         maximizable
       >
-        <AddressSelector
+        {/* <AddressSelector
           selectedAddress={selectedAddress}
           setSelectedAddress={setSelectedAddress}
-        />
+        /> */}
       </Dialog>
 
       {/* Prescription Selector Dialog */}
@@ -567,6 +567,10 @@ const Checkout = () => {
         <PrescriptionSelector
           selectedPrescription={selectedPrescription}
           setSelectedPrescription={setSelectedPrescription}
+          onChange={(e) => {
+            console.log(e);
+            setSelectedPrescription(e);
+          }}
         />
       </Dialog>
 

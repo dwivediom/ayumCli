@@ -1198,32 +1198,32 @@ width: 100% !important;
   .medicineRequests {
     padding: 0.75rem;
   }
-
+  
   .filtersSection {
     grid-template-columns: 1fr;
   }
-
+  
   .requestHeader {
     flex-direction: column;
   }
-
+  
   .requestInfo {
     flex-direction: column;
     align-items: flex-start;
   }
-
+  
   .requestDate {
     align-self: flex-start;
   }
-
+  
   .requestSummary {
     grid-template-columns: 1fr;
   }
-
+  
   .cardActions {
     flex-direction: column;
   }
-
+  
   .viewDetailsButton {
     width: 100%;
     justify-content: center;
@@ -1485,34 +1485,34 @@ width: 100% !important;
     /* padding: 1rem; */
     margin: 0.5rem 0;
   }
-
+  
   .pharmacyInfo {
     flex-direction: column;
     align-items: center;
     text-align: center;
     gap: 0.75rem;
   }
-
+  
   .pharmacyAvatar {
     width: 3.5rem !important;
     height: 3.5rem !important;
   }
-
+  
   .pharmacyName {
     font-size: 1.1rem;
   }
-
+  
   .actionButtons {
     flex-direction: column;
   }
-
+  
   .actionButton, .selectButton {
     width: 100%;
     min-width: unset;
   }
-
- 
-
+  
+  
+  
   .footerInfo {
     flex-direction: column;
     gap: 0.5rem;
@@ -1524,15 +1524,15 @@ width: 100% !important;
   .premiumPharmacyCard {
     padding: 0.75rem;
   }
-
+  
   .pharmacyName {
     font-size: 1rem;
   }
-
+  
   .metaItem {
     font-size: 0.8rem;
   }
-
+  
   .actionButton, .selectButton {
     height: 2.5rem;
     font-size: 0.8rem !important;
@@ -3843,4 +3843,141 @@ width: 100% !important;
   .quantityNumber {
     width: 32px;
   }
+}
+
+.ecomCard {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0, 176, 155, 0.08);
+  padding: 1.25rem 1rem 1rem 1rem;
+  margin: 0.75rem 0.5rem;
+
+  width: 20rem;
+  align-items: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+.ecomCard:hover {
+  box-shadow: 0 6px 24px rgba(0, 176, 155, 0.16);
+  transform: translateY(-2px) scale(1.01);
+}
+.ecomImageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.ecomImageBg {
+  background: linear-gradient(135deg, #e0f7fa 60%, #fff 100%);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  min-height: 72px;
+  box-shadow: 0 2px 8px rgba(0,176,155,0.07);
+}
+.ecomImage {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+.ecomInfo {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.ecomTitleRow {
+  display: flex;
+  align-items: center;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.15rem;
+}
+.ecomName {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #00b09b;
+  letter-spacing: 0.01em;
+}
+.ecomBrandRow {
+  font-size: 0.97rem;
+  color: #888;
+  margin-bottom: 0.4rem;
+}
+.ecomBrand {
+  font-size: 0.8rem;
+  color: #1976d2;
+  font-weight: 400;
+}
+.ecomPriceRow {
+  font-size: 1.13rem;
+  font-weight: 600;
+  color: #00b09b;
+  margin-bottom: 0.5rem;
+}
+.ecomPrice {
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #00b09b;
+}
+.ecomActions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.ecomAddBtn {
+  width: 100%;
+  background: linear-gradient(90deg, #00b09b 60%, #068e7e 100%);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,176,155,0.07);
+  transition: background 0.2s;
+}
+.ecomAddBtn:hover {
+  background: linear-gradient(90deg, #1976d2 60%, #00b09b 100%);
+}
+.ecomQtyControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ecomQtyBtn {
+  background: #e0f7fa;
+  color: #00b09b;
+  border-radius: 50%;
+  border: none;
+  width: 32px;
+  height: 32px;
+  font-size: 1.1rem;
+  transition: background 0.2s;
+}
+.ecomQtyBtn:disabled {
+  opacity: 0.5;
+}
+.ecomQty {
+  font-size: 1.1rem;
+  font-weight: 600;
+  min-width: 32px;
+  text-align: center;
+  color: #1976d2;
+}
+.ecomRemoveBtn {
+  background: #fff0f0;
+  color: #d32f2f;
+  border-radius: 50%;
+  border: none;
+  width: 32px;
+  height: 32px;
+  margin-left: 0.5rem;
+  font-size: 1.1rem;
+  transition: background 0.2s;
 }

@@ -30,7 +30,12 @@ import AddressSelector from "./AddressSelector";
 import OrderConfirmation from "./OrderConfirmation";
 
 // New Compact Selection Screen Component
-const SelectionScreen = ({ onSelectOption, lang, selectedPharmacy }) => {
+const SelectionScreen = ({
+  onSelectOption,
+  lang,
+  selectedPharmacy,
+  setShowMedicineSelection,
+}) => {
   const selectionOptions = [
     {
       id: "prescription",
@@ -205,8 +210,7 @@ const SelectionScreen = ({ onSelectOption, lang, selectedPharmacy }) => {
             backgroundColor: "#f0f0f0",
             color: "rgba(37, 37, 37, 0.87)",
             borderRadius: "5px",
-            fontSize: "12px",
-            fontStyle: "italic",
+            fontSize: "14px",
             borderRadius: "5px",
             margin: "10px",
           }}
@@ -215,19 +219,45 @@ const SelectionScreen = ({ onSelectOption, lang, selectedPharmacy }) => {
           <span>
             Address -{" "}
             {selectedPharmacy?.city
-              ? selectedPharmacy?.city
-              : selectedPharmacy?.address}
+              ? selectedPharmacy?.city?.charAt(0).toUpperCase() +
+                selectedPharmacy?.city?.slice(1)
+              : selectedPharmacy?.address?.street?.toUpperCase() +
+                selectedPharmacy?.address?.street?.slice(1)}
           </span>
           <span>DL No - {selectedPharmacy?.licenseNo}</span>
         </div>
       </div>
 
       {/* Compact Footer */}
-      <div className={styles.compactFooter}>
-        <div className={styles.footerBadge}>
+      <div
+        className={styles.compactFooter}
+        onClick={() => {
+          setShowMedicineSelection(false);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
+        <div
+          style={{
+            background: "rgb(3, 171, 180)",
+            color: "white",
+            border: "1px solid rgb(3, 171, 180)",
+            borderRadius: "24px",
+            padding: "10px",
+            fontSize: "14px",
+            fontWeight: "500",
+            textAlign: "center",
+            cursor: "pointer",
+            transition: "all 0.18s",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "10px",
+          }}
+          // className={styles.footerBadge}
+        >
           <i className="pi pi-search" />
           <span>
-            {lang === "en" ? "Explore more pharmacies" : "अधिक फार्मेसी खोजें"}
+            {lang === "en" ? "Explore More pharmacies" : "अधिक फार्मेसी खोजें"}
           </span>
         </div>
       </div>
@@ -382,6 +412,13 @@ const SearchOrderPage = React.memo(
             <InputText
               value={searchTerm}
               onChange={handleSearchChange}
+              style={{
+                border: "none",
+                borderBottom: "1px solid #00b09b",
+
+                borderRadius: "10px",
+                width: "100%",
+              }}
               placeholder={
                 lang == "en"
                   ? "Search medicines, brands, or symptoms..."
@@ -460,153 +497,128 @@ const MedicineResults = React.memo(
       const isInCart = !!cartItem;
 
       return (
-        <div className={styles.medicineCard}>
-          <div className={styles.medicineContent}>
-            {/* Product Image Section */}
-            <div className={styles.medicineImage}>
+        <div
+          className={styles.ecomCard}
+          style={{
+            margin: "auto",
+          }}
+        >
+          {/* Product Image */}
+          <div className={styles.ecomImageWrapper}>
+            <div className={styles.ecomImageBg}>
               {medicine.category?.toLowerCase() === "tablet" ? (
-                <img src="/capsule.png" alt="Tablet" width="60" height="60" />
+                <img
+                  src="/capsule.png"
+                  alt="Tablet"
+                  className={styles.ecomImage}
+                />
               ) : medicine.category?.toLowerCase() === "syrup" ? (
-                <img src="/syrup.png" alt="Syrup" width="60" height="60" />
+                <img
+                  src="/syrup.png"
+                  alt="Syrup"
+                  className={styles.ecomImage}
+                />
               ) : medicine.category?.toLowerCase() === "injection" ? (
                 <img
                   src="/injection.png"
                   alt="Injection"
-                  width="60"
-                  height="60"
+                  className={styles.ecomImage}
                 />
               ) : medicine.category?.toLowerCase() === "capsule" ? (
-                <img src="/capsule.png" alt="Capsule" width="60" height="60" />
+                <img
+                  src="/capsule.png"
+                  alt="Capsule"
+                  className={styles.ecomImage}
+                />
               ) : medicine.category?.toLowerCase() === "powder" ? (
-                <img src="/powder.png" alt="Powder" width="60" height="60" />
+                <img
+                  src="/powder.png"
+                  alt="Powder"
+                  className={styles.ecomImage}
+                />
               ) : medicine.category?.toLowerCase() === "ointment" ? (
                 <img
                   src="/ointment.png"
                   alt="Ointment"
-                  width="60"
-                  height="60"
+                  className={styles.ecomImage}
                 />
               ) : (
-                <svg
-                  width="40"
-                  height="40"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="8"
-                    fill="#2ecc71"
-                    stroke="#2ecc71"
-                    strokeWidth="2"
-                  />
-                  <path d="M12 8V16" stroke="white" strokeWidth="2" />
-                  <path d="M8 12H16" stroke="white" strokeWidth="2" />
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" fill="#f0f0f0" />
+                  <path d="M12 8V16" stroke="#2ecc71" strokeWidth="2" />
+                  <path d="M8 12H16" stroke="#2ecc71" strokeWidth="2" />
                 </svg>
               )}
             </div>
+          </div>
 
-            {/* Product Info Section */}
-            <div className={styles.medicineInfo}>
-              <div className={styles.medicineHeader}>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <h3
-                    className={styles.medicineName}
-                    style={{
-                      fontWeight: "600",
-                      color: "rgba(0,0,0,0.87)",
-                    }}
-                  >
-                    {medicine.brandName || medicine.genericName}
-                  </h3>
-                  <h3
-                    className={styles.medicineName}
-                    style={{
-                      fontSize: "14px",
-                      color: "gray",
-                    }}
-                  >
-                    Brand: {medicine.genericName}
-                  </h3>
-                </div>
+          {/* Product Info */}
+          <div className={styles.ecomInfo}>
+            <div className={styles.ecomTitleRow}>
+              <span className={styles.ecomName}>
+                {medicine.brandName || medicine.genericName}
+              </span>
+              <Tag
+                value={medicine.category || "Other"}
+                style={{
+                  fontSize: "12px",
+                  borderRadius: "8px",
+                  background: "#e0f7fa",
+                  color: "#00b09b",
+                  fontWeight: 600,
+                  marginLeft: "8px",
+                  border: "none",
+                }}
+                severity="info"
+              />
+            </div>
+            <div className={styles.ecomBrandRow}>
+              <span className={styles.ecomBrand}>
+                Brand: {medicine.genericName}
+              </span>
+            </div>
+            <div className={styles.ecomPriceRow}>
+              <span className={styles.ecomPrice}>
+                ₹{medicine.price?.toFixed(2) || "N/A"}
+              </span>
+            </div>
+          </div>
 
-                <Tag
-                  value={medicine.category || "Other"}
-                  style={{
-                    padding: "5px",
-                    borderRadius: "4px",
-                    fontSize: "16px",
-                  }}
-                  severity="info"
+          {/* Action Buttons */}
+          <div className={styles.ecomActions}>
+            {isInCart ? (
+              <div className={styles.ecomQtyControls}>
+                <Button
+                  icon="pi pi-minus"
+                  className={styles.ecomQtyBtn}
+                  onClick={() =>
+                    handleQuantityChange(medicine._id, cartItem.quantity - 1)
+                  }
+                  disabled={cartItem.quantity <= 1}
+                />
+                <span className={styles.ecomQty}>{cartItem.quantity}</span>
+                <Button
+                  icon="pi pi-plus"
+                  className={styles.ecomQtyBtn}
+                  onClick={() =>
+                    handleQuantityChange(medicine._id, cartItem.quantity + 1)
+                  }
+                />
+                <Button
+                  icon="pi pi-trash"
+                  className={styles.ecomRemoveBtn}
+                  onClick={() => handleRemoveFromCart(medicine._id)}
+                  tooltip="Remove"
                 />
               </div>
-
-              {/* Action Buttons */}
-              <div className={styles.medicineActions}>
-                {isInCart ? (
-                  <div className={styles.quantityControls}>
-                    <div className={styles.quantityInput}>
-                      <Button
-                        icon="pi pi-minus"
-                        className="p-button-rounded p-button-text"
-                        onClick={() =>
-                          handleQuantityChange(
-                            medicine._id,
-                            cartItem.quantity - 1
-                          )
-                        }
-                      />
-                      <InputNumber
-                        value={cartItem.quantity}
-                        onValueChange={(e) =>
-                          handleQuantityChange(medicine._id, e.value)
-                        }
-                        showButtons={false}
-                        min={1}
-                        max={100}
-                        className={styles.quantityNumber}
-                      />
-                      <Button
-                        icon="pi pi-plus"
-                        className="p-button-rounded p-button-text"
-                        onClick={() =>
-                          handleQuantityChange(
-                            medicine._id,
-                            cartItem.quantity + 1
-                          )
-                        }
-                      />
-                    </div>
-                    <Button
-                      icon="pi pi-trash"
-                      className="p-button-rounded p-button-danger"
-                      onClick={() => handleRemoveFromCart(medicine._id)}
-                    />
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      width: "100%",
-                      justifyContent: "flex-end",
-                      padding: "5px",
-                      background: "var(--surface-50)",
-                      borderRadius: "4px",
-                    }}
-                  >
-                    <Button
-                      label={lang == "en" ? English.AddToCart : Hindi.AddToCart}
-                      icon="pi pi-shopping-cart"
-                      onClick={() => handleAddToCart(medicine)}
-                      style={{ backgroundColor: "var(--teal-600)" }}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
+            ) : (
+              <Button
+                label={lang == "en" ? English.AddToCart : Hindi.AddToCart}
+                icon="pi pi-shopping-cart"
+                className={styles.ecomAddBtn}
+                onClick={() => handleAddToCart(medicine)}
+              />
+            )}
           </div>
         </div>
       );
@@ -677,6 +689,7 @@ const MedicineSelection = ({
   onMedicinesSelected,
   showProfile = true,
   selectedPharmacy,
+  setShowMedicineSelection,
 }) => {
   const router = useRouter();
   const toast = useRef(null);
@@ -905,7 +918,16 @@ const MedicineSelection = ({
         total: item.price * item.quantity,
       }));
 
-      const subtotal = items.reduce((sum, item) => sum + item.total, 0);
+      // Calculate if any item is missing price
+
+      const subtotal = cart.reduce(
+        (sum, item) =>
+          typeof item.price === "number" && !isNaN(item.price)
+            ? sum + item.price * item.quantity
+            : sum,
+        0
+      );
+
       const deliveryCharge = 22;
       const tax = subtotal * 0.05; // 5% tax
       const total = subtotal + deliveryCharge + tax;
@@ -983,7 +1005,7 @@ const MedicineSelection = ({
 
   const checkoutDialogFooter = useMemo(
     () => (
-      <div>
+      <div style={{ display: "flex", gap: "1rem" }}>
         <Button
           label="Cancel"
           icon="pi pi-times"
@@ -991,8 +1013,8 @@ const MedicineSelection = ({
           className="p-button-text"
         />
         <Button
-          label="Submit"
-          icon="pi pi-check"
+          label="Create Order"
+          icon="pi pi-check-circle"
           onClick={handleCheckoutSubmit}
           autoFocus
         />
@@ -1011,148 +1033,119 @@ const MedicineSelection = ({
     const isInCart = !!cartItem;
 
     return (
-      <div className={styles.medicineCard}>
-        <div className={styles.medicineContent}>
-          {/* Product Image Section */}
-          <div className={styles.medicineImage}>
+      <div className={styles.ecomCard}>
+        {/* Product Image */}
+        <div className={styles.ecomImageWrapper}>
+          <div className={styles.ecomImageBg}>
             {medicine.category?.toLowerCase() === "tablet" ? (
-              <img src="/capsule.png" alt="Tablet" width="60" height="60" />
+              <img
+                src="/capsule.png"
+                alt="Tablet"
+                className={styles.ecomImage}
+              />
             ) : medicine.category?.toLowerCase() === "syrup" ? (
-              <img src="/syrup.png" alt="Syrup" width="60" height="60" />
+              <img src="/syrup.png" alt="Syrup" className={styles.ecomImage} />
             ) : medicine.category?.toLowerCase() === "injection" ? (
               <img
                 src="/injection.png"
                 alt="Injection"
-                width="60"
-                height="60"
+                className={styles.ecomImage}
               />
             ) : medicine.category?.toLowerCase() === "capsule" ? (
-              <img src="/capsule.png" alt="Capsule" width="60" height="60" />
+              <img
+                src="/capsule.png"
+                alt="Capsule"
+                className={styles.ecomImage}
+              />
             ) : medicine.category?.toLowerCase() === "powder" ? (
-              <img src="/powder.png" alt="Powder" width="60" height="60" />
+              <img
+                src="/powder.png"
+                alt="Powder"
+                className={styles.ecomImage}
+              />
             ) : medicine.category?.toLowerCase() === "ointment" ? (
-              <img src="/ointment.png" alt="Ointment" width="60" height="60" />
+              <img
+                src="/ointment.png"
+                alt="Ointment"
+                className={styles.ecomImage}
+              />
             ) : (
-              <svg
-                width="40"
-                height="40"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="8"
-                  fill="#2ecc71"
-                  stroke="#2ecc71"
-                  strokeWidth="2"
-                />
-                <path d="M12 8V16" stroke="white" strokeWidth="2" />
-                <path d="M8 12H16" stroke="white" strokeWidth="2" />
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#f0f0f0" />
+                <path d="M12 8V16" stroke="#2ecc71" strokeWidth="2" />
+                <path d="M8 12H16" stroke="#2ecc71" strokeWidth="2" />
               </svg>
             )}
           </div>
+        </div>
 
-          {/* Product Info Section */}
-          <div className={styles.medicineInfo}>
-            <div className={styles.medicineHeader}>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <h3
-                  className={styles.medicineName}
-                  style={{
-                    fontWeight: "600",
-                    color: "rgba(0,0,0,0.87)",
-                  }}
-                >
-                  {medicine.brandName || medicine.genericName}
-                </h3>
-                <h3
-                  className={styles.medicineName}
-                  style={{
-                    fontSize: "14px",
-                    color: "gray",
-                  }}
-                >
-                  Brand: {medicine.genericName}
-                </h3>
-              </div>
+        {/* Product Info */}
+        <div className={styles.ecomInfo}>
+          <div className={styles.ecomTitleRow}>
+            <span className={styles.ecomName}>
+              {medicine.brandName || medicine.genericName}
+            </span>
+            <Tag
+              value={medicine.category || "Other"}
+              style={{
+                fontSize: "12px",
+                borderRadius: "8px",
+                background: "#e0f7fa",
+                color: "#00b09b",
+                fontWeight: 600,
+                marginLeft: "8px",
+                border: "none",
+              }}
+              severity="info"
+            />
+          </div>
+          <div className={styles.ecomBrandRow}>
+            <span className={styles.ecomBrand}>
+              Brand: {medicine.genericName}
+            </span>
+          </div>
+          <div className={styles.ecomPriceRow}>
+            <span className={styles.ecomPrice}>
+              ₹{medicine.price?.toFixed(2) || "N/A"}
+            </span>
+          </div>
+        </div>
 
-              <Tag
-                value={medicine.category || "Other"}
-                style={{
-                  padding: "5px",
-                  borderRadius: "4px",
-                  fontSize: "16px",
-                }}
-                severity="info"
+        {/* Action Buttons */}
+        <div className={styles.ecomActions}>
+          {isInCart ? (
+            <div className={styles.ecomQtyControls}>
+              <Button
+                icon="pi pi-minus"
+                className={styles.ecomQtyBtn}
+                onClick={() =>
+                  handleQuantityChange(medicine._id, cartItem.quantity - 1)
+                }
+                disabled={cartItem.quantity <= 1}
+              />
+              <span className={styles.ecomQty}>{cartItem.quantity}</span>
+              <Button
+                icon="pi pi-plus"
+                className={styles.ecomQtyBtn}
+                onClick={() =>
+                  handleQuantityChange(medicine._id, cartItem.quantity + 1)
+                }
+              />
+              <Button
+                icon="pi pi-trash"
+                className={styles.ecomRemoveBtn}
+                onClick={() => handleRemoveFromCart(medicine._id)}
+                tooltip="Remove"
               />
             </div>
-
-            {/* Action Buttons */}
-            <div className={styles.medicineActions}>
-              {isInCart ? (
-                <div className={styles.quantityControls}>
-                  <div className={styles.quantityInput}>
-                    <Button
-                      icon="pi pi-minus"
-                      className="p-button-rounded p-button-text"
-                      onClick={() =>
-                        handleQuantityChange(
-                          medicine._id,
-                          cartItem.quantity - 1
-                        )
-                      }
-                    />
-                    <InputNumber
-                      value={cartItem.quantity}
-                      onValueChange={(e) =>
-                        handleQuantityChange(medicine._id, e.value)
-                      }
-                      showButtons={false}
-                      min={1}
-                      max={100}
-                      className={styles.quantityNumber}
-                    />
-                    <Button
-                      icon="pi pi-plus"
-                      className="p-button-rounded p-button-text"
-                      onClick={() =>
-                        handleQuantityChange(
-                          medicine._id,
-                          cartItem.quantity + 1
-                        )
-                      }
-                    />
-                  </div>
-                  <Button
-                    icon="pi pi-trash"
-                    className="p-button-rounded p-button-danger p-button-text"
-                    onClick={() => handleRemoveFromCart(medicine._id)}
-                  />
-                </div>
-              ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    width: "100%",
-                    justifyContent: "flex-end",
-                    padding: "5px",
-                    background: "var(--surface-50)",
-                    borderRadius: "4px",
-                  }}
-                >
-                  <Button
-                    label={lang == "en" ? English.AddToCart : Hindi.AddToCart}
-                    icon="pi pi-shopping-cart"
-                    onClick={() => handleAddToCart(medicine)}
-                    style={{ backgroundColor: "var(--teal-600)" }}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+          ) : (
+            <Button
+              label={lang == "en" ? English.AddToCart : Hindi.AddToCart}
+              icon="pi pi-shopping-cart"
+              className={styles.ecomAddBtn}
+              onClick={() => handleAddToCart(medicine)}
+            />
+          )}
         </div>
       </div>
     );
@@ -1495,6 +1488,26 @@ const MedicineSelection = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (selectionOption) {
+      window.history.pushState({ selectionOption }, "");
+    }
+
+    const onPopState = (event) => {
+      if (selectionOption) {
+        setSelectionOption(null);
+      } else {
+        router.back();
+      }
+    };
+
+    window.addEventListener("popstate", onPopState);
+
+    return () => {
+      window.removeEventListener("popstate", onPopState);
+    };
+  }, [selectionOption, router]);
+
   // Custom selection cards component
   const SelectionCards = () => {
     const cards = [
@@ -1701,6 +1714,7 @@ const MedicineSelection = ({
               value={selectedPrescription}
               onChange={(file) => {
                 setSelectedPrescription(file);
+                console.log(file, "filedata2");
                 if (file) {
                   toast.current?.show({
                     severity: "success",
@@ -1804,6 +1818,9 @@ const MedicineSelection = ({
               handleProceed();
             }
           }}
+          style={{
+            width: "15rem",
+          }}
           loading={orderLoading}
           className={styles.submitButtonClean}
         />
@@ -1865,6 +1882,7 @@ const MedicineSelection = ({
               value={selectedCallPrescription}
               onChange={(file) => {
                 setSelectedCallPrescription(file);
+                console.log(file, "filedata");
                 if (file) {
                   toast.current?.show({
                     severity: "success",
@@ -1910,13 +1928,7 @@ const MedicineSelection = ({
           label={lang == "en" ? "Request Call" : "कॉल का अनुरोध करें"}
           icon="pi pi-phone"
           onClick={handleCallOrderSubmit}
-          disabled={
-            !selectedAddress?.phone ||
-            !selectedAddress?.street ||
-            !selectedAddress?.city ||
-            !selectedAddress?.state ||
-            !selectedAddress?.pincode
-          }
+          disabled={!selectedAddress?.phone || !selectedAddress?.street}
           className={styles.submitButtonClean}
         />
       </div>
@@ -1935,6 +1947,9 @@ const MedicineSelection = ({
     setSelectedCallPrescription(null);
     setSelectedAddress(null);
   };
+  const hasMissingPrice = cart.some(
+    (item) => typeof item.price !== "number" || isNaN(item.price)
+  );
 
   return (
     <div className={styles.container}>
@@ -1963,6 +1978,7 @@ const MedicineSelection = ({
                 onSelectOption={handleSelectionOption}
                 lang={lang}
                 selectedPharmacy={selectedPharmacy}
+                setShowMedicineSelection={setShowMedicineSelection}
               />
             ) : selectionOption === "prescription" ? (
               <PrescriptionOrderPage
@@ -2010,29 +2026,86 @@ const MedicineSelection = ({
             visible={cartVisible}
             position="right"
             onHide={() => setCartVisible(false)}
-            style={{ width: "100%", maxWidth: "400px" }}
+            style={{
+              width: "100%",
+              maxWidth: "400px",
+              background: "linear-gradient(135deg, #f8fafc 0%, #e0f7fa 100%)",
+              boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.15)",
+              borderTopLeftRadius: "24px",
+              borderBottomLeftRadius: "24px",
+              padding: 0,
+            }}
             className={styles.premiumCartSidebar}
           >
-            <div className={styles.cartHeader}>
-              <h2 className={styles.cartTitle}>
+            {/* Themed Header */}
+            <div
+              style={{
+                background: "linear-gradient(90deg, #00b09b 0%, #117768 100%)",
+                borderTopLeftRadius: "24px",
+                borderTopRightRadius: "24px",
+                padding: "1.2rem 1.5rem 1rem 1.5rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                boxShadow: "0 2px 8px rgba(17,119,104,0.10)",
+              }}
+            >
+              <h2
+                style={{
+                  fontWeight: 700,
+                  fontSize: "1.5rem",
+                  color: "#fff",
+                  margin: 0,
+                  letterSpacing: "0.5px",
+                }}
+              >
                 {lang == "en" ? "Shopping Cart" : "शॉपिंग कार्ट"}
               </h2>
               <Button
                 icon="pi pi-times"
                 className="p-button-text p-button-rounded"
                 onClick={() => setCartVisible(false)}
+                style={{
+                  color: "#fff",
+                  background: "transparent",
+                  fontSize: "1.3rem",
+                }}
               />
             </div>
 
+            {/* Cart Content */}
             {cart.length === 0 ? (
-              <div className={styles.emptyCart}>
-                <div className={styles.emptyCartIcon}>
+              <div
+                style={{
+                  padding: "2.5rem 1.5rem",
+                  textAlign: "center",
+                  color: "#888",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "3rem",
+                    color: "#b2dfdb",
+                    marginBottom: "1rem",
+                  }}
+                >
                   <i className="pi pi-shopping-cart"></i>
                 </div>
-                <h3 className={styles.emptyCartTitle}>
+                <h3
+                  style={{
+                    fontWeight: 600,
+                    color: "#117768",
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   {lang == "en" ? "Your cart is empty" : "आपकी कार्ट खाली है"}
                 </h3>
-                <p className={styles.emptyCartText}>
+                <p
+                  style={{
+                    color: "#666",
+                    fontSize: "1rem",
+                  }}
+                >
                   {lang == "en"
                     ? "Add some medicines to get started"
                     : "शुरू करने के लिए कुछ दवाएं जोड़ें"}
@@ -2040,71 +2113,285 @@ const MedicineSelection = ({
               </div>
             ) : (
               <>
-                <div className={styles.cartItems}>
+                <div
+                  style={{
+                    maxHeight: "55vh",
+                    overflowY: "auto",
+                    padding: "1rem 1.5rem 0 1.5rem",
+                  }}
+                >
                   {cart.map((item) => (
-                    <div key={item._id} className={styles.cartItemCard}>
-                      <div className={styles.cartItemImage}>
-                        <img
-                          src={
-                            item.category?.toLowerCase() === "tablet"
-                              ? "/capsule.png"
-                              : item.category?.toLowerCase() === "syrup"
-                              ? "/syrup.png"
-                              : item.category?.toLowerCase() === "injection"
-                              ? "/injection.png"
-                              : "/capsule.png"
-                          }
-                          alt={item.brandName}
-                        />
-                      </div>
-                      <div className={styles.cartItemContent}>
-                        <div className={styles.cartItemInfo}>
-                          <h4 className={styles.cartItemName}>
-                            {item.brandName || item.genericName}
-                          </h4>
-                          <p className={styles.cartItemBrand}>
-                            {item.genericName}
-                          </p>
-                        </div>
-                        <div className={styles.cartItemActions}>
-                          <div className={styles.cartQuantityControls}>
-                            <Button
-                              icon="pi pi-minus"
-                              className="p-button-rounded p-button-text"
-                              onClick={() =>
-                                handleQuantityChange(
-                                  item._id,
-                                  item.quantity - 1
-                                )
-                              }
-                            />
-                            <span className={styles.cartQuantity}>
-                              {item.quantity}
-                            </span>
-                            <Button
-                              icon="pi pi-plus"
-                              className="p-button-rounded p-button-text"
-                              onClick={() =>
-                                handleQuantityChange(
-                                  item._id,
-                                  item.quantity + 1
-                                )
-                              }
-                            />
-                          </div>
-                          <Button
-                            icon="pi pi-trash"
-                            className="p-button-rounded p-button-danger p-button-text"
-                            onClick={() => handleRemoveFromCart(item._id)}
+                    <div
+                      key={item._id}
+                      style={{
+                        background: "#f8fafc",
+                        borderRadius: "16px",
+                        boxShadow: "0 2px 12px rgba(17,119,104,0.08)",
+                        marginBottom: "1.2rem",
+                        padding: "1.1rem 1rem 0.7rem 1rem",
+                        border: "1px solid #e0f2f1",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.7rem",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "1rem",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: 54,
+                            height: 54,
+                            borderRadius: "12px",
+                            background: "#e0f2f1",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <img
+                            src={
+                              item.category?.toLowerCase() === "tablet"
+                                ? "/capsule.png"
+                                : item.category?.toLowerCase() === "syrup"
+                                ? "/syrup.png"
+                                : item.category?.toLowerCase() === "injection"
+                                ? "/injection.png"
+                                : "/capsule.png"
+                            }
+                            alt={item.brandName}
+                            style={{
+                              width: 38,
+                              height: 38,
+                              objectFit: "contain",
+                            }}
                           />
                         </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div
+                            style={{
+                              fontWeight: 700,
+                              fontSize: "1.08rem",
+                              color: "#117768",
+                              marginBottom: 2,
+                              whiteSpace: "normal", // show full name
+                              overflow: "visible",
+                            }}
+                          >
+                            {item.brandName || item.genericName}
+                          </div>
+                          <div
+                            style={{
+                              fontSize: "0.97rem",
+                              color: "#666",
+                              marginBottom: 2,
+                            }}
+                          >
+                            {item.genericName}
+                          </div>
+                          <div
+                            style={{
+                              fontSize: "1rem",
+                              fontWeight: 500,
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.3rem",
+                            }}
+                          >
+                            {typeof item.price === "number" &&
+                            !isNaN(item.price) ? (
+                              <span style={{ color: "#009688" }}>
+                                ₹{item.price.toFixed(2)}
+                              </span>
+                            ) : (
+                              <span
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  background: "#e0f7fa",
+                                  color: "#117768",
+                                  fontSize: "0.92rem",
+                                  borderRadius: "16px",
+                                  padding: "2px 10px 2px 8px",
+                                  fontWeight: 600,
+                                  letterSpacing: "0.2px",
+                                  whiteSpace: "nowrap",
+                                  border: "1px solid #b2dfdb",
+                                  marginLeft: "-2px",
+                                }}
+                                title="Price will be calculated after request confirmation"
+                              >
+                                <i
+                                  className="pi pi-info-circle"
+                                  style={{
+                                    fontSize: "1rem",
+                                    marginRight: "5px",
+                                    color: "#00b09b",
+                                  }}
+                                />
+                                Price: -
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      {/* Second row: quantity controls and delete */}
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginTop: "0.2rem",
+                          gap: "1rem",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            background: "#e0f2f1",
+                            borderRadius: "8px",
+                            padding: "2px 10px",
+                            gap: "0.3rem",
+                          }}
+                        >
+                          <Button
+                            icon="pi pi-minus"
+                            className="p-button-rounded p-button-text"
+                            onClick={() =>
+                              handleQuantityChange(item._id, item.quantity - 1)
+                            }
+                            style={{
+                              color: "#117768",
+                              fontWeight: 700,
+                            }}
+                          />
+                          <span
+                            style={{
+                              fontWeight: 600,
+                              fontSize: "1rem",
+                              color: "#117768",
+                              minWidth: 22,
+                              textAlign: "center",
+                            }}
+                          >
+                            {item.quantity}
+                          </span>
+                          <Button
+                            icon="pi pi-plus"
+                            className="p-button-rounded p-button-text"
+                            onClick={() =>
+                              handleQuantityChange(item._id, item.quantity + 1)
+                            }
+                            style={{
+                              color: "#117768",
+                              fontWeight: 700,
+                            }}
+                          />
+                        </div>
+                        <Button
+                          icon="pi pi-trash"
+                          className="p-button-rounded p-button-danger p-button-text"
+                          onClick={() => handleRemoveFromCart(item._id)}
+                          style={{
+                            color: "#e57373",
+                            background: "transparent",
+                            fontSize: "1.1rem",
+                          }}
+                        />
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className={styles.cartFooter}>
-                  <div className={styles.cartSummary}></div>
+                {/* Cart Summary */}
+                <div
+                  style={{
+                    padding: "1.2rem 1.5rem 0.5rem 1.5rem",
+                    borderTop: "1px solid #e0e0e0",
+                    background: "rgba(255,255,255,0.95)",
+                    borderBottomLeftRadius: "24px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontWeight: 600,
+                      fontSize: "1.1rem",
+                      color: "#117768",
+                      marginBottom: "0.5rem",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>Subtotal</span>
+                    {hasMissingPrice ? (
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          background: "#e0f7fa",
+                          color: "#117768",
+                          fontSize: "0.92rem",
+                          borderRadius: "16px",
+                          padding: "2px 10px 2px 8px",
+                          fontWeight: 600,
+                          letterSpacing: "0.2px",
+                          whiteSpace: "nowrap",
+                          border: "1px solid #b2dfdb",
+                        }}
+                        title="Subtotal will be calculated after request confirmation"
+                      >
+                        <i
+                          className="pi pi-info-circle"
+                          style={{
+                            fontSize: "1rem",
+                            marginRight: "5px",
+                            color: "#00b09b",
+                          }}
+                        />
+                        -
+                      </span>
+                    ) : (
+                      <span>₹{subtotal.toFixed(2)}</span>
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "0.95rem",
+                      color: "#888",
+                      marginBottom: "0.7rem",
+                      fontStyle: "italic",
+                      textAlign: "center",
+                      background: "#f0f4f8",
+                      borderRadius: "8px",
+                      padding: "6px 10px",
+                      marginTop: "0.2rem",
+                    }}
+                  >
+                    <i
+                      className="pi pi-info-circle"
+                      style={{ color: "#00b09b", marginRight: "5px" }}
+                    />
+                    Some prices are unavailable. You can still proceed—final
+                    total will be shared in your invoice after request
+                    confirmation.
+                  </div>
+                  <div
+                    style={{
+                      height: 1,
+                      background:
+                        "linear-gradient(90deg, #00b09b 0%, #117768 100%)",
+                      opacity: 0.2,
+                      margin: "0.5rem 0 1rem 0",
+                      borderRadius: 2,
+                    }}
+                  />
                   <Button
                     label={lang == "en" ? "Proceed to Checkout" : "चेकआउट करें"}
                     icon="pi pi-shopping-bag"
@@ -2113,6 +2400,21 @@ const MedicineSelection = ({
                       handleProceed();
                     }}
                     className={styles.checkoutButton}
+                    style={{
+                      width: "100%",
+                      background:
+                        "linear-gradient(90deg, #00b09b 0%,rgb(12, 190, 163) 100%)",
+                      color: "#fff",
+                      fontWeight: 700,
+                      fontSize: "1.15rem",
+                      border: "none",
+                      borderRadius: "10px",
+                      boxShadow: "0 2px 8px rgba(17,119,104,0.10)",
+                      padding: "1rem",
+                      margin: "auto",
+                      marginTop: "0.5rem",
+                      transition: "background 0.2s",
+                    }}
                   />
                 </div>
               </>
@@ -2212,112 +2514,14 @@ const MedicineSelection = ({
             }
             onHide={() => setShowCheckoutDialog(false)}
           >
+            <AddressSelector
+              setSelectedAddress={setSelectedAddress}
+              selectedAddress={selectedAddress}
+            />
             <div className={styles.checkoutForm}>
-              {/* <div className={styles.formSection}>
-                  <h3>Contact Information</h3>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="contactNumber">
-                      {lang == "en" ? English.ContactNumber : Hindi.ContactNumber}
-                    </label>
-                    <InputText
-                      id="contactNumber"
-                      value={checkoutForm.contactNumber}
-                      onChange={(e) =>
-                        setCheckoutForm({
-                          ...checkoutForm,
-                          contactNumber: e.target.value,
-                        })
-                      }
-                      placeholder={
-                        lang == "en"
-                          ? English.EnterContactNumber
-                          : Hindi.EnterContactNumber
-                      }
-                    />
-                  </div>
-                </div> */}
-
-              <AddressSelector
-                selectedAddress={selectedAddress}
-                setSelectedAddress={setSelectedAddress}
-              />
-              {/* <div className={styles.formSection}>
-                    <h3>Delivery Address</h3>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="street">Street Address</label>
-                      <InputText
-                        id="street"
-                        value={checkoutForm.street}
-                        onChange={(e) =>
-                          setCheckoutForm({ ...checkoutForm, street: e.target.value })
-                        }
-                        placeholder={
-                          lang == "en"
-                            ? English.EnterStreetAddress
-                            : Hindi.EnterStreetAddress
-                        }
-                      />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="city">City</label>
-                      <InputText
-                        id="city"
-                        value={checkoutForm.city}
-                        onChange={(e) =>
-                          setCheckoutForm({ ...checkoutForm, city: e.target.value })
-                        }
-                        placeholder={lang == "en" ? English.EnterCity : Hindi.EnterCity}
-                      />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="state">State</label>
-                      <InputText
-                        id="state"
-                        value={checkoutForm.state}
-                        onChange={(e) =>
-                          setCheckoutForm({ ...checkoutForm, state: e.target.value })
-                        }
-                        placeholder={
-                          lang == "en" ? English.EnterState : Hindi.EnterState
-                        }
-                      />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="pincode">Pincode</label>
-                      <InputText
-                        id="pincode"
-                        value={checkoutForm.pincode}
-                        onChange={(e) =>
-                          setCheckoutForm({ ...checkoutForm, pincode: e.target.value })
-                        }
-                        placeholder={
-                          lang == "en" ? English.EnterPincode : Hindi.EnterPincode
-                        }
-                      />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="landmark">Landmark</label>
-                      <InputText
-                        id="landmark"
-                        value={checkoutForm.landmark}
-                        onChange={(e) =>
-                          setCheckoutForm({ ...checkoutForm, landmark: e.target.value })
-                        }
-                        placeholder={
-                          lang == "en" ? English.EnterLandmark : Hindi.EnterLandmark
-                        }
-                      />
-                    </div>
-                  </div> */}
-
-              <div
-                style={{ marginTop: "-1rem" }}
-                className={styles.formSection}
-              >
-                <h3>Payment Details</h3>
-                <div className={styles.formGroup}>
-                  <label htmlFor="paymentMethod">Payment Method</label>
-                  <Dropdown
+              <div className={styles.formGroup} style={{ marginTop: "1rem" }}>
+                <label htmlFor="paymentMethod">Payment Method</label>
+                {/* <Dropdown
                     id="paymentMethod"
                     value={checkoutForm.paymentMethod}
                     options={paymentMethods}
@@ -2332,7 +2536,22 @@ const MedicineSelection = ({
                         ? English.SelectPaymentMethod
                         : Hindi.SelectPaymentMethod
                     }
-                  />
+                  /> */}
+                <div
+                  style={{
+                    background: "#f0f4f8",
+                    borderRadius: "8px",
+                    padding: "6px 10px",
+                    marginTop: "0.2rem",
+                    width: "100%",
+                  }}
+                >
+                  {" "}
+                  <i
+                    className="pi pi-info-circle"
+                    style={{ color: "#00b09b", marginRight: "5px" }}
+                  />{" "}
+                  Cash On Delivery
                 </div>
               </div>
 

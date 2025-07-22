@@ -37,6 +37,15 @@ import { Toast } from "primereact/toast";
 import { Dialog } from "primereact/dialog";
 import { Rating } from "primereact/rating";
 import { Button } from "primereact/button";
+import {
+  FaWhatsapp,
+  FaCopy,
+  FaTwitter,
+  FaFacebook,
+  FaTelegram,
+} from "react-icons/fa";
+import { InputTextarea } from "primereact/inputtextarea";
+import { FaUser, FaStar } from "react-icons/fa";
 
 // const StyledRating = styled(Rating)({
 //   "& .MuiRating-iconFilled": {
@@ -268,6 +277,88 @@ ${linktext}`;
   };
   const toast = useRef();
   const [showFullAddress, setShowFullAddress] = useState(false);
+
+  // Share handlers
+  const shareOptions = [
+    {
+      label: "WhatsApp",
+      icon: <FaWhatsapp color="#25D366" size={22} />,
+      onClick: () => {
+        const message = `Get ${item.name} info on Ayum, Click the link below 👇👇\n${linktext}`;
+        window.open(
+          `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`,
+          "_blank"
+        );
+        setsharemodal(false);
+      },
+    },
+    {
+      label: "Copy Link",
+      icon: <FaCopy color="#555" size={22} />,
+      onClick: () => {
+        navigator.clipboard.writeText(linktext);
+        setcpied(true);
+        setTimeout(() => setcpied(false), 1500);
+      },
+    },
+    {
+      label: "Twitter",
+      icon: <FaTwitter color="#1DA1F2" size={22} />,
+      onClick: () => {
+        const text = `Check out ${item.name} on Ayum: ${linktext}`;
+        window.open(
+          `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
+          "_blank"
+        );
+        setsharemodal(false);
+      },
+    },
+    {
+      label: "Facebook",
+      icon: <FaFacebook color="#1877F3" size={22} />,
+      onClick: () => {
+        window.open(
+          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+            linktext
+          )}`,
+          "_blank"
+        );
+        setsharemodal(false);
+      },
+    },
+    {
+      label: "Telegram",
+      icon: <FaTelegram color="#0088cc" size={22} />,
+      onClick: () => {
+        const text = `Check out ${item.name} on Ayum: ${linktext}`;
+        window.open(
+          `https://t.me/share/url?url=${encodeURIComponent(
+            linktext
+          )}&text=${encodeURIComponent(text)}`,
+          "_blank"
+        );
+        setsharemodal(false);
+      },
+    },
+  ];
+
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showAllReviews, setShowAllReviews] = useState(false);
+
+  // Handler for card click (list mode)
+  const handleCardClick = (e) => {
+    // Prevent navigation if clicking on a button or link
+    if (
+      e.target.closest("button") ||
+      e.target.closest("a") ||
+      e.target.tagName === "BUTTON" ||
+      e.target.tagName === "A"
+    ) {
+      return;
+    }
+    router.push(`/doctor?docid=${item._id}`);
+  };
+
   return (
     <div>
       {docid && (
@@ -400,289 +491,1050 @@ ${linktext}`;
         </Alert>
       </Snackbar> */}
       <Toast ref={toast} />
-      <div
-        style={{
-          background: "#fff",
-          borderRadius: "20px",
-          boxShadow: "0 4px 24px 0 rgba(0,0,0,0.08)",
-          border: "1.5px solid #f1f5f9",
-          padding: "2rem 1.5rem 1.5rem 1.5rem",
-          margin: "0.5rem 0",
-          maxWidth: 370,
-          width: isMobile ? "100vw" : "23rem",
-          minHeight: "22rem",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-        key={key}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "space-between",
-            marginBottom: 12,
-            gap: 10,
-          }}
-        >
-          {/* Name and Specialty */}
-          <div style={{ flex: 1, minWidth: 0 }}>
+      {docid ? (
+        <>
+          {/* --- BEGIN: DETAILED DOCTOR PROFILE PAGE --- */}
+          {/* Head, main info, actions, review section, modals */}
+          {/* (all your detailed doctor profile JSX here, including review section and modals) */}
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: "20px",
+              boxShadow: "0 4px 24px 0 rgba(0,0,0,0.08)",
+              border: "1.5px solid #f1f5f9",
+              padding: "2rem 1.5rem 1.5rem 1.5rem",
+              margin: "0.5rem 0",
+              maxWidth: 370,
+              width: isMobile ? "100vw" : "23rem",
+              minHeight: "22rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+            key={key}
+          >
             <div
               style={{
-                fontWeight: 700,
-                fontSize: "1.18rem",
-                color: "#222",
-                lineHeight: 1.2,
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: 180,
+                display: "flex",
+                alignItems: "flex-start",
+                justifyContent: "space-between",
+                marginBottom: 12,
+                gap: 10,
               }}
-              title={item.name}
             >
-              {item.name}
+              {/* Name and Specialty */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div
+                  style={{
+                    fontWeight: 700,
+                    fontSize: "1.18rem",
+                    color: "#222",
+                    lineHeight: 1.2,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    maxWidth: 180,
+                  }}
+                  title={item.name}
+                >
+                  {item.name}
+                </div>
+                <div
+                  style={{
+                    color: "#6b7280",
+                    fontWeight: 500,
+                    fontSize: "1.01rem",
+                    marginTop: 2,
+                    lineHeight: 1.2,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    maxWidth: 180,
+                  }}
+                  title={item.specialist}
+                >
+                  {item.specialist}
+                </div>
+              </div>
+              {/* Rating and Share */}
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                {item.averageRating && (
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      background: "#fef3c7",
+                      color: "#d97706",
+                      borderRadius: "999px",
+                      fontSize: "1.01rem",
+                      fontWeight: 700,
+                      padding: "0.18rem 0.8rem",
+                      gap: "0.3rem",
+                      boxShadow: "0 1px 4px #fde68a44",
+                    }}
+                  >
+                    <i
+                      className="pi pi-star-fill"
+                      style={{ fontSize: "1.1rem" }}
+                    ></i>
+                    {item.averageRating.toFixed(1)}
+                  </span>
+                )}
+                <button
+                  onClick={() => {
+                    let link = "https://ayum.in/doctor?docid=" + item._id;
+                    setlinktext(link);
+                    setsharemodal(true);
+                  }}
+                  style={{
+                    background: "rgba(0,128,128,0.07)",
+                    border: "none",
+                    color: "#009688",
+                    fontWeight: 600,
+                    fontSize: "1.1rem",
+                    cursor: "pointer",
+                    borderRadius: "50%",
+                    width: 32,
+                    height: 32,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "background 0.18s",
+                  }}
+                  title="Share"
+                >
+                  <i
+                    className="pi pi-share-alt"
+                    style={{ fontSize: "1.1rem" }}
+                  ></i>
+                </button>
+              </div>
             </div>
+
+            {/* Info Rows */}
             <div
               style={{
-                color: "#6b7280",
-                fontWeight: 500,
-                fontSize: "1.01rem",
-                marginTop: 2,
-                lineHeight: 1.2,
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: 180,
+                margin: "1.2rem 0 0.5rem 0",
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.7rem",
               }}
-              title={item.specialist}
             >
-              {item.specialist}
-            </div>
-          </div>
-          {/* Rating and Share */}
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            {item.averageRating && (
-              <span
+              {/* Phone */}
+              <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  background: "#fef3c7",
-                  color: "#d97706",
-                  borderRadius: "999px",
-                  fontSize: "1.01rem",
-                  fontWeight: 700,
-                  padding: "0.18rem 0.8rem",
-                  gap: "0.3rem",
-                  boxShadow: "0 1px 4px #fde68a44",
+                  color: "#222",
+                  fontSize: "1.07rem",
+                  gap: 10,
                 }}
               >
                 <i
-                  className="pi pi-star-fill"
-                  style={{ fontSize: "1.1rem" }}
-                ></i>
-                {item.averageRating.toFixed(1)}
-              </span>
-            )}
-            <button
-              onClick={() => {
-                let link = "https://ayum.in/doctor?docid=" + item._id;
-                setlinktext(link);
-                setsharemodal(true);
-              }}
-              style={{
-                background: "rgba(0,128,128,0.07)",
-                border: "none",
-                color: "#009688",
-                fontWeight: 600,
-                fontSize: "1.1rem",
-                cursor: "pointer",
-                borderRadius: "50%",
-                width: 32,
-                height: 32,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "background 0.18s",
-              }}
-              title="Share"
-            >
-              <i className="pi pi-share-alt" style={{ fontSize: "1.1rem" }}></i>
-            </button>
-          </div>
-        </div>
+                  className="pi pi-phone"
+                  style={{ color: "#009688", fontSize: "1.1rem" }}
+                />
+                <span style={{ color: "#444", fontWeight: 500, marginLeft: 6 }}>
+                  {item.phone || "Not available"}
+                </span>
+              </div>
+              {/* Timings */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "#222",
+                  fontSize: "1.07rem",
+                  gap: 10,
+                }}
+              >
+                <i
+                  className="pi pi-clock"
+                  style={{ color: "#009688", fontSize: "1.1rem" }}
+                />
+                <span style={{ color: "#222", fontWeight: 500 }}>
+                  {doctimings && !istimetstring
+                    ? Object.values(doctimings)[0]
+                    : item.timeing || "Not available"}
+                </span>
+              </div>
+              {/* Address */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "#222",
+                  fontSize: "1.07rem",
+                  gap: 10,
+                }}
+              >
+                <i
+                  className="pi pi-map-marker"
+                  style={{ color: "#009688", fontSize: "1.1rem" }}
+                />
+                <span style={{ color: "#444", fontWeight: 500 }}>
+                  {item.address ? (
+                    showFullAddress || item.address.length <= 28 ? (
+                      item.address
+                    ) : (
+                      <>
+                        {item.address.slice(0, 28)}...
+                        <span
+                          style={{
+                            color: "#009688",
+                            cursor: "pointer",
+                            marginLeft: 4,
+                            fontWeight: 600,
+                          }}
+                          onClick={() => setShowFullAddress(true)}
+                        >
+                          See more
+                        </span>
+                      </>
+                    )
+                  ) : (
+                    "No address added"
+                  )}
+                  {showFullAddress &&
+                    item.address &&
+                    item.address.length > 28 && (
+                      <span
+                        style={{
+                          color: "#009688",
+                          cursor: "pointer",
+                          marginLeft: 8,
+                          fontWeight: 600,
+                        }}
+                        onClick={() => setShowFullAddress(false)}
+                      >
+                        See less
+                      </span>
+                    )}
+                </span>
+              </div>
+            </div>
 
-        {/* Info Rows */}
+            {/* Divider */}
+            <div
+              style={{
+                borderTop: "1.5px solid #f1f5f9",
+                margin: "1.2rem 0 1.1rem 0",
+              }}
+            />
+
+            {/* Actions */}
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <a
+                href={
+                  item?.maplinkurl
+                    ? item.maplinkurl
+                    : `https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`
+                }
+                target="_blank"
+                rel="noreferrer"
+                style={{ flex: 1, textDecoration: "none" }}
+              >
+                <button
+                  style={{
+                    width: "100%",
+                    background: "#fff",
+                    color: "#009688",
+                    border: "1.5px solid #e0f2f1",
+                    borderRadius: "12px",
+                    height: "48px",
+                    fontWeight: 700,
+                    fontSize: "1.09rem",
+                    cursor: "pointer",
+                    boxShadow: "0 1px 4px rgba(0,128,128,0.07)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                  }}
+                >
+                  <i
+                    className="pi pi-map-marker"
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  View Map
+                </button>
+              </a>
+              <button
+                style={{
+                  flex: 1,
+                  background: "#009688",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "12px",
+                  height: "48px",
+                  fontWeight: 700,
+                  fontSize: "1.09rem",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
+                }}
+                onClick={() => {
+                  const splitArray = item?.phone && item?.phone.split(/[,\s]+/);
+                  setselectedphones(splitArray);
+                  setcallmodal(true);
+                }}
+              >
+                <i className="pi pi-phone" style={{ fontSize: "1.1em" }} />
+                Call Now
+              </button>
+            </div>
+
+            {/* Review Section */}
+            <div
+              style={{
+                background: "#fff",
+                borderRadius: "16px",
+                padding: "1rem",
+                marginBottom: "1rem",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "1.2rem",
+                  fontWeight: 700,
+                  margin: "0 0 0.8rem 0",
+                  color: "#333",
+                }}
+              >
+                Reviews & Ratings
+              </h2>
+
+              {/* Show user's review if already given */}
+              {reviewgiven ? (
+                <div
+                  style={{
+                    background: "#e8f5e9",
+                    borderRadius: "10px",
+                    padding: "0.8rem",
+                    marginBottom: "0.8rem",
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "0.8rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "#009688",
+                      borderRadius: "50%",
+                      width: "32px",
+                      height: "32px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 700,
+                      color: "#fff",
+                      fontSize: "1rem",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {reviewgiven.patientName?.[0] || "U"}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        color: "#333",
+                        fontSize: "0.95rem",
+                      }}
+                    >
+                      Your Review
+                    </div>
+                    <div
+                      style={{
+                        color: "#666",
+                        fontSize: "0.9rem",
+                        margin: "0.2rem 0",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.3rem",
+                          marginBottom: "0.3rem",
+                        }}
+                      >
+                        {[...Array(5)].map((_, i) => (
+                          <FaStar
+                            key={i}
+                            style={{
+                              color:
+                                i < reviewgiven.rating ? "#FFD700" : "#e0e0e0",
+                              fontSize: "0.9rem",
+                            }}
+                          />
+                        ))}
+                        <span style={{ marginLeft: "0.3rem", fontWeight: 600 }}>
+                          {reviewgiven.rating}/5
+                        </span>
+                      </div>
+                      {reviewgiven.message}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  style={{
+                    background: "#009688",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "10px",
+                    padding: "0.7rem 1rem",
+                    fontWeight: 700,
+                    fontSize: "0.95rem",
+                    cursor: "pointer",
+                    marginBottom: "0.8rem",
+                    boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
+                  }}
+                  onClick={() => setShowReviewModal(true)}
+                >
+                  Give a Review
+                </button>
+              )}
+
+              {/* List of reviews */}
+              <div style={{ marginTop: "0.8rem" }}>
+                {reviews && reviews.length > 0 ? (
+                  <div>
+                    {(showAllReviews ? reviews : reviews.slice(0, 3)).map(
+                      (review, idx) => (
+                        <div
+                          key={idx}
+                          style={{
+                            borderBottom:
+                              idx !== reviews.length - 1
+                                ? "1px solid #f1f5f9"
+                                : "none",
+                            padding: "0.6rem 0",
+                            display: "flex",
+                            alignItems: "flex-start",
+                            gap: "0.8rem",
+                          }}
+                        >
+                          <div
+                            style={{
+                              background: review.patientprofile
+                                ? "transparent"
+                                : "#e0f7fa",
+                              borderRadius: "50%",
+                              width: "32px",
+                              height: "32px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontWeight: 700,
+                              color: review.userprofile
+                                ? "transparent"
+                                : "#009688",
+                              fontSize: "1rem",
+                              flexShrink: 0,
+                              overflow: "hidden",
+                            }}
+                          >
+                            {review.userprofile ? (
+                              <img
+                                src={review.userprofile.replace(/=s\d+-c/, "")}
+                                alt={review.patientName || "User"}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  borderRadius: "50%",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            ) : (
+                              review.patientName?.[0] || "U"
+                            )}
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <div
+                              style={{
+                                fontWeight: 600,
+                                color: "#333",
+                                fontSize: "0.95rem",
+                              }}
+                            >
+                              {review.name || "User"}
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.3rem",
+                                margin: "0.2rem 0",
+                              }}
+                            >
+                              {[...Array(5)].map((_, i) => (
+                                <FaStar
+                                  key={i}
+                                  style={{
+                                    color:
+                                      i < review.rating ? "#FFD700" : "#e0e0e0",
+                                    fontSize: "0.85rem",
+                                  }}
+                                />
+                              ))}
+                              <span
+                                style={{
+                                  marginLeft: "0.3rem",
+                                  color: "#666",
+                                  fontSize: "0.85rem",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {review.rating}/5
+                              </span>
+                            </div>
+                            <div
+                              style={{
+                                color: "#666",
+                                fontSize: "0.9rem",
+                                margin: "0.2rem 0",
+                                lineHeight: 1.4,
+                              }}
+                            >
+                              {review.message}
+                            </div>
+                            <div
+                              style={{
+                                color: "#aaa",
+                                fontSize: "0.8rem",
+                                marginTop: "0.2rem",
+                              }}
+                            >
+                              {review.createdAt
+                                ? formatDate(review.createdAt)
+                                : ""}
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    )}
+                    {reviews.length > 3 && !showAllReviews && (
+                      <button
+                        style={{
+                          background: "none",
+                          color: "#009688",
+                          border: "none",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          marginTop: "0.5rem",
+                          fontSize: "0.9rem",
+                        }}
+                        onClick={() => setShowAllReviews(true)}
+                      >
+                        Show all reviews ({reviews.length})
+                      </button>
+                    )}
+                    {showAllReviews && (
+                      <button
+                        style={{
+                          background: "none",
+                          color: "#009688",
+                          border: "none",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          marginTop: "0.5rem",
+                          fontSize: "0.9rem",
+                        }}
+                        onClick={() => setShowAllReviews(false)}
+                      >
+                        Show less
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      color: "#aaa",
+                      fontSize: "0.95rem",
+                      textAlign: "center",
+                      padding: "1rem 0",
+                    }}
+                  >
+                    No reviews yet. Be the first to review!
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Review Modal */}
+            <Dialog
+              visible={showReviewModal}
+              onHide={() => setShowReviewModal(false)}
+              style={{ width: "90vw", maxWidth: 400 }}
+              modal
+              dismissableMask
+              showHeader={false}
+            >
+              <div style={{ padding: "1.5rem" }}>
+                <h3
+                  style={{ margin: 0, marginBottom: "1rem", fontWeight: 700 }}
+                >
+                  Give a Review
+                </h3>
+                <div style={{ marginBottom: "1rem" }}>
+                  <span style={{ fontWeight: 600, color: "#333" }}>
+                    Your Rating:
+                  </span>
+                  <div style={{ marginTop: 8 }}>
+                    <Rating
+                      value={newReview.rating}
+                      cancel={false}
+                      onChange={(e) => {
+                        setNewReview({ ...newReview, rating: e.value });
+                        setreviewpayload({ ...reviewpayload, rating: e.value });
+                      }}
+                      stars={5}
+                      style={{ fontSize: "1.5rem" }}
+                    />
+                  </div>
+                </div>
+                <div style={{ marginBottom: "1rem" }}>
+                  <span style={{ fontWeight: 600, color: "#333" }}>
+                    Your Review:
+                  </span>
+                  <InputTextarea
+                    autoResize
+                    rows={3}
+                    cols={30}
+                    value={newReview.message}
+                    onChange={(e) => {
+                      setNewReview({ ...newReview, message: e.target.value });
+                      setreviewpayload({
+                        ...reviewpayload,
+                        message: e.target.value,
+                      });
+                    }}
+                    style={{
+                      width: "100%",
+                      marginTop: 8,
+                      borderRadius: "8px",
+                      border: "1px solid #e0e0e0",
+                      padding: "0.7rem",
+                      fontSize: "1rem",
+                    }}
+                    placeholder="Write your experience..."
+                  />
+                </div>
+                <Button
+                  label={loading ? "Submitting..." : "Submit Review"}
+                  icon="pi pi-check"
+                  onClick={handleSubmit}
+                  disabled={loading || !newReview.rating || !newReview.message}
+                  style={{
+                    width: "100%",
+                    background: "#009688",
+                    border: "none",
+                    borderRadius: "8px",
+                    fontWeight: 700,
+                    fontSize: "1.1rem",
+                    marginTop: "1rem",
+                  }}
+                />
+              </div>
+            </Dialog>
+          </div>
+        </>
+      ) : (
         <div
           style={{
-            margin: "1.2rem 0 0.5rem 0",
+            background: "#fff",
+            borderRadius: "20px",
+            boxShadow: "0 4px 24px 0 rgba(0,0,0,0.08)",
+            border: "1.5px solid #f1f5f9",
+            padding: "2rem 1.5rem 1.5rem 1.5rem",
+            margin: "0.5rem 0",
+            maxWidth: 370,
+            width: isMobile ? "100vw" : "23rem",
+            minHeight: "22rem",
             display: "flex",
             flexDirection: "column",
-            gap: "0.7rem",
+            justifyContent: "space-between",
+            cursor: "pointer",
           }}
+          key={key}
         >
-          {/* Phone */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              color: "#222",
-              fontSize: "1.07rem",
-              gap: 10,
-            }}
-          >
-            <i
-              className="pi pi-phone"
-              style={{ color: "#009688", fontSize: "1.1rem" }}
-            />
-            <span style={{ color: "#444", fontWeight: 500, marginLeft: 6 }}>
-              {item.phone || "Not available"}
-            </span>
-          </div>
-          {/* Timings */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              color: "#222",
-              fontSize: "1.07rem",
-              gap: 10,
-            }}
-          >
-            <i
-              className="pi pi-clock"
-              style={{ color: "#009688", fontSize: "1.1rem" }}
-            />
-            <span style={{ color: "#222", fontWeight: 500 }}>
-              {doctimings && !istimetstring
-                ? Object.values(doctimings)[0]
-                : item.timeing || "Not available"}
-            </span>
-          </div>
-          {/* Address */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              color: "#222",
-              fontSize: "1.07rem",
-              gap: 10,
-            }}
-          >
-            <i
-              className="pi pi-map-marker"
-              style={{ color: "#009688", fontSize: "1.1rem" }}
-            />
-            <span style={{ color: "#444", fontWeight: 500 }}>
-              {item.address ? (
-                showFullAddress || item.address.length <= 28 ? (
-                  item.address
-                ) : (
-                  <>
-                    {item.address.slice(0, 28)}...
-                    <span
-                      style={{
-                        color: "#009688",
-                        cursor: "pointer",
-                        marginLeft: 4,
-                        fontWeight: 600,
-                      }}
-                      onClick={() => setShowFullAddress(true)}
-                    >
-                      See more
-                    </span>
-                  </>
-                )
-              ) : (
-                "No address added"
-              )}
-              {showFullAddress && item.address && item.address.length > 28 && (
-                <span
-                  style={{
-                    color: "#009688",
-                    cursor: "pointer",
-                    marginLeft: 8,
-                    fontWeight: 600,
-                  }}
-                  onClick={() => setShowFullAddress(false)}
-                >
-                  See less
-                </span>
-              )}
-            </span>
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div
-          style={{
-            borderTop: "1.5px solid #f1f5f9",
-            margin: "1.2rem 0 1.1rem 0",
-          }}
-        />
-
-        {/* Actions */}
-        <div style={{ display: "flex", gap: "1rem" }}>
-          <a
-            href={
-              item?.maplinkurl
-                ? item.maplinkurl
-                : `https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`
-            }
-            target="_blank"
-            rel="noreferrer"
-            style={{ flex: 1, textDecoration: "none" }}
-          >
-            <button
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            {/* Name and Specialty */}
+            <div
               style={{
-                width: "100%",
-                background: "#fff",
-                color: "#009688",
-                border: "1.5px solid #e0f2f1",
-                borderRadius: "12px",
-                height: "48px",
-                fontWeight: 700,
-                fontSize: "1.09rem",
-                cursor: "pointer",
-                boxShadow: "0 1px 4px rgba(0,128,128,0.07)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 8,
+                flex: 1,
+                minWidth: 0,
+                width: "fit-content",
               }}
             >
-              <i className="pi pi-map-marker" style={{ fontSize: "1.1em" }} />
-              View Map
-            </button>
-          </a>
-          <button
+              <div
+                style={{
+                  fontWeight: 700,
+                  fontSize: "1.18rem",
+                  color: "#222",
+                  lineHeight: 1.2,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: 180,
+                }}
+                title={item.name}
+              >
+                {item.name}
+              </div>
+              <div
+                style={{
+                  color: "#6b7280",
+                  fontWeight: 500,
+                  fontSize: "1.01rem",
+                  marginTop: 2,
+                  lineHeight: 1.2,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: 180,
+                }}
+                title={item.specialist}
+              >
+                {item.specialist}
+              </div>
+            </div>
+            {/* Rating and Share */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                width: "fit-content",
+              }}
+            >
+              {item.averageRating && (
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    background: "#fef3c7",
+                    color: "#d97706",
+                    borderRadius: "999px",
+                    fontSize: "1.01rem",
+                    fontWeight: 700,
+                    padding: "0.18rem 0.8rem",
+                    gap: "0.3rem",
+                    boxShadow: "0 1px 4px #fde68a44",
+                  }}
+                >
+                  <i
+                    className="pi pi-star-fill"
+                    style={{ fontSize: "1.1rem" }}
+                  ></i>
+                  {item.averageRating.toFixed(1)}
+                </span>
+              )}
+              <button
+                onClick={() => {
+                  let link = "https://ayum.in/doctor?docid=" + item._id;
+                  setlinktext(link);
+                  setsharemodal(true);
+                }}
+                style={{
+                  background: "rgba(0,128,128,0.07)",
+                  border: "none",
+                  color: "#009688",
+                  fontWeight: 600,
+                  fontSize: "1.1rem",
+                  cursor: "pointer",
+                  borderRadius: "50%",
+                  width: 32,
+                  height: 32,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "background 0.18s",
+                }}
+                title="Share"
+              >
+                <i
+                  className="pi pi-share-alt"
+                  style={{ fontSize: "1.1rem" }}
+                ></i>
+              </button>
+            </div>
+          </div>
+
+          <div onClick={handleCardClick}>
+            {/* Info Rows */}
+            <div
+              style={{
+                margin: "1.2rem 0 0.5rem 0",
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.7rem",
+              }}
+            >
+              {/* Phone */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "#222",
+                  fontSize: "1.07rem",
+                  gap: 10,
+                }}
+              >
+                <i
+                  className="pi pi-phone"
+                  style={{ color: "#009688", fontSize: "1.1rem" }}
+                />
+                <span style={{ color: "#444", fontWeight: 500, marginLeft: 6 }}>
+                  {item.phone || "Not available"}
+                </span>
+              </div>
+              {/* Timings */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "#222",
+                  fontSize: "1.07rem",
+                  gap: 10,
+                }}
+              >
+                <i
+                  className="pi pi-clock"
+                  style={{ color: "#009688", fontSize: "1.1rem" }}
+                />
+                <span style={{ color: "#222", fontWeight: 500 }}>
+                  {doctimings && !istimetstring
+                    ? Object.values(doctimings)[0]
+                    : item.timeing || "Not available"}
+                </span>
+              </div>
+              {/* Address */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "#222",
+                  fontSize: "1.07rem",
+                  gap: 10,
+                }}
+              >
+                <i
+                  className="pi pi-map-marker"
+                  style={{ color: "#009688", fontSize: "1.1rem" }}
+                />
+                <span style={{ color: "#444", fontWeight: 500 }}>
+                  {item.address ? (
+                    showFullAddress || item.address.length <= 28 ? (
+                      item.address
+                    ) : (
+                      <>
+                        {item.address.slice(0, 28)}...
+                        <span
+                          style={{
+                            color: "#009688",
+                            cursor: "pointer",
+                            marginLeft: 4,
+                            fontWeight: 600,
+                          }}
+                          onClick={() => setShowFullAddress(true)}
+                        >
+                          See more
+                        </span>
+                      </>
+                    )
+                  ) : (
+                    "No address added"
+                  )}
+                  {showFullAddress &&
+                    item.address &&
+                    item.address.length > 28 && (
+                      <span
+                        style={{
+                          color: "#009688",
+                          cursor: "pointer",
+                          marginLeft: 8,
+                          fontWeight: 600,
+                        }}
+                        onClick={() => setShowFullAddress(false)}
+                      >
+                        See less
+                      </span>
+                    )}
+                </span>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div
+              style={{
+                borderTop: "1.5px solid #f1f5f9",
+                margin: "1.2rem 0 1.1rem 0",
+              }}
+            />
+
+            {/* Actions */}
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <a
+                href={
+                  item?.maplinkurl
+                    ? item.maplinkurl
+                    : `https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`
+                }
+                target="_blank"
+                rel="noreferrer"
+                style={{ flex: 1, textDecoration: "none" }}
+              >
+                <button
+                  style={{
+                    width: "100%",
+                    background: "#fff",
+                    color: "#009688",
+                    border: "1.5px solid #e0f2f1",
+                    borderRadius: "12px",
+                    height: "48px",
+                    fontWeight: 700,
+                    fontSize: "1.09rem",
+                    cursor: "pointer",
+                    boxShadow: "0 1px 4px rgba(0,128,128,0.07)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                  }}
+                >
+                  <i
+                    className="pi pi-map-marker"
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  View Map
+                </button>
+              </a>
+              <button
+                style={{
+                  flex: 1,
+                  background: "#009688",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "12px",
+                  height: "48px",
+                  fontWeight: 700,
+                  fontSize: "1.09rem",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
+                }}
+                onClick={() => {
+                  const splitArray = item?.phone && item?.phone.split(/[,\s]+/);
+                  setselectedphones(splitArray);
+                  setcallmodal(true);
+                }}
+              >
+                <i className="pi pi-phone" style={{ fontSize: "1.1em" }} />
+                Call Now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Share Modal - MOVED OUTSIDE CONDITIONAL RENDERING */}
+      <Dialog
+        visible={sharemodal}
+        onHide={() => setsharemodal(false)}
+        position="bottom"
+        style={{ width: "100%", maxWidth: 400, margin: 0 }}
+        modal
+        dismissableMask
+        className="p-dialog-bottom-sheet"
+        showHeader={false}
+        contentStyle={{ padding: 0, borderRadius: "16px 16px 0 0" }}
+      >
+        <div
+          style={{
+            padding: "1.5rem 1.2rem",
+            borderRadius: "16px 16px 0 0",
+            background: "#fff",
+            boxShadow: "0 -2px 16px rgba(0,0,0,0.08)",
+          }}
+        >
+          <div
             style={{
-              flex: 1,
-              background: "#009688",
-              color: "#fff",
-              border: "none",
+              fontWeight: 700,
+              fontSize: "1.15rem",
+              marginBottom: 18,
+              textAlign: "center",
+            }}
+          >
+            Share Doctor Profile
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {shareOptions.map((opt, idx) => (
+              <button
+                key={opt.label}
+                onClick={opt.onClick}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 14,
+                  background: "#f7f7f7",
+                  border: "none",
+                  borderRadius: 10,
+                  padding: "0.7rem 1rem",
+                  fontSize: "1.07rem",
+                  fontWeight: 600,
+                  color: "#222",
+                  cursor: "pointer",
+                  transition: "background 0.15s",
+                }}
+              >
+                {opt.icon}
+                {opt.label}
+                {opt.label === "Copy Link" && copied && (
+                  <span
+                    style={{
+                      color: "#009688",
+                      marginLeft: 10,
+                      fontWeight: 500,
+                      fontSize: 13,
+                    }}
+                  >
+                    Copied!
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => setsharemodal(false)}
+            style={{
+              marginTop: 22,
+              width: "100%",
+              background: "#fff",
+              color: "#009688",
+              border: "1.5px solid #e0f2f1",
               borderRadius: "12px",
-              height: "48px",
+              height: "44px",
               fontWeight: 700,
               fontSize: "1.09rem",
               cursor: "pointer",
-              boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-            }}
-            onClick={() => {
-              const splitArray = item?.phone && item?.phone.split(/[,\s]+/);
-              setselectedphones(splitArray);
-              setcallmodal(true);
+              boxShadow: "0 1px 4px rgba(0,128,128,0.07)",
+              display: "block",
             }}
           >
-            <i className="pi pi-phone" style={{ fontSize: "1.1em" }} />
-            Call Now
+            Cancel
           </button>
         </div>
-      </div>
+      </Dialog>
     </div>
   );
 };

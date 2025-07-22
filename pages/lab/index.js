@@ -13,6 +13,7 @@ import LabList from "../../components/LabBooking/LabList";
 import BookingForm from "../../components/LabBooking/BookingForm";
 import styles from "../../components/LabBooking/styles.module.css";
 import NewCheckoutPageLab from "../../components/LabBooking/NewCheckoutPageLab";
+import WithAuth1 from "../../components/WithAuth1";
 
 const LabBookingPage = () => {
   const router = useRouter();
@@ -120,9 +121,8 @@ const LabBookingPage = () => {
             /> */}
         </>
       )}
-      =
     </div>
   );
 };
 
-export default LabBookingPage;
+export default WithAuth1(LabBookingPage);

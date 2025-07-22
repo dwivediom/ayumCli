@@ -37,7 +37,7 @@ const AddressSelector = (props) => {
     }
 
     setaddresslist(temp?.address || []);
-  }, [addresslist]);
+  }, []);
 
   const handleAddressChange = (e) => {
     setNewAddress({ ...newAddress, [e.target.name]: e.target.value });
@@ -202,14 +202,37 @@ const AddressSelector = (props) => {
             }}
           >
             <div className="address-content">
-              <h3>{address.name}</h3>
-              <p className="phone">{address.phone}</p>
-              <p className="street">{address.street}</p>
-              <p className="location">
-                {address.city}, {address.state} - {address.pincode}
-              </p>
+              <div className="address-row">
+                <span className="icon">
+                  <i className="pi pi-user" />
+                </span>
+                <span className="address-main">{address.name}</span>
+                <span className="icon" style={{ marginLeft: 8 }}>
+                  <i className="pi pi-phone" />
+                </span>
+                <span className="address-phone">{address.phone}</span>
+              </div>
+              <div className="address-row">
+                <span className="icon">
+                  <i className="pi pi-map-marker" />
+                </span>
+                <span className="address-street">{address.street}</span>
+              </div>
+              <div className="address-row">
+                <span className="icon">
+                  <i className="pi pi-compass" />
+                </span>
+                <span className="address-location">
+                  {address.city}, {address.state} - {address.pincode}
+                </span>
+              </div>
               {address.landmark && (
-                <p className="landmark">Landmark: {address.landmark}</p>
+                <div className="address-row">
+                  <span className="icon">
+                    <i className="pi pi-flag" />
+                  </span>
+                  <span className="address-landmark">{address.landmark}</span>
+                </div>
               )}
             </div>
             <div className="address-actions">
@@ -220,8 +243,11 @@ const AddressSelector = (props) => {
                 }}
                 icon="pi pi-trash"
                 text
+                rounded
                 severity="danger"
                 tooltip="Delete Address"
+                className="delete-btn"
+                style={{ fontSize: "1.1rem", padding: 4 }}
               />
             </div>
           </div>
@@ -373,76 +399,70 @@ const AddressSelector = (props) => {
       <style jsx>{`
         .address-selector {
           background-color: var(--surface-50);
-          padding: 1.5rem;
-          border-radius: 1rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          padding: 0.75rem 0.5rem;
+          border-radius: 0.75rem;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
         }
-
         .address-header h2 {
-          font-size: 1.5rem;
+          font-size: 1.1rem;
           color: var(--text-color);
-          margin-bottom: 1.5rem;
+          margin-bottom: 1rem;
         }
-
         .address-list {
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          gap: 0.5rem;
         }
-
         .address-card {
-          background: white;
-          padding: 1rem;
+          background: #fff;
+          padding: 0.6rem 0.8rem;
           border-radius: 0.5rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: box-shadow 0.2s, border 0.2s;
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
+          border: 1.5px solid transparent;
         }
-
-        .address-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
         .address-card.selected {
-          border: 2px solid var(--primary-color);
-          background-color: var(--surface-50);
+          border: 1.5px solid var(--primary-color);
+          background: #f0f7ff;
         }
-
-        .address-content h3 {
-          margin: 0 0 0.5rem 0;
-          color: var(--text-color);
+        .address-content {
+          flex: 1;
+          min-width: 0;
         }
-
-        .address-content p {
-          margin: 0.25rem 0;
+        .address-row {
+          display: flex;
+          align-items: center;
+          font-size: 0.95rem;
+          margin-bottom: 2px;
           color: var(--text-color-secondary);
         }
-
-        .form-row {
-          margin-bottom: 1rem;
+        .address-main {
+          font-weight: 500;
+          color: var(--text-color);
+          margin-right: 0.5rem;
         }
-
-        .location-button {
-          width: 100%;
-          margin-bottom: 1rem;
+        .icon {
+          color: var(--primary-color);
+          font-size: 1.1em;
+          margin-right: 0.3em;
         }
-
-        .form-actions {
+        .address-actions {
           display: flex;
-          justify-content: center;
-          margin-top: 1.5rem;
+          align-items: flex-start;
+          margin-left: 0.5rem;
         }
-
+        .delete-btn {
+          margin: 0;
+        }
         .add-address-button {
-          margin-top: 1.5rem;
+          margin-top: 1rem;
           display: flex;
           justify-content: flex-end;
         }
-
         .address-dialog {
           width: 90%;
           max-width: 500px;
