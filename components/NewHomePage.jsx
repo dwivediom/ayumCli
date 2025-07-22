@@ -70,8 +70,8 @@ const HeroSection = ({ city, setCity }) => {
         padding: "1rem",
         maxWidth: !isMobile ? 420 : "100%",
         minWidth: !isMobile ? "900px" : "100%",
-        margin: "0 auto",
-        marginLeft: !isMobile ? "-2px" : "0",
+        // marginLeft: !isMobile ? "-2px" : "0",
+        margin: "auto",
         boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
         border: "1px solid rgba(188, 246, 253, 0.81)",
       }}
