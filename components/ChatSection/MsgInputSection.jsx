@@ -12,6 +12,7 @@ import styles from "../../styles/newchat.module.css";
 import { notify, sendnotification } from "../../routes/notify";
 import English from "../../public/locales/en/labtest";
 import Hindi from "../../public/locales/hi/labtest";
+import { validateAndCompressImage, isImageFile, createProgressCallback } from "../../utils/imageCompression";
 
 const MsgInputSection = () => {
   const {
@@ -33,6 +34,10 @@ const MsgInputSection = () => {
   const [options, showoptions] = useState("");
   const [inputholder, setinputholder] = useState("");
   const [location, setLocation] = useState();
+  const [uploading, setUploading] = useState(false);
+  const [compressing, setCompressing] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState("");
+  const [compressionProgress, setCompressionProgress] = useState(0);
 
   useEffect(() => {
     const localStoragedata = JSON.parse(localStorage.getItem("labuser"));
@@ -41,15 +46,64 @@ const MsgInputSection = () => {
 
   const getconst = async () => {
     if (file) {
-      let data = new FormData();
-      data.append("name", file.name);
-      data.append("file", file);
-      console.log(" getcost workking ", data);
-      const filedata = await uploadFile(data);
-      console.log("filedata", filedata);
-      setimage(filedata.data);
-      console.log("imager", image);
-      return filedata.data;
+      setUploading(true);
+      setCompressing(false);
+      setUploadProgress("");
+      
+      try {
+        let fileToUpload = file;
+        
+        // Check if it's an image and needs compression
+        if (isImageFile(file)) {
+          setCompressing(true);
+          setCompressionProgress(0);
+          setUploadProgress(lang === "en" ? "Compressing image..." : "छवि संपीड़ित की जा रही है...");
+          
+          try {
+            // Create progress callback for compression
+            const progressCallback = createProgressCallback((progress) => {
+              setCompressionProgress(progress);
+              setUploadProgress(
+                lang === "en" 
+                  ? `Compressing image... ${Math.round(progress)}%`
+                  : `छवि संपीड़ित की जा रही है... ${Math.round(progress)}%`
+              );
+            });
+
+            const compressionResult = await validateAndCompressImage(file, undefined, progressCallback, true);
+            fileToUpload = compressionResult.file;
+            
+            if (compressionResult.wasCompressed) {
+              console.log(`Image compressed from ${compressionResult.originalSize} to ${compressionResult.compressedSize}`);
+              console.log(`Original name: ${compressionResult.originalName}`);
+              console.log(`New name: ${compressionResult.file.name}`);
+            }
+          } catch (compressionError) {
+            console.error("Image compression failed:", compressionError);
+            // Continue with original file if compression fails
+          } finally {
+            setCompressing(false);
+            setCompressionProgress(0);
+          }
+        }
+
+        setUploadProgress(lang === "en" ? "Uploading..." : "अपलोड हो रहा है...");
+        
+        let data = new FormData();
+        data.append("name", fileToUpload.name);
+        data.append("file", fileToUpload);
+        console.log(" getcost workking ", data);
+        const filedata = await uploadFile(data);
+        console.log("filedata", filedata);
+        setimage(filedata.data);
+        console.log("imager", image);
+        return filedata.data;
+      } finally {
+        setUploading(false);
+        setCompressing(false);
+        setUploadProgress("");
+        setCompressionProgress(0);
+      }
     }
   };
 
@@ -231,6 +285,28 @@ const MsgInputSection = () => {
           </form>
         </div>
         <div className={`${styles.sendactions}`}>
+          {uploading && (
+            <div style={{
+              position: "absolute",
+              top: "-40px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              background: "#e3f2fd",
+              padding: "6px 12px",
+              borderRadius: "20px",
+              border: "1px solid #2196f3",
+              fontSize: "12px",
+              color: "#1976d2",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              zIndex: 1000,
+              whiteSpace: "nowrap"
+            }}>
+              <i className="pi pi-spin pi-spinner" style={{ fontSize: "12px" }}></i>
+              <span>{uploadProgress}</span>
+            </div>
+          )}
           <div onClick={() => sendmsg()}>
             <img
               width="64"

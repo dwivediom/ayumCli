@@ -11,11 +11,15 @@ import axios from "axios";
 import { AccountContext } from "../../context/AccountProvider";
 import English from "../../public/locales/en/index";
 import Hindi from "../../public/locales/hi/index";
+import { validateAndCompressImage, isImageFile, formatFileSize, createProgressCallback } from "../../utils/imageCompression";
 
 const PrescriptionSelector = ({ value, onChange, getAuthHeaders }) => {
   const [prescriptionFiles, setPrescriptionFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [compressing, setCompressing] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState('');
+  const [compressionProgress, setCompressionProgress] = useState(0);
   const fileInputRef = useRef(null);
   const toastRef = useRef(null);
 
@@ -44,11 +48,78 @@ const PrescriptionSelector = ({ value, onChange, getAuthHeaders }) => {
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    
+    // Show file info before starting upload
+    const fileSize = formatFileSize(file.size);
+    const fileName = file.name;
+    
+    // Show info about compression if it's a large image
+    if (isImageFile(file) && file.size > 5 * 1024 * 1024) {
+      toastRef.current?.show({
+        severity: "info",
+        summary: lang === "en" ? "Info" : "जानकारी",
+        detail: lang === "en" 
+          ? `Large image detected (${fileSize}). Will be automatically compressed for faster upload.`
+          : `बड़ी छवि का पता चला (${fileSize})। तेज़ अपलोड के लिए स्वचालित रूप से संपीड़ित की जाएगी।`,
+        life: 3000,
+      });
+    }
+    
     setUploading(true);
+    setCompressing(false);
+    setUploadProgress('');
+    
     try {
+      let fileToUpload = file;
+      let compressionMessage = "";
+
+      // Check if it's an image and needs compression
+      if (isImageFile(file)) {
+        setCompressing(true);
+        setCompressionProgress(0);
+        setUploadProgress(lang === "en" ? "Compressing image..." : "छवि संपीड़ित की जा रही है...");
+        
+        try {
+          // Create progress callback for compression
+          const progressCallback = createProgressCallback((progress) => {
+            setCompressionProgress(progress);
+            setUploadProgress(
+              lang === "en" 
+                ? `Compressing image... ${Math.round(progress)}%`
+                : `छवि संपीड़ित की जा रही है... ${Math.round(progress)}%`
+            );
+          });
+
+          const compressionResult = await validateAndCompressImage(file, undefined, progressCallback, true);
+          fileToUpload = compressionResult.file;
+          
+          if (compressionResult.wasCompressed) {
+            compressionMessage = ` (Compressed from ${compressionResult.originalSize} to ${compressionResult.compressedSize})`;
+            console.log(`Original name: ${compressionResult.originalName}`);
+            console.log(`New name: ${compressionResult.file.name}`);
+          }
+        } catch (compressionError) {
+          console.error("Image compression failed:", compressionError);
+          toastRef.current.show({
+            severity: "warn",
+            summary: lang === "en" ? "Warning" : "चेतावनी",
+            detail: lang === "en" 
+              ? "Image compression failed, uploading original file"
+              : "छवि संपीड़न विफल, मूल फ़ाइल अपलोड की जा रही है",
+            life: 3000,
+          });
+        } finally {
+          setCompressing(false);
+          setCompressionProgress(0);
+        }
+      }
+
+      setUploadProgress(lang === "en" ? "Uploading..." : "अपलोड हो रहा है...");
+      
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", fileToUpload);
       formData.append("fileType", "prescription");
+      
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_B_PORT}/api/media/upload`,
         formData,
@@ -59,17 +130,22 @@ const PrescriptionSelector = ({ value, onChange, getAuthHeaders }) => {
           },
         }
       );
-      if (response.data && response.data?.data?.fileUrl) {
-        // Show success toast
-        toastRef.current.show({
-          severity: "success",
-          summary: lang === "en" ? "Success" : "सफलता",
-          detail:
-            lang === "en"
-              ? "Prescription uploaded successfully and selected automatically!"
-              : "पर्चा सफलतापूर्वक अपलोड हो गया है और स्वचालित रूप से चुना गया है!",
-          life: 3000,
-        });
+      
+              if (response.data && response.data?.data?.fileUrl) {
+          // Show success toast with compression info if applicable
+          const fileNameInfo = compressionMessage ? 
+            `\nOriginal: ${fileName}\nNew: ${fileToUpload.name}` : 
+            `\nFile: ${fileName}`;
+          
+          toastRef.current.show({
+            severity: "success",
+            summary: lang === "en" ? "Success" : "सफलता",
+            detail:
+              lang === "en"
+                ? `Prescription uploaded successfully and selected automatically!${compressionMessage}${fileNameInfo}`
+                : `पर्चा सफलतापूर्वक अपलोड हो गया है और स्वचालित रूप से चुना गया है!${compressionMessage}${fileNameInfo}`,
+            life: 4000,
+          });
 
         // First update the local state
         setPrescriptionFiles((prevFiles) => [
@@ -101,6 +177,9 @@ const PrescriptionSelector = ({ value, onChange, getAuthHeaders }) => {
       });
     } finally {
       setUploading(false);
+      setCompressing(false);
+      setUploadProgress('');
+      setCompressionProgress(0);
     }
   };
 
@@ -226,18 +305,75 @@ const PrescriptionSelector = ({ value, onChange, getAuthHeaders }) => {
         <Button
           label={
             uploading
-              ? lang == "en"
-                ? English.Uploading
-                : Hindi.Uploading
+              ? uploadProgress || (lang == "en" ? English.Uploading : Hindi.Uploading)
               : lang == "en"
               ? English.UploadNew
               : Hindi.UploadNew
           }
-          icon="pi pi-upload"
+          icon={
+            uploading 
+              ? compressing 
+                ? "pi pi-spin pi-spinner" 
+                : "pi pi-upload"
+              : "pi pi-upload"
+          }
           className="p-button-sm"
           disabled={uploading}
+          loading={uploading}
           onClick={() => fileInputRef.current && fileInputRef.current.click()}
+          style={{
+            minWidth: uploading ? '140px' : 'auto',
+            position: 'relative'
+          }}
         />
+        {uploading && (
+          <div style={{ 
+            marginTop: 8, 
+            padding: "8px 12px",
+            background: "#e3f2fd",
+            borderRadius: "6px",
+            border: "1px solid #2196f3",
+            fontSize: "12px",
+            color: "#1976d2"
+          }}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              marginBottom: compressing ? "6px" : "0"
+            }}>
+              <i className="pi pi-spin pi-spinner" style={{ fontSize: "14px" }}></i>
+              <span>{uploadProgress}</span>
+            </div>
+            {compressing && compressionProgress > 0 && (
+              <div style={{
+                width: "100%",
+                background: "#e0e0e0",
+                borderRadius: "4px",
+                overflow: "hidden",
+                marginTop: "4px"
+              }}>
+                <div style={{
+                  width: `${compressionProgress}%`,
+                  height: "4px",
+                  background: "linear-gradient(90deg, #2196f3, #1976d2)",
+                  transition: "width 0.3s ease"
+                }}></div>
+              </div>
+            )}
+          </div>
+        )}
+        <div style={{ 
+          marginTop: 8, 
+          fontSize: "12px", 
+          color: "#666",
+          fontStyle: "italic"
+        }}>
+          {lang === "en" 
+            ? "💡 Large images (>5MB) will be automatically compressed for faster upload"
+            : "💡 बड़ी छवियां (>5MB) तेज़ अपलोड के लिए स्वचालित रूप से संपीड़ित की जाएंगी"
+          }
+        </div>
       </div>
     </div>
   );

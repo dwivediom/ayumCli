@@ -6,6 +6,7 @@ import ChatBox from "../components/ChatSection/ChatBox";
 import { AccountContext } from "../context/AccountProvider";
 import { useRouter } from "next/router";
 import { uploadFile } from "../routes/file";
+import { validateAndCompressImage, isImageFile, createProgressCallback } from "../utils/imageCompression";
 import { setmessage } from "../routes/message";
 import { getuserId } from "../routes/user";
 import { searchApi } from "../routes/search";
@@ -94,12 +95,61 @@ const ChatSection = () => {
 
   const getconst = async () => {
     if (file) {
-      let data = new FormData();
-      data.append("name", file.name);
-      data.append("file", file);
-      console.log(" getcost workking ", data);
-      const filedata = await uploadFile(data);
-      return filedata.data;
+      setUploading(true);
+      setCompressing(false);
+      setUploadProgress("");
+      
+      try {
+        let fileToUpload = file;
+        
+        // Check if it's an image and needs compression
+        if (isImageFile(file)) {
+          setCompressing(true);
+          setCompressionProgress(0);
+          setUploadProgress(lang === "en" ? "Compressing image..." : "छवि संपीड़ित की जा रही है...");
+          
+          try {
+            // Create progress callback for compression
+            const progressCallback = createProgressCallback((progress) => {
+              setCompressionProgress(progress);
+              setUploadProgress(
+                lang === "en" 
+                  ? `Compressing image... ${Math.round(progress)}%`
+                  : `छवि संपीड़ित की जा रही है... ${Math.round(progress)}%`
+              );
+            });
+
+            const compressionResult = await validateAndCompressImage(file, undefined, progressCallback, true);
+            fileToUpload = compressionResult.file;
+            
+            if (compressionResult.wasCompressed) {
+              console.log(`Image compressed from ${compressionResult.originalSize} to ${compressionResult.compressedSize}`);
+              console.log(`Original name: ${compressionResult.originalName}`);
+              console.log(`New name: ${compressionResult.file.name}`);
+            }
+          } catch (compressionError) {
+            console.error("Image compression failed:", compressionError);
+            // Continue with original file if compression fails
+          } finally {
+            setCompressing(false);
+            setCompressionProgress(0);
+          }
+        }
+
+        setUploadProgress(lang === "en" ? "Uploading..." : "अपलोड हो रहा है...");
+        
+        let data = new FormData();
+        data.append("name", fileToUpload.name);
+        data.append("file", fileToUpload);
+        console.log(" getcost workking ", data);
+        const filedata = await uploadFile(data);
+        return filedata.data;
+      } finally {
+        setUploading(false);
+        setCompressing(false);
+        setUploadProgress("");
+        setCompressionProgress(0);
+      }
     }
   };
 
@@ -146,6 +196,11 @@ const ChatSection = () => {
 
   const [file, setfile] = useState();
   const [uploaded, setuploaded] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [compressing, setCompressing] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState("");
+  const [compressionProgress, setCompressionProgress] = useState(0);
+  
   const onfilechange = (e) => {
     e.preventDefault();
     setfile(e.target.files[0]);
@@ -435,7 +490,25 @@ const ChatSection = () => {
                           className="hidden"
                           id="prescription"
                           name="prescription"
-                        />{" "}
+                        />
+                        {uploading && (
+                          <div style={{
+                            marginTop: "8px",
+                            padding: "6px 12px",
+                            background: "#e3f2fd",
+                            borderRadius: "6px",
+                            border: "1px solid #2196f3",
+                            fontSize: "12px",
+                            color: "#1976d2",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px"
+                          }}>
+                            <i className="pi pi-spin pi-spinner" style={{ fontSize: "12px" }}></i>
+                            <span>{uploadProgress}</span>
+                          </div>
+                        )}
+                        {" "}
                       </>
                     )}
                   </div>
@@ -463,8 +536,24 @@ const ChatSection = () => {
                     onClick={() => {
                       handleSubmit();
                     }}
+                    disabled={uploading}
+                    style={{
+                      opacity: uploading ? 0.7 : 1,
+                      cursor: uploading ? 'not-allowed' : 'pointer'
+                    }}
                   >
-                    {lang == "en" ? English.submit : Hindi.submit}
+                    {uploading ? (
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                      }}>
+                        <i className="pi pi-spin pi-spinner" style={{ fontSize: "14px" }}></i>
+                        <span>{uploadProgress || (lang == "en" ? "Processing..." : "प्रोसेसिंग...")}</span>
+                      </div>
+                    ) : (
+                      lang == "en" ? English.submit : Hindi.submit
+                    )}
                   </button>
                 )
               ) : (
