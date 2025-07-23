@@ -57,16 +57,98 @@ const MedicalInvoice = ({
 
   const handleDownload = async () => {
     const element = invoiceRef.current;
+    // Store original styles
+    const originalOverflow = element.style.overflow;
+    const originalWidth = element.style.width;
+    const originalMaxWidth = element.style.maxWidth;
+    const originalMinWidth = element.style.minWidth;
+    const originalWhiteSpace = element.style.whiteSpace;
+    const originalTableLayout = element.style.tableLayout;
+    // Set styles for PDF rendering
+    element.style.overflow = 'visible';
+    element.style.width = '210mm'; // A4 width
+    element.style.maxWidth = '210mm';
+    element.style.minWidth = '210mm';
+    element.style.whiteSpace = 'normal';
+    // Fix all tables inside to fit and wrap
+    const tables = element.querySelectorAll('table');
+    tables.forEach(table => {
+      table.style.tableLayout = 'fixed';
+      table.style.width = '100%';
+    });
+    const tds = element.querySelectorAll('td, th');
+    tds.forEach(cell => {
+      cell.style.whiteSpace = 'normal';
+      cell.style.wordBreak = 'break-word';
+      cell.style.overflowWrap = 'break-word';
+    });
 
-    const canvas = await html2canvas(element, { scale: 2 });
-    const imgData = canvas.toDataURL("image/png");
+    const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+    const imgData = canvas.toDataURL('image/png');
 
-    const pdf = new jsPDF("p", "mm", "a4");
+    const pdf = new jsPDF('p', 'mm', 'a4');
     const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    const pdfHeight = pdf.internal.pageSize.getHeight();
 
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("invoice.pdf");
+    // Calculate image dimensions in PDF units
+    const imgProps = {
+      width: canvas.width,
+      height: canvas.height,
+    };
+    const imgPdfWidth = pdfWidth;
+    const imgPdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    let position = 0;
+    let remainingHeight = imgPdfHeight;
+    let pageHeight = pdfHeight;
+    let pageCount = Math.ceil(imgPdfHeight / pageHeight);
+
+    // Create a temporary canvas for page slicing
+    for (let i = 0; i < pageCount; i++) {
+      const pageCanvas = document.createElement('canvas');
+      pageCanvas.width = canvas.width;
+      pageCanvas.height = Math.min(canvas.height - (i * (pageHeight * canvas.width / pdfWidth)), pageHeight * canvas.width / pdfWidth);
+      const ctx = pageCanvas.getContext('2d');
+      ctx.drawImage(
+        canvas,
+        0,
+        i * (pageHeight * canvas.width / pdfWidth),
+        canvas.width,
+        pageCanvas.height,
+        0,
+        0,
+        canvas.width,
+        pageCanvas.height
+      );
+      const pageImgData = pageCanvas.toDataURL('image/png');
+      if (i > 0) pdf.addPage();
+      pdf.addImage(
+        pageImgData,
+        'PNG',
+        0,
+        0,
+        pdfWidth,
+        (pageCanvas.height * pdfWidth) / canvas.width
+      );
+    }
+
+    // Restore original styles
+    element.style.overflow = originalOverflow;
+    element.style.width = originalWidth;
+    element.style.maxWidth = originalMaxWidth;
+    element.style.minWidth = originalMinWidth;
+    element.style.whiteSpace = originalWhiteSpace;
+    tables.forEach(table => {
+      table.style.tableLayout = '';
+      table.style.width = '';
+    });
+    tds.forEach(cell => {
+      cell.style.whiteSpace = '';
+      cell.style.wordBreak = '';
+      cell.style.overflowWrap = '';
+    });
+
+    pdf.save('invoice.pdf');
   };
 
   const formatDate = (dateString) => {

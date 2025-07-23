@@ -513,27 +513,62 @@ const MedicineRequests = () => {
           <div
             style={{
               display: "flex",
+              flexDirection: "column",
               gap: 10,
-              justifyContent: "space-between",
               width: "100%",
             }}
           >
-            {request.status === "pending" && (
+            <div
+              style={{
+                display: "flex",
+                gap: 10,
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              {request.status === "pending" && (
+                <Button
+                  label="Cancel Order"
+                  icon="pi pi-times-circle"
+                  style={{
+                    padding: "0.5rem 1rem",
+                  }}
+                  severity="danger"
+                  raised
+                  text
+                  onClick={() => {
+                    setSelectedRequest(request);
+                    setShowCancelConfirmation(true);
+                  }}
+                />
+              )}
               <Button
-                label="Cancel Order"
-                icon="pi pi-times-circle"
+                label="Order Details"
                 style={{
                   padding: "0.5rem 1rem",
                 }}
-                severity="danger"
                 raised
-                text
+                icon="pi pi-info-circle"
                 onClick={() => {
                   setSelectedRequest(request);
-                  setShowCancelConfirmation(true);
+                  setShowProgressDialog(true);
                 }}
               />
-            )}
+              {request.saleOrderId && (
+                <Button
+                  label="View Invoice"
+                  style={{
+                    padding: "0.5rem 1rem",
+                  }}
+                  raised
+                  icon="pi pi-file-pdf"
+                  severity="info"
+                  onClick={() => {
+                    router.push(`/medical/orderdetails?id=${request.saleOrderId}`);
+                  }}
+                />
+              )}
+            </div>
             {request.status === "delivered" && (
               <Button
                 label="Re-Order"
@@ -549,18 +584,6 @@ const MedicineRequests = () => {
                 }}
               />
             )}
-            <Button
-              label="Order Details"
-              style={{
-                padding: "0.5rem 1rem",
-              }}
-              raised
-              icon="pi pi-info-circle"
-              onClick={() => {
-                setSelectedRequest(request);
-                setShowProgressDialog(true);
-              }}
-            />
           </div>
         </div>
         <Dialog
