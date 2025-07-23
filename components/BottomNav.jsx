@@ -1,32 +1,30 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import styles from "../styles/footer.module.css";
-import { useContext } from "react";
 import { AccountContext } from "../context/AccountProvider";
-import English from "../public/locales/en/index";
-import Hindi from "../public/locales/hi/index";
 import { useRouter } from "next/router";
 
 const navItems = [
   { href: "/", icon: "pi-home", label: "Home" },
   { href: "/DoctorDirectory", icon: "pi-search", label: "Search" },
-  { href: "/medical/requests", icon: "pi-box", label: "My Orders" },
+  {
+    href: "/lab/bookings",
+    icon: (
+      <img
+        src={"/labreport.png"}
+        alt="Lab Reports"
+        style={{ width: 32, height: 32, objectFit: "contain" }}
+      />
+    ),
+    label: "Reports",
+  },
+  { href: "/medical/requests", icon: "pi-box", label: "Orders" },
   { href: "/User/userAppo", icon: "pi-user", label: "Appointments" },
 ];
 
 const BottomNav = () => {
-  const {
-    hidebottomnav,
-    lang,
-    adminmode,
-    sethidebottomnav,
-    hidebottomnav2,
-    sethidebottomnav2,
-  } = useContext(AccountContext);
+  const { hidebottomnav2 } = useContext(AccountContext);
   const router = useRouter();
-  const activeIndex = navItems.findIndex(
-    (item) => router.pathname === item.href
-  );
 
   return (
     <>
@@ -57,103 +55,106 @@ const BottomNav = () => {
           align-items: center;
           position: relative;
         }
-        .fab {
-          position: absolute;
-          top: 50%;
-          left: 0;
-          transform: translateY(-50%)
-          background: #339966;
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 4px 16px rgba(51, 153, 102, 0.15);
-          border: 4px solid #fff;
-          z-index: 101;
-          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          padding: 8px;
-        }
-        .fab .nav-icon {
-          color: teal;
-          font-size: 28px;
-        }
         .nav-item {
           flex: 1;
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-end;
           color: #b0b0b0;
           position: relative;
           z-index: 102;
-          padding: 8px 0;
+          padding: 0;
           min-width: 48px;
+          cursor: pointer;
+          transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+          background: transparent;
+          color: teal;
+          transition: background 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-item.active .nav-icon-wrapper {
+          background: teal;
+          color: #fff;
+          transform: translateY(-8px) scale(1.08);
         }
         .nav-item .nav-icon {
           font-size: 24px;
-          transition: color 0.2s;
+          transition: color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .nav-item.active .nav-icon {
-          // color: transparent;
+        .nav-label {
+          font-size: 14px;
+          margin-top: 2px;
+          color: #888;
+          opacity: 0;
+          height: 0;
+          transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+          font-weight: 500;
         }
-        .nav-item:hover {
-          color: #339966;
+        .nav-item.active .nav-label {
+          opacity: 1;
+          height: 14px;
+          color: teal;
+          margin-bottom: 15px;
         }
       `}</style>
       <div style={{ display: hidebottomnav2 ? "none" : "block" }}>
         <div className="bottom-nav-container">
           <div className="nav-items-wrapper">
-            {/* Floating Action Button (FAB) that moves to active nav */}
-            {/* <div
-              className="fab"
-              style={
-                {
-                  // transform: `translateY(-50%) translateX(calc((100% / ${navItems.length}) * ${activeIndex} + (100% / ${navItems.length} / 2) - 50%))`,
-                }
+            {navItems.map((item) => {
+              const isActive = router.pathname === item.href;
+              // Special handling for Lab Reports icon
+              if (item.href === "/lab/bookings") {
+                return (
+                  <Link href={item.href} key={item.href}>
+                    <div className={`nav-item${isActive ? " active" : ""}`}>
+                      <div className="nav-icon-wrapper">
+                        <img
+                          src={
+                            isActive ? "/labreportwhite.png" : "/labreport.png"
+                          }
+                          alt="Lab Reports"
+                          style={{
+                            width: 32,
+                            height: 32,
+                            objectFit: "contain",
+                            transition:
+                              "filter 0.35s cubic-bezier(0.4,0,0.2,1)",
+                          }}
+                        />
+                      </div>
+                      <div className="nav-label">{item.label}</div>
+                    </div>
+                  </Link>
+                );
               }
-            >
-              <div
-                className={`nav-icon pi ${navItems[activeIndex]?.icon}`}
-              ></div>
-            </div> */}
-            {/* Nav items */}
-            {navItems.map((item, idx) => (
-              <Link href={item.href} key={item.href}>
-                <div
-                  style={{
-                    backgroundColor:
-                      router.pathname === item.href ? "teal" : "transparent",
-                    borderRadius: "50%",
-                    width: "45px",
-                    transform:
-                      router.pathname === item.href
-                        ? "translateY(-10px)"
-                        : "translateY(0px)",
-                    height: "45px",
-                    display: "flex",
-                    alignItems: "center",
-                    zIndex: "102",
-
-                    zIndex: "102",
-
-                    justifyContent: "center",
-                    color: router.pathname === item.href ? "white" : "teal",
-                  }}
-                  // className={`nav-item${
-                  //   router.pathname === item.href ? " active" : ""
-                  // }`}
-                >
-                  <div
-                    style={{
-                      fontSize: "24px",
-                    }}
-                    className={`nav-icon pi ${item.icon}`}
-                  ></div>
-                </div>
-              </Link>
-            ))}
+              // Default rendering for other items
+              return (
+                <Link href={item.href} key={item.href}>
+                  <div className={`nav-item${isActive ? " active" : ""}`}>
+                    <div className="nav-icon-wrapper">
+                      {typeof item.icon === "string" ? (
+                        <div className={`nav-icon pi ${item.icon}`}></div>
+                      ) : (
+                        item.icon
+                      )}
+                    </div>
+                    <div className="nav-label">{item.label}</div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

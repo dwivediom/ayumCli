@@ -242,7 +242,7 @@ const HeroSection = ({ city, setCity }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: "0.4rem",
+            gap: "0rem",
             boxShadow: "0 2px 8px rgba(0,128,128,0.25)",
             cursor: "pointer",
             transition: "all 0.18s",
@@ -263,8 +263,10 @@ const HeroSection = ({ city, setCity }) => {
         >
           <FaPills
             style={{
-              width: "1.5rem",
-              height: "1.5rem",
+              width: "2rem",
+              height: "2rem",
+              marginLeft: "15px",
+              marginRight: "15px",
             }}
           />{" "}
           Order Medicines
@@ -272,7 +274,8 @@ const HeroSection = ({ city, setCity }) => {
         <button
           style={{
             flex: 1,
-            background: "linear-gradient(90deg, #20d4a9 60%, #14b8a6 100%)",
+            background:
+              "linear-gradient(90deg,rgb(0, 197, 151) 60%,rgb(0, 190, 168) 100%)",
             color: "#fff",
             border: "none",
             borderRadius: "10px",
@@ -283,7 +286,8 @@ const HeroSection = ({ city, setCity }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: "0.4rem",
+
+            gap: "1rem",
             boxShadow: "0 2px 8px rgba(32,212,169,0.25)",
             cursor: "pointer",
             transition: "all 0.18s",
@@ -310,7 +314,9 @@ const HeroSection = ({ city, setCity }) => {
               height: "1.5rem",
             }}
           />{" "}
-          <span>Book Lab Tests</span>
+          <span>
+            Book <br /> Lab Tests
+          </span>
         </button>
       </div>
 

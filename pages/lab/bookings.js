@@ -4,6 +4,7 @@ import { Button } from "primereact/button";
 import { useRouter } from "next/router";
 import BookingList from "../../components/LabBooking/BookingList";
 import styles from "../../components/LabBooking/styles.module.css";
+import WithAuth1 from "../../components/WithAuth1";
 
 const LabBookingsPage = () => {
   const router = useRouter();
@@ -63,4 +64,4 @@ const LabBookingsPage = () => {
   );
 };
 
-export default LabBookingsPage;
+export default WithAuth1(LabBookingsPage);

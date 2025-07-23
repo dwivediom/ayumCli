@@ -1,167 +1,71 @@
-import React, { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import Image from "next/image";
-import { Skeleton } from "primereact/skeleton";
-import { useRouter } from "next/router";
+import React from "react";
+import NewNavbar from "./NewNavbar";
+import BottomNav from "./BottomNav"; // <-- Import your BottomNav
 
-const Loader = ({ ssrRoute }) => {
-  const [count, setCount] = useState(29900);
-  const router = useRouter();
-
-  const totalUsers = 30000;
-  useEffect(() => {
-    if (count < totalUsers) {
-      const interval = setInterval(() => {
-        setCount((prev) => Math.min(prev + 10, totalUsers));
-      }, 50); // Adjust the interval for animation speed
-
-      return () => clearInterval(interval);
-    }
-  }, [count, totalUsers]);
+const Loader = () => {
   return (
     <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        position: "relative",
-        display: ssrRoute.includes(router.pathname) ? "none" : "block",
-      }}
+      style={{ minHeight: "100vh", background: "#fff", position: "relative" }}
     >
-      <div style={{ position: "relative" }}>
-        <img
-          alt="logo"
-          style={{
-            position: "absolute",
-            alignSelf: "center",
-            top: "-35px",
-            cursor: "pointer",
-            left: "50%",
-            width: "140px",
-            height: "140px",
-            transform: "translate(-50%)",
-            zIndex: "100",
-          }}
-          src="/ayumlogormbg.png"
-          height="40"
-          className="mr-2"
-        ></img>
-        <Skeleton
-          width="100vw"
-          height="4rem"
-          className="mt-[-3rem] shadow-md"
-        ></Skeleton>
-      </div>
+      {/* Navbar always at the top */}
+      <NewNavbar />
 
-      <Skeleton width="95vw" className="m-auto mt-4" height="3rem"></Skeleton>
-      <span
-        style={{
-          fontSize: "1.05rem",
-          fontWeight: "600",
-          justifyContent: "center",
-          padding: "3px 8px",
-          borderRadius: "24px",
-          display: "flex",
-          gap: "10px",
-          alignItems: "center",
-          fontFamily: "sans-serif",
-          width: "18rem",
-          margin: "auto",
-          marginTop: "1rem",
-        }}
-        className="shadow-md"
-      >
-        {" "}
-        Ayum Family is Now{" "}
-        <span
-          style={{
-            fontSize: "1.2rem",
-            color: "teal",
-            fontWeight: "600",
-          }}
-        >
-          {count}+
-        </span>
-      </span>
+      {/* Centered spinner */}
       <div
         style={{
-          padding: "3rem",
-          paddingTop: "1.5rem",
           display: "flex",
-          gap: "1rem",
-          justifyContent: "center",
-          flexWrap: "wrap",
-        }}
-      >
-        <Skeleton
-          width="18rem"
-          shape="square"
-          height="10rem"
-          className="mb-2"
-        ></Skeleton>
-        <Skeleton
-          width="18rem"
-          shape="square"
-          height="10rem"
-          className="mb-2"
-        ></Skeleton>
-        <Skeleton
-          width="18rem"
-          shape="square"
-          height="10rem"
-          className="mb-2"
-        ></Skeleton>
-        <Skeleton
-          width="18rem"
-          shape="square"
-          height="10rem"
-          className="mb-2"
-        ></Skeleton>
-        <Skeleton
-          width="18rem"
-          shape="square"
-          height="10rem"
-          className="mb-2"
-        ></Skeleton>
-        <Skeleton
-          width="18rem"
-          shape="square"
-          height="10rem"
-          className="mb-2"
-        ></Skeleton>
-        <Skeleton
-          width="18rem"
-          shape="square"
-          height="10rem"
-          className="mb-2"
-        ></Skeleton>
-      </div>
-      {/* <Image src={"/loader.svg"} width={50} height={50} alt="Loading..." />
-      <span
-        style={{
-          fontSize: "1.05rem",
-          fontWeight: "600",
-          color: "aqua",
-          background: "#02323a",
-          padding: "3px 8px",
-          borderRadius: "24px",
-          display: "flex",
-          gap: "10px",
+          flexDirection: "column",
           alignItems: "center",
-          fontFamily: "sans-serif",
+          justifyContent: "center",
+          height: "calc(100vh - 64px - 56px)", // Subtract Navbar and BottomNav height
         }}
       >
-        {" "}
-        Ayum Family is Now{" "}
+        <div className="loader-spinner" />
         <span
           style={{
-            fontSize: "1.2rem",
-            color: "#fff",
-            fontWeight: "600",
+            marginTop: "1rem",
+            fontWeight: 600,
+            fontSize: "1.1rem",
+            color: "#008080",
+            fontFamily: "sans-serif",
           }}
         >
-          {count}+
+          Loading...
         </span>
-      </span> */}
+      </div>
+
+      {/* Bottom Navigation always at the bottom */}
+      <div
+        style={{
+          position: "fixed",
+          left: 0,
+          bottom: 0,
+          width: "100vw",
+          zIndex: 100,
+        }}
+      >
+        <BottomNav />
+      </div>
+
+      {/* Spinner CSS */}
+      <style jsx>{`
+        .loader-spinner {
+          border: 6px solid #f3f3f3;
+          border-top: 6px solid #008080;
+          border-radius: 50%;
+          width: 48px;
+          height: 48px;
+          animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   );
 };

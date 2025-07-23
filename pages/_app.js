@@ -197,7 +197,7 @@ function MyApp({ Component, pageProps, AccountContext }) {
           <AccountProvider>
             <SocketProvider>
               <ReduxProvider store={store}>
-                {loading &&
+                {loading && (
                   // <div
                   //   style={{
                   //     width: "100vw",
@@ -214,11 +214,8 @@ function MyApp({ Component, pageProps, AccountContext }) {
                   //     alt="Loading..."
                   //   />
                   // </div>
-                  (SSRroutes.includes(router.pathname) ? (
-                    <Loader ssrRoute={SSRroutes} />
-                  ) : (
-                    ""
-                  ))}
+                  <Loader />
+                )}
 
                 <div
                   style={{

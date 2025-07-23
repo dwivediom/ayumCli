@@ -359,6 +359,11 @@ ${linktext}`;
     router.push(`/doctor?docid=${item._id}`);
   };
 
+  const phoneNumbers = item?.phone
+    ? item.phone.split(/[,\s]+/).filter(Boolean)
+    : [];
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
+
   return (
     <div>
       {docid && (
@@ -759,32 +764,49 @@ ${linktext}`;
                   View Map
                 </button>
               </a>
-              <button
-                style={{
-                  flex: 1,
-                  background: "#009688",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "12px",
-                  height: "48px",
-                  fontWeight: 700,
-                  fontSize: "1.09rem",
-                  cursor: "pointer",
-                  boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                }}
-                onClick={() => {
-                  const splitArray = item?.phone && item?.phone.split(/[,\s]+/);
-                  setselectedphones(splitArray);
-                  setcallmodal(true);
+              <a
+                href={
+                  phoneNumbers.length === 1 ? `tel:${phoneNumbers[0]}` : "#"
+                }
+                style={{ flex: 1, textDecoration: "none" }}
+                onClick={(e) => {
+                  if (!item?.phone) {
+                    e.preventDefault();
+                    setsnackmsg(
+                      lang === "hi"
+                        ? "फोन नंबर उपलब्ध नहीं है!"
+                        : "Phone number not available!"
+                    );
+                    setseverity("error");
+                    setshowsnackbar(true);
+                  } else if (phoneNumbers.length > 1) {
+                    e.preventDefault();
+                    setShowPhoneModal(true);
+                  }
                 }}
               >
-                <i className="pi pi-phone" style={{ fontSize: "1.1em" }} />
-                Call Now
-              </button>
+                <button
+                  style={{
+                    width: "100%",
+                    background: "#009688",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "12px",
+                    height: "48px",
+                    fontWeight: 700,
+                    fontSize: "1.09rem",
+                    cursor: "pointer",
+                    boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                  }}
+                >
+                  <i className="pi pi-phone" style={{ fontSize: "1.1em" }} />
+                  {lang === "hi" ? "कॉल करें" : "Call Now"}
+                </button>
+              </a>
             </div>
 
             {/* Review Section */}
@@ -1416,32 +1438,49 @@ ${linktext}`;
                   View Map
                 </button>
               </a>
-              <button
-                style={{
-                  flex: 1,
-                  background: "#009688",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "12px",
-                  height: "48px",
-                  fontWeight: 700,
-                  fontSize: "1.09rem",
-                  cursor: "pointer",
-                  boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                }}
-                onClick={() => {
-                  const splitArray = item?.phone && item?.phone.split(/[,\s]+/);
-                  setselectedphones(splitArray);
-                  setcallmodal(true);
+              <a
+                href={
+                  phoneNumbers.length === 1 ? `tel:${phoneNumbers[0]}` : "#"
+                }
+                style={{ flex: 1, textDecoration: "none" }}
+                onClick={(e) => {
+                  if (!item?.phone) {
+                    e.preventDefault();
+                    setsnackmsg(
+                      lang === "hi"
+                        ? "फोन नंबर उपलब्ध नहीं है!"
+                        : "Phone number not available!"
+                    );
+                    setseverity("error");
+                    setshowsnackbar(true);
+                  } else if (phoneNumbers.length > 1) {
+                    e.preventDefault();
+                    setShowPhoneModal(true);
+                  }
                 }}
               >
-                <i className="pi pi-phone" style={{ fontSize: "1.1em" }} />
-                Call Now
-              </button>
+                <button
+                  style={{
+                    width: "100%",
+                    background: "#009688",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "12px",
+                    height: "48px",
+                    fontWeight: 700,
+                    fontSize: "1.09rem",
+                    cursor: "pointer",
+                    boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                  }}
+                >
+                  <i className="pi pi-phone" style={{ fontSize: "1.1em" }} />
+                  {lang === "hi" ? "कॉल करें" : "Call Now"}
+                </button>
+              </a>
             </div>
           </div>
         </div>
@@ -1532,6 +1571,89 @@ ${linktext}`;
             }}
           >
             Cancel
+          </button>
+        </div>
+      </Dialog>
+
+      {/* Phone Number Modal */}
+      <Dialog
+        visible={showPhoneModal}
+        onHide={() => setShowPhoneModal(false)}
+        position="bottom"
+        style={{ width: "100%", maxWidth: 400, margin: 0 }}
+        modal
+        dismissableMask
+        showHeader={false}
+        contentStyle={{ padding: 0, borderRadius: "16px 16px 0 0" }}
+      >
+        <div
+          style={{
+            padding: "1.5rem 1.2rem",
+            borderRadius: "16px 16px 0 0",
+            background: "#fff",
+            boxShadow: "0 -2px 16px rgba(0,0,0,0.08)",
+          }}
+        >
+          <div
+            style={{
+              fontWeight: 700,
+              fontSize: "1.15rem",
+              marginBottom: 18,
+              textAlign: "center",
+            }}
+          >
+            {lang === "hi"
+              ? "कॉल करने के लिए नंबर चुनें"
+              : "Select a number to call"}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {phoneNumbers.map((num, idx) => (
+              <a
+                key={num}
+                href={`tel:${num}`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 14,
+                  background: "#f7f7f7",
+                  border: "none",
+                  borderRadius: 10,
+                  padding: "0.7rem 1rem",
+                  fontSize: "1.07rem",
+                  fontWeight: 600,
+                  color: "#222",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                  transition: "background 0.15s",
+                }}
+                onClick={() => setShowPhoneModal(false)}
+              >
+                <i
+                  className="pi pi-phone"
+                  style={{ color: "#009688", fontSize: "1.1em" }}
+                />
+                {num}
+              </a>
+            ))}
+          </div>
+          <button
+            onClick={() => setShowPhoneModal(false)}
+            style={{
+              marginTop: 22,
+              width: "100%",
+              background: "#fff",
+              color: "#009688",
+              border: "1.5px solid #e0f2f1",
+              borderRadius: "12px",
+              height: "44px",
+              fontWeight: 700,
+              fontSize: "1.09rem",
+              cursor: "pointer",
+              boxShadow: "0 1px 4px rgba(0,128,128,0.07)",
+              display: "block",
+            }}
+          >
+            {lang === "hi" ? "रद्द करें" : "Cancel"}
           </button>
         </div>
       </Dialog>
