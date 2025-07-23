@@ -16,6 +16,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import styles from "./styles.module.css";
 import AddressSelector from "../medical/AddressSelector";
 import PrescriptionSelector from "../medical/PrescriptionSelector";
+import LabBookingSuccess from "./LabBookingSuccess";
 
 const NewCheckoutPageLab = (props) => {
   const { selectedLab, selectedTests, onBookingComplete, onBack } = props;
@@ -52,6 +53,8 @@ const NewCheckoutPageLab = (props) => {
   const [usePreciseLocation, setUsePreciseLocation] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const toast = useRef(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successBookingDetails, setSuccessBookingDetails] = useState(null);
 
   // Handle browser back button and mobile back gesture
   useEffect(() => {
@@ -273,15 +276,10 @@ const NewCheckoutPageLab = (props) => {
         }
       );
 
-      if (response.data && !response.data.error) {
-        toast.current.show({
-          severity: "success",
-          summary: "Booking Successful",
-          detail: "Your lab test has been booked successfully",
-          life: 3000,
-        });
-
-        onBookingComplete(bookingDetails, true);
+      if (!response.data.error) {
+        setSuccessBookingDetails(response.data.booking || bookingDetails);
+        setShowSuccess(true);
+        // Optionally: onBookingComplete(bookingDetails, true);
       } else {
         toast.current.show({
           severity: "error",
@@ -308,6 +306,15 @@ const NewCheckoutPageLab = (props) => {
       setFormLoading(false);
     }
   };
+
+  if (showSuccess) {
+    return (
+      <LabBookingSuccess
+        bookingDetails={successBookingDetails}
+        onClose={() => setShowSuccess(false)}
+      />
+    );
+  }
 
   return (
     <div className={styles.modernServiceSelection}>
@@ -458,26 +465,7 @@ const NewCheckoutPageLab = (props) => {
         >
           <i className="pi pi-check-circle"></i> Free Home Collection
         </div>
-        <div
-          style={{
-            width: "100%",
-            margin: "10px auto",
-            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            padding: "10px",
-            borderRadius: "5px",
-          }}
-        >
-          <PrescriptionSelector
-            value={selectedPrescription}
-            selectedPrescription={selectedPrescription}
-            setSelectedPrescription={setSelectedPrescription}
-            onChange={(e) => {
-              console.log(e);
-              setSelectedPrescription(e);
-            }}
-            getAuthHeaders={getAuthHeaders}
-          />
-        </div>
+
         {/* Date & Time Selection */}
         <div className={styles.formCard}>
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>

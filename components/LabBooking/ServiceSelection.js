@@ -13,13 +13,17 @@ import {
   labTestApi,
   getAuthHeaders,
   handleApiError,
+  labBookingApi,
 } from "../../config/api/labApi";
 import { AccountContext } from "../../context/AccountProvider";
+import CheckoutFromPrescription from "./CheckoutFromPrescription";
+import { useRouter } from "next/router";
 
 const ServiceSelection = ({
   onTestsSelected,
   selectedTests,
   setSelectedTests,
+  onBookingComplete, // Add this new prop
 }) => {
   const toast = useRef(null);
   const [categories, setCategories] = useState([]);
@@ -34,6 +38,10 @@ const ServiceSelection = ({
     page: 1,
     pages: 1,
   });
+  const [lang, setLang] = useState("en"); // or "hi"
+  const [showcheckout, setShowcheckout] = useState(false);
+  const [showTestDetails, setShowTestDetails] = useState(false);
+  const [selectedTestForDetails, setSelectedTestForDetails] = useState(null);
 
   // Predefined categories with icons
   const predefinedCategories = [
@@ -176,6 +184,54 @@ const ServiceSelection = ({
     onTestsSelected(selectedTests, city);
   };
 
+  const handleShowTestDetails = (test) => {
+    setSelectedTestForDetails(test);
+    setShowTestDetails(true);
+  };
+
+  const handleCloseTestDetails = () => {
+    setShowTestDetails(false);
+    setSelectedTestForDetails(null);
+  };
+
+  const router = useRouter();
+
+  const handleConfirm = async (prescription, address) => {
+    console.log(prescription, address);
+    const labId = "6877707ce00e458e6207dbb6";
+    const bookingDetails = {
+      prescription: prescription,
+      patientDetails: {
+        name: address.name || "",
+        phone: address.phone || "",
+        email: address.email || "",
+      },
+      orderbyprescription: true,
+      address: address,
+      city: city,
+      tests: selectedTests,
+      labId: labId,
+    };
+    const response = await axios.post(
+      labBookingApi.createBooking(),
+      bookingDetails,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+    if (response.data && !response.data.error) {
+      toast.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Booking created successfully",
+      });
+      // Use callback instead of router push
+      if (onBookingComplete) {
+        onBookingComplete(bookingDetails, true);
+      }
+    }
+  };
+
   const { hidebottomnav2, sethidebottomnav2 } = useContext(AccountContext);
   useEffect(() => {
     sethidebottomnav2(true);
@@ -250,17 +306,43 @@ const ServiceSelection = ({
             }}
           />
 
-          <h3 style={{ fontSize: "1rem" }}>
+          <h3
+            style={{
+              fontSize: "1rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+          >
             {test.name.charAt(0).toUpperCase() + test.name.slice(1)}
+            <span
+              style={{
+                marginLeft: "0.5rem",
+                padding: "0.15rem 0.6rem",
+                borderRadius: "1rem",
+                background: test.type === "package" ? "#ffe082" : "#b3e5fc",
+                color: "#333",
+                fontWeight: 600,
+                fontSize: "0.75rem",
+                border: "1px solid #ccc",
+                textTransform: "capitalize",
+              }}
+            >
+              {test.type}
+            </span>
           </h3>
         </div>
 
         {/* Test Details */}
         <div className={styles.testDetails}>
-          <div className={styles.testDetailRow}>
+          <div
+            className={styles.testDetailRow}
+            onClick={() => handleShowTestDetails(test)}
+            style={{ cursor: "pointer" }}
+          >
             <span className={styles.testDetailLabel}>Contains</span>
             <span className={styles.testDetailValue}>
-              {test?.testIds?.length} tests
+              {test?.tests?.length || test?.testIds?.length || 0} tests
             </span>
             <i
               className="pi pi-chevron-down"
@@ -329,6 +411,66 @@ const ServiceSelection = ({
   return (
     <div className={styles.modernServiceSelection}>
       <Toast ref={toast} />
+
+      {/* Book By Prescription Card */}
+      <div className={styles.prescriptionCard}>
+        <div className={styles.prescriptionCardContent}>
+          <img
+            src="/icons/icon-99x99.png"
+            alt="Prescription"
+            className={styles.prescriptionIcon}
+          />
+          <div>
+            {lang === "hi"
+              ? "प्रिस्क्रिप्शन से बुक करें"
+              : "Book Lab Test By Prescription"}
+          </div>
+          <div>
+            {lang === "hi"
+              ? "अपने डॉक्टर की प्रिस्क्रिप्शन अपलोड करें और बाकी हम संभाल लेंगे!"
+              : "Upload your doctor’s prescription and let us handle the rest!"}
+          </div>
+          <Button
+            label={
+              lang === "hi" ? "प्रिस्क्रिप्शन अपलोड करें" : "Upload And Book"
+            }
+            icon="pi pi-check-circle"
+            onClick={() => setShowcheckout(true)}
+          />
+        </div>
+      </div>
+
+      {/* OR Divider */}
+      <div
+        className={styles.orDivider}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <span style={{ fontSize: "1rem", fontWeight: "500" }}>OR</span>
+      </div>
+
+      {/* User-friendly line */}
+      <div
+        className={styles.userLine}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <span
+          style={{
+            fontSize: "1.2rem",
+            fontWeight: "600",
+            color: "rgb(61, 64, 69)",
+          }}
+        >
+          Choose Best Packages
+        </span>
+      </div>
 
       {/* Test Categories Grid */}
       <div className={styles.categoriesSection}>
@@ -466,6 +608,202 @@ const ServiceSelection = ({
 
       {/* Fixed Bottom Navigation */}
       <BottomNav />
+
+      {/* Prescription Upload Modal */}
+      {showcheckout && (
+        <CheckoutFromPrescription
+          open={showcheckout}
+          onClose={() => setShowcheckout(false)}
+          onConfirm={({ prescription, address }) => {
+            // handle booking logic here
+            handleConfirm(prescription, address);
+          }}
+          getAuthHeaders={getAuthHeaders}
+        />
+      )}
+
+      {/* Test Details Bottom Slider */}
+      {showTestDetails && selectedTestForDetails && (
+        <div className={styles.testDetailsSlider}>
+          <div
+            className={styles.sliderOverlay}
+            onClick={handleCloseTestDetails}
+          ></div>
+          <div className={styles.sliderContent}>
+            <div className={styles.sliderHeader}>
+              <div className={styles.sliderTitle}>
+                <img
+                  src={getTestIcon(selectedTestForDetails.name)}
+                  alt={selectedTestForDetails.name}
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    objectFit: "contain",
+                    borderRadius: "8px",
+                    padding: "8px",
+                    backgroundColor: "#fff",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  }}
+                />
+                <div>
+                  <h3
+                    style={{
+                      margin: "0",
+                      fontSize: "1.2rem",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {selectedTestForDetails.name}
+                  </h3>
+                  <span
+                    style={{
+                      padding: "0.2rem 0.6rem",
+                      borderRadius: "1rem",
+                      background:
+                        selectedTestForDetails.type === "package"
+                          ? "#ffe082"
+                          : "#b3e5fc",
+                      color: "#333",
+                      fontWeight: 600,
+                      fontSize: "0.75rem",
+                      border: "1px solid #ccc",
+                      textTransform: "capitalize",
+                      whiteSpace: "nowrap",
+                      minWidth: "fit-content",
+                    }}
+                  >
+                    {selectedTestForDetails.type}
+                  </span>
+                </div>
+              </div>
+              <Button
+                icon="pi pi-times"
+                className="p-button-rounded p-button-text"
+                onClick={handleCloseTestDetails}
+                style={{ fontSize: "1.5rem" }}
+              />
+            </div>
+
+            <div className={styles.sliderBody}>
+              <div className={styles.testSummary}>
+                <div className={styles.summaryItem}>
+                  <i className="pi pi-list" style={{ color: "#00b9af" }}></i>
+                  <span>
+                    Total Tests:{" "}
+                    {selectedTestForDetails.tests?.length ||
+                      selectedTestForDetails.testIds?.length ||
+                      0}
+                  </span>
+                </div>
+                <div className={styles.summaryItem}>
+                  <i className="pi pi-clock" style={{ color: "#00b9af" }}></i>
+                  <span>
+                    Report Time: {selectedTestForDetails.turnaroundTime}
+                  </span>
+                </div>
+                {selectedTestForDetails.tests &&
+                  selectedTestForDetails.tests.length > 0 && (
+                    <div className={styles.summaryItem}>
+                      <i className="pi pi-tag" style={{ color: "#00b9af" }}></i>
+                      <span>
+                        Categories:{" "}
+                        {
+                          [
+                            ...new Set(
+                              selectedTestForDetails.tests
+                                .map((t) => t.category)
+                                .filter(Boolean)
+                            ),
+                          ].length
+                        }
+                      </span>
+                    </div>
+                  )}
+              </div>
+
+              <div className={styles.testsList}>
+                <h4
+                  style={{
+                    margin: "1rem 0 0.5rem 0",
+                    color: "#333",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Included Tests
+                </h4>
+                {selectedTestForDetails.tests &&
+                selectedTestForDetails.tests.length > 0 ? (
+                  selectedTestForDetails.tests.map((test, index) => (
+                    <div key={index} className={styles.testItem}>
+                      <div className={styles.testItemHeader}>
+                        <img
+                          src={getTestIcon(test.name || test.category)}
+                          alt={test.name}
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                            objectFit: "contain",
+                            borderRadius: "4px",
+                            padding: "4px",
+                            backgroundColor: "#f8f9fa",
+                          }}
+                        />
+                        <div className={styles.testItemInfo}>
+                          <span className={styles.testItemName}>
+                            {test.name}
+                          </span>
+                          <div className={styles.testItemMeta}>
+                            {test.category && (
+                              <span className={styles.testItemCategory}>
+                                {test.category}
+                              </span>
+                            )}
+                            {test.disease && (
+                              <span className={styles.testItemDisease}>
+                                {test.disease}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        {test.turnaroundTime && (
+                          <span className={styles.testItemTime}>
+                            {test.turnaroundTime} hrs
+                          </span>
+                        )}
+                      </div>
+                      {test.keywords && test.keywords.trim() && (
+                        <div className={styles.testItemKeywords}>
+                          {test.keywords
+                            .split(",")
+                            .slice(0, 3)
+                            .map((keyword, idx) => (
+                              <span key={idx} className={styles.keywordTag}>
+                                {keyword.trim()}
+                              </span>
+                            ))}
+                          {test.keywords.split(",").length > 3 && (
+                            <span className={styles.keywordMore}>
+                              +{test.keywords.split(",").length - 3} more
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className={styles.noTestsMessage}>
+                    <i
+                      className="pi pi-info-circle"
+                      style={{ fontSize: "2rem", color: "#9ca3af" }}
+                    ></i>
+                    <p>No detailed test information available</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
