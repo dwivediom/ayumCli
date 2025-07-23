@@ -565,12 +565,14 @@ const Checkout = () => {
         maximizable
       >
         <PrescriptionSelector
+          value={selectedPrescription}
           selectedPrescription={selectedPrescription}
           setSelectedPrescription={setSelectedPrescription}
           onChange={(e) => {
             console.log(e);
             setSelectedPrescription(e);
           }}
+          getAuthHeaders={getAuthHeaders}
         />
       </Dialog>
 

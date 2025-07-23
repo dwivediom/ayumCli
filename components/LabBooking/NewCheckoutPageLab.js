@@ -154,12 +154,7 @@ const NewCheckoutPageLab = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData, selectedAddress);
-    if (
-      !formData.name ||
-      !formData.age ||
-      !formData.gender ||
-      !formData.phone
-    ) {
+    if (!formData.name || !formData.phone) {
       toast.current.show({
         severity: "warn",
         summary: "Warning",
@@ -208,6 +203,17 @@ const NewCheckoutPageLab = (props) => {
         gender: formData.gender || "male",
         phone: formData.phone,
         email: formData.email || "",
+        street: selectedAddress.street,
+        houseNumber: selectedAddress.houseNumber,
+        suburb: selectedAddress.suburb,
+        city: selectedAddress.city,
+        state: selectedAddress.state,
+        postalCode: selectedAddress.postalCode,
+        formattedAddress: selectedAddress.formattedAddress,
+        preferredSlot: {
+          date: formData.date.toISOString().split("T")[0],
+          time: formData.time || "10:00 AM",
+        },
       },
       prescription: selectedPrescription,
     };
@@ -462,8 +468,14 @@ const NewCheckoutPageLab = (props) => {
           }}
         >
           <PrescriptionSelector
+            value={selectedPrescription}
             selectedPrescription={selectedPrescription}
             setSelectedPrescription={setSelectedPrescription}
+            onChange={(e) => {
+              console.log(e);
+              setSelectedPrescription(e);
+            }}
+            getAuthHeaders={getAuthHeaders}
           />
         </div>
         {/* Date & Time Selection */}
@@ -564,11 +576,7 @@ const NewCheckoutPageLab = (props) => {
             disabled={
               formLoading ||
               !selectedTests.length ||
-              !formData.date ||
-              !formData.time ||
               !formData.name ||
-              !formData.age ||
-              !formData.gender ||
               !formData.phone
             }
             className={styles.bookButton}
