@@ -143,14 +143,15 @@ const NewCheckoutPageLab = (props) => {
 
   useEffect(() => {
     if (selectedAddress) {
-      setFormData({
+      setFormData((prev) => ({
+        ...prev,
         name: selectedAddress.name,
         phone: selectedAddress.phone,
         address: selectedAddress.address,
         city: selectedAddress.city,
         gender: selectedAddress.gender,
         age: selectedAddress.age,
-      });
+      }));
     }
   }, [selectedAddress]);
 
