@@ -15,6 +15,7 @@ import Head from "next/head";
 import EmblaCarouselComp from "../components/Carousel/EmblaCarouselComp";
 import SearchBox from "../components/Carousel/Search/SearchBox";
 import NewDocprofile from "../components/NewDocprofile";
+import HeroSection from "../components/HeroSection";
 
 const Doctors = ({ initialData }) => {
   const [showload, setshowload] = useState();
@@ -83,6 +84,7 @@ const Doctors = ({ initialData }) => {
   // const [profileData, setProfileData] = useState(initialProfileData);
   const [docs, setdocs] = useState(initialData);
   const [pageNum, setPageNum] = useState(1);
+  const [city, setCity] = useState();
 
   const jsonLdMarkup = {
     "@context": "https://schema.org",
@@ -195,19 +197,7 @@ const Doctors = ({ initialData }) => {
             </button>
           </div>
         </form> */}
-        <SearchBox
-          setdoctordocs={(data) => {
-            console.log(data, "dataofdocs");
-            setdocs(data?.data);
-          }}
-          redirecttohome={true}
-        />
-        {/* <Slider2 /> */}
-        {isMobile ? (
-          <EmblaCarouselComp slidesData={slidesData} />
-        ) : (
-          <HorizontalScroll />
-        )}
+        <HeroSection city={city} setCity={setCity} hidegreet={true} />
         <div className={`${styles.directoryshell}`}>
           {loading ? (
             <div

@@ -1,10 +1,10 @@
 import React from "react";
-import UserProfile from "../components/UserProfile";
+import ProfilePage from "../components/ProfilePage";
 
 const Profile = (props) => {
   return (
     <div>
-      <UserProfile {...props} />
+      <ProfilePage {...props} />
     </div>
   );
 };

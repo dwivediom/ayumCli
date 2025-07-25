@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 const navItems = [
   { href: "/", icon: "pi-home", label: "Home" },
   { href: "/DoctorDirectory", icon: "pi-search", label: "Search" },
+
   {
     href: "/lab/bookings",
     icon: (
@@ -19,7 +20,7 @@ const navItems = [
     label: "Reports",
   },
   { href: "/medical/requests", icon: "pi-box", label: "Orders" },
-  { href: "/User/userAppo", icon: "pi-user", label: "Appointments" },
+  { href: "/profile", icon: "pi-user", label: "Profile" },
 ];
 
 const BottomNav = () => {
