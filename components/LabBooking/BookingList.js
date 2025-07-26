@@ -14,6 +14,8 @@ import {
   getAuthHeaders,
   handleApiError,
 } from "../../config/api/labApi";
+import LabResult from "./LabResult";
+import BookingDetailsPage from "./BookingDetailsPage";
 
 const BookingList = () => {
   const toast = useRef(null);
@@ -41,6 +43,8 @@ const BookingList = () => {
   const [selectedTestResult, setSelectedTestResult] = useState(null);
   const [showTestResultDetails, setShowTestResultDetails] = useState(false);
   const [loadingTestResult, setLoadingTestResult] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [showDetailsPage, setShowDetailsPage] = useState(false);
 
   const baseUrl = process.env.NEXT_PUBLIC_B_PORT || "http://localhost:5001";
   const apiUrl = `${baseUrl}/api/lab/user`;
@@ -296,8 +300,16 @@ const BookingList = () => {
 
   const viewBookingDetails = async (booking) => {
     setSelectedBooking(booking);
-    setShowDetails(true);
+    setShowDetailsPage(true);
+    localStorage.setItem("bookingData", JSON.stringify(booking));
     await fetchBookingDetails(booking._id);
+  };
+
+  const handleBackFromDetails = () => {
+    setShowDetailsPage(false);
+    setSelectedBooking(null);
+    setBookingDetails(null);
+    setTestResults({});
   };
 
   const viewTestResult = (resultId) => {
@@ -348,7 +360,12 @@ const BookingList = () => {
               <i className="pi pi-building"></i>
             </div>
             <div className={styles.labDetails}>
-              <h3>{booking.labId?.name || "Lab Name"}</h3>
+              <h3>
+                {booking?.packageDetails &&
+                booking?.packageDetails[0]?.packageName
+                  ? booking?.packageDetails[0]?.packageName
+                  : "N/A"}
+              </h3>
               <p className={styles.bookingId}>#{booking._id.slice(-8)}</p>
             </div>
           </div>
@@ -421,26 +438,30 @@ const BookingList = () => {
           {/* Tests Section */}
           <div className={styles.testsSection}>
             <h4>Tests</h4>
-            <div>
-              {booking.testsRequested?.slice(0, 3).map((test, index) => (
-                <div key={index} className={styles.testItem}>
-                  <div className={styles.testInfo}>
-                    <span className={styles.testName}>{test.name}</span>
-                    <span className={styles.testPrice}>₹{test.price}</span>
+            <div className={styles.testsGrid}>
+              {booking.testsRequested?.slice(0, 6).map((test, index) => (
+                <div key={index} className={styles.testCard}>
+                  <div className={styles.testCardContent}>
+                    <div className={styles.testCardHeader}>
+                      <span className={styles.testCardName}>{test.name}</span>
+                    </div>
+                    {test.status === "completed" && test.testResultId && (
+                      <Button
+                        label="View Result"
+                        icon="pi pi-file"
+                        onClick={() => viewTestResult(test.testResultId)}
+                        className={styles.testCardButton}
+                      />
+                    )}
                   </div>
-                  {test.status === "completed" && test.testResultId && (
-                    <Button
-                      label="View Result"
-                      icon="pi pi-file"
-                      onClick={() => viewTestResult(test.testResultId)}
-                      className={styles.resultButton}
-                    />
-                  )}
                 </div>
               ))}
-              {booking.testsRequested?.length > 3 && (
-                <div className={styles.moreTests}>
-                  +{booking.testsRequested.length - 3} more tests
+              {booking.testsRequested?.length > 6 && (
+                <div className={styles.moreTestsCard}>
+                  <div className={styles.moreTestsContent}>
+                    <i className="pi pi-plus-circle"></i>
+                    <span>+{booking.testsRequested.length - 6} more tests</span>
+                  </div>
                 </div>
               )}
             </div>
@@ -535,7 +556,7 @@ const BookingList = () => {
         header="Booking Details"
         visible={showDetails}
         onHide={() => setShowDetails(false)}
-        style={{ width: "95%", maxWidth: "600px" }}
+        style={{ width: "100vw", height: "100vh" }}
         modal
         className={styles.mobileDialog}
       >
@@ -548,22 +569,30 @@ const BookingList = () => {
             <p>Loading booking details...</p>
           </div>
         ) : bookingDetails ? (
-          <div className={styles.mobileBookingDetails}>
-            <div className={styles.detailSection}>
+          <div style={{ padding: "1rem" }}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            >
               <h3>Patient Information</h3>
-              <div className={styles.detailItem}>
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <span className={styles.label}>Name:</span>
                 <span className={styles.value}>
                   {bookingDetails.patientDetails?.name || "N/A"}
                 </span>
               </div>
-              <div className={styles.detailItem}>
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <span className={styles.label}>Age:</span>
                 <span className={styles.value}>
                   {bookingDetails.patientDetails?.age || "N/A"}
                 </span>
               </div>
-              <div className={styles.detailItem}>
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <span className={styles.label}>Phone:</span>
                 <span className={styles.value}>
                   {bookingDetails.patientDetails?.phone || "N/A"}
@@ -571,21 +600,29 @@ const BookingList = () => {
               </div>
             </div>
 
-            <div className={styles.detailSection}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            >
               <h3>Lab Information</h3>
-              <div className={styles.detailItem}>
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <span className={styles.label}>Lab Name:</span>
                 <span className={styles.value}>
                   {bookingDetails.labId?.name || "Unknown Lab"}
                 </span>
               </div>
-              <div className={styles.detailItem}>
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <span className={styles.label}>Phone:</span>
                 <span className={styles.value}>
                   {bookingDetails.labId?.phone || "N/A"}
                 </span>
               </div>
-              <div className={styles.detailItem}>
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <span className={styles.label}>City:</span>
                 <span className={styles.value}>
                   {bookingDetails.labId?.city || "N/A"}
@@ -593,42 +630,150 @@ const BookingList = () => {
               </div>
             </div>
 
-            <div className={styles.detailSection}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            >
               <h3>Tests Requested</h3>
               {bookingDetails.testsRequested?.map((test, index) => (
                 <div key={index} className={styles.testDetailItem}>
-                  <div className={styles.testDetailHeader}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "1rem",
+                    }}
+                  >
                     <span className={styles.testName}>{test.name}</span>
                     <span className={styles.testPrice}>₹{test.price}</span>
                   </div>
-                  <div className={styles.testDetailInfo}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "1rem",
+                    }}
+                  >
                     <span>Sample: {test.sampleType}</span>
                     <Tag
                       value={test.status}
                       severity={getStatusSeverity(test.status)}
                     />
                   </div>
+
+                  {/* Test Results Section - Show directly below test name */}
                   {test.status === "completed" && test.testResultId && (
-                    <Button
-                      label="View Result"
-                      icon="pi pi-file"
-                      onClick={() => viewTestResult(test.testResultId)}
-                      className={styles.resultButton}
-                    />
+                    <div className={styles.testResultsSection}>
+                      {/* Test Result Details */}
+                      {selectedTestResult &&
+                      selectedTestResult.testId === test.testResultId ? (
+                        <div className={styles.testResultDetails}>
+                          <div className={styles.resultSummary}>
+                            <div className={styles.resultItem}>
+                              <span className={styles.resultLabel}>
+                                Test Date:
+                              </span>
+                              <span className={styles.resultValue}>
+                                {selectedTestResult.testDate
+                                  ? formatDate(selectedTestResult.testDate)
+                                  : "N/A"}
+                              </span>
+                            </div>
+                            <div className={styles.resultItem}>
+                              <span className={styles.resultLabel}>
+                                Status:
+                              </span>
+                              <Tag
+                                value={selectedTestResult.status || "pending"}
+                                severity={getStatusSeverity(
+                                  selectedTestResult.status
+                                )}
+                              />
+                            </div>
+                          </div>
+
+                          {/* Test Parameters */}
+                          <div className={styles.testParameters}>
+                            <h5>Test Parameters</h5>
+                            <div className={styles.parametersTable}>
+                              <div className={styles.parameterHeader}>
+                                <span>Parameter</span>
+                                <span>Value</span>
+                                <span>Unit</span>
+                                <span>Reference Range</span>
+                                <span>Status</span>
+                              </div>
+                              {selectedTestResult.results?.map(
+                                (result, resultIndex) => (
+                                  <div
+                                    key={resultIndex}
+                                    className={styles.parameterRow}
+                                  >
+                                    <span className={styles.parameterName}>
+                                      {result.name || "Unknown Parameter"}
+                                    </span>
+                                    <span className={styles.parameterValue}>
+                                      {result.value || "N/A"}
+                                    </span>
+                                    <span className={styles.parameterUnit}>
+                                      {result.unit || "N/A"}
+                                    </span>
+                                    <span className={styles.parameterRange}>
+                                      {result.referenceRange || "N/A"}
+                                    </span>
+                                    <span className={styles.parameterStatus}>
+                                      <Tag
+                                        value={result.status || "normal"}
+                                        severity={getStatusSeverity(
+                                          result.status
+                                        )}
+                                      />
+                                    </span>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Additional Notes */}
+                          {selectedTestResult.notes && (
+                            <div className={styles.testNotes}>
+                              <h5>Notes</h5>
+                              <p>{selectedTestResult.notes}</p>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className={styles.loadTestResults}>
+                          <Button
+                            label="Load Test Results"
+                            icon="pi pi-eye"
+                            onClick={() => viewTestResult(test.testResultId)}
+                            className={styles.loadResultsButton}
+                            loading={loadingTestResult}
+                          />
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
               ))}
             </div>
 
-            <div className={styles.detailSection}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            >
               <h3>Payment Information</h3>
-              <div className={styles.detailItem}>
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <span className={styles.label}>Total Amount:</span>
                 <span className={styles.value}>
                   ₹{bookingDetails.payment?.totalAmount || 0}
                 </span>
               </div>
-              <div className={styles.detailItem}>
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "1rem" }}
+              >
                 <span className={styles.label}>Payment Status:</span>
                 <Tag
                   value={bookingDetails.payment?.paymentStatus || "pending"}
@@ -640,111 +785,12 @@ const BookingList = () => {
             </div>
           </div>
         ) : (
-          <div className={styles.errorContainer}>
+          <div className={styles.fullScreenError}>
             <i
               className="pi pi-exclamation-triangle"
               style={{ fontSize: "2rem", color: "var(--red-500)" }}
             ></i>
             <p>Failed to load booking details</p>
-          </div>
-        )}
-      </Dialog>
-    );
-  };
-
-  const testResultDetailsDialog = () => {
-    if (!selectedTestResult) return null;
-
-    return (
-      <Dialog
-        header="Test Result Details"
-        visible={showTestResultDetails}
-        onHide={() => setShowTestResultDetails(false)}
-        style={{ width: "95%", maxWidth: "600px" }}
-        modal
-        className={styles.mobileDialog}
-      >
-        {loadingTestResult ? (
-          <div className={styles.loadingContainer}>
-            <i
-              className="pi pi-spin pi-spinner"
-              style={{ fontSize: "2rem" }}
-            ></i>
-            <p>Loading test result details...</p>
-          </div>
-        ) : selectedTestResult ? (
-          <div className={styles.mobileBookingDetails}>
-            <div className={styles.detailSection}>
-              <h3>Test Information</h3>
-              <div className={styles.detailItem}>
-                <span className={styles.label}>Test Name:</span>
-                <span className={styles.value}>
-                  {selectedTestResult.testName || "Unknown Test"}
-                </span>
-              </div>
-              <div className={styles.detailItem}>
-                <span className={styles.label}>Test Date:</span>
-                <span className={styles.value}>
-                  {selectedTestResult.testDate
-                    ? formatDate(selectedTestResult.testDate)
-                    : "N/A"}
-                </span>
-              </div>
-              <div className={styles.detailItem}>
-                <span className={styles.label}>Status:</span>
-                <Tag
-                  value={selectedTestResult.status || "pending"}
-                  severity={getStatusSeverity(selectedTestResult.status)}
-                />
-              </div>
-            </div>
-
-            <div className={styles.detailSection}>
-              <h3>Test Results</h3>
-              {selectedTestResult.results?.map((result, index) => (
-                <div key={index} className={styles.resultItem}>
-                  <div className={styles.resultHeader}>
-                    <span className={styles.parameterName}>
-                      {result.name || "Unknown Parameter"}
-                    </span>
-                    <span className={styles.parameterValue}>
-                      {result.value || "N/A"}
-                    </span>
-                  </div>
-                  <div className={styles.resultDetails}>
-                    <span>Unit: {result.unit || "N/A"}</span>
-                    <span>Range: {result.referenceRange || "N/A"}</span>
-                    <Tag
-                      value={result.status || "normal"}
-                      severity={getStatusSeverity(result.status)}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.detailSection}>
-              <h3>Download Report</h3>
-              <Button
-                label="Download Report"
-                icon="pi pi-download"
-                onClick={() =>
-                  window.open(
-                    `${apiUrl}/result/download?resultId=${selectedTestResult.resultId}`,
-                    "_blank"
-                  )
-                }
-                className={styles.downloadButton}
-              />
-            </div>
-          </div>
-        ) : (
-          <div className={styles.errorContainer}>
-            <i
-              className="pi pi-exclamation-triangle"
-              style={{ fontSize: "2rem", color: "var(--red-500)" }}
-            ></i>
-            <p>Failed to load test result details</p>
           </div>
         )}
       </Dialog>
@@ -757,13 +803,15 @@ const BookingList = () => {
         header="Test Results"
         visible={showTestResults}
         onHide={() => setShowTestResults(false)}
-        style={{ width: "95%", maxWidth: "600px" }}
+        style={{ width: "100vw", height: "100vh" }}
         modal
         className={styles.mobileDialog}
       >
-        <div className={styles.mobileFilterSection}>
-          <div className={styles.filterRow}>
-            <div className={styles.filterItem}>
+        <div style={{ padding: "1rem" }}>
+          <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            >
               <label>From Date</label>
               <Calendar
                 value={filters.fromDate}
@@ -773,7 +821,9 @@ const BookingList = () => {
                 className={styles.mobileCalendar}
               />
             </div>
-            <div className={styles.filterItem}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            >
               <label>To Date</label>
               <Calendar
                 value={filters.toDate}
@@ -784,12 +834,13 @@ const BookingList = () => {
               />
             </div>
           </div>
-          <div className={styles.filterActions}>
+          <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
             <Button
               label="Apply Filters"
               icon="pi pi-filter"
               onClick={() => fetchTestResults()}
-              className={styles.applyButton}
+              className={styles.primaryButton}
+              style={{ width: "100%" }}
             />
             <Button
               label="Clear"
@@ -803,7 +854,8 @@ const BookingList = () => {
                   limit: 10,
                 })
               }
-              className={styles.clearButton}
+              className={styles.secondaryButton}
+              style={{ width: "100%" }}
             />
           </div>
         </div>
@@ -846,120 +898,85 @@ const BookingList = () => {
     <div className={styles.mobileBookingListContainer}>
       <Toast ref={toast} />
 
-      {/* Lab Bookings Header */}
-      {/* <div className={styles.labBookingsHeader}>
-        <h1>Lab Bookings</h1>
-        <Button
-          label="Create New Booking"
-          icon="pi pi-plus"
-          onClick={() => (window.location.href = "/lab")}
-          className={styles.createBookingButton}
+      {/* Show Booking Details Page when active */}
+      {showDetailsPage && selectedBooking && (
+        <BookingDetailsPage
+          booking={selectedBooking}
+          visible={showDetailsPage}
+          onHide={() => setShowDetailsPage(false)}
+          onBack={handleBackFromDetails}
         />
-      </div> */}
-
-      {/* My Lab Bookings Section */}
-      <div className={styles.myBookingsSection}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-          className={styles.sectionHeader}
-        >
-          <h2>My Lab Bookings</h2>
-          <p>Manage and track your laboratory test bookings</p>
-        </div>
-        <div className={styles.sectionActions}>
-          <Button
-            label="View Test Results"
-            icon="pi pi-file"
-            onClick={viewTestResults}
-            className={styles.viewResultsButton}
-          />
-          <Button
-            label="Refresh"
-            icon="pi pi-refresh"
-            onClick={fetchBookings}
-            loading={loading}
-            className={styles.refreshButton}
-          />
-        </div>
-      </div>
-
-      {/* Filter Section */}
-      <div className={styles.mobileFilterSection}>
-        <div className={styles.filterChipsContainer}>
-          <div className={styles.filterChips}>
-            {[
-              { label: "All", value: "all" },
-              { label: "Pending", value: "pending" },
-              { label: "Confirmed", value: "confirmed" },
-              { label: "Completed", value: "completed" },
-              { label: "Cancelled", value: "cancelled" },
-            ].map((status) => (
-              <button
-                key={status.value}
-                className={`${styles.filterChip} ${
-                  filters.status === status.value ? styles.filterChipActive : ""
-                }`}
-                onClick={() => handleFilterChange("status", status.value)}
-              >
-                {status.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Bookings Content */}
-      {loading ? (
-        <div className={styles.loadingContainer}>
-          <i className="pi pi-spin pi-spinner" style={{ fontSize: "2rem" }}></i>
-          <p>Loading your bookings...</p>
-        </div>
-      ) : bookings.length === 0 ? (
-        <div className={styles.emptyState}>
-          <div className={styles.emptyIcon}>
-            <i className="pi pi-calendar-times"></i>
-          </div>
-          <h3>No Bookings Found</h3>
-          <p>
-            You don't have any lab bookings yet. Start by booking your first
-            test.
-          </p>
-          <Button
-            label="Book New Test"
-            icon="pi pi-plus"
-            onClick={() => (window.location.href = "/lab")}
-            className={styles.primaryButton}
-          />
-        </div>
-      ) : (
-        <div className={styles.bookingsContainer}>
-          <DataView
-            value={bookings}
-            itemTemplate={itemTemplate}
-            paginator={false}
-            loading={loading}
-            emptyMessage="No bookings found"
-          />
-          <div className={styles.paginationContainer}>
-            <Paginator
-              first={(pagination.page - 1) * pagination.limit}
-              rows={pagination.limit}
-              totalRecords={pagination.total}
-              onPageChange={handlePageChange}
-              rowsPerPageOptions={[5, 10, 20]}
-              template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-            />
-          </div>
-        </div>
       )}
 
-      {bookingDetailsDialog()}
-      {testResultsDialog()}
-      {testResultDetailsDialog()}
+      {/* Show main booking list when details page is not active */}
+      {!showDetailsPage && (
+        <>
+          <p
+            style={{
+              fontSize: "1.2rem",
+              fontWeight: "600",
+              textAlign: "center",
+            }}
+          >
+            My Lab Tests Bookings
+          </p>
+
+          {/* Bookings Content */}
+          {loading ? (
+            <div className={styles.loadingContainer}>
+              <i
+                className="pi pi-spin pi-spinner"
+                style={{ fontSize: "2rem" }}
+              ></i>
+              <p>Loading your bookings...</p>
+            </div>
+          ) : bookings.length === 0 ? (
+            <div className={styles.emptyState}>
+              <div className={styles.emptyIcon}>
+                <i className="pi pi-calendar-times"></i>
+              </div>
+              <h3>No Bookings Found</h3>
+              <p>
+                You don't have any lab bookings yet. Start by booking your first
+                test.
+              </p>
+              <Button
+                label="Book New Test"
+                icon="pi pi-plus"
+                onClick={() => (window.location.href = "/lab")}
+                className={styles.primaryButton}
+              />
+            </div>
+          ) : (
+            <div className={styles.bookingsContainer}>
+              <DataView
+                value={bookings}
+                itemTemplate={itemTemplate}
+                paginator={false}
+                loading={loading}
+                emptyMessage="No bookings found"
+              />
+              <div className={styles.paginationContainer}>
+                <Paginator
+                  first={(pagination.page - 1) * pagination.limit}
+                  rows={pagination.limit}
+                  totalRecords={pagination.total}
+                  onPageChange={handlePageChange}
+                  rowsPerPageOptions={[5, 10, 20]}
+                  template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                />
+              </div>
+            </div>
+          )}
+
+          {testResultsDialog()}
+          <LabResult
+            resultData={selectedTestResult}
+            visible={showTestResultDetails}
+            onHide={() => setShowTestResultDetails(false)}
+          />
+        </>
+      )}
     </div>
   );
 };

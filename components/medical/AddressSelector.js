@@ -37,26 +37,111 @@ const AddressSelector = (props) => {
     }
 
     setaddresslist(temp?.address || []);
+    GetuserData();
   }, []);
 
   const handleAddressChange = (e) => {
     setNewAddress({ ...newAddress, [e.target.name]: e.target.value });
   };
+  const GetuserData = async () => {
+    try {
+      const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getuser`;
+      axios
+        .get(url, {
+          headers: {
+            "x-auth-token": localStorage.usertoken,
+          },
+        })
+        .then((data) => {
+          console.log(data, "userappos");
+          data.data.address = data.data.address.map((address, index) => ({
+            ...address,
+            id: index,
+          }));
+          setaddresslist(data?.data?.address);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {}
+  };
 
-  const handleAddAddress = () => {
-    setaddresslist([...addresslist, newAddress]);
-    setNewAddress({});
-    const temp = JSON.parse(localStorage.getItem("labuser"));
-    temp.address = [...addresslist, newAddress];
-    localStorage.setItem("labuser", JSON.stringify(temp));
-    console.log([...addresslist, newAddress], "useraddressdetails");
-    setSelectedAddress({ ...newAddress, id: addresslist.length });
-    updateuser([...addresslist, newAddress]);
-    setShowAddressForm(false);
+  const handleAddAddress = async () => {
+    try {
+      // Create the new address with a temporary ID
+      const newAddressWithId = { ...newAddress, id: addresslist.length };
+
+      // Update local state immediately for better UX
+      const updatedAddressList = [...addresslist, newAddressWithId];
+      setaddresslist(updatedAddressList);
+
+      // Set the selected address immediately
+      setSelectedAddress(newAddressWithId);
+
+      // Clear the form
+      setNewAddress({});
+      setShowAddressForm(false);
+
+      // Update localStorage
+      const temp = JSON.parse(localStorage.getItem("labuser"));
+      temp.address = updatedAddressList;
+      localStorage.setItem("labuser", JSON.stringify(temp));
+
+      // Save to server
+      const result = await updateuser(updatedAddressList);
+
+      // Only refresh from server if the update was successful
+      if (result && !result.error) {
+        // Fetch fresh data from server to ensure consistency
+        await GetuserData();
+
+        // Find the newly added address in the fresh data and select it
+        const freshAddressList = await getFreshAddressList();
+        if (freshAddressList) {
+          // Find the address that matches our newly added address (by comparing content, not ID)
+          const matchingAddress = freshAddressList.find(
+            (addr) =>
+              addr.name === newAddressWithId.name &&
+              addr.phone === newAddressWithId.phone &&
+              addr.street === newAddressWithId.street &&
+              addr.city === newAddressWithId.city
+          );
+
+          if (matchingAddress) {
+            setSelectedAddress(matchingAddress);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error adding address:", error);
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to add address. Please try again.",
+        life: 3000,
+      });
+    }
+  };
+
+  // Helper function to get fresh address list
+  const getFreshAddressList = async () => {
+    try {
+      const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getuser`;
+      const response = await axios.get(url, {
+        headers: {
+          "x-auth-token": localStorage.usertoken,
+        },
+      });
+      return response?.data?.address || [];
+    } catch (error) {
+      console.error("Error fetching fresh address list:", error);
+      return null;
+    }
   };
 
   const [updateload, setupdateload] = useState(false);
 
+  // Update the updateuser function to return a result
   const updateuser = async (addresstosave) => {
     setupdateload(true);
     try {
@@ -72,14 +157,16 @@ const AddressSelector = (props) => {
           },
         }
       );
+
       if (!result.data.error) {
         toast.current.show({
           severity: "success",
           summary: "Success",
-          detail: "Profile Saved Successfully",
+          detail: "Address added successfully",
           life: 3000,
         });
         setupdateload(false);
+        return result.data;
       } else {
         toast.current.show({
           severity: "error",
@@ -88,8 +175,12 @@ const AddressSelector = (props) => {
           life: 3000,
         });
         setupdateload(false);
+        return { error: true };
       }
-    } catch (error) {}
+    } catch (error) {
+      setupdateload(false);
+      return { error: true };
+    }
   };
 
   const handleDeleteAddress = (index) => {
@@ -99,6 +190,7 @@ const AddressSelector = (props) => {
     user.address = temp;
     localStorage.setItem("labuser", JSON.stringify(user));
     setaddresslist(temp);
+    setSelectedAddress(null);
     updateuser(temp);
   };
 
@@ -194,6 +286,7 @@ const AddressSelector = (props) => {
               selectedAddress?.id === address.id ? "selected" : ""
             }`}
             onClick={() => {
+              console.log(address, "address");
               if (selectedAddress && selectedAddress.id === address.id) {
                 setSelectedAddress(null);
               } else {

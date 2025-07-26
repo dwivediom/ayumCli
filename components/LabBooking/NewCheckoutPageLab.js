@@ -143,6 +143,7 @@ const NewCheckoutPageLab = (props) => {
 
   useEffect(() => {
     if (selectedAddress) {
+      console.log(selectedAddress, "selectedAddress");
       setFormData((prev) => ({
         ...prev,
         name: selectedAddress.name,
@@ -157,7 +158,7 @@ const NewCheckoutPageLab = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData, selectedAddress);
+    console.log(formData, "Address", selectedAddress);
     if (!formData.name || !formData.phone) {
       toast.current.show({
         severity: "warn",
@@ -207,13 +208,13 @@ const NewCheckoutPageLab = (props) => {
         gender: formData.gender || "male",
         phone: formData.phone,
         email: formData.email || "",
-        street: selectedAddress.street,
-        houseNumber: selectedAddress.houseNumber,
-        suburb: selectedAddress.suburb,
-        city: selectedAddress.city,
-        state: selectedAddress.state,
-        postalCode: selectedAddress.postalCode,
-        formattedAddress: selectedAddress.formattedAddress,
+        street: selectedAddress?.street,
+        houseNumber: selectedAddress?.houseNumber,
+        suburb: selectedAddress?.suburb,
+        city: selectedAddress?.city,
+        state: selectedAddress?.state,
+        postalCode: selectedAddress?.postalCode,
+        formattedAddress: selectedAddress?.formattedAddress,
         preferredSlot: {
           date: formData.date.toISOString().split("T")[0],
           time: formData.time || "10:00 AM",
@@ -228,39 +229,6 @@ const NewCheckoutPageLab = (props) => {
         date: formData.date.toISOString().split("T")[0],
         time: formData.time || "10:00 AM",
       };
-    }
-
-    // Add address and coordinates to patient details if home collection is selected
-    if (formData.homeCollection) {
-      if (
-        usePreciseLocation &&
-        locationData.latitude &&
-        locationData.longitude
-      ) {
-        bookingDetails.patientDetails.address =
-          addressData.formattedAddress ||
-          `${addressData.street}, ${addressData.houseNumber}, ${addressData.suburb}, ${addressData.city}, ${addressData.state} - ${addressData.postalCode}`;
-
-        bookingDetails.patientDetails.coordinates = {
-          latitude: locationData.latitude,
-          longitude: locationData.longitude,
-        };
-      } else {
-        if (!addressData.street || !addressData.city) {
-          toast.current.show({
-            severity: "warn",
-            summary: "Warning",
-            detail:
-              "Please provide at least street and city for home collection",
-            life: 3000,
-          });
-          return;
-        }
-
-        bookingDetails.patientDetails.address =
-          addressData.formattedAddress ||
-          `${addressData.street}, ${addressData.houseNumber}, ${addressData.suburb}, ${addressData.city}, ${addressData.state} - ${addressData.postalCode}`;
-      }
     }
 
     try {

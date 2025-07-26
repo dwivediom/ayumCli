@@ -34,12 +34,13 @@ const NewHomePage = () => {
   const [activeCategory, setActiveCategory] = useState("Skin");
   const [city, setCity] = useState();
 
-  const { langmodal } = useContext(AccountContext);
+  const { langmodal, sethidebottomnav2 } = useContext(AccountContext);
   const [showload, setshowload] = useState();
   const [full, setfull] = useState(false);
   const [docs, setdocs] = useState([]);
   useEffect(() => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
+    sethidebottomnav2(false);
     setIsMobile(mobile.matches);
     setCity(
       window && localStorage.getItem("city")
