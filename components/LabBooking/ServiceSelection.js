@@ -45,14 +45,50 @@ const ServiceSelection = ({
 
   // Predefined categories with icons
   const predefinedCategories = [
-    { id: "all", name: "All", icon: "/labicons/all.png" },
-    { id: "cbc", name: "Blood", icon: "/labicons/blood.png" },
-    { id: "urine", name: "Urine", icon: "/labicons/urine.png" },
-    { id: "gynae", name: "Gynae", icon: "/labicons/gynae.png" },
-    { id: "thyroid", name: "Thyroid", icon: "/labicons/thyroid.png" },
-    { id: "liver", name: "Liver (LFT)", icon: "/labicons/liver.png" },
-    { id: "lipid", name: "Lipid Profile", icon: "/labicons/lipidprofile.png" },
-    { id: "kidney", name: "Kidney", icon: "/labicons/kidney.png" },
+    { id: "all", name: "All", icon: "/labicons/all.png", icontype: "png" },
+    {
+      id: "full body",
+      name: "Full Body Checkup",
+      icontype: "svg",
+      icon: "/fullbody.svg",
+    },
+    {
+      id: "cbc",
+      name: "Blood",
+      icon: "/labicons/blood.png",
+      icontype: "png",
+    },
+    {
+      id: "urine",
+      name: "Urine",
+      icon: "/labicons/urine.png",
+      icontype: "png",
+    },
+    {
+      id: "gynae",
+      name: "Gynae",
+      icon: "/labicons/gynae.png",
+      icontype: "png",
+    },
+    {
+      id: "thyroid",
+      name: "Thyroid",
+      icon: "/labicons/thyroid.png",
+      icontype: "png",
+    },
+    {
+      id: "liver",
+      name: "Liver (LFT)",
+      icon: "/labicons/liver.png",
+      icontype: "png",
+    },
+    {
+      id: "lipid",
+      name: "Lipid Profile",
+      icon: "/labicons/lipidprofile.png",
+      icontype: "png",
+    },
+    // { id: "kidney", name: "Kidney", icon: "/labicons/kidney.png" },
   ];
 
   // Filter options
@@ -434,7 +470,7 @@ const ServiceSelection = ({
             label={
               lang === "hi" ? "प्रिस्क्रिप्शन अपलोड करें" : "Upload And Book"
             }
-            icon="pi pi-check-circle"
+            icon="pi pi-upload"
             onClick={() => setShowcheckout(true)}
           />
         </div>
