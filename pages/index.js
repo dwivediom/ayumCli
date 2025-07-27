@@ -28,7 +28,9 @@ import NewHomePage from "../components/NewHomePage";
 import EmblaCarousel from "../components/Carousel/EmblaCarouselComp";
 import SearchBox from "../components/Carousel/Search/SearchBox";
 import { Dialog } from "primereact/dialog";
+// import AppSlider from "../components/AppSlider";
 
+import AppSlider from "../components/AppSlider";
 // import Hindi from "/locales/hi/index";
 export async function getServerSideProps(context) {
   try {
@@ -216,6 +218,9 @@ export default function Home(props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      {/* App Slider - appears when app opens */}
+      <AppSlider />
 
       {!adminmode ? (
         <NewHomePage />
