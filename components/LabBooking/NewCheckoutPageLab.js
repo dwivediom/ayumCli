@@ -19,7 +19,13 @@ import PrescriptionSelector from "../medical/PrescriptionSelector";
 import LabBookingSuccess from "./LabBookingSuccess";
 
 const NewCheckoutPageLab = (props) => {
-  const { selectedLab, selectedTests, onBookingComplete, onBack } = props;
+  // Null check for props
+  const {
+    selectedLab,
+    selectedTests = [],
+    onBookingComplete,
+    onBack,
+  } = props || {};
 
   const [formData, setFormData] = useState({
     name: "",
@@ -61,7 +67,7 @@ const NewCheckoutPageLab = (props) => {
     const handlePopState = (event) => {
       event.preventDefault();
       // Call the onBack function instead of allowing default navigation
-      if (onBack) {
+      if (onBack && typeof onBack === "function") {
         onBack();
       }
     };
@@ -85,20 +91,26 @@ const NewCheckoutPageLab = (props) => {
 
   // Custom back button handler
   const handleBackButtonClick = () => {
-    if (onBack) {
+    if (onBack && typeof onBack === "function") {
       onBack();
     }
   };
 
   // Calculate totals based on ServiceSelection.js data structure
   const calculateSubtotal = () => {
+    if (!selectedTests || !Array.isArray(selectedTests)) {
+      return 0;
+    }
     return selectedTests.reduce((total, test) => {
+      if (!test || typeof test !== "object") {
+        return total;
+      }
       return total + (test?.sellingPrice || 0);
     }, 0);
   };
 
   const calculateHomeCollectionCharge = () => {
-    return formData.homeCollection ? 0 : 0; // ₹200 for home collection
+    return formData?.homeCollection ? 0 : 0; // ₹200 for home collection
   };
 
   const calculateTotal = () => {
@@ -117,6 +129,9 @@ const NewCheckoutPageLab = (props) => {
   ];
 
   const handleInputChange = (field, value) => {
+    if (!field || typeof field !== "string") {
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -124,6 +139,9 @@ const NewCheckoutPageLab = (props) => {
   };
 
   const handleAddressChange = (field, value) => {
+    if (!field || typeof field !== "string") {
+      return;
+    }
     setAddressData((prev) => ({
       ...prev,
       [field]: value,
@@ -131,6 +149,9 @@ const NewCheckoutPageLab = (props) => {
   };
 
   const getTestIcon = (testName) => {
+    if (!testName || typeof testName !== "string") {
+      return "/labicons/blood.png";
+    }
     const name = testName.toLowerCase();
     if (name.includes("cbc") || name.includes("blood"))
       return "/labicons/blood.png";
@@ -142,16 +163,16 @@ const NewCheckoutPageLab = (props) => {
   };
 
   useEffect(() => {
-    if (selectedAddress) {
+    if (selectedAddress && typeof selectedAddress === "object") {
       console.log(selectedAddress, "selectedAddress");
       setFormData((prev) => ({
         ...prev,
-        name: selectedAddress.name,
-        phone: selectedAddress.phone,
-        address: selectedAddress.address,
-        city: selectedAddress.city,
-        gender: selectedAddress.gender,
-        age: selectedAddress.age,
+        name: selectedAddress?.name || prev.name,
+        phone: selectedAddress?.phone || prev.phone,
+        address: selectedAddress?.address || prev.address,
+        city: selectedAddress?.city || prev.city,
+        gender: selectedAddress?.gender || prev.gender,
+        age: selectedAddress?.age || prev.age,
       }));
     }
   }, [selectedAddress]);
@@ -159,25 +180,31 @@ const NewCheckoutPageLab = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData, "Address", selectedAddress);
-    if (!formData.name || !formData.phone) {
-      toast.current.show({
-        severity: "warn",
-        summary: "Warning",
-        detail: "Please fill all required fields (Name, Age, Gender, Phone)",
-        life: 3000,
-      });
+
+    // Null checks for required form fields
+    if (!formData?.name || !formData?.phone) {
+      if (toast?.current) {
+        toast.current.show({
+          severity: "warn",
+          summary: "Warning",
+          detail: "Please fill all required fields (Name, Age, Gender, Phone)",
+          life: 3000,
+        });
+      }
       return;
     }
 
     const authToken = localStorage.getItem("usertoken");
 
     if (!authToken) {
-      toast.current.show({
-        severity: "error",
-        summary: "Authentication Error",
-        detail: "Please log in to continue",
-        life: 3000,
-      });
+      if (toast?.current) {
+        toast.current.show({
+          severity: "error",
+          summary: "Authentication Error",
+          detail: "Please log in to continue",
+          life: 3000,
+        });
+      }
       return;
     }
 
@@ -186,48 +213,69 @@ const NewCheckoutPageLab = (props) => {
 
     if (!labId) {
       console.error("Selected lab data:", selectedLab);
-      toast.current.show({
-        severity: "error",
-        summary: "Lab ID Error",
-        detail: "Lab ID is missing. Please try selecting the lab again.",
-        life: 3000,
-      });
+      if (toast?.current) {
+        toast.current.show({
+          severity: "error",
+          summary: "Lab ID Error",
+          detail: "Lab ID is missing. Please try selecting the lab again.",
+          life: 3000,
+        });
+      }
+      return;
+    }
+
+    // Validate selectedTests
+    if (
+      !selectedTests ||
+      !Array.isArray(selectedTests) ||
+      selectedTests.length === 0
+    ) {
+      if (toast?.current) {
+        toast.current.show({
+          severity: "error",
+          summary: "Tests Error",
+          detail: "No tests selected. Please select tests to continue.",
+          life: 3000,
+        });
+      }
       return;
     }
 
     // Prepare the booking request body according to the API specification
     const bookingDetails = {
       labId: labId,
-      packageIds: selectedTests.map((test) => test._id),
+      packageIds: selectedTests
+        .filter((test) => test && test._id)
+        .map((test) => test._id),
       homeCollection: {
-        required: formData.homeCollection,
+        required: formData?.homeCollection || false,
       },
       patientDetails: {
-        name: formData.name,
-        age: formData.age,
-        gender: formData.gender || "male",
-        phone: formData.phone,
-        email: formData.email || "",
-        street: selectedAddress?.street,
-        houseNumber: selectedAddress?.houseNumber,
-        suburb: selectedAddress?.suburb,
-        city: selectedAddress?.city,
-        state: selectedAddress?.state,
-        postalCode: selectedAddress?.postalCode,
-        formattedAddress: selectedAddress?.formattedAddress,
+        name: formData?.name || "",
+        age: formData?.age || "",
+        gender: formData?.gender || "male",
+        phone: formData?.phone || "",
+        email: formData?.email || "",
+        street: selectedAddress?.street || "",
+        houseNumber: selectedAddress?.houseNumber || "",
+        suburb: selectedAddress?.suburb || "",
+        city: selectedAddress?.city || "",
+        state: selectedAddress?.state || "",
+        postalCode: selectedAddress?.postalCode || "",
+        formattedAddress: selectedAddress?.formattedAddress || "",
         preferredSlot: {
-          date: formData.date.toISOString().split("T")[0],
-          time: formData.time || "10:00 AM",
+          date: formData?.date?.toISOString?.()?.split("T")[0] || "",
+          time: formData?.time || "10:00 AM",
         },
       },
-      prescription: selectedPrescription,
+      prescription: selectedPrescription || null,
     };
 
     // Add preferred slot if date is selected
-    if (formData.date) {
+    if (formData?.date && formData.date instanceof Date) {
       bookingDetails.preferredSlot = {
         date: formData.date.toISOString().split("T")[0],
-        time: formData.time || "10:00 AM",
+        time: formData?.time || "10:00 AM",
       };
     }
 
@@ -245,32 +293,36 @@ const NewCheckoutPageLab = (props) => {
         }
       );
 
-      if (!response.data.error) {
+      if (response?.data && !response.data.error) {
         setSuccessBookingDetails(response.data.booking || bookingDetails);
         setShowSuccess(true);
         // Optionally: onBookingComplete(bookingDetails, true);
       } else {
-        toast.current.show({
-          severity: "error",
-          summary: "Booking Failed",
-          detail: response.data.message || "Failed to create booking",
-          life: 3000,
-        });
+        if (toast?.current) {
+          toast.current.show({
+            severity: "error",
+            summary: "Booking Failed",
+            detail: response?.data?.message || "Failed to create booking",
+            life: 3000,
+          });
+        }
       }
     } catch (error) {
       console.error("Error creating booking:", error);
 
-      if (error.response) {
+      if (error?.response) {
         console.error("Error response:", error.response.data);
       }
 
       const errorResult = handleApiError(error);
-      toast.current.show({
-        severity: "error",
-        summary: "Booking Failed",
-        detail: errorResult.message || "Failed to create booking",
-        life: 3000,
-      });
+      if (toast?.current) {
+        toast.current.show({
+          severity: "error",
+          summary: "Booking Failed",
+          detail: errorResult?.message || "Failed to create booking",
+          life: 3000,
+        });
+      }
     } finally {
       setFormLoading(false);
     }
@@ -314,41 +366,49 @@ const NewCheckoutPageLab = (props) => {
           <i className="pi pi-list"></i>
           <h3>Selected Tests ({selectedTests?.length || 0})</h3>
         </div>
-        {selectedTests?.map((test, index) => {
-          return (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                backgroundColor: "#fff",
-                padding: "10px",
-                gap: "5px",
-                borderRadius: "5px",
-                boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-                margin: "5px",
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    fontSize: "1rem",
-                    fontWeight: "bold",
-                    color: "#000",
-                  }}
-                >
-                  {test.name.charAt(0).toUpperCase() + test.name.slice(1)}
+        {selectedTests &&
+          Array.isArray(selectedTests) &&
+          selectedTests.map((test, index) => {
+            if (!test || typeof test !== "object") {
+              return null;
+            }
+            return (
+              <div
+                key={test._id || index}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  backgroundColor: "#fff",
+                  padding: "10px",
+                  gap: "5px",
+                  borderRadius: "5px",
+                  boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+                  margin: "5px",
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      fontSize: "1rem",
+                      fontWeight: "bold",
+                      color: "#000",
+                    }}
+                  >
+                    {test?.name
+                      ? test.name.charAt(0).toUpperCase() + test.name.slice(1)
+                      : "Unknown Test"}
+                  </div>
+                  <div style={{ fontSize: "0.8rem", color: "#666" }}>
+                    {test?.category || "General"}
+                  </div>
                 </div>
-                <div style={{ fontSize: "0.8rem", color: "#666" }}>
-                  {test.category || "General"}
-                </div>
-              </div>
 
-              <div style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                ₹{test.sellingPrice || 0}
+                <div style={{ fontSize: "1rem", fontWeight: "bold" }}>
+                  ₹{test?.sellingPrice || 0}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
         {/* Patient Details Form */}
         {/* <div className={styles.formCard}>
@@ -441,8 +501,8 @@ const NewCheckoutPageLab = (props) => {
             <div className={styles.formField}>
               <label className={styles.fieldLabel}>Preferred Date</label>
               <Calendar
-                value={formData.date}
-                onChange={(e) => handleInputChange("date", e.value)}
+                value={formData?.date || null}
+                onChange={(e) => handleInputChange("date", e?.value || null)}
                 placeholder="Select date"
                 minDate={new Date()}
                 className={styles.inputField}
@@ -452,9 +512,11 @@ const NewCheckoutPageLab = (props) => {
             <div className={styles.formField}>
               <label className={styles.fieldLabel}>Preferred Time</label>
               <Dropdown
-                value={formData.time}
+                value={formData?.time || "10:00 AM"}
                 options={timeSlots}
-                onChange={(e) => handleInputChange("time", e.value)}
+                onChange={(e) =>
+                  handleInputChange("time", e?.value || "10:00 AM")
+                }
                 placeholder="Select time"
                 className={styles.inputField}
               />
@@ -484,7 +546,7 @@ const NewCheckoutPageLab = (props) => {
               <span className={styles.priceValue}>₹{calculateSubtotal()}</span>
             </div>
 
-            {formData.homeCollection && (
+            {formData?.homeCollection && (
               <div className={styles.priceRow}>
                 <span className={styles.priceLabel}>
                   Home Collection Charge
@@ -532,9 +594,9 @@ const NewCheckoutPageLab = (props) => {
             onClick={handleSubmit}
             disabled={
               formLoading ||
-              !selectedTests.length ||
-              !formData.name ||
-              !formData.phone
+              !selectedTests?.length ||
+              !formData?.name ||
+              !formData?.phone
             }
             className={styles.bookButton}
           />
