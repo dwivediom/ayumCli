@@ -101,7 +101,7 @@ const ServiceSelection = ({
   useEffect(() => {
     fetchCategories();
     fetchAllTests();
-  }, []);
+  }, [pagination.page]);
 
   const fetchCategories = async () => {
     try {
@@ -200,9 +200,15 @@ const ServiceSelection = ({
     const isSelected = selectedTests.some((t) => t._id === test._id);
 
     if (isSelected) {
-      setSelectedTests(selectedTests.filter((t) => t._id !== test._id));
+      const updatedTests = selectedTests.filter((t) => t._id !== test._id);
+      setSelectedTests(updatedTests);
+      // Update localStorage when removing a test
+      localStorage.setItem("selectedTests", JSON.stringify(updatedTests));
     } else {
-      setSelectedTests([...selectedTests, test]);
+      const updatedTests = [...selectedTests, test];
+      setSelectedTests(updatedTests);
+      // Update localStorage when adding a test
+      localStorage.setItem("selectedTests", JSON.stringify(updatedTests));
     }
   };
 
@@ -567,9 +573,36 @@ const ServiceSelection = ({
             <p>Loading tests...</p>
           </div>
         ) : tests.length > 0 ? (
-          <div className={styles.testsList}>
-            {tests.map((test) => itemTemplate(test))}
-          </div>
+          <>
+            <div className={styles.testsList}>
+              {tests?.map((test) => itemTemplate(test))}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                paddingBottom: "4rem",
+              }}
+            >
+              <Button
+                label="Load More Tests"
+                raised
+                rounded
+                style={{
+                  backgroundColor: "#fff",
+                  color: "#00b9af",
+                  border: "none",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "0.5rem",
+                  fontSize: "1rem",
+                  fontWeight: "600",
+                }}
+                onClick={() =>
+                  setPagination((prev) => ({ ...prev, page: prev.page + 1 }))
+                }
+              />
+            </div>
+          </>
         ) : (
           <div className={styles.noResults}>
             <p>No tests found. Try adjusting your search criteria.</p>

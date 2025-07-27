@@ -650,6 +650,80 @@
   }
 }
 
+/* Address Validation Styles */
+.addressError {
+  border: 2px solid #ef4444 !important;
+  background-color: #fef2f2 !important;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.errorText {
+  color: #ef4444 !important;
+  font-weight: 600 !important;
+}
+
+.requiredText {
+  color: #ef4444 !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  margin-left: 0.5rem !important;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.errorLabel {
+  color: #ef4444 !important;
+  font-weight: 600 !important;
+}
+
+.required {
+  color: #ef4444 !important;
+  font-weight: 700 !important;
+}
+
+.errorInput {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1) !important;
+}
+
+.errorInput:focus {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Address Section Highlight */
+.addressSection.addressError {
+  position: relative;
+}
+
+.addressSection.addressError::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(239, 68, 68, 0.05) 50%, transparent 70%);
+  animation: shimmer 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .labList {
@@ -6050,3 +6124,81 @@
     font-size: 0.75rem;
   }
 }
+
+/* ... existing styles ... */
+
+/* Address Validation Styles */
+.addressError {
+  border: 2px solid #ef4444 !important;
+  background-color: #fef2f2 !important;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.errorText {
+  color: #ef4444 !important;
+  font-weight: 600 !important;
+}
+
+.requiredText {
+  color: #ef4444 !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  margin-left: 0.5rem !important;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.errorLabel {
+  color: #ef4444 !important;
+  font-weight: 600 !important;
+}
+
+.required {
+  color: #ef4444 !important;
+  font-weight: 700 !important;
+}
+
+.errorInput {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1) !important;
+}
+
+.errorInput:focus {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Address Section Highlight */
+.addressSection.addressError {
+  position: relative;
+}
+
+.addressSection.addressError::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(239, 68, 68, 0.05) 50%, transparent 70%);
+  animation: shimmer 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ... existing styles ... */
