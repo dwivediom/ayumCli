@@ -30,7 +30,7 @@ const AddressSelector = (props) => {
   useEffect(() => {
     let temp = JSON.parse(localStorage.getItem("labuser"));
     if (temp) {
-      temp.address = temp.address.map((address, index) => ({
+      temp.address = temp?.address?.map((address, index) => ({
         ...address,
         id: index,
       }));
@@ -54,11 +54,11 @@ const AddressSelector = (props) => {
         })
         .then((data) => {
           console.log(data, "userappos");
-          data.data.address = data.data.address.map((address, index) => ({
+          data.data.address = data?.data?.address?.map((address, index) => ({
             ...address,
             id: index,
           }));
-          setaddresslist(data?.data?.address);
+          setaddresslist(data?.data?.address || []);
         })
         .catch((err) => {
           console.log(err);
@@ -69,10 +69,10 @@ const AddressSelector = (props) => {
   const handleAddAddress = async () => {
     try {
       // Create the new address with a temporary ID
-      const newAddressWithId = { ...newAddress, id: addresslist.length };
+      const newAddressWithId = { ...newAddress, id: addresslist?.length };
 
       // Update local state immediately for better UX
-      const updatedAddressList = [...addresslist, newAddressWithId];
+      const updatedAddressList = [...(addresslist || []), newAddressWithId];
       setaddresslist(updatedAddressList);
 
       // Set the selected address immediately
@@ -184,7 +184,7 @@ const AddressSelector = (props) => {
   };
 
   const handleDeleteAddress = (index) => {
-    const temp = [...addresslist];
+    const temp = [...(addresslist || [])];
     temp.splice(index, 1);
     const user = JSON.parse(localStorage.getItem("labuser"));
     user.address = temp;
@@ -279,15 +279,15 @@ const AddressSelector = (props) => {
       </div>
 
       <div className="address-list">
-        {addresslist.map((address, index) => (
+        {addresslist?.map((address, index) => (
           <div
             key={index}
             className={`address-card ${
-              selectedAddress?.id === address.id ? "selected" : ""
+              selectedAddress?.id === address?.id ? "selected" : ""
             }`}
             onClick={() => {
               console.log(address, "address");
-              if (selectedAddress && selectedAddress.id === address.id) {
+              if (selectedAddress && selectedAddress?.id === address?.id) {
                 setSelectedAddress(null);
               } else {
                 setSelectedAddress({ ...address, id: index });
@@ -299,32 +299,32 @@ const AddressSelector = (props) => {
                 <span className="icon">
                   <i className="pi pi-user" />
                 </span>
-                <span className="address-main">{address.name}</span>
+                <span className="address-main">{address?.name}</span>
                 <span className="icon" style={{ marginLeft: 8 }}>
                   <i className="pi pi-phone" />
                 </span>
-                <span className="address-phone">{address.phone}</span>
+                <span className="address-phone">{address?.phone}</span>
               </div>
               <div className="address-row">
                 <span className="icon">
                   <i className="pi pi-map-marker" />
                 </span>
-                <span className="address-street">{address.street}</span>
+                <span className="address-street">{address?.street}</span>
               </div>
               <div className="address-row">
                 <span className="icon">
                   <i className="pi pi-compass" />
                 </span>
                 <span className="address-location">
-                  {address.city}, {address.state} - {address.pincode}
+                  {address?.city}, {address?.state} - {address?.pincode}
                 </span>
               </div>
-              {address.landmark && (
+              {address?.landmark && (
                 <div className="address-row">
                   <span className="icon">
                     <i className="pi pi-flag" />
                   </span>
-                  <span className="address-landmark">{address.landmark}</span>
+                  <span className="address-landmark">{address?.landmark}</span>
                 </div>
               )}
             </div>
