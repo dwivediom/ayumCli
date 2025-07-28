@@ -501,6 +501,10 @@ const MedicineResults = React.memo(
           className={styles.ecomCard}
           style={{
             margin: "auto",
+            ...(medicine.isDummy && {
+              opacity: 0.7,
+              border: "2px dashed #ccc",
+            }),
           }}
         >
           {/* Product Image */}
@@ -543,11 +547,11 @@ const MedicineResults = React.memo(
                   className={styles.ecomImage}
                 />
               ) : (
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" fill="#f0f0f0" />
-                  <path d="M12 8V16" stroke="#2ecc71" strokeWidth="2" />
-                  <path d="M8 12H16" stroke="#2ecc71" strokeWidth="2" />
-                </svg>
+                <img
+                  src="/capsule.png"
+                  alt="Medicine"
+                  className={styles.ecomImage}
+                />
               )}
             </div>
           </div>
@@ -559,17 +563,17 @@ const MedicineResults = React.memo(
                 {medicine.brandName || medicine.genericName}
               </span>
               <Tag
-                value={medicine.category || "Other"}
+                value={medicine.isDummy ? "Medicine requested by you" : (medicine.category || "Other")}
                 style={{
                   fontSize: "12px",
                   borderRadius: "8px",
-                  background: "#e0f7fa",
-                  color: "#00b09b",
+                  background: medicine.isDummy ? "#fff3cd" : "#e0f7fa",
+                  color: medicine.isDummy ? "#856404" : "#00b09b",
                   fontWeight: 600,
                   marginLeft: "8px",
-                  border: "none",
+                  border: medicine.isDummy ? "1px solid #ffeaa7" : "none",
                 }}
-                severity="info"
+                severity={medicine.isDummy ? "warning" : "info"}
               />
             </div>
             <div className={styles.ecomBrandRow}>
@@ -579,7 +583,7 @@ const MedicineResults = React.memo(
             </div>
             <div className={styles.ecomPriceRow}>
               <span className={styles.ecomPrice}>
-                ₹{medicine.price?.toFixed(2) || "N/A"}
+                {/* ₹{medicine.price?.toFixed(2) || "N/A"} */}
               </span>
             </div>
           </div>
@@ -644,19 +648,20 @@ const MedicineResults = React.memo(
     }
 
     if (searchTerm) {
+      // Create a dummy medicine card with the search term when no results found
+      const dummyMedicine = {
+        _id: `dummy-${Date.now()}`,
+        brandName: searchTerm,
+        genericName: searchTerm,
+        category: "tablet",
+        price: 0,
+        sellingPrice: 0,
+        isDummy: true, // Flag to identify this is a dummy card
+      };
+
       return (
-        <div className={styles.noResults}>
-          <div className={styles.noResultsIcon}>
-            <i className="pi pi-search"></i>
-          </div>
-          <h3 className={styles.noResultsTitle}>
-            {lang == "en" ? "No medicines found" : "कोई दवा नहीं मिली"}
-          </h3>
-          <p className={styles.noResultsText}>
-            {lang == "en"
-              ? "Try searching with different keywords or check spelling"
-              : "अलग-अलग कीवर्ड से खोजें या स्पेलिंग जांचें"}
-          </p>
+        <div className={styles.medicineGrid}>
+          {itemTemplate(dummyMedicine)}
         </div>
       );
     }
@@ -749,6 +754,7 @@ const MedicineSelection = ({
   // Add new state for order confirmation
   const [showOrderConfirmation, setShowOrderConfirmation] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   // Add a new ref for bottom nav timeout
   const bottomNavTimeout = useRef(null);
@@ -848,15 +854,21 @@ const MedicineSelection = ({
 
   const handleAddToCart = useCallback(
     (medicine) => {
-      const existingItem = cart.find((item) => item._id === medicine._id);
+      // Use _id if available, otherwise use name as identifier for dummy medicines
+      const medicineId = medicine._id || medicine.brandName || medicine.genericName;
+      const existingItem = cart.find((item) => 
+        (item._id && item._id === medicine._id) || 
+        (!item._id && !medicine._id && (item.brandName === medicine.brandName || item.genericName === medicine.genericName))
+      );
 
       if (existingItem) {
         setCart(
-          cart.map((item) =>
-            item._id === medicine._id
+          cart.map((item) => {
+            const itemId = item._id || item.brandName || item.genericName;
+            return itemId === medicineId
               ? { ...item, quantity: item.quantity + 1 }
-              : item
-          )
+              : item;
+          })
         );
       } else {
         setCart([...cart, { ...medicine, quantity: 1 }]);
@@ -874,7 +886,10 @@ const MedicineSelection = ({
 
   const handleRemoveFromCart = useCallback(
     (medicineId) => {
-      setCart(cart.filter((item) => item._id !== medicineId));
+      setCart(cart.filter((item) => {
+        const itemId = item._id || item.brandName || item.genericName;
+        return itemId !== medicineId;
+      }));
     },
     [cart]
   );
@@ -887,9 +902,10 @@ const MedicineSelection = ({
       }
 
       setCart(
-        cart.map((item) =>
-          item._id === medicineId ? { ...item, quantity } : item
-        )
+        cart.map((item) => {
+          const itemId = item._id || item.brandName || item.genericName;
+          return itemId === medicineId ? { ...item, quantity } : item;
+        })
       );
     },
     [cart, handleRemoveFromCart]
@@ -901,6 +917,8 @@ const MedicineSelection = ({
 
   const handleCheckoutSubmit = async () => {
     try {
+      setCheckoutLoading(true);
+      
       const deliveryAddress = {
         customerName: selectedAddress?.name || "",
         street: selectedAddress?.street || "",
@@ -910,13 +928,21 @@ const MedicineSelection = ({
         landmark: selectedAddress?.landmark,
       };
 
-      const items = cart.map((item) => ({
-        medicineId: item._id,
-        quantity: item.quantity,
-        name: item.brandName,
-        price: item.price,
-        total: item.price * item.quantity,
-      }));
+      const items = cart.map((item) => {
+        const itemData = {
+          quantity: item.quantity,
+          name: item.brandName || item.genericName || "Medicine",
+          price: typeof item.price === "number" && !isNaN(item.price) ? item.price : null,
+          total: typeof item.price === "number" && !isNaN(item.price) ? item.price * item.quantity : null,
+        };
+        
+        // Only include medicineId if it's a real medicine (not dummy)
+        if (item._id && !item.isDummy) {
+          itemData.medicineId = item._id;
+        }
+        
+        return itemData;
+      });
 
       // Calculate if any item is missing price
 
@@ -1000,27 +1026,52 @@ const MedicineSelection = ({
         detail: "Failed to create medicine request. Please try again.",
         life: 3000,
       });
+    } finally {
+      setCheckoutLoading(false);
     }
   };
 
   const checkoutDialogFooter = useMemo(
-    () => (
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <Button
-          label="Cancel"
-          icon="pi pi-times"
-          onClick={() => setShowCheckoutDialog(false)}
-          className="p-button-text"
-        />
-        <Button
-          label="Create Order"
-          icon="pi pi-check-circle"
-          onClick={handleCheckoutSubmit}
-          autoFocus
-        />
-      </div>
-    ),
-    [setShowCheckoutDialog, handleCheckoutSubmit]
+    () => {
+      const isAddressSelected = selectedAddress?.phone && selectedAddress?.street && selectedAddress?.city && selectedAddress?.state && selectedAddress?.pincode;
+      
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          {!isAddressSelected && (
+            <div style={{
+              padding: "0.75rem",
+              background: "#fff3cd",
+              border: "1px solid #ffeaa7",
+              borderRadius: "8px",
+              color: "#856404",
+              fontSize: "0.9rem",
+              textAlign: "center",
+              fontWeight: 500
+            }}>
+              <i className="pi pi-exclamation-triangle" style={{ marginRight: "0.5rem" }} />
+              {lang === "en" ? "Please select delivery address first" : "कृपया पहले डिलीवरी का पता चुनें"}
+            </div>
+          )}
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <Button
+              label="Cancel"
+              icon="pi pi-times"
+              onClick={() => setShowCheckoutDialog(false)}
+              className="p-button-text"
+            />
+            <Button
+              label={checkoutLoading ? "Creating Order..." : "Create Order"}
+              icon={checkoutLoading ? "pi pi-spinner pi-spin" : "pi pi-check-circle"}
+              onClick={handleCheckoutSubmit}
+              disabled={checkoutLoading || !isAddressSelected}
+              loading={checkoutLoading}
+              autoFocus
+            />
+          </div>
+        </div>
+      );
+    },
+    [setShowCheckoutDialog, handleCheckoutSubmit, checkoutLoading, selectedAddress, lang]
   );
 
   const paymentMethods = [
@@ -1086,17 +1137,17 @@ const MedicineSelection = ({
               {medicine.brandName || medicine.genericName}
             </span>
             <Tag
-              value={medicine.category || "Other"}
+              value={medicine.isDummy ? "Medicine requested by you" : (medicine.category || "Other")}
               style={{
                 fontSize: "12px",
                 borderRadius: "8px",
-                background: "#e0f7fa",
-                color: "#00b09b",
+                background: medicine.isDummy ? "#fff3cd" : "#e0f7fa",
+                color: medicine.isDummy ? "#856404" : "#00b09b",
                 fontWeight: 600,
                 marginLeft: "8px",
-                border: "none",
+                border: medicine.isDummy ? "1px solid #ffeaa7" : "none",
               }}
-              severity="info"
+              severity={medicine.isDummy ? "warning" : "info"}
             />
           </div>
           <div className={styles.ecomBrandRow}>
@@ -1208,10 +1259,11 @@ const MedicineSelection = ({
           className="p-button-text"
         />
         <Button
-          icon="pi pi-check-circle"
-          label="Order"
+          icon={orderLoading ? "pi pi-spinner pi-spin" : "pi pi-check-circle"}
+          label={orderLoading ? "Creating Order..." : "Order"}
           onClick={() => handlePrescriptionOrderSubmit()}
           disabled={
+            orderLoading ||
             !selectedPrescription ||
             !selectedAddress?.phone ||
             !selectedAddress?.street ||
@@ -1219,6 +1271,7 @@ const MedicineSelection = ({
             !selectedAddress?.state ||
             !selectedAddress?.pincode
           }
+          loading={orderLoading}
           autoFocus
         />
       </div>
@@ -1229,6 +1282,7 @@ const MedicineSelection = ({
       handlePrescriptionOrderSubmit,
       selectedPrescription,
       selectedAddress,
+      orderLoading,
     ]
   );
 
@@ -1806,23 +1860,12 @@ const MedicineSelection = ({
         }}
       >
         <Button
-          label={lang == "en" ? "Place Order" : "ऑर्डर करें"}
-          icon="pi pi-check-circle"
-          onClick={() => {
-            if (selectionOption === "prescription") {
-              handlePrescriptionOrderSubmit();
-            } else if (selectionOption === "call") {
-              handleCallOrderSubmit();
-            } else {
-              setCartVisible(false);
-              handleProceed();
-            }
-          }}
-          style={{
-            width: "15rem",
-          }}
-          loading={orderLoading}
-          className={styles.submitButtonClean}
+          label={checkoutLoading ? "Creating Order..." : "Create Order"}
+          icon={checkoutLoading ? "pi pi-spinner pi-spin" : "pi pi-check-circle"}
+          onClick={handleCheckoutSubmit}
+          disabled={checkoutLoading}
+          loading={checkoutLoading}
+          autoFocus
         />
       </div>
     </div>
@@ -1925,10 +1968,11 @@ const MedicineSelection = ({
 
       <div className={styles.pageFooterClean}>
         <Button
-          label={lang == "en" ? "Request Call" : "कॉल का अनुरोध करें"}
-          icon="pi pi-phone"
+          label={orderLoading ? (lang == "en" ? "Creating Request..." : "अनुरोध बना रहे हैं...") : (lang == "en" ? "Request Call" : "कॉल का अनुरोध करें")}
+          icon={orderLoading ? "pi pi-spinner pi-spin" : "pi pi-phone"}
           onClick={handleCallOrderSubmit}
-          disabled={!selectedAddress?.phone || !selectedAddress?.street}
+          disabled={orderLoading || !selectedAddress?.phone || !selectedAddress?.street}
+          loading={orderLoading}
           className={styles.submitButtonClean}
         />
       </div>
@@ -1949,6 +1993,15 @@ const MedicineSelection = ({
   };
   const hasMissingPrice = cart.some(
     (item) => typeof item.price !== "number" || isNaN(item.price)
+  );
+
+  // Calculate subtotal for cart sidebar
+  const subtotal = cart.reduce(
+    (sum, item) =>
+      typeof item.price === "number" && !isNaN(item.price)
+        ? sum + item.price * item.quantity
+        : sum,
+    0
   );
 
   return (
