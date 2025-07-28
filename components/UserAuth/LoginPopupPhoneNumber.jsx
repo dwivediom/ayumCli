@@ -19,6 +19,7 @@ const LoginPopupPhoneNumber = () => {
       life: 3000,
     });
     setIsLoading(false);
+    setShowOTPInput(false);
   };
 
   const [selectedCountry, setSelectedCountry] = useState({
@@ -186,7 +187,6 @@ const LoginPopupPhoneNumber = () => {
         life: 3000,
       });
       handleLoginComplete(result?.data);
-      setShowOTPInput(false);
     } else {
       toast.current.show({
         severity: "error",

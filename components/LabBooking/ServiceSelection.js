@@ -646,6 +646,29 @@ const ServiceSelection = ({
             style={{
               fontSize: "1rem",
               fontWeight: "600",
+              color: "#fff",
+              backgroundColor: "#00b9af",
+              padding: "0.5rem 1rem",
+              borderRadius: "0.5rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
+            }}
+            onClick={() => {
+              router.push("/");
+              setShowcheckout(false);
+              setShowTestDetails(false);
+              sethidebottomnav2(false);
+            }}
+          >
+            <i className="pi pi-home"></i>
+          </div>
+          <div
+            className={styles.selectedCount}
+            style={{
+              fontSize: "1rem",
+              fontWeight: "600",
               border: "1px solid #00b9af",
               color: "#00b9af",
               padding: "0.5rem 1rem",
