@@ -2256,40 +2256,26 @@ const MedicineSelection = ({
                               gap: "0.3rem",
                             }}
                           >
-                            {typeof item.price === "number" &&
-                            !isNaN(item.price) ? (
-                              <span style={{ color: "#009688" }}>
-                                ₹{item.price.toFixed(2)}
-                              </span>
-                            ) : (
-                              <span
-                                style={{
-                                  display: "inline-flex",
-                                  alignItems: "center",
-                                  background: "#e0f7fa",
-                                  color: "#117768",
-                                  fontSize: "0.92rem",
-                                  borderRadius: "16px",
-                                  padding: "2px 10px 2px 8px",
-                                  fontWeight: 600,
-                                  letterSpacing: "0.2px",
-                                  whiteSpace: "nowrap",
-                                  border: "1px solid #b2dfdb",
-                                  marginLeft: "-2px",
-                                }}
-                                title="Price will be calculated after request confirmation"
-                              >
-                                <i
-                                  className="pi pi-info-circle"
-                                  style={{
-                                    fontSize: "1rem",
-                                    marginRight: "5px",
-                                    color: "#00b09b",
-                                  }}
-                                />
-                                Price: -
-                              </span>
-                            )}
+                            <span
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                background: "#e0f7fa",
+                                color: "#117768",
+                                fontSize: "0.92rem",
+                                borderRadius: "16px",
+                                padding: "2px 10px 2px 8px",
+                                fontWeight: 600,
+                                letterSpacing: "0.2px",
+                                whiteSpace: "nowrap",
+                                border: "1px solid #b2dfdb",
+                                marginLeft: "-2px",
+                              }}
+                              title="Final price will be shared after order confirmation"
+                            >
+                              
+                            
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -2383,36 +2369,32 @@ const MedicineSelection = ({
                     }}
                   >
                     <span>Subtotal</span>
-                    {hasMissingPrice ? (
-                      <span
+                    <span
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        background: "#e0f7fa",
+                        color: "#117768",
+                        fontSize: "0.92rem",
+                        borderRadius: "16px",
+                        padding: "2px 10px 2px 8px",
+                        fontWeight: 600,
+                        letterSpacing: "0.2px",
+                        whiteSpace: "nowrap",
+                        border: "1px solid #b2dfdb",
+                      }}
+                      title="Final price will be shared after order confirmation"
+                    >
+                      <i
+                        className="pi pi-info-circle"
                         style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          background: "#e0f7fa",
-                          color: "#117768",
-                          fontSize: "0.92rem",
-                          borderRadius: "16px",
-                          padding: "2px 10px 2px 8px",
-                          fontWeight: 600,
-                          letterSpacing: "0.2px",
-                          whiteSpace: "nowrap",
-                          border: "1px solid #b2dfdb",
+                          fontSize: "1rem",
+                          marginRight: "5px",
+                          color: "#00b09b",
                         }}
-                        title="Subtotal will be calculated after request confirmation"
-                      >
-                        <i
-                          className="pi pi-info-circle"
-                          style={{
-                            fontSize: "1rem",
-                            marginRight: "5px",
-                            color: "#00b09b",
-                          }}
-                        />
-                        -
-                      </span>
-                    ) : (
-                      <span>₹{subtotal.toFixed(2)}</span>
-                    )}
+                      />
+                      -
+                    </span>
                   </div>
                   <div
                     style={{
@@ -2431,9 +2413,7 @@ const MedicineSelection = ({
                       className="pi pi-info-circle"
                       style={{ color: "#00b09b", marginRight: "5px" }}
                     />
-                    Some prices are unavailable. You can still proceed—final
-                    total will be shared in your invoice after request
-                    confirmation.
+                    Final price will be shared after order confirmation
                   </div>
                   <div
                     style={{

@@ -28,6 +28,8 @@ const AddressSelector = (props) => {
     latitude: "",
     longitude: "",
   });
+  const [validationErrors, setValidationErrors] = useState({});
+  const [showValidationMessage, setShowValidationMessage] = useState(false);
 
   useEffect(() => {
     let temp = JSON.parse(localStorage.getItem("labuser"));
@@ -68,7 +70,40 @@ const AddressSelector = (props) => {
     } catch (error) {}
   };
 
+  const validateAddress = () => {
+    const errors = {};
+    
+    if (!newAddress.name || newAddress.name.trim() === "") {
+      errors.name = "Full name is required";
+    }
+    
+    if (!newAddress.phone || newAddress.phone.trim() === "") {
+      errors.phone = "Phone number is required";
+    }
+    
+    if (!newAddress.street || newAddress.street.trim() === "") {
+      errors.street = "Street address is required";
+    }
+    
+    if (!newAddress.city || newAddress.city.trim() === "") {
+      errors.city = "City is required";
+    }
+    
+    setValidationErrors(errors);
+    setShowValidationMessage(Object.keys(errors).length > 0);
+    
+    return Object.keys(errors).length === 0;
+  };
+
   const handleAddAddress = async () => {
+    // Validate required fields first
+    if (!validateAddress()) {
+      // Add blinking effect by toggling the validation message
+      setTimeout(() => setShowValidationMessage(false), 100);
+      setTimeout(() => setShowValidationMessage(true), 200);
+      return;
+    }
+
     try {
       let updatedAddressList;
       
@@ -95,8 +130,10 @@ const AddressSelector = (props) => {
         setSelectedAddress(newAddressWithId);
       }
 
-      // Clear the form
+      // Clear the form and validation
       setNewAddress({});
+      setValidationErrors({});
+      setShowValidationMessage(false);
       setShowAddressForm(false);
 
       // Update localStorage
@@ -226,6 +263,8 @@ const AddressSelector = (props) => {
     setEditingAddress(null);
     setIsEditing(false);
     setNewAddress({});
+    setValidationErrors({});
+    setShowValidationMessage(false);
   };
 
   const handleGetLocation = async () => {
@@ -418,8 +457,11 @@ const AddressSelector = (props) => {
               style={{ fontSize: "1rem", width: "100%" }}
               placeholder="Full Name"
               name="name"
-              className="p-inputtext-lg"
+              className={`p-inputtext-lg ${validationErrors.name ? 'p-invalid' : ''}`}
             />
+            {validationErrors.name && (
+              <small className="p-error">{validationErrors.name}</small>
+            )}
           </div>
           <div className="form-row">
             <InputText
@@ -428,8 +470,11 @@ const AddressSelector = (props) => {
               style={{ fontSize: "1rem", width: "100%" }}
               placeholder="Phone Number"
               name="phone"
-              className="p-inputtext-lg"
+              className={`p-inputtext-lg ${validationErrors.phone ? 'p-invalid' : ''}`}
             />
+            {validationErrors.phone && (
+              <small className="p-error">{validationErrors.phone}</small>
+            )}
           </div>
           <div className="form-row">
             <Dropdown
@@ -482,8 +527,11 @@ const AddressSelector = (props) => {
               placeholder="Street Address"
               name="street"
               style={{ fontSize: "1rem", width: "100%" }}
-              className="p-inputtext-lg"
+              className={`p-inputtext-lg ${validationErrors.street ? 'p-invalid' : ''}`}
             />
+            {validationErrors.street && (
+              <small className="p-error">{validationErrors.street}</small>
+            )}
           </div>
           <div className="form-row">
             <InputText
@@ -492,8 +540,11 @@ const AddressSelector = (props) => {
               placeholder="City"
               name="city"
               style={{ fontSize: "1rem", width: "100%" }}
-              className="p-inputtext-lg"
+              className={`p-inputtext-lg ${validationErrors.city ? 'p-invalid' : ''}`}
             />
+            {validationErrors.city && (
+              <small className="p-error">{validationErrors.city}</small>
+            )}
           </div>
           <div className="form-row">
             <InputText
@@ -525,6 +576,13 @@ const AddressSelector = (props) => {
               className="p-inputtext-lg"
             />
           </div>
+          {showValidationMessage && (
+            <div className="validation-message">
+              <small className="p-error">
+                Please fill in all required fields marked with red borders
+              </small>
+            </div>
+          )}
           <div className="form-actions">
             <Button
               onClick={handleAddAddress}
@@ -606,6 +664,29 @@ const AddressSelector = (props) => {
         .address-dialog {
           width: 90%;
           max-width: 500px;
+        }
+        .validation-message {
+          margin-bottom: 1rem;
+          text-align: center;
+          padding: 0.5rem;
+          background-color: #fef2f2;
+          border-radius: 0.375rem;
+          border: 1px solid #fecaca;
+        }
+        .p-invalid {
+          border-color: #ef4444 !important;
+          box-shadow: 0 0 0 1px #ef4444 !important;
+          animation: blink 0.6s ease-in-out;
+        }
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
+        }
+        .p-error {
+          color: #ef4444;
+          font-size: 0.875rem;
+          margin-top: 0.25rem;
+          display: block;
         }
       `}</style>
     </div>
