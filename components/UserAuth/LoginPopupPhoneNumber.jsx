@@ -10,8 +10,8 @@ const LoginPopupPhoneNumber = () => {
     console.log(result);
     setIsLoading(true);
     setShowLoginPopup(false);
-    localStorage.setItem("usertoken", result.token);
-    localStorage.setItem("userdata", JSON.stringify(result.data));
+    localStorage.setItem("usertoken", result?.data?.token);
+    localStorage.setItem("userdata", JSON.stringify(result?.data));
     toast.current.show({
       severity: "success",
       summary: "Success",
@@ -185,7 +185,7 @@ const LoginPopupPhoneNumber = () => {
         detail: "OTP verified successfully",
         life: 3000,
       });
-      handleLoginComplete(result?.data?.data);
+      handleLoginComplete(result?.data);
       setShowOTPInput(false);
     } else {
       toast.current.show({

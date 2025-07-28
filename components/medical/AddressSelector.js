@@ -83,9 +83,9 @@ const AddressSelector = (props) => {
       setShowAddressForm(false);
 
       // Update localStorage
-      const temp = JSON.parse(localStorage.getItem("labuser"));
+      const temp = JSON.parse(localStorage.getItem("userdata"));
       temp.address = updatedAddressList;
-      localStorage.setItem("labuser", JSON.stringify(temp));
+      localStorage.setItem("userdata", JSON.stringify(temp));
 
       // Save to server
       const result = await updateuser(updatedAddressList);
