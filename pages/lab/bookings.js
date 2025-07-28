@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TabView, TabPanel } from "primereact/tabview";
 import { Button } from "primereact/button";
 import { useRouter } from "next/router";
 import BookingList from "../../components/LabBooking/BookingList";
 import styles from "../../components/LabBooking/styles.module.css";
 import WithAuth1 from "../../components/WithAuth1";
+import { AccountContext } from "../../context/AccountProvider";
 
 const LabBookingsPage = () => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-
+  const { sethidebottomnav2 } = useContext(AccountContext);
+  useEffect(() => {
+    sethidebottomnav2(false);
+  }, []);
   const handleTabChange = (e) => {
     setActiveTabIndex(e.index);
 
