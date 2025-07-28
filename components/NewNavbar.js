@@ -14,6 +14,7 @@ import { Menu } from "primereact/menu";
 import { Sidebar } from "primereact/sidebar";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
+
 const Navbar = () => {
   const [navitem, setnavitem] = useState(false);
   const {
@@ -26,6 +27,31 @@ const Navbar = () => {
     hidenavbar,
     sethidenavbar,
   } = useContext(AccountContext);
+
+  // Add state for random avatar
+  const [randomAvatar, setRandomAvatar] = useState("");
+
+  // Function to generate random avatar
+  const getRandomAvatar = () => {
+    const avatars = [
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Jasper",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Luna",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Max",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Kai",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Aria",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Leo",
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Maya",
+    ];
+    return avatars[Math.floor(Math.random() * avatars.length)];
+  };
+
+  // Set random avatar on component mount
+  useEffect(() => {
+    setRandomAvatar(getRandomAvatar());
+  }, []);
 
   useEffect(() => {
     const Docdata2 = JSON.parse(localStorage.getItem("googleDocData"));
@@ -186,26 +212,7 @@ const Navbar = () => {
       setusertoken(temp);
       if (temp) {
         setitemsmenu([
-          {
-            label: userdata?.email,
-            // icon: "pi pi-sign-out",
-            command: () => {
-              navigator.clipboard
-                .writeText(userdata?.email)
-                .then(() => {
-                  // alert("Text copied to clipboard!");
-                  toast.current.show({
-                    severity: "info",
-                    summary: "Copied",
-                    detail: "Copied text to clipboard",
-                    life: 3000,
-                  });
-                })
-                .catch((err) => {
-                  console.error("Failed to copy text: ", err);
-                });
-            },
-          },
+          // Remove email display item - don't include it
           {
             label: "Hindi",
             icon: () => {
@@ -267,13 +274,11 @@ const Navbar = () => {
               setlang("en");
             },
           },
-
           {
             label: "Profile",
             icon: "pi pi-user",
             command: () => {
               console.log("Hii");
-
               router.push("/profile");
             },
           },
@@ -643,40 +648,20 @@ const Navbar = () => {
           />
         </svg>
       </div>
-      {userdata?.picture && (
-        <img
-          onClick={(event) => menuLeft.current.toggle(event)}
-          src={
-            userdata?.picture
-              ? userdata?.picture?.replace(/=s\d+-c/, "")
-              : "https://i.pinimg.com/736x/c6/3b/a4/c63ba4abc256a03c3f3a830965c365ac.jpg"
-          }
-          style={{
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
-            objectFit: "cover",
-            cursor: "pointer",
-          }}
-          alt="user"
-        />
-      )}
-      {!userdata?.picture && (
-        <img
-          onClick={(event) => menuLeft.current.toggle(event)}
-          src={
-            "https://i.pinimg.com/736x/c6/3b/a4/c63ba4abc256a03c3f3a830965c365ac.jpg"
-          }
-          style={{
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
-            objectFit: "cover",
-            cursor: "pointer",
-          }}
-          alt="user"
-        />
-      )}
+
+      {/* Always show random avatar instead of user image */}
+      <img
+        onClick={(event) => menuLeft.current.toggle(event)}
+        src={randomAvatar}
+        style={{
+          width: "40px",
+          height: "40px",
+          borderRadius: "50%",
+          objectFit: "cover",
+          cursor: "pointer",
+        }}
+        alt="user"
+      />
 
       <Menu
         style={{ width: "fit-content" }}

@@ -24,12 +24,13 @@ const WithAuth1 = (WrappedComponent) => {
       }
     }, []);
 
-    const { openDrawer, setclosingdrawerallowed } = useContext(AccountContext);
+    const { showLoginPopup, setShowLoginPopup } = useContext(AccountContext);
 
     const handleLoginRedirect = () => {
       setShowDialog(false);
+      setShowLoginPopup(true);
       //   router.push("/User/UserRegistrationPage");
-      openDrawer();
+      //   openDrawer();
       //   setclosingdrawerallowed(false);
     };
 

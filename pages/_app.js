@@ -34,13 +34,13 @@ import Authverify from "../components/AuthVerify";
 import { refreshFcmToken, ensureFcmToken } from "../push-notification";
 import { registerDeviceToken } from "../routes/notify";
 import { SocketProvider } from "../context/SocketContext";
+import LoginPopupPhoneNumber from "../components/UserAuth/LoginPopupPhoneNumber";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
-function MyApp({ Component, pageProps, AccountContext }) {
+function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
-
   // Use the token as needed
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail") || null;
@@ -188,6 +188,7 @@ function MyApp({ Component, pageProps, AccountContext }) {
   ]; // Add your public routes here
   const SSRroutes = ["/", "/doctor"];
   const router = useRouter();
+
   return (
     <>
       <PrimeReactProvider>
@@ -228,7 +229,8 @@ function MyApp({ Component, pageProps, AccountContext }) {
 
                   <NewNavbar />
                   <Component {...pageProps} />
-                  <LoginPopup />
+                  {/* <LoginPopup /> */}
+                  <LoginPopupPhoneNumber />
                   <Footer />
                   <BottomNav />
                 </div>

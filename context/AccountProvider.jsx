@@ -26,6 +26,7 @@ const AccountProvider = ({ children }) => {
   const [scrollbox, setscrollbox] = useState(true);
   const [langmodal, setlangmodal] = useState(false);
   const [lang, setlang] = useState("en");
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("thankmodal") == false) {
@@ -108,6 +109,8 @@ const AccountProvider = ({ children }) => {
         sethidenavbar,
         hidebottomnav2,
         sethidebottomnav2,
+        showLoginPopup,
+        setShowLoginPopup,
       }}
     >
       {children}
