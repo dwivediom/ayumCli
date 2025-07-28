@@ -11,6 +11,8 @@ const AddressSelector = (props) => {
   const { selectedAddress, setSelectedAddress } = props;
   const [addresslist, setaddresslist] = useState([]);
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const toast = useRef(null);
   const state = useGeolocation();
@@ -68,15 +70,30 @@ const AddressSelector = (props) => {
 
   const handleAddAddress = async () => {
     try {
-      // Create the new address with a temporary ID
-      const newAddressWithId = { ...newAddress, id: addresslist?.length };
-
-      // Update local state immediately for better UX
-      const updatedAddressList = [...(addresslist || []), newAddressWithId];
-      setaddresslist(updatedAddressList);
-
-      // Set the selected address immediately
-      setSelectedAddress(newAddressWithId);
+      let updatedAddressList;
+      
+      if (isEditing && editingAddress) {
+        // Editing existing address
+        updatedAddressList = addresslist.map((addr, index) => 
+          index === editingAddress.id ? { ...newAddress, id: editingAddress.id } : addr
+        );
+        setaddresslist(updatedAddressList);
+        
+        // Update selected address if it was the one being edited
+        if (selectedAddress && selectedAddress.id === editingAddress.id) {
+          setSelectedAddress({ ...newAddress, id: editingAddress.id });
+        }
+        
+        // Reset editing state
+        setEditingAddress(null);
+        setIsEditing(false);
+      } else {
+        // Adding new address
+        const newAddressWithId = { ...newAddress, id: addresslist?.length };
+        updatedAddressList = [...(addresslist || []), newAddressWithId];
+        setaddresslist(updatedAddressList);
+        setSelectedAddress(newAddressWithId);
+      }
 
       // Clear the form
       setNewAddress({});
@@ -95,16 +112,16 @@ const AddressSelector = (props) => {
         // Fetch fresh data from server to ensure consistency
         await GetuserData();
 
-        // Find the newly added address in the fresh data and select it
+        // Find the newly added/edited address in the fresh data and select it
         const freshAddressList = await getFreshAddressList();
         if (freshAddressList) {
-          // Find the address that matches our newly added address (by comparing content, not ID)
+          // Find the address that matches our address (by comparing content, not ID)
           const matchingAddress = freshAddressList.find(
             (addr) =>
-              addr.name === newAddressWithId.name &&
-              addr.phone === newAddressWithId.phone &&
-              addr.street === newAddressWithId.street &&
-              addr.city === newAddressWithId.city
+              addr.name === newAddress.name &&
+              addr.phone === newAddress.phone &&
+              addr.street === newAddress.street &&
+              addr.city === newAddress.city
           );
 
           if (matchingAddress) {
@@ -113,11 +130,11 @@ const AddressSelector = (props) => {
         }
       }
     } catch (error) {
-      console.error("Error adding address:", error);
+      console.error("Error adding/editing address:", error);
       toast.current.show({
         severity: "error",
         summary: "Error",
-        detail: "Failed to add address. Please try again.",
+        detail: isEditing ? "Failed to update address. Please try again." : "Failed to add address. Please try again.",
         life: 3000,
       });
     }
@@ -184,14 +201,31 @@ const AddressSelector = (props) => {
   };
 
   const handleDeleteAddress = (index) => {
-    const temp = [...(addresslist || [])];
-    temp.splice(index, 1);
-    const user = JSON.parse(localStorage.getItem("labuser"));
-    user.address = temp;
-    localStorage.setItem("labuser", JSON.stringify(user));
-    setaddresslist(temp);
-    setSelectedAddress(null);
-    updateuser(temp);
+    const updatedAddresses = addresslist.filter((_, i) => i !== index);
+    setaddresslist(updatedAddresses);
+    updateuser(updatedAddresses);
+  };
+
+  const handleEditAddress = (address, index) => {
+    setEditingAddress({ ...address, id: index });
+    setNewAddress({
+      name: address.name || "",
+      phone: address.phone || "",
+      street: address.street || "",
+      city: address.city || "",
+      state: address.state || "",
+      pincode: address.pincode || "",
+      landmark: address.landmark || "",
+    });
+    setIsEditing(true);
+    setShowAddressForm(true);
+  };
+
+  const handleCloseAddressForm = () => {
+    setShowAddressForm(false);
+    setEditingAddress(null);
+    setIsEditing(false);
+    setNewAddress({});
   };
 
   const handleGetLocation = async () => {
@@ -332,6 +366,19 @@ const AddressSelector = (props) => {
               <Button
                 onClick={(e) => {
                   e.stopPropagation();
+                  handleEditAddress(address, index);
+                }}
+                icon="pi pi-pencil"
+                text
+                rounded
+                severity="info"
+                tooltip="Edit Address"
+                className="edit-btn"
+                style={{ fontSize: "1.1rem", padding: 4, marginRight: "8px" }}
+              />
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
                   handleDeleteAddress(index);
                 }}
                 icon="pi pi-trash"
@@ -357,10 +404,10 @@ const AddressSelector = (props) => {
       </div>
 
       <Dialog
-        header="Add New Address"
+        header={isEditing ? "Edit Address" : "Add New Address"}
         style={{ width: isMobile ? "100vw" : "500px", height: "100vh" }}
         visible={showAddressForm}
-        onHide={() => setShowAddressForm(false)}
+        onHide={handleCloseAddressForm}
         className="address-dialog"
       >
         <div className="address-form">
