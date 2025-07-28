@@ -9,17 +9,28 @@ const LoginPopupPhoneNumber = () => {
   const handleLoginComplete = (result) => {
     console.log(result);
     setIsLoading(true);
-    setShowLoginPopup(false);
+
+    // Store user data
     localStorage.setItem("usertoken", result?.data?.token);
     localStorage.setItem("userdata", JSON.stringify(result?.data));
-    toast.current.show({
-      severity: "success",
-      summary: "Success",
-      detail: "Login successful",
-      life: 3000,
-    });
-    setIsLoading(false);
-    setShowOTPInput(false);
+
+    // Show success state
+    setShowSuccess(true);
+
+    // Close the popup and reload page after showing success animation
+    setTimeout(() => {
+      setShowLoginPopup(false);
+      setPhoneNumber("");
+      setShowCountryList(false);
+      setSearchQuery("");
+      setShowOTPInput(false);
+      setOTP("");
+      setShowSuccess(false);
+      setIsLoading(false);
+
+      // Reload the page after successful login
+      window.location.reload();
+    }, 2500);
   };
 
   const [selectedCountry, setSelectedCountry] = useState({
@@ -36,6 +47,7 @@ const LoginPopupPhoneNumber = () => {
   const inputRef = useRef(null);
   const [showOTPInput, setShowOTPInput] = useState(false);
   const [otp, setOTP] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
   const countries = [
     { code: "+91", flag: "🇮🇳", name: "India" },
     { code: "+1", flag: "🇺🇸", name: "United States" },
@@ -158,6 +170,11 @@ const LoginPopupPhoneNumber = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleEditPhoneNumber = () => {
+    setShowOTPInput(false);
+    setOTP("");
   };
 
   const VerifyOTP = async (otp) => {
@@ -626,7 +643,7 @@ const LoginPopupPhoneNumber = () => {
             </p>
           </div>
         )}
-        {showOTPInput && (
+        {showOTPInput && !showSuccess && (
           <div>
             <div
               style={{
@@ -635,6 +652,11 @@ const LoginPopupPhoneNumber = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 background: "white",
+                padding: "32px 24px",
+                borderRadius: "24px 24px 0 0",
+                marginTop: "-20px",
+                position: "relative",
+                zIndex: 1,
               }}
             >
               <label
@@ -642,28 +664,55 @@ const LoginPopupPhoneNumber = () => {
                   fontSize: "20px",
                   fontWeight: "500",
                   textAlign: "center",
+                  marginBottom: "8px",
                 }}
               >
                 Enter OTP
               </label>
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "#64748b",
+                  textAlign: "center",
+                  marginBottom: "24px",
+                }}
+              >
+                OTP sent to {selectedCountry.code} {phoneNumber}
+              </p>
               <input
                 type="text"
+                value={otp}
                 onChange={(e) => setOTP(e.target.value)}
+                placeholder="Enter 6-digit OTP"
+                maxLength="6"
                 style={{
-                  width: "20rem",
-                  padding: "10px",
+                  width: "100%",
+                  maxWidth: "280px",
+                  padding: "16px",
                   margin: "10px 0",
-                  borderRadius: "6px",
-                  border: "1px solid #e2e8f0",
+                  borderRadius: "12px",
+                  border: "2px solid #e2e8f0",
+                  fontSize: "16px",
+                  textAlign: "center",
+                  letterSpacing: "2px",
+                  outline: "none",
+                  transition: "border-color 0.2s ease",
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = "#0f766e";
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = "#e2e8f0";
                 }}
               />
               <button
                 onClick={() => VerifyOTP(otp)}
                 style={{
-                  width: "20rem",
-                  padding: "15px 10px",
-                  margin: "10px 0",
-                  borderRadius: "6px",
+                  width: "100%",
+                  maxWidth: "280px",
+                  padding: "16px",
+                  margin: "16px 0 8px 0",
+                  borderRadius: "12px",
                   background:
                     "linear-gradient(135deg, #0f766e 0%, #134e4a 100%)",
                   color: "white",
@@ -672,11 +721,157 @@ const LoginPopupPhoneNumber = () => {
                   fontWeight: "600",
                   cursor: "pointer",
                   transition: "all 0.2s ease",
+                  opacity: isLoading || !otp.trim() ? 0.6 : 1,
+                }}
+                disabled={isLoading || !otp.trim()}
+                onMouseEnter={(e) => {
+                  if (!isLoading && otp.trim()) {
+                    e.target.style.transform = "translateY(-2px)";
+                    e.target.style.boxShadow =
+                      "0 8px 25px rgba(15, 118, 110, 0.3)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isLoading && otp.trim()) {
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow = "none";
+                  }
+                }}
+              >
+                {isLoading ? (
+                  <div style={styles.spinner}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 2V6M12 18V22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12H6M18 12H22M4.93 19.07L7.76 16.24M16.24 7.76L19.07 4.93"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                ) : (
+                  "Verify OTP"
+                )}
+              </button>
+              <button
+                onClick={handleEditPhoneNumber}
+                style={{
+                  width: "100%",
+                  maxWidth: "280px",
+                  padding: "12px 16px",
+                  margin: "8px 0",
+                  borderRadius: "12px",
+                  background: "transparent",
+                  color: "#0f766e",
+                  border: "2px solid #0f766e",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
                 }}
                 disabled={isLoading}
+                onMouseEnter={(e) => {
+                  if (!isLoading) {
+                    e.target.style.background = "#f0fdfa";
+                    e.target.style.transform = "translateY(-1px)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isLoading) {
+                    e.target.style.background = "transparent";
+                    e.target.style.transform = "translateY(0)";
+                  }
+                }}
               >
-                Verify OTP
+                <i className="pi pi-pencil" style={{ marginRight: "8px" }}></i>
+                Edit Phone Number
               </button>
+            </div>
+          </div>
+        )}
+
+        {showSuccess && (
+          <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "white",
+                padding: "60px 24px",
+                borderRadius: "24px 24px 0 0",
+                marginTop: "-20px",
+                position: "relative",
+                zIndex: 1,
+                minHeight: "300px",
+              }}
+            >
+              {/* Animated Checkmark */}
+              <div
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "50%",
+                  background:
+                    "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "24px",
+                  animation: "checkmarkScale 0.6s ease-in-out",
+                  boxShadow: "0 8px 25px rgba(16, 185, 129, 0.3)",
+                }}
+              >
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  style={{
+                    animation: "checkmarkDraw 0.8s ease-in-out 0.3s both",
+                  }}
+                >
+                  <path
+                    d="M20 6L9 17L4 12"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      strokeDasharray: "20",
+                      strokeDashoffset: "20",
+                      animation: "checkmarkPath 0.8s ease-in-out 0.3s forwards",
+                    }}
+                  />
+                </svg>
+              </div>
+
+              <h3
+                style={{
+                  fontSize: "24px",
+                  fontWeight: "600",
+                  color: "#111827",
+                  margin: "0 0 8px 0",
+                  textAlign: "center",
+                  animation: "fadeInUp 0.6s ease-in-out 0.5s both",
+                }}
+              >
+                Login Successful!
+              </h3>
+
+              <p
+                style={{
+                  fontSize: "16px",
+                  color: "#64748b",
+                  textAlign: "center",
+                  margin: 0,
+                  animation: "fadeInUp 0.6s ease-in-out 0.7s both",
+                }}
+              >
+                Welcome back! You're now logged in.
+              </p>
             </div>
           </div>
         )}
@@ -689,6 +884,51 @@ const LoginPopupPhoneNumber = () => {
           }
           to {
             transform: rotate(360deg);
+          }
+        }
+
+        @keyframes checkmarkScale {
+          0% {
+            transform: scale(0);
+            opacity: 0;
+          }
+          50% {
+            transform: scale(1.2);
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+
+        @keyframes checkmarkPath {
+          0% {
+            stroke-dashoffset: 20;
+          }
+          100% {
+            stroke-dashoffset: 0;
+          }
+        }
+
+        @keyframes checkmarkDraw {
+          0% {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes fadeInUp {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
           }
         }
 
