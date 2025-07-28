@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  useCallback,
+} from "react";
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -23,7 +29,7 @@ const ServiceSelection = ({
   onTestsSelected,
   selectedTests,
   setSelectedTests,
-  onBookingComplete, // Add this new prop
+  onBookingComplete,
 }) => {
   const toast = useRef(null);
   const [categories, setCategories] = useState([]);
@@ -31,17 +37,18 @@ const ServiceSelection = ({
   const [searchText, setSearchText] = useState("");
   const [city, setCity] = useState("Rewa");
   const [tests, setTests] = useState([]);
-  // const [selectedTests, setSelectedTests] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [pagination, setPagination] = useState({
-    total: 0,
-    page: 1,
-    pages: 1,
-  });
-  const [lang, setLang] = useState("en"); // or "hi"
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [pageno, setPageno] = useState(1);
+  const [lang, setLang] = useState("en");
   const [showcheckout, setShowcheckout] = useState(false);
   const [showTestDetails, setShowTestDetails] = useState(false);
   const [selectedTestForDetails, setSelectedTestForDetails] = useState(null);
+
+  // Infinite scroll refs
+  const observerRef = useRef();
+  const loadingRef = useRef();
 
   // Predefined categories with icons
   const predefinedCategories = [
@@ -88,27 +95,34 @@ const ServiceSelection = ({
       icon: "/labicons/lipidprofile.png",
       icontype: "png",
     },
-    // { id: "kidney", name: "Kidney", icon: "/labicons/kidney.png" },
   ];
 
   // Filter options
-  const filterOptions = [
-    // { id: "sort", label: "Sort By", icon: "pi pi-sort" },
-    // { id: "filters", label: "All filters", icon: "pi pi-filter" },
-    // { id: "sameDay", label: "Same day report", icon: "pi pi-clock" },
-  ];
+  const filterOptions = [];
 
   useEffect(() => {
     fetchCategories();
-    fetchAllTests();
-  }, [pagination.page]);
+    fetchAllTests(true); // Reset tests when component mounts
+  }, []);
+
+  // Reset tests when category, search, or city changes
+  useEffect(() => {
+    setPageno(1);
+    setTests([]);
+    setHasMore(true);
+    fetchAllTests(true);
+  }, [selectedCategory, searchText, city]);
 
   const fetchCategories = async () => {
     try {
       setLoading(true);
+      console.log("Fetching categories...");
+
       const response = await axios.get(labTestApi.getTestCategories(), {
         headers: getAuthHeaders(),
       });
+
+      console.log("Categories response:", response.data);
 
       if (response.data && !response.data.error) {
         setCategories(response.data.data || []);
@@ -136,31 +150,75 @@ const ServiceSelection = ({
     }
   };
 
-  const fetchAllTests = async () => {
+  const fetchAllTests = async (reset = false) => {
     try {
-      setLoading(true);
+      console.log("Fetching tests with params:", {
+        reset,
+        searchText,
+        selectedCategory,
+        city,
+        pageno: reset ? 1 : pageno,
+      });
 
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/lab/user/tests/all-offered?city=${city}&searchText=${searchText}&category=${selectedCategory}&page=${pagination.page}&limit=10`,
-        {
-          headers: getAuthHeaders(),
-        }
-      );
+      if (reset) {
+        setLoading(true);
+        setPageno(1);
+      } else {
+        setLoadingMore(true);
+      }
+
+      const currentPage = reset ? 1 : pageno;
+
+      // Build query parameters
+      const params = new URLSearchParams({
+        city: city,
+        page: currentPage.toString(),
+        limit: "10",
+      });
+
+      // Add search text if present
+      if (searchText.trim()) {
+        params.append("searchText", searchText.trim());
+      }
+
+      // Add category if not "all"
+      if (selectedCategory !== "all") {
+        params.append("category", selectedCategory);
+      }
+
+      const url = `${labTestApi.getAllOfferedTests()}?${params.toString()}`;
+      console.log("API URL:", url);
+
+      const response = await axios.get(url, {
+        headers: getAuthHeaders(),
+      });
+
+      console.log("Tests response:", response.data);
 
       if (response.data && !response.data.error) {
-        setTests(response.data.data);
-        setPagination({
-          total: response.data.pagination.total,
-          page: response.data.pagination.page,
-          pages: response.data.pagination.pages,
-        });
+        const newTests = response.data.data || [];
+
+        // FIXED: Always reset tests when reset=true, or when there's a search/category filter
+        if (reset || searchText.trim() !== "" || selectedCategory !== "all") {
+          console.log("Resetting tests with new data:", newTests.length);
+          setTests(newTests);
+        } else {
+          console.log("Appending tests to existing list:", newTests.length);
+          setTests((prevTests) => [...prevTests, ...newTests]);
+        }
+
+        // Check if there are more tests to load
+        setHasMore(newTests.length === 10);
+
+        if (!reset) {
+          setPageno((prev) => prev + 1);
+        }
       } else {
-        setTests([]);
-        setPagination({
-          total: 0,
-          page: 1,
-          pages: 1,
-        });
+        if (reset) {
+          setTests([]);
+        }
+        setHasMore(false);
+
         toast.current.show({
           severity: "error",
           summary: "Error",
@@ -170,30 +228,52 @@ const ServiceSelection = ({
       }
     } catch (error) {
       console.error("Error fetching tests:", error);
-      setTests([]);
-      setPagination({
-        total: 0,
-        page: 1,
-        pages: 1,
-      });
+      if (reset) {
+        setTests([]);
+      }
+      setHasMore(false);
+
+      const errorResult = handleApiError(error);
       toast.current.show({
         severity: "error",
         summary: "Error",
-        detail: "Failed to fetch tests. Please try again.",
+        detail:
+          errorResult.message || "Failed to fetch tests. Please try again.",
         life: 3000,
       });
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
   };
 
+  // Infinite scroll callback
+  const lastTestElementRef = useCallback(
+    (node) => {
+      if (loadingMore) return;
+
+      if (observerRef.current) observerRef.current.disconnect();
+
+      observerRef.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          console.log("Loading more tests...");
+          fetchAllTests(false);
+        }
+      });
+
+      if (node) observerRef.current.observe(node);
+    },
+    [loadingMore, hasMore]
+  );
+
   const handleCategorySelect = (categoryId) => {
+    console.log("Category selected:", categoryId);
     setSelectedCategory(categoryId);
-    fetchAllTests();
   };
 
   const handleSearch = () => {
-    fetchAllTests();
+    console.log("Search triggered with text:", searchText);
+    // Search is handled by useEffect when searchText changes
   };
 
   const handleTestSelection = (test) => {
@@ -202,13 +282,13 @@ const ServiceSelection = ({
     if (isSelected) {
       const updatedTests = selectedTests.filter((t) => t._id !== test._id);
       setSelectedTests(updatedTests);
-      // Update localStorage when removing a test
       localStorage.setItem("selectedTests", JSON.stringify(updatedTests));
+      console.log("Test removed:", test.name);
     } else {
       const updatedTests = [...selectedTests, test];
       setSelectedTests(updatedTests);
-      // Update localStorage when adding a test
       localStorage.setItem("selectedTests", JSON.stringify(updatedTests));
+      console.log("Test added:", test.name);
     }
   };
 
@@ -223,6 +303,7 @@ const ServiceSelection = ({
       return;
     }
 
+    console.log("Proceeding with tests:", selectedTests);
     onTestsSelected(selectedTests, city);
   };
 
@@ -239,38 +320,63 @@ const ServiceSelection = ({
   const router = useRouter();
 
   const handleConfirm = async (prescription, address) => {
-    console.log(prescription, address);
-    const labId = "6877707ce00e458e6207dbb6";
-    const bookingDetails = {
-      prescription: prescription,
-      patientDetails: {
-        name: address.name || "",
-        phone: address.phone || "",
-        email: address.email || "",
-      },
-      orderbyprescription: true,
-      address: address,
-      city: city,
-      tests: selectedTests,
-      labId: labId,
-    };
-    const response = await axios.post(
-      labBookingApi.createBooking(),
-      bookingDetails,
-      {
-        headers: getAuthHeaders(),
+    try {
+      console.log("Creating booking with:", { prescription, address });
+
+      const labId = "6877707ce00e458e6207dbb6";
+      const bookingDetails = {
+        prescription: prescription,
+        patientDetails: {
+          name: address.name || "",
+          phone: address.phone || "",
+          email: address.email || "",
+        },
+        orderbyprescription: true,
+        address: address,
+        city: city,
+        tests: selectedTests,
+        labId: labId,
+      };
+
+      console.log("Booking details:", bookingDetails);
+
+      const response = await axios.post(
+        labBookingApi.createBooking(),
+        bookingDetails,
+        {
+          headers: getAuthHeaders(),
+        }
+      );
+
+      console.log("Booking response:", response.data);
+
+      if (response.data && !response.data.error) {
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Booking created successfully",
+        });
+
+        if (onBookingComplete) {
+          onBookingComplete(bookingDetails, true);
+        }
+      } else {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: response.data.message || "Failed to create booking",
+          life: 3000,
+        });
       }
-    );
-    if (response.data && !response.data.error) {
+    } catch (error) {
+      console.error("Error creating booking:", error);
+      const errorResult = handleApiError(error);
       toast.current.show({
-        severity: "success",
-        summary: "Success",
-        detail: "Booking created successfully",
+        severity: "error",
+        summary: "Error",
+        detail: errorResult.message || "Failed to create booking",
+        life: 3000,
       });
-      // Use callback instead of router push
-      if (onBookingComplete) {
-        onBookingComplete(bookingDetails, true);
-      }
     }
   };
 
@@ -280,7 +386,6 @@ const ServiceSelection = ({
   }, []);
 
   const getTestIcon = (testName) => {
-    // Determine icon based on test name or category
     const name = testName?.toLowerCase();
     if (name?.includes("cbc") || name?.includes("blood"))
       return "/labicons/blood.png";
@@ -288,11 +393,10 @@ const ServiceSelection = ({
     if (name?.includes("package")) return "/labicons/all.png";
     if (name?.includes("dengue") || name?.includes("fever"))
       return "/labicons/blood.png";
-    return "/labicons/blood.png"; // default
+    return "/labicons/blood.png";
   };
 
   const getTestDetails = (test) => {
-    // Generate test details based on test name
     const name = test?.name?.toLowerCase();
     if (name?.includes("cbc")) {
       return { testCount: 21, reportTime: "18 hours" };
@@ -307,13 +411,12 @@ const ServiceSelection = ({
   };
 
   const getOriginalPrice = (currentPrice) => {
-    // Calculate original price with some discount
     const price = parseInt(currentPrice) || 300;
-    const discount = Math.floor(price * 0.1); // 10% discount
+    const discount = Math.floor(price * 0.1);
     return price + discount;
   };
 
-  const itemTemplate = (test) => {
+  const itemTemplate = (test, index) => {
     const isSelected = selectedTests.some((t) => t._id === test._id);
     const bestLab = test.labs && test.labs.length > 0 ? test.labs[0] : null;
     const testDetails = getTestDetails(test);
@@ -322,15 +425,17 @@ const ServiceSelection = ({
       ((originalPrice - bestLab?.price) / originalPrice) * 100
     );
 
+    const isLastElement = index === tests.length - 1;
+    const cardRef = isLastElement ? lastTestElementRef : null;
+
     return (
-      <div className={styles.newTestCard}>
+      <div ref={cardRef} className={styles.newTestCard} key={test._id}>
         {/* Icon and Test Name */}
         <div
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            // padding: "0.5rem",
             gap: "0.5rem",
           }}
         >
@@ -427,7 +532,6 @@ const ServiceSelection = ({
           </div>
           <Button
             label="BOOK"
-            // className={styles.bookButton}
             style={{
               height: "2.5rem",
               width: "7rem",
@@ -470,7 +574,7 @@ const ServiceSelection = ({
           <div>
             {lang === "hi"
               ? "अपने डॉक्टर की प्रिस्क्रिप्शन अपलोड करें और बाकी हम संभाल लेंगे!"
-              : "Upload your doctor’s prescription and let us handle the rest!"}
+              : "Upload your doctor's prescription and let us handle the rest!"}
           </div>
           <Button
             label={
@@ -550,18 +654,6 @@ const ServiceSelection = ({
         </div>
       </div>
 
-      {/* Filter Chips */}
-      {/* <div className={styles.filterSection}>
-        <div className={styles.filterChips}>
-          {filterOptions.map((filter) => (
-            <div key={filter.id} className={styles.filterChip}>
-              <i className={filter.icon}></i>
-              <span>{filter.label}</span>
-            </div>
-          ))}
-        </div>
-      </div> */}
-
       {/* Tests Display */}
       <div className={styles.testsSection}>
         {loading ? (
@@ -575,33 +667,47 @@ const ServiceSelection = ({
         ) : tests.length > 0 ? (
           <>
             <div className={styles.testsList}>
-              {tests?.map((test) => itemTemplate(test))}
+              {tests?.map((test, index) => itemTemplate(test, index))}
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingBottom: "4rem",
-              }}
-            >
-              <Button
-                label="Load More Tests"
-                raised
-                rounded
+
+            {/* Loading indicator for infinite scroll */}
+            {loadingMore && (
+              <div
+                ref={loadingRef}
+                className={styles.loadingMoreContainer}
                 style={{
-                  backgroundColor: "#fff",
-                  color: "#00b9af",
-                  border: "none",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "0.5rem",
-                  fontSize: "1rem",
-                  fontWeight: "600",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: "1rem",
+                  marginTop: "1rem",
                 }}
-                onClick={() =>
-                  setPagination((prev) => ({ ...prev, page: prev.page + 1 }))
-                }
-              />
-            </div>
+              >
+                <i
+                  className="pi pi-spin pi-spinner"
+                  style={{ fontSize: "1.5rem", marginRight: "0.5rem" }}
+                ></i>
+                <span>Loading more tests...</span>
+              </div>
+            )}
+
+            {/* End of results indicator */}
+            {!hasMore && tests.length > 0 && (
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "2rem 1rem",
+                  color: "#6b7280",
+                  fontSize: "0.9rem",
+                }}
+              >
+                <i
+                  className="pi pi-check-circle"
+                  style={{ marginRight: "0.5rem" }}
+                ></i>
+                You've reached the end of available tests
+              </div>
+            )}
           </>
         ) : (
           <div className={styles.noResults}>
@@ -707,7 +813,6 @@ const ServiceSelection = ({
           open={showcheckout}
           onClose={() => setShowcheckout(false)}
           onConfirm={({ prescription, address }) => {
-            // handle booking logic here
             handleConfirm(prescription, address);
           }}
           getAuthHeaders={getAuthHeaders}

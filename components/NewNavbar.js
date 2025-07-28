@@ -26,6 +26,7 @@ const Navbar = () => {
     setcollapse,
     hidenavbar,
     sethidenavbar,
+    setShowLoginPopup,
   } = useContext(AccountContext);
 
   // Add state for random avatar
@@ -290,7 +291,7 @@ const Navbar = () => {
             },
           },
           {
-            label: "Sign out",
+            label: "Log out",
             icon: "pi pi-sign-out",
             command: () => {
               console.log("Hii");
@@ -383,9 +384,9 @@ const Navbar = () => {
 
           {
             label: "Log in",
-            icon: "pi pi-sign-out",
+            icon: "pi pi-sign-in",
             command: () => {
-              router.push("/User/UserRegistrationPage");
+              setShowLoginPopup(true);
             },
           },
           // {
