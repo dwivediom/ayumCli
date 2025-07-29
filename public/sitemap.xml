@@ -1,7 +1,16 @@
 <?xml version ="1.0" encoding="UTF-8" ?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://www.ayum.in/medical-store/raghav_090</loc>
+        <loc>https://www.ayum.in/medical-store/healthcare</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/medical-store/rajmedical997</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/medical-store/samdariyamedical</loc>
+        <changefreq>weekly</changefreq>
+        </url><url>
+        <loc>https://www.ayum.in/medical-store/shivammedical</loc>
         <changefreq>weekly</changefreq>
         </url><url>
         <loc>https://www.ayum.in/doctor?docid=640d31727e40e569991e8ec8</loc>
