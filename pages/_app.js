@@ -35,6 +35,7 @@ import { refreshFcmToken, ensureFcmToken } from "../push-notification";
 import { registerDeviceToken } from "../routes/notify";
 import { SocketProvider } from "../context/SocketContext";
 import LoginPopupPhoneNumber from "../components/UserAuth/LoginPopupPhoneNumber";
+import { initClarity } from "../utils/clarity";
 
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
@@ -188,6 +189,11 @@ function MyApp({ Component, pageProps }) {
   ]; // Add your public routes here
   const SSRroutes = ["/", "/doctor"];
   const router = useRouter();
+
+  useEffect(() => {
+    initClarity()
+  }, [])
+
 
   return (
     <>
