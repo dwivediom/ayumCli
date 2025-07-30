@@ -116,12 +116,12 @@ const Footer = () => {
 
       <style jsx>{`
         .footer-container {
-          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-          padding: 3rem 1.5rem 2rem;
-          margin-top: 3rem;
-          border-top: 1px solid #e2e8f0;
+          background: #fafafa;
+          padding: 2.5rem 1.5rem 2rem;
+          margin-top: 2rem;
+          border-top: 1px solid #e5e7eb;
           position: relative;
-          overflow: hidden;
+          padding-bottom: 4rem;
         }
 
         .footer-container::before {
@@ -130,170 +130,121 @@ const Footer = () => {
           top: 0;
           left: 0;
           right: 0;
-          height: 3px;
-          background: linear-gradient(
-            90deg,
-            #3b82f6,
-            #8b5cf6,
-            #06b6d4,
-            #10b981
-          );
+          height: 2px;
+          background: linear-gradient(90deg, #14b8a6, #0d9488);
         }
 
         .footer-content {
           max-width: 1200px;
           margin: 0 auto;
           position: relative;
-          z-index: 1;
         }
 
         .footer-section {
-          margin-bottom: 2.5rem;
+          margin-bottom: 2rem;
         }
 
         .footer-title {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #1e293b;
-          margin-bottom: 1.5rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #1f2937;
+          margin-bottom: 1rem;
           display: flex;
           align-items: center;
-          gap: 0.75rem;
-          position: relative;
+          gap: 0.5rem;
         }
 
         .title-icon {
-          font-size: 1.5rem;
-          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-        }
-
-        .footer-title::after {
-          content: "";
-          position: absolute;
-          bottom: -0.5rem;
-          left: 0;
-          width: 3rem;
-          height: 3px;
-          background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-          border-radius: 2px;
+          font-size: 1.2rem;
+          opacity: 0.8;
         }
 
         .footer-links {
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          gap: 0.75rem;
         }
 
         .footer-link {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
-          color: #64748b;
+          gap: 0.5rem;
+          color: #6b7280;
           text-decoration: none;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
           font-weight: 500;
-          padding: 0.75rem 1rem;
-          border-radius: 12px;
-          transition: all 0.3s ease;
-          background: rgba(255, 255, 255, 0.6);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          padding: 0.5rem 0;
+          transition: all 0.2s ease;
         }
 
         .footer-link:hover {
-          color: #1e293b;
-          background: rgba(255, 255, 255, 0.9);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          color: #14b8a6;
+          transform: translateX(4px);
         }
 
         .link-icon {
-          font-size: 1.2rem;
-          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+          font-size: 1rem;
+          opacity: 0.7;
         }
 
         .link-text {
-          font-weight: 600;
+          font-weight: 500;
         }
 
         .social-links {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 1rem;
+          gap: 0.75rem;
         }
 
         .social-link {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 0.5rem;
           text-decoration: none;
-          font-size: 0.95rem;
-          font-weight: 600;
-          padding: 1rem;
-          border-radius: 16px;
-          transition: all 0.3s ease;
-          background: rgba(255, 255, 255, 0.6);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          font-size: 0.9rem;
+          font-weight: 500;
+          padding: 0.75rem;
+          border-radius: 8px;
+          transition: all 0.2s ease;
           color: var(--social-color);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .social-link::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.4),
-            transparent
-          );
-          transition: left 0.5s ease;
-        }
-
-        .social-link:hover::before {
-          left: 100%;
+          background: #ffffff;
+          border: 1px solid #f3f4f6;
         }
 
         .social-link:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-          background: rgba(255, 255, 255, 0.9);
+          background: #f9fafb;
+          border-color: #e5e7eb;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .social-icon {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 40px;
-          height: 40px;
-          border-radius: 12px;
-          background: rgba(255, 255, 255, 0.8);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          transition: all 0.3s ease;
+          width: 32px;
+          height: 32px;
+          border-radius: 6px;
+          background: #f8fafc;
+          transition: all 0.2s ease;
         }
 
         .social-link:hover .social-icon {
-          transform: scale(1.1) rotate(5deg);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+          background: #f1f5f9;
         }
 
         .social-name {
-          font-weight: 600;
+          font-weight: 500;
         }
 
         .footer-bottom {
-          margin-top: 3rem;
-          padding-top: 2rem;
-          border-top: 2px solid rgba(226, 232, 240, 0.8);
+          margin-top: 2rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid #f3f4f6;
           display: flex;
           flex-direction: column;
-          gap: 1.5rem;
+          gap: 1rem;
           align-items: center;
         }
 
@@ -302,66 +253,66 @@ const Footer = () => {
         }
 
         .copyright {
-          font-size: 0.9rem;
-          color: #64748b;
-          margin-bottom: 1rem;
-          font-weight: 500;
+          font-size: 0.85rem;
+          color: #9ca3af;
+          margin-bottom: 0.75rem;
+          font-weight: 400;
         }
 
         .footer-badges {
           display: flex;
-          gap: 0.75rem;
+          gap: 0.5rem;
           justify-content: center;
           flex-wrap: wrap;
         }
 
         .badge {
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-          color: white;
-          padding: 0.5rem 1rem;
-          border-radius: 20px;
-          font-size: 0.8rem;
-          font-weight: 600;
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-          transition: all 0.3s ease;
+          background: #f8fafc;
+          color: #6b7280;
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
+          font-size: 0.75rem;
+          font-weight: 500;
+          border: 1px solid #e5e7eb;
+          transition: all 0.2s ease;
         }
 
         .badge:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+          background: #f1f5f9;
+          color: #14b8a6;
+          border-color: #d1d5db;
         }
 
         .version-btn {
-          background: linear-gradient(135deg, #64748b, #475569);
-          border: none;
-          color: white;
-          font-size: 0.85rem;
-          font-weight: 600;
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+          color: #6b7280;
+          font-size: 0.8rem;
+          font-weight: 500;
           cursor: pointer;
-          padding: 0.75rem 1.5rem;
-          border-radius: 25px;
-          transition: all 0.3s ease;
+          padding: 0.5rem 1rem;
+          border-radius: 6px;
+          transition: all 0.2s ease;
           display: flex;
           align-items: center;
-          gap: 0.5rem;
-          box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3);
+          gap: 0.25rem;
         }
 
         .version-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(100, 116, 139, 0.4);
-          background: linear-gradient(135deg, #475569, #334155);
+          background: #f9fafb;
+          border-color: #d1d5db;
+          color: #14b8a6;
         }
 
         .version-icon {
-          font-size: 1rem;
+          font-size: 0.9rem;
         }
 
         @media (min-width: 768px) {
           .footer-content {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
+            gap: 2rem;
           }
 
           .footer-bottom {
@@ -382,12 +333,12 @@ const Footer = () => {
 
         @media (min-width: 1024px) {
           .footer-container {
-            padding: 4rem 2rem 2.5rem;
+            padding: 3rem 2rem 2rem;
           }
 
           .social-links {
             grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem;
+            gap: 1rem;
           }
         }
 
