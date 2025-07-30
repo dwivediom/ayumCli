@@ -161,6 +161,7 @@ const NewHomePage = () => {
   };
 
   return (
+    
     <div className={styles.mainshell}>
       {langmodal && <LanguageModal getdocs={getalldoc} />}
 

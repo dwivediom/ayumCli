@@ -36,6 +36,8 @@ import { registerDeviceToken } from "../routes/notify";
 import { SocketProvider } from "../context/SocketContext";
 import LoginPopupPhoneNumber from "../components/UserAuth/LoginPopupPhoneNumber";
 
+
+
 const TRACKING_ID = "G-2S84NQ3JY0";
 ReactGA.initialize(TRACKING_ID);
 function MyApp({ Component, pageProps }) {
