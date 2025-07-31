@@ -423,6 +423,7 @@ const Navbar = () => {
             // height: "100vh",
           }}
         >
+          {/* New notification items */}
           <div
             style={{
               height: "5rem",
@@ -433,8 +434,7 @@ const Navbar = () => {
               padding: "5px",
               alignItems: "center",
               gap: "5px",
-              borderLeft: "3px solid rgb(5, 255, 84)",
-
+              borderLeft: "3px solid rgb(255, 99, 71)",
               boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
             }}
           >
@@ -457,11 +457,12 @@ const Navbar = () => {
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="lucide lucide-badge-check"
+                class="lucide lucide-percent"
                 style={{ width: "25px", height: "25px" }}
               >
-                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                <path d="m9 12 2 2 4-4" />
+                <path d="M19 5L5 19" />
+                <path d="M6.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                <path d="M17.5 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
               </svg>
             </div>
             <div
@@ -471,12 +472,11 @@ const Navbar = () => {
                 height: "100%",
               }}
             >
-              <span style={{ fontWeight: "600" }}>
-                Appointment at Dr Rakesh Patel Booked Successfully
-              </span>
-              <span style={{ fontSize: "14px" }}>Click to view.</span>
+              <span style={{ fontWeight: "600" }}>25-60% off on Lab Tests</span>
+              <span style={{ fontSize: "14px" }}>Limited time offer!</span>
             </div>
           </div>
+
           <div
             style={{
               height: "5rem",
@@ -487,8 +487,7 @@ const Navbar = () => {
               padding: "5px",
               alignItems: "center",
               gap: "5px",
-              borderLeft: "3px solid rgb(168, 5, 255)",
-
+              borderLeft: "3px solid rgb(34, 139, 34)",
               boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
             }}
           >
@@ -511,12 +510,13 @@ const Navbar = () => {
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="lucide lucide-test-tube"
+                class="lucide lucide-package"
                 style={{ width: "25px", height: "25px" }}
               >
-                <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2" />
-                <path d="M8.5 2h7" />
-                <path d="M14.5 16h-5" />
+                <path d="m12 3-8 4.5v9L12 21l8-4.5v-9L12 3" />
+                <path d="m12 12 8-4.5" />
+                <path d="M12 12v9" />
+                <path d="m12 12-8-4.5" />
               </svg>
             </div>
             <div
@@ -526,12 +526,13 @@ const Navbar = () => {
                 height: "100%",
               }}
             >
-              <span style={{ fontWeight: "600" }}>
-                Lab Test Report Recieved
+              <span style={{ fontWeight: "600" }}>Order Medicines</span>
+              <span style={{ fontSize: "14px" }}>
+                Get your prescriptions delivered
               </span>
-              <span style={{ fontSize: "14px" }}>Click to view.</span>
             </div>
           </div>
+
           <div
             style={{
               height: "5rem",
@@ -542,8 +543,7 @@ const Navbar = () => {
               padding: "5px",
               alignItems: "center",
               gap: "5px",
-              borderLeft: "3px solid rgb(255, 201, 5)",
-
+              borderLeft: "3px solid rgb(65, 105, 225)",
               boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
             }}
           >
@@ -566,11 +566,14 @@ const Navbar = () => {
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="lucide lucide-badge-check"
+                class="lucide lucide-truck"
                 style={{ width: "25px", height: "25px" }}
               >
-                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                <path d="m9 12 2 2 4-4" />
+                <path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h9c.6 0 1 .4 1 1v11" />
+                <path d="M14 9h4l3 3v5c0 .6-.4 1-1 1h-2" />
+                <circle cx="7" cy="18" r="2" />
+                <path d="M15 18h-1" />
+                <circle cx="17" cy="18" r="2" />
               </svg>
             </div>
             <div
@@ -580,12 +583,70 @@ const Navbar = () => {
                 height: "100%",
               }}
             >
-              <span style={{ fontWeight: "600" }}>
-                Your appointment with Dr. Rakesh Patel is Re-Scheduled.
+              <span style={{ fontWeight: "600" }}>Free Home Delivery</span>
+              <span style={{ fontSize: "14px" }}>
+                Available in Rewa, Sidhi, Churhat
               </span>
-              <span style={{ fontSize: "14px" }}>Click to view.</span>
             </div>
           </div>
+
+          <div
+            style={{
+              height: "5rem",
+              width: "100%",
+              background: "var(--surface-50)",
+              borderRadius: "12px",
+              display: "flex",
+              padding: "5px",
+              alignItems: "center",
+              gap: "5px",
+              borderLeft: "3px solid rgb(138, 43, 226)",
+              boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                height: "100%",
+                borderRadius: "12px",
+                paddingTop: "0.5rem",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-user-md"
+                style={{ width: "25px", height: "25px" }}
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="m2 21 2-2" />
+                <path d="m22 21-2-2" />
+              </svg>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+              }}
+            >
+              <span style={{ fontWeight: "600" }}>Find Doctors</span>
+              <span style={{ fontSize: "14px" }}>
+                Book appointments with specialists
+              </span>
+            </div>
+          </div>
+
+          {/* Existing notification items */}
         </div>
       </Sidebar>
       {/* <Avatar
