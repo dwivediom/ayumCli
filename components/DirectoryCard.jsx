@@ -360,7 +360,9 @@ ${linktext}`;
   };
 
   const phoneNumbers = item?.phone
-    ? item.phone.split(/[,\s]+/).filter(Boolean)
+    ? String(item?.phone)
+        ?.split(/[,\s]+/)
+        .filter(Boolean)
     : [];
   const [showPhoneModal, setShowPhoneModal] = useState(false);
 
