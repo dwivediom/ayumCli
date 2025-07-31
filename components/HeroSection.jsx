@@ -56,7 +56,7 @@ const HeroSection = ({ city, setCity, hidegreet }) => {
       ) : (
         <>
           <div style={{ position: "relative" }}>
-            <Typewriter text="Hello. How can we care for you today?" />
+            <Typewriter text="Free 30 min Home delivery in Rewa" />
             <div
               style={{
                 position: "absolute",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TypeWriteAnimate.module.css";
 
-const text = "Hello How can we care for you today?";
+const text = "Free 30 min Home Delivery in Rewa";
 
 const TypeWriteAnimate = () => {
   const [displayed, setDisplayed] = useState("");
