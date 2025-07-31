@@ -72,7 +72,7 @@ const ServiceSelection = ({
       icontype: "png",
     },
     {
-      id: "Gynac",
+      id: "gynae",
       name: "Gynae",
       icon: "/labicons/gynae.png",
       icontype: "png",
