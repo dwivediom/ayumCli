@@ -4,9 +4,51 @@ import { FaSearch, FaPills, FaVial } from "react-icons/fa";
 import Typewriter from "./TypeWriteAnimate";
 import { cityoptions } from "../public/utils/Utils";
 
+// Add custom scrollbar styles
+const dropdownStyles = `
+  .city-dropdown {
+    animation: slideDown 0.2s ease-out;
+  }
+  .city-dropdown::-webkit-scrollbar {
+    width: 6px;
+  }
+  .city-dropdown::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 3px;
+  }
+  .city-dropdown::-webkit-scrollbar-thumb {
+    background: #b2f5ea;
+    border-radius: 3px;
+  }
+  .city-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #008080;
+  }
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
 const HeroSection = ({ city, setCity, hidegreet }) => {
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  
+  // Force close dropdown if it's been open for too long (safety mechanism)
+  useEffect(() => {
+    if (dropdownOpen) {
+      const timer = setTimeout(() => {
+        setDropdownOpen(false);
+      }, 10000); // Close after 10 seconds as safety
+      
+      return () => clearTimeout(timer);
+    }
+  }, [dropdownOpen]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -37,20 +79,49 @@ const HeroSection = ({ city, setCity, hidegreet }) => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
     setIsMobile(mobile.matches);
   }, []);
+
+  // Close dropdown when clicking outside or pressing Escape
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const dropdown = document.querySelector('.city-dropdown');
+      const button = document.querySelector('.city-dropdown-button');
+      if (dropdown && button && !dropdown.contains(event.target) && !button.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setDropdownOpen(false);
+      }
+    };
+
+    if (dropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [dropdownOpen]);
   return (
-    <div
-      style={{
-        background: "#fff",
-        borderRadius: "18px",
-        padding: "1rem",
-        maxWidth: !isMobile ? 420 : "100%",
-        minWidth: !isMobile ? "900px" : "100%",
-        // marginLeft: !isMobile ? "-2px" : "0",
-        margin: "auto",
-        boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
-        border: "1px solid rgba(188, 246, 253, 0.81)",
-      }}
-    >
+    <>
+      <style dangerouslySetInnerHTML={{ __html: dropdownStyles }} />
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: "18px",
+          padding: "1rem",
+          maxWidth: !isMobile ? 420 : "100%",
+          minWidth: !isMobile ? "900px" : "100%",
+          // marginLeft: !isMobile ? "-2px" : "0",
+          margin: "auto",
+          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
+          border: "1px solid rgba(188, 246, 253, 0.81)",
+        }}
+      >
       {hidegreet ? (
         ""
       ) : (
@@ -67,6 +138,7 @@ const HeroSection = ({ city, setCity, hidegreet }) => {
               }}
             >
               <div
+                className="city-dropdown-button"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -84,12 +156,21 @@ const HeroSection = ({ city, setCity, hidegreet }) => {
                   userSelect: "none",
                 }}
                 onClick={() => setDropdownOpen((v) => !v)}
+                onBlur={(e) => {
+                  // Close dropdown when button loses focus (unless clicking on dropdown)
+                  setTimeout(() => {
+                    if (!e.currentTarget.contains(document.activeElement)) {
+                      setDropdownOpen(false);
+                    }
+                  }, 150);
+                }}
               >
                 <i className="pi pi-map-marker" style={{ marginRight: 6 }} />
                 {city}
                 <span style={{ marginLeft: 8, fontSize: 14 }}>▼</span>
                 {dropdownOpen && (
                   <div
+                    className="city-dropdown"
                     style={{
                       position: "absolute",
                       top: "110%",
@@ -101,6 +182,10 @@ const HeroSection = ({ city, setCity, hidegreet }) => {
                       zIndex: 100,
                       minWidth: 120,
                       padding: "0.3rem 0",
+                      maxHeight: "200px",
+                      overflowY: "auto",
+                      scrollbarWidth: "thin",
+                      scrollbarColor: "#b2f5ea #f0f0f0",
                     }}
                   >
                     {cityoptions
@@ -114,11 +199,27 @@ const HeroSection = ({ city, setCity, hidegreet }) => {
                             color: c === city ? "#008080" : "#333",
                             background: c === city ? "#e6fffa" : "#fff",
                             fontWeight: c === city ? 700 : 500,
+                            transition: "all 0.15s ease",
+                          }}
+                          onMouseEnter={(e) => {
+                            if (c !== city) {
+                              e.target.style.background = "#f0f9f8";
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (c !== city) {
+                              e.target.style.background = "#fff";
+                            }
                           }}
                           onClick={() => {
                             setCity(c);
                             localStorage.setItem("city", c);
+                            // Ensure dropdown closes immediately
                             setDropdownOpen(false);
+                            // Additional safety to ensure dropdown closes
+                            setTimeout(() => {
+                              setDropdownOpen(false);
+                            }, 50);
                           }}
                         >
                           {c}
@@ -305,6 +406,7 @@ const HeroSection = ({ city, setCity, hidegreet }) => {
 
       {/* Category Pills */}
     </div>
+    </>
   );
 };
 

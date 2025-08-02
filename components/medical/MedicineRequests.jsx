@@ -107,11 +107,14 @@ const MedicineRequests = () => {
   // cancel order api
   const handleCancelOrder = async () => {
     try {
+      console.log("Starting cancellation process...");
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_B_PORT}/api/medical/user/request/cancel`,
         { requestId: selectedRequest._id, reason: cancellationReason },
         { headers: getAuthHeaders() }
       );
+      console.log("Cancellation API response:", response);
+      
       if (response.data) {
         toast.current.show({
           severity: "success",
@@ -120,9 +123,14 @@ const MedicineRequests = () => {
           life: 3000,
         });
         setShowCancelConfirmation(false);
-        setTimeout(() => {
-          router.push("/medical/requests");
-        }, 1000);
+        setCancellationReason("");
+        setSelectedRequest(null);
+        
+        console.log("About to refresh requests list...");
+        console.log("Current page:", currentPage, "Rows:", rows);
+        // Refresh the requests list to show updated data without page reload
+        await fetchRequests(currentPage, rows);
+        console.log("Requests list refreshed successfully");
       }
     } catch (error) {
       console.error("Error cancelling order:", error);
@@ -167,6 +175,7 @@ const MedicineRequests = () => {
 
   const fetchRequests = async (page = 1, limit = 10) => {
     try {
+      console.log("fetchRequests called with page:", page, "limit:", limit);
       setLoading(true);
       const params = new URLSearchParams();
 
@@ -184,17 +193,19 @@ const MedicineRequests = () => {
       params.append("page", page);
       params.append("limit", limit);
 
-      const response = await axios.get(
-        `${
-          process.env.NEXT_PUBLIC_B_PORT
-        }/api/medical/user/request/list?${params.toString()}`,
-        { headers: getAuthHeaders() }
-      );
+      const url = `${
+        process.env.NEXT_PUBLIC_B_PORT
+      }/api/medical/user/request/list?${params.toString()}`;
+      console.log("Making API call to:", url);
+
+      const response = await axios.get(url, { headers: getAuthHeaders() });
+      console.log("fetchRequests API response:", response.data);
 
       if (response.data) {
         setRequests(response.data.requests);
         setTotalRecords(response.data.total);
         setCurrentPage(response.data.currentPage);
+        console.log("Requests updated successfully");
       }
     } catch (error) {
       console.error("Error fetching requests:", error);
@@ -979,7 +990,42 @@ const MedicineRequests = () => {
         />
       </div> */}
 
-      <h3 style={{ textAlign: "center", margin: "1rem 0" }}>My Orders</h3>
+             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "1rem 0" }}>
+         <h3 style={{ margin: 0 }}>My Orders</h3>
+         <button
+           style={{
+             background: "#008080",
+             color: "#fff",
+             border: "none",
+             borderRadius: "10px",
+             padding: "1rem 1.5rem",
+             fontWeight: 600,
+             fontSize: "1rem",
+             height: "50px",
+             display: "flex",
+             alignItems: "center",
+             justifyContent: "center",
+             gap: "0.5rem",
+             boxShadow: "0 2px 8px rgba(0,128,128,0.25)",
+             cursor: "pointer",
+             transition: "all 0.18s",
+           }}
+           onClick={() => router.push("/medical/list")}
+           onMouseEnter={(e) => {
+             e.target.style.background = "#006666";
+             e.target.style.transform = "translateY(-1px)";
+             e.target.style.boxShadow = "0 4px 12px rgba(0,128,128,0.35)";
+           }}
+           onMouseLeave={(e) => {
+             e.target.style.background = "#008080";
+             e.target.style.transform = "translateY(0)";
+             e.target.style.boxShadow = "0 2px 8px rgba(0,128,128,0.25)";
+           }}
+         >
+           <i className="pi pi-plus" style={{ fontSize: "1rem" }}></i>
+           Order Medicine
+         </button>
+       </div>
       {/* <div className={styles.searchContainer}>
         <IconField style={{ width: "100%" }} iconPosition="left">
           <InputIcon className="pi pi-search" />
