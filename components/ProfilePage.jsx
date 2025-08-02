@@ -13,7 +13,7 @@ import styles from "../styles/Profile.module.css";
 
 const ProfilePage = () => {
   const router = useRouter();
-  const { lang } = useContext(AccountContext);
+  const { lang, setShowLoginPopup } = useContext(AccountContext);
   const [userData, setUserData] = useState(null);
   const [appointments, setAppointments] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -42,7 +42,8 @@ const ProfilePage = () => {
       const token = localStorage.getItem("usertoken");
 
       if (!token) {
-        router.push("/User/UserRegistrationPage");
+        // router.push("/User/UserRegistrationPage");
+        setShowLoginPopup(true);
         return;
       }
 
@@ -326,7 +327,7 @@ const ProfilePage = () => {
             <div
               style={{ display: "flex", gap: "0.75rem", marginLeft: "auto" }}
             >
-              <Button
+              {/* <Button
                 icon="pi pi-share-alt"
                 style={{
                   width: "48px",
@@ -338,8 +339,8 @@ const ProfilePage = () => {
                 }}
                 onClick={generateShareLink}
                 tooltip="Share Profile"
-              />
-              <Button
+              /> */}
+              {/* <Button
                 icon="pi pi-pencil"
                 style={{
                   width: "48px",
@@ -349,9 +350,14 @@ const ProfilePage = () => {
                   border: "none",
                   color: "#64748b",
                 }}
-                onClick={() => router.push("/User/UserRegistrationPage")}
+                onClick={() => {
+                  if (!userData) {
+                    setShowLoginPopup(true);
+                    return;
+                  }
+                }}
                 tooltip="Edit Profile"
-              />
+              /> */}
             </div>
           )}
         </div>

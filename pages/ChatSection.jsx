@@ -6,7 +6,11 @@ import ChatBox from "../components/ChatSection/ChatBox";
 import { AccountContext } from "../context/AccountProvider";
 import { useRouter } from "next/router";
 import { uploadFile } from "../routes/file";
-import { validateAndCompressImage, isImageFile, createProgressCallback } from "../utils/imageCompression";
+import {
+  validateAndCompressImage,
+  isImageFile,
+  createProgressCallback,
+} from "../utils/imageCompression";
 import { setmessage } from "../routes/message";
 import { getuserId } from "../routes/user";
 import { searchApi } from "../routes/search";
@@ -28,6 +32,7 @@ const ChatSection = () => {
     uplodedmsg,
     setscrollbox,
     lang,
+    setShowLoginPopup,
   } = useContext(AccountContext);
   useEffect(() => {
     const localStoragedata = JSON.parse(localStorage.getItem("labuser"));
@@ -62,7 +67,8 @@ const ChatSection = () => {
   const [mobile, setmobile] = useState(false);
   useEffect(() => {
     if (!localStorage.usertoken || !localStorage.labuser) {
-      router.push("/User/UserRegistrationPage");
+      // router.push("/User/UserRegistrationPage");
+      setShowLoginPopup(true);
     }
     console.log(screen.width, "screen width hai");
     console.log(window.innerWidth, "windows width hai");
@@ -98,32 +104,43 @@ const ChatSection = () => {
       setUploading(true);
       setCompressing(false);
       setUploadProgress("");
-      
+
       try {
         let fileToUpload = file;
-        
+
         // Check if it's an image and needs compression
         if (isImageFile(file)) {
           setCompressing(true);
           setCompressionProgress(0);
-          setUploadProgress(lang === "en" ? "Compressing image..." : "छवि संपीड़ित की जा रही है...");
-          
+          setUploadProgress(
+            lang === "en"
+              ? "Compressing image..."
+              : "छवि संपीड़ित की जा रही है..."
+          );
+
           try {
             // Create progress callback for compression
             const progressCallback = createProgressCallback((progress) => {
               setCompressionProgress(progress);
               setUploadProgress(
-                lang === "en" 
+                lang === "en"
                   ? `Compressing image... ${Math.round(progress)}%`
                   : `छवि संपीड़ित की जा रही है... ${Math.round(progress)}%`
               );
             });
 
-            const compressionResult = await validateAndCompressImage(file, undefined, progressCallback, true);
+            const compressionResult = await validateAndCompressImage(
+              file,
+              undefined,
+              progressCallback,
+              true
+            );
             fileToUpload = compressionResult.file;
-            
+
             if (compressionResult.wasCompressed) {
-              console.log(`Image compressed from ${compressionResult.originalSize} to ${compressionResult.compressedSize}`);
+              console.log(
+                `Image compressed from ${compressionResult.originalSize} to ${compressionResult.compressedSize}`
+              );
               console.log(`Original name: ${compressionResult.originalName}`);
               console.log(`New name: ${compressionResult.file.name}`);
             }
@@ -136,8 +153,10 @@ const ChatSection = () => {
           }
         }
 
-        setUploadProgress(lang === "en" ? "Uploading..." : "अपलोड हो रहा है...");
-        
+        setUploadProgress(
+          lang === "en" ? "Uploading..." : "अपलोड हो रहा है..."
+        );
+
         let data = new FormData();
         data.append("name", fileToUpload.name);
         data.append("file", fileToUpload);
@@ -200,7 +219,7 @@ const ChatSection = () => {
   const [compressing, setCompressing] = useState(false);
   const [uploadProgress, setUploadProgress] = useState("");
   const [compressionProgress, setCompressionProgress] = useState(0);
-  
+
   const onfilechange = (e) => {
     e.preventDefault();
     setfile(e.target.files[0]);
@@ -492,23 +511,27 @@ const ChatSection = () => {
                           name="prescription"
                         />
                         {uploading && (
-                          <div style={{
-                            marginTop: "8px",
-                            padding: "6px 12px",
-                            background: "#e3f2fd",
-                            borderRadius: "6px",
-                            border: "1px solid #2196f3",
-                            fontSize: "12px",
-                            color: "#1976d2",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "6px"
-                          }}>
-                            <i className="pi pi-spin pi-spinner" style={{ fontSize: "12px" }}></i>
+                          <div
+                            style={{
+                              marginTop: "8px",
+                              padding: "6px 12px",
+                              background: "#e3f2fd",
+                              borderRadius: "6px",
+                              border: "1px solid #2196f3",
+                              fontSize: "12px",
+                              color: "#1976d2",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "6px",
+                            }}
+                          >
+                            <i
+                              className="pi pi-spin pi-spinner"
+                              style={{ fontSize: "12px" }}
+                            ></i>
                             <span>{uploadProgress}</span>
                           </div>
-                        )}
-                        {" "}
+                        )}{" "}
                       </>
                     )}
                   </div>
@@ -539,20 +562,30 @@ const ChatSection = () => {
                     disabled={uploading}
                     style={{
                       opacity: uploading ? 0.7 : 1,
-                      cursor: uploading ? 'not-allowed' : 'pointer'
+                      cursor: uploading ? "not-allowed" : "pointer",
                     }}
                   >
                     {uploading ? (
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                      }}>
-                        <i className="pi pi-spin pi-spinner" style={{ fontSize: "14px" }}></i>
-                        <span>{uploadProgress || (lang == "en" ? "Processing..." : "प्रोसेसिंग...")}</span>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        <i
+                          className="pi pi-spin pi-spinner"
+                          style={{ fontSize: "14px" }}
+                        ></i>
+                        <span>
+                          {uploadProgress ||
+                            (lang == "en" ? "Processing..." : "प्रोसेसिंग...")}
+                        </span>
                       </div>
+                    ) : lang == "en" ? (
+                      English.submit
                     ) : (
-                      lang == "en" ? English.submit : Hindi.submit
+                      Hindi.submit
                     )}
                   </button>
                 )

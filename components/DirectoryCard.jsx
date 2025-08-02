@@ -92,7 +92,10 @@ const style = {
   p: 4,
 };
 const DirectoryCard = ({ item, key, docid, showreview }) => {
-  const { lang, openDrawer } = useContext(AccountContext);
+  const { lang, openDrawer, setShowLoginPopup } = useContext(AccountContext);
+
+  // Add user state
+  const [userData, setUserData] = useState(null);
 
   const [show, setShow] = useState(false);
   const [sharemodal, setsharemodal] = useState(false);
@@ -120,6 +123,8 @@ const DirectoryCard = ({ item, key, docid, showreview }) => {
 
   useEffect(() => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
+    let tempuserdata = JSON.parse(localStorage.getItem("userdata"))?.user;
+    setUserData(tempuserdata);
     setIsMobile(mobile.matches);
   }, []);
   const [copied, setcpied] = useState(false);
@@ -154,7 +159,7 @@ ${linktext}`;
       });
       console.log(allreviews, "allreview");
       setReviews(allreviews?.data?.reviews);
-      const UserData = JSON.parse(localStorage.getItem("labuser"));
+      const UserData = JSON.parse(localStorage.getItem("userdata"))?.user;
       console.log("foundreviewval", foundReview, allreviews, UserData);
 
       const foundReview = allreviews?.data?.reviews?.find((obj) => {
@@ -183,44 +188,89 @@ ${linktext}`;
   };
   const [open, setOpen] = useState(true);
 
+  // Add these new state variables after the existing ones
+  const [ratingValidation, setRatingValidation] = useState(false);
+  const [messageValidation, setMessageValidation] = useState(false);
+  const [selectedChips, setSelectedChips] = useState([]);
+
+  // Add this function to get rating suggestions based on language
+  const getRatingSuggestions = (rating, language) => {
+    const suggestions = language === "hi" ? HindiRating : EnglishRating;
+    const ratingData = suggestions.find((item) => item.rating === rating);
+    return ratingData ? ratingData.comments : [];
+  };
+
+  // Update the handleChipClick function to automatically fill the message
+  const handleChipClick = (chipText) => {
+    // Directly set the selected chip text to the message field
+    setNewReview((prev) => ({ ...prev, message: chipText }));
+    setreviewpayload((prev) => ({ ...prev, message: chipText }));
+
+    // Update selected chips to show only the current selection
+    setSelectedChips([chipText]);
+  };
+  const toast = useRef();
+  // Update the handleSubmit function to include proper validation flow
   const handleSubmit = async () => {
-    // e.preventDefault();
-    // const today = new Date().toISOString().split("T")[0];
-    // setReviews([...reviews, { ...newReview, createdDate: today }]);
-    // setNewReview({ rating: "", message: "", username: "" });
-    const UserData = JSON.parse(localStorage.getItem("labuser"));
-    if (!UserData) {
-      // router.push("/User/UserRegistrationPage");
-      openDrawer();
+    // Step 4: Check if user is logged in
+    if (!userData) {
+      setShowLoginPopup(true);
       return;
     }
+    console.log(userData, "userdata");
+    // Step 5: Submit the review
     setloading(true);
     const url = `${process.env.NEXT_PUBLIC_B_PORT}/api/docdirectory/${docid}/reviews`;
 
     try {
-      const index = UserData.picture.indexOf("=");
-      const resultpic = UserData.picture.slice(0, index);
+      const index = userData?.picture?.indexOf("=");
+      const resultpic = userData?.picture?.slice(0, index);
+
       let savereview = await axios.post(url, {
         ...reviewpayload,
         patientprofile: resultpic,
-        patientName: UserData?.name,
-        patientemail: UserData?.email,
+        patientName: newReview?.username, // Use provided name or logged in user's name
+        patientemail: userData?.email,
       });
-      setsnackmsg("Your Review Saved Sucessfully!");
-      setseverity("success");
-      setshowsnackbar(true);
+
+      toast.current.show({
+        severity: "success",
+        summary:
+          lang === "hi"
+            ? "आपकी समीक्षा सफलतापूर्वक सहेजी गई!"
+            : "Your Review Saved Successfully!",
+        detail: "Review Saved Successfully",
+        life: 3000,
+      });
       setloading(false);
-      settempreview(null);
+      setShowReviewModal(false);
+
+      // Reset form
+      setNewReview({ rating: "", message: "", username: "" });
+      setSelectedChips([]);
+      setRatingValidation(false);
+      setMessageValidation(false);
+
+      // Refresh reviews
       GetReviews();
     } catch (error) {
       console.log("Err", error);
-      setsnackmsg("Something went wrong..");
-      setseverity("error");
+      toast.current.show({
+        severity: "error",
+        summary: lang === "hi" ? "कुछ गलत हो गया.." : "Something went wrong..",
+        detail: error?.response?.data?.message,
+        life: 3000,
+      });
       setloading(false);
-      settempreview(null);
-      setshowsnackbar(true);
     }
   };
+
+  // Add effect to auto-fill name when modal opens
+  useEffect(() => {
+    if (showReviewModal && userData?.name) {
+      setNewReview((prev) => ({ ...prev, username: userData.name }));
+    }
+  }, [showReviewModal, userData]);
 
   const [reviewpayload, setreviewpayload] = useState({});
   const [doctimings, setdoctimings] = useState({});
@@ -275,7 +325,7 @@ ${linktext}`;
       setdoctimings(dataString);
     }
   };
-  const toast = useRef();
+
   const [showFullAddress, setShowFullAddress] = useState(false);
 
   // Share handlers
@@ -919,7 +969,17 @@ ${linktext}`;
                     marginBottom: "0.8rem",
                     boxShadow: "0 2px 8px rgba(0,128,128,0.10)",
                   }}
-                  onClick={() => setShowReviewModal(true)}
+                  onClick={() => {
+                    if (!userData) {
+                      setShowLoginPopup(true);
+                    } else {
+                      setShowReviewModal(true);
+                      setNewReview((prev) => ({
+                        ...prev,
+                        username: userData.name,
+                      }));
+                    }
+                  }}
                 >
                   Give a Review
                 </button>
@@ -1091,78 +1151,516 @@ ${linktext}`;
               </div>
             </div>
 
-            {/* Review Modal */}
+            {/* Enhanced Review Modal */}
             <Dialog
               visible={showReviewModal}
-              onHide={() => setShowReviewModal(false)}
-              style={{ width: "90vw", maxWidth: 400 }}
+              onHide={() => {
+                setShowReviewModal(false);
+                setNewReview({ rating: "", message: "", username: "" });
+                setSelectedChips([]);
+                setRatingValidation(false);
+                setMessageValidation(false);
+              }}
+              style={{ width: "90vw", maxWidth: 450 }}
               modal
               dismissableMask
               showHeader={false}
+              contentStyle={{
+                borderRadius: "16px",
+                padding: 0,
+                boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+              }}
             >
-              <div style={{ padding: "1.5rem" }}>
-                <h3
-                  style={{ margin: 0, marginBottom: "1rem", fontWeight: 700 }}
+              <div
+                style={{
+                  padding: "2rem 1.5rem 1.5rem 1.5rem",
+                  background:
+                    "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+                }}
+              >
+                {/* Header */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: "1.5rem",
+                    paddingBottom: "1rem",
+                    borderBottom: "2px solid #e2e8f0",
+                  }}
                 >
-                  Give a Review
-                </h3>
-                <div style={{ marginBottom: "1rem" }}>
-                  <span style={{ fontWeight: 600, color: "#333" }}>
-                    Your Rating:
+                  <h3
+                    style={{
+                      margin: 0,
+                      fontWeight: 700,
+                      fontSize: "1.4rem",
+                      color: "#1e293b",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <i
+                      className="pi pi-star"
+                      style={{ color: "#f59e0b", fontSize: "1.2rem" }}
+                    ></i>
+                    {lang === "hi" ? "समीक्षा दें" : "Give a Review"}
+                  </h3>
+                  <button
+                    onClick={() => setShowReviewModal(false)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      fontSize: "1.5rem",
+                      color: "#64748b",
+                      cursor: "pointer",
+                      padding: "0.25rem",
+                      borderRadius: "50%",
+                      width: "32px",
+                      height: "32px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "all 0.2s",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.target.style.background = "#f1f5f9")
+                    }
+                    onMouseLeave={(e) => (e.target.style.background = "none")}
+                  >
+                    <i className="pi pi-times"></i>
+                  </button>
+                </div>
+
+                {/* Name Section */}
+                <div style={{ marginBottom: "1.5rem" }}>
+                  <span
+                    style={{
+                      fontWeight: 600,
+                      color: "#1e293b",
+                      fontSize: "1.1rem",
+                      marginBottom: "0.75rem",
+                      display: "block",
+                    }}
+                  >
+                    {lang === "hi" ? "आपका नाम:" : "Your Name:"}
                   </span>
-                  <div style={{ marginTop: 8 }}>
+
+                  <div
+                    style={{
+                      position: "relative",
+                      border:
+                        messageValidation && !newReview.username?.trim()
+                          ? "2px solid #ef4444"
+                          : "1px solid #e2e8f0",
+                      borderRadius: "12px",
+                      overflow: "hidden",
+                      background: "#fff",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={newReview.username || ""}
+                      onChange={(e) => {
+                        setNewReview({
+                          ...newReview,
+                          username: e.target.value,
+                        });
+                        setMessageValidation(false);
+                      }}
+                      // readOnly={!!userData?.name}
+                      style={{
+                        width: "100%",
+                        border: "none",
+                        padding: "1rem",
+                        fontSize: "1rem",
+                        fontFamily: "inherit",
+                        outline: "none",
+                        background: "transparent",
+                        color: userData?.name ? "#64748b" : "#1e293b",
+                      }}
+                      placeholder={
+                        lang === "hi"
+                          ? "अपना नाम दर्ज करें..."
+                          : "Enter your name..."
+                      }
+                    />
+                    {userData?.name && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "0.5rem",
+                          right: "0.5rem",
+                          background: "#e0f2f1",
+                          color: "#009688",
+                          padding: "0.25rem 0.5rem",
+                          borderRadius: "6px",
+                          fontSize: "0.75rem",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {lang === "hi" ? "लॉगिन" : "Logged In"}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Name Validation */}
+                  {messageValidation && !newReview.username?.trim() && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        marginTop: "0.5rem",
+                        padding: "0.75rem",
+                        background: "#fef2f2",
+                        border: "1px solid #fecaca",
+                        borderRadius: "8px",
+                        color: "#dc2626",
+                        fontSize: "0.9rem",
+                        fontWeight: 500,
+                      }}
+                    >
+                      <i
+                        className="pi pi-exclamation-triangle"
+                        style={{ fontSize: "1rem" }}
+                      ></i>
+                      {lang === "hi"
+                        ? "कृपया अपना नाम दर्ज करें"
+                        : "Please enter your name"}
+                    </div>
+                  )}
+                </div>
+
+                {/* Rating Section */}
+                <div style={{ marginBottom: "1.5rem" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "0.75rem",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontWeight: 600,
+                        color: "#1e293b",
+                        fontSize: "1.1rem",
+                      }}
+                    >
+                      {lang === "hi" ? "आपकी रेटिंग:" : "Your Rating:"}
+                    </span>
+                    {newReview.rating && (
+                      <span
+                        style={{
+                          background: "#fef3c7",
+                          color: "#d97706",
+                          padding: "0.25rem 0.75rem",
+                          borderRadius: "12px",
+                          fontSize: "0.9rem",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {newReview.rating}/5
+                      </span>
+                    )}
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      padding: "1rem",
+                      background: "#f8fafc",
+                      borderRadius: "12px",
+                      border: ratingValidation
+                        ? "2px solid #ef4444"
+                        : "1px solid #e2e8f0",
+                    }}
+                  >
                     <Rating
                       value={newReview.rating}
                       cancel={false}
                       onChange={(e) => {
                         setNewReview({ ...newReview, rating: e.value });
                         setreviewpayload({ ...reviewpayload, rating: e.value });
+                        setRatingValidation(false);
                       }}
                       stars={5}
-                      style={{ fontSize: "1.5rem" }}
+                      style={{ fontSize: "2rem" }}
                     />
                   </div>
+
+                  {/* Rating Validation Message */}
+                  {ratingValidation && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        marginTop: "0.5rem",
+                        padding: "0.75rem",
+                        background: "#fef2f2",
+                        border: "1px solid #fecaca",
+                        borderRadius: "8px",
+                        color: "#dc2626",
+                        fontSize: "0.9rem",
+                        fontWeight: 500,
+                      }}
+                    >
+                      <i
+                        className="pi pi-exclamation-triangle"
+                        style={{ fontSize: "1rem" }}
+                      ></i>
+                      {lang === "hi"
+                        ? "कृपया रेटिंग चुनें"
+                        : "Please select a rating first"}
+                    </div>
+                  )}
                 </div>
-                <div style={{ marginBottom: "1rem" }}>
-                  <span style={{ fontWeight: 600, color: "#333" }}>
-                    Your Review:
-                  </span>
-                  <InputTextarea
-                    autoResize
-                    rows={3}
-                    cols={30}
-                    value={newReview.message}
-                    onChange={(e) => {
-                      setNewReview({ ...newReview, message: e.target.value });
-                      setreviewpayload({
-                        ...reviewpayload,
-                        message: e.target.value,
-                      });
-                    }}
+
+                {/* Rating Suggestions */}
+                {newReview.rating ? (
+                  <div style={{ marginBottom: "1.5rem" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "0.75rem",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontWeight: 600,
+                          color: "#1e293b",
+                          fontSize: "1rem",
+                        }}
+                      >
+                        {lang === "hi" ? "सुझाव:" : "Suggestions:"}
+                      </span>
+                      {selectedChips.length > 0 && (
+                        <span
+                          style={{
+                            background: "#e0f2f1",
+                            color: "#009688",
+                            padding: "0.25rem 0.75rem",
+                            borderRadius: "12px",
+                            fontSize: "0.8rem",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {lang === "hi" ? "चयनित" : "Selected"}
+                        </span>
+                      )}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: "0.5rem",
+                      }}
+                    >
+                      {getRatingSuggestions(newReview.rating, lang).map(
+                        (suggestion, index) => (
+                          <button
+                            key={index}
+                            onClick={() => handleChipClick(suggestion)}
+                            style={{
+                              background: selectedChips.includes(suggestion)
+                                ? "#009688"
+                                : "#f1f5f9",
+                              color: selectedChips.includes(suggestion)
+                                ? "#fff"
+                                : "#475569",
+                              border: selectedChips.includes(suggestion)
+                                ? "1px solid #009688"
+                                : "1px solid #e2e8f0",
+                              borderRadius: "20px",
+                              padding: "0.5rem 1rem",
+                              fontSize: "0.85rem",
+                              fontWeight: 500,
+                              cursor: "pointer",
+                              transition: "all 0.2s",
+                              whiteSpace: "nowrap",
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!selectedChips.includes(suggestion)) {
+                                e.target.style.background = "#e2e8f0";
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!selectedChips.includes(suggestion)) {
+                                e.target.style.background = "#f1f5f9";
+                              }
+                            }}
+                          >
+                            {suggestion}
+                          </button>
+                        )
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ marginBottom: "1.5rem" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        padding: "0.75rem",
+                        background: "#fef2f2",
+                        border: "1px solid #fecaca",
+                        borderRadius: "8px",
+                        color: "#dc2626",
+                        fontSize: "0.9rem",
+                        fontWeight: 500,
+                      }}
+                    >
+                      <i
+                        className="pi pi-exclamation-triangle"
+                        style={{ fontSize: "1rem" }}
+                      ></i>
+                      {lang === "hi"
+                        ? "पहले रेटिंग चुनें"
+                        : "Select rating first"}
+                    </div>
+                  </div>
+                )}
+
+                {/* Review Message Section */}
+                <div style={{ marginBottom: "1.5rem" }}>
+                  <span
                     style={{
-                      width: "100%",
-                      marginTop: 8,
-                      borderRadius: "8px",
-                      border: "1px solid #e0e0e0",
-                      padding: "0.7rem",
-                      fontSize: "1rem",
+                      fontWeight: 600,
+                      color: "#1e293b",
+                      fontSize: "1.1rem",
+                      marginBottom: "0.75rem",
+                      display: "block",
                     }}
-                    placeholder="Write your experience..."
-                  />
+                  >
+                    {lang === "hi" ? "आपकी समीक्षा:" : "Your Review:"}
+                  </span>
+
+                  <div
+                    style={{
+                      position: "relative",
+                      border:
+                        messageValidation && !newReview.message.trim()
+                          ? "2px solid #ef4444"
+                          : "1px solid #e2e8f0",
+                      borderRadius: "12px",
+                      overflow: "hidden",
+                      background: "#fff",
+                    }}
+                  >
+                    <InputTextarea
+                      autoResize
+                      rows={4}
+                      cols={30}
+                      value={newReview.message}
+                      onChange={(e) => {
+                        setNewReview({ ...newReview, message: e.target.value });
+                        setreviewpayload({
+                          ...reviewpayload,
+                          message: e.target.value,
+                        });
+                        setMessageValidation(false);
+                      }}
+                      style={{
+                        width: "100%",
+                        border: "none",
+                        padding: "1rem",
+                        fontSize: "1rem",
+                        fontFamily: "inherit",
+                        resize: "none",
+                        outline: "none",
+                        background: "transparent",
+                      }}
+                      placeholder={
+                        lang === "hi"
+                          ? "अपना अनुभव लिखें..."
+                          : "Write your experience..."
+                      }
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "0.5rem",
+                        right: "0.5rem",
+                        fontSize: "0.75rem",
+                        color: "#64748b",
+                      }}
+                    >
+                      {newReview.message.length}/500
+                    </div>
+                  </div>
+
+                  {/* Message Validation */}
+                  {messageValidation && !newReview.message.trim() && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        marginTop: "0.5rem",
+                        padding: "0.75rem",
+                        background: "#fef2f2",
+                        border: "1px solid #fecaca",
+                        borderRadius: "8px",
+                        color: "#dc2626",
+                        fontSize: "0.9rem",
+                        fontWeight: 500,
+                      }}
+                    >
+                      <i
+                        className="pi pi-exclamation-triangle"
+                        style={{ fontSize: "1rem" }}
+                      ></i>
+                      {lang === "hi"
+                        ? "कृपया समीक्षा लिखें"
+                        : "Please write your review"}
+                    </div>
+                  )}
                 </div>
+
+                {/* Submit Button */}
                 <Button
-                  label={loading ? "Submitting..." : "Submit Review"}
-                  icon="pi pi-check"
+                  label={
+                    loading
+                      ? lang === "hi"
+                        ? "सबमिट हो रहा है..."
+                        : "Submitting..."
+                      : lang === "hi"
+                      ? "समीक्षा सबमिट करें"
+                      : "Submit Review"
+                  }
+                  icon={loading ? "pi pi-spinner pi-spin" : "pi pi-check"}
                   onClick={handleSubmit}
-                  disabled={loading || !newReview.rating || !newReview.message}
+                  disabled={loading}
                   style={{
                     width: "100%",
-                    background: "#009688",
+                    background:
+                      newReview.username?.trim() &&
+                      newReview.rating &&
+                      newReview.message.trim()
+                        ? "#009688"
+                        : "#cbd5e1",
                     border: "none",
-                    borderRadius: "8px",
+                    borderRadius: "12px",
                     fontWeight: 700,
                     fontSize: "1.1rem",
-                    marginTop: "1rem",
+                    padding: "1rem",
+                    transition: "all 0.2s",
+                    boxShadow:
+                      newReview.username?.trim() &&
+                      newReview.rating &&
+                      newReview.message.trim()
+                        ? "0 4px 12px rgba(0, 150, 136, 0.3)"
+                        : "none",
                   }}
                 />
               </div>

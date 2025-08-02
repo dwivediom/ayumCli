@@ -81,7 +81,8 @@ export default function Home(props) {
       if (props.error && props.error == "invalid") {
         localStorage.removeItem("usertoken");
         localStorage.removeItem("labuser");
-        router.push("/User/UserRegistrationPage?session=expired");
+        // router.push("/User/UserRegistrationPage?session=expired");
+        setShowLoginPopup(true);
       }
       const userToken = await getCookie("usertoken");
       console.log("usertoken", userToken);
@@ -131,6 +132,7 @@ export default function Home(props) {
     langmodal,
     adminmode,
     setlangmodal,
+    setShowLoginPopup,
   } = useContext(AccountContext);
 
   const [isOnline, setIsOnline] = useState(true);

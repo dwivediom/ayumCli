@@ -312,7 +312,9 @@ const Navbar = () => {
 
               localStorage.setItem("locale", lang);
               localStorage.setItem("city", city);
-              router.push("/User/UserRegistrationPage");
+              // router.push("/User/UserRegistrationPage");
+              // setShowLoginPopup(true);
+              router.push("/");
               window.location.reload();
             },
           },

@@ -13,7 +13,8 @@ const SignOutbtn = ({ text }) => {
     localStorage.removeItem("userjwt");
     setCookie("usertoken", null, 1);
     setsignout(true);
-    router.push("/User/UserRegistrationPage");
+    // router.push("/User/UserRegistrationPage");
+    router.push("/");
   };
   return (
     <>

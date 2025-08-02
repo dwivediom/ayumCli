@@ -52,7 +52,8 @@ export default function Settings() {
         localStorage.clear();
         localStorage.setItem("locale", lang);
         localStorage.setItem("city", city);
-        router.push("/User/UserRegistrationPage");
+        // router.push("/User/UserRegistrationPage");
+        router.push("/");
         // router.push("/Member/memberLoginPage");
       } else {
         toast.current.show({

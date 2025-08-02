@@ -72,12 +72,15 @@ const SelectionScreen = ({
     },
     {
       id: "call",
-      title: lang === "en" ? English.Callme : Hindi.Callme,
+      title:
+        lang === "en"
+          ? `${English.Callme} ${9425681022}`
+          : `${Hindi.Callme} ${9425681022}`,
       subtitle: lang === "en" ? "Expert consultation" : "विशेषज्ञ परामर्श",
       description:
         lang === "en"
-          ? "Talk to pharmacy experts"
-          : "फार्मेसी विशेषज्ञों से बात करें",
+          ? "Talk to Ayum Support For Order"
+          : "एयूम केर सपोर्ट के साथ ऑर्डर करें",
       icon: "pi pi-phone",
       image: "/phone-icon.png", // We'll use a phone icon
       color: "#4facfe",
@@ -563,7 +566,11 @@ const MedicineResults = React.memo(
                 {medicine.brandName || medicine.genericName}
               </span>
               <Tag
-                value={medicine.isDummy ? "Medicine requested by you" : (medicine.category || "Other")}
+                value={
+                  medicine.isDummy
+                    ? "Medicine requested by you"
+                    : medicine.category || "Other"
+                }
                 style={{
                   fontSize: "12px",
                   borderRadius: "8px",
@@ -660,9 +667,7 @@ const MedicineResults = React.memo(
       };
 
       return (
-        <div className={styles.medicineGrid}>
-          {itemTemplate(dummyMedicine)}
-        </div>
+        <div className={styles.medicineGrid}>{itemTemplate(dummyMedicine)}</div>
       );
     }
 
@@ -855,10 +860,15 @@ const MedicineSelection = ({
   const handleAddToCart = useCallback(
     (medicine) => {
       // Use _id if available, otherwise use name as identifier for dummy medicines
-      const medicineId = medicine._id || medicine.brandName || medicine.genericName;
-      const existingItem = cart.find((item) => 
-        (item._id && item._id === medicine._id) || 
-        (!item._id && !medicine._id && (item.brandName === medicine.brandName || item.genericName === medicine.genericName))
+      const medicineId =
+        medicine._id || medicine.brandName || medicine.genericName;
+      const existingItem = cart.find(
+        (item) =>
+          (item._id && item._id === medicine._id) ||
+          (!item._id &&
+            !medicine._id &&
+            (item.brandName === medicine.brandName ||
+              item.genericName === medicine.genericName))
       );
 
       if (existingItem) {
@@ -886,10 +896,12 @@ const MedicineSelection = ({
 
   const handleRemoveFromCart = useCallback(
     (medicineId) => {
-      setCart(cart.filter((item) => {
-        const itemId = item._id || item.brandName || item.genericName;
-        return itemId !== medicineId;
-      }));
+      setCart(
+        cart.filter((item) => {
+          const itemId = item._id || item.brandName || item.genericName;
+          return itemId !== medicineId;
+        })
+      );
     },
     [cart]
   );
@@ -918,7 +930,7 @@ const MedicineSelection = ({
   const handleCheckoutSubmit = async () => {
     try {
       setCheckoutLoading(true);
-      
+
       const deliveryAddress = {
         customerName: selectedAddress?.name || "",
         street: selectedAddress?.street || "",
@@ -932,15 +944,21 @@ const MedicineSelection = ({
         const itemData = {
           quantity: item.quantity,
           name: item.brandName || item.genericName || "Medicine",
-          price: typeof item.price === "number" && !isNaN(item.price) ? item.price : null,
-          total: typeof item.price === "number" && !isNaN(item.price) ? item.price * item.quantity : null,
+          price:
+            typeof item.price === "number" && !isNaN(item.price)
+              ? item.price
+              : null,
+          total:
+            typeof item.price === "number" && !isNaN(item.price)
+              ? item.price * item.quantity
+              : null,
         };
-        
+
         // Only include medicineId if it's a real medicine (not dummy)
         if (item._id && !item.isDummy) {
           itemData.medicineId = item._id;
         }
-        
+
         return itemData;
       });
 
@@ -1031,14 +1049,19 @@ const MedicineSelection = ({
     }
   };
 
-  const checkoutDialogFooter = useMemo(
-    () => {
-      const isAddressSelected = selectedAddress?.phone && selectedAddress?.street && selectedAddress?.city && selectedAddress?.state && selectedAddress?.pincode;
-      
-      return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          {!isAddressSelected && (
-            <div style={{
+  const checkoutDialogFooter = useMemo(() => {
+    const isAddressSelected =
+      selectedAddress?.phone &&
+      selectedAddress?.street &&
+      selectedAddress?.city &&
+      selectedAddress?.state &&
+      selectedAddress?.pincode;
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        {!isAddressSelected && (
+          <div
+            style={{
               padding: "0.75rem",
               background: "#fff3cd",
               border: "1px solid #ffeaa7",
@@ -1046,33 +1069,45 @@ const MedicineSelection = ({
               color: "#856404",
               fontSize: "0.9rem",
               textAlign: "center",
-              fontWeight: 500
-            }}>
-              <i className="pi pi-exclamation-triangle" style={{ marginRight: "0.5rem" }} />
-              {lang === "en" ? "Please select delivery address first" : "कृपया पहले डिलीवरी का पता चुनें"}
-            </div>
-          )}
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <Button
-              label="Cancel"
-              icon="pi pi-times"
-              onClick={() => setShowCheckoutDialog(false)}
-              className="p-button-text"
+              fontWeight: 500,
+            }}
+          >
+            <i
+              className="pi pi-exclamation-triangle"
+              style={{ marginRight: "0.5rem" }}
             />
-            <Button
-              label={checkoutLoading ? "Creating Order..." : "Create Order"}
-              icon={checkoutLoading ? "pi pi-spinner pi-spin" : "pi pi-check-circle"}
-              onClick={handleCheckoutSubmit}
-              disabled={checkoutLoading || !isAddressSelected}
-              loading={checkoutLoading}
-              autoFocus
-            />
+            {lang === "en"
+              ? "Please select delivery address first"
+              : "कृपया पहले डिलीवरी का पता चुनें"}
           </div>
+        )}
+        <div style={{ display: "flex", gap: "1rem" }}>
+          <Button
+            label="Cancel"
+            icon="pi pi-times"
+            onClick={() => setShowCheckoutDialog(false)}
+            className="p-button-text"
+          />
+          <Button
+            label={checkoutLoading ? "Creating Order..." : "Create Order"}
+            icon={
+              checkoutLoading ? "pi pi-spinner pi-spin" : "pi pi-check-circle"
+            }
+            onClick={handleCheckoutSubmit}
+            disabled={checkoutLoading || !isAddressSelected}
+            loading={checkoutLoading}
+            autoFocus
+          />
         </div>
-      );
-    },
-    [setShowCheckoutDialog, handleCheckoutSubmit, checkoutLoading, selectedAddress, lang]
-  );
+      </div>
+    );
+  }, [
+    setShowCheckoutDialog,
+    handleCheckoutSubmit,
+    checkoutLoading,
+    selectedAddress,
+    lang,
+  ]);
 
   const paymentMethods = [
     { label: "Cash on Delivery", value: "cash" },
@@ -1137,7 +1172,11 @@ const MedicineSelection = ({
               {medicine.brandName || medicine.genericName}
             </span>
             <Tag
-              value={medicine.isDummy ? "Medicine requested by you" : (medicine.category || "Other")}
+              value={
+                medicine.isDummy
+                  ? "Medicine requested by you"
+                  : medicine.category || "Other"
+              }
               style={{
                 fontSize: "12px",
                 borderRadius: "8px",
@@ -1504,7 +1543,13 @@ const MedicineSelection = ({
           : Hindi.Searchandaddmedicines,
       value: "search",
     },
-    { name: lang == "en" ? English.Callme : Hindi.Callme, value: "call" },
+    {
+      name:
+        lang == "en"
+          ? `${English.Callme} ${9425681022}`
+          : `${Hindi.Callme} ${9425681022}`,
+      value: "call",
+    },
   ];
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -1615,7 +1660,10 @@ const MedicineSelection = ({
       },
       {
         id: "call",
-        title: lang == "en" ? English.Callme : Hindi.Callme,
+        title:
+          lang == "en"
+            ? `${English.Callme} ${9425681022}`
+            : `${Hindi.Callme} ${9425681022}`,
         subtitle:
           lang == "en"
             ? "Get expert consultation"
@@ -1861,7 +1909,9 @@ const MedicineSelection = ({
       >
         <Button
           label={checkoutLoading ? "Creating Order..." : "Create Order"}
-          icon={checkoutLoading ? "pi pi-spinner pi-spin" : "pi pi-check-circle"}
+          icon={
+            checkoutLoading ? "pi pi-spinner pi-spin" : "pi pi-check-circle"
+          }
           onClick={handleCheckoutSubmit}
           disabled={checkoutLoading}
           loading={checkoutLoading}
@@ -1890,7 +1940,9 @@ const MedicineSelection = ({
         />
         <div className={styles.headerContentClean}>
           <h1 className={styles.pageTitleClean}>
-            {lang == "en" ? English.Callme : Hindi.Callme}
+            {lang == "en"
+              ? `${English.Callme} ${9425681022}`
+              : `${Hindi.Callme} ${9425681022}`}
           </h1>
           <p className={styles.pageSubtitleClean}>
             {lang == "en"
@@ -1968,10 +2020,20 @@ const MedicineSelection = ({
 
       <div className={styles.pageFooterClean}>
         <Button
-          label={orderLoading ? (lang == "en" ? "Creating Request..." : "अनुरोध बना रहे हैं...") : (lang == "en" ? "Request Call" : "कॉल का अनुरोध करें")}
+          label={
+            orderLoading
+              ? lang == "en"
+                ? "Creating Request..."
+                : "अनुरोध बना रहे हैं..."
+              : lang == "en"
+              ? "Request Call"
+              : "कॉल का अनुरोध करें"
+          }
           icon={orderLoading ? "pi pi-spinner pi-spin" : "pi pi-phone"}
           onClick={handleCallOrderSubmit}
-          disabled={orderLoading || !selectedAddress?.phone || !selectedAddress?.street}
+          disabled={
+            orderLoading || !selectedAddress?.phone || !selectedAddress?.street
+          }
           loading={orderLoading}
           className={styles.submitButtonClean}
         />
@@ -2272,10 +2334,7 @@ const MedicineSelection = ({
                                 marginLeft: "-2px",
                               }}
                               title="Final price will be shared after order confirmation"
-                            >
-                              
-                            
-                            </span>
+                            ></span>
                           </div>
                         </div>
                       </div>

@@ -16,7 +16,7 @@ const Navbar = () => {
   const [profilepic, setprofilepic] = useState();
   const [loggedemail, setloggedemail] = useState();
   const [name, setname] = useState();
-  const { lang, setlang, hidenavbar, sethidenavbar } =
+  const { lang, setlang, hidenavbar, sethidenavbar, setShowLoginPopup } =
     useContext(AccountContext);
   const [mobile, setmobile] = useState(false);
   useEffect(() => {
@@ -395,7 +395,8 @@ const Navbar = () => {
                     ) : (
                       <div
                         onClick={() =>
-                          router.push("/User/UserRegistrationPage")
+                          // router.push("/User/UserRegistrationPage")
+                          setShowLoginPopup(true)
                         }
                         className="text-sm w-full text-white bg-cyan-600"
                       >

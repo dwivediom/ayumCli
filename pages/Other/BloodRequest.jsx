@@ -27,7 +27,8 @@ const BloodRequest = () => {
   }, []);
   useEffect(() => {
     if (!localStorage.usertoken || !localStorage.labuser) {
-      router.push("/User/UserRegistrationPage");
+      // router.push("/User/UserRegistrationPage");
+      setShowLoginPopup(true);
     }
 
     if (tab == 1) {
@@ -37,7 +38,7 @@ const BloodRequest = () => {
     return;
   }, [tab]);
 
-  const { lang, account } = useContext(AccountContext);
+  const { lang, account, setShowLoginPopup } = useContext(AccountContext);
   const [requestsent, setrequestsent] = useState(false);
   const [inputdata, setinputdata] = useState({
     name: "",
