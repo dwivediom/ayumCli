@@ -162,6 +162,11 @@ const Doctors = ({ initialData }) => {
     let mobile = window && window.matchMedia("(max-width: 550px)");
     console.log(initialData, "doctordata");
     setIsMobile(mobile.matches);
+    setCity(
+      window && localStorage.getItem("city")
+        ? localStorage.getItem("city")
+        : "Rewa"
+    );
   }, []);
   return (
     <>

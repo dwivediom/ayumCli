@@ -96,6 +96,7 @@ const LanguageModal = (props) => {
     { label: "Jabalpur" },
     { label: "Nagpur" },
     { label: "Gwalior" },
+    { label: "Lucknow" },
   ];
   const [langchanged, setlangchanged] = useState(false);
   return (

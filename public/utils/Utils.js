@@ -47,6 +47,7 @@ export const cityoptions = [
   { label: "Jabalpur" },
   { label: "Nagpur" },
   { label: "Gwalior" },
+  { label: "Lucknow" },
 ];
 
 export function convertTo12HourFormat(time) {

@@ -1,6 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { AutoComplete } from "primereact/autocomplete";
 import styles from "./profilestyle.module.css";
+
+// Add custom scrollbar styles for PrimeReact dropdown
+const dropdownPanelStyles = `
+  .city-dropdown-panel .p-autocomplete-panel {
+    max-height: 200px !important;
+    overflow-y: auto !important;
+  }
+  .city-dropdown-panel .p-autocomplete-panel::-webkit-scrollbar {
+    width: 6px;
+  }
+  .city-dropdown-panel .p-autocomplete-panel::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 3px;
+  }
+  .city-dropdown-panel .p-autocomplete-panel::-webkit-scrollbar-thumb {
+    background: #b2f5ea;
+    border-radius: 3px;
+  }
+  .city-dropdown-panel .p-autocomplete-panel::-webkit-scrollbar-thumb:hover {
+    background: #008080;
+  }
+`;
 const CityDropdown = (props) => {
   const cityoptions = [
     { label: "Rewa" },
@@ -12,6 +34,7 @@ const CityDropdown = (props) => {
     { label: "Sidhi" },
     { label: "Nagpur" },
     { label: "Gwalior" },
+    { label: "Lucknow" },
   ];
   useEffect(() => {
     console.log(selectedCity, "selectedcity");
@@ -50,6 +73,7 @@ const CityDropdown = (props) => {
   };
   return (
     <>
+      <style dangerouslySetInnerHTML={{ __html: dropdownPanelStyles }} />
       <AutoComplete
         style={{
           background: "teal",
@@ -65,12 +89,25 @@ const CityDropdown = (props) => {
         field="label"
         completeMethod={search}
         onChange={(e) => {
-          typeof window != "undefined" &&
-            window.localStorage.setItem("city", e.value?.label);
-          props?.getdocs && props?.getdocs();
-          setSelectedCity(e.value);
+          if (e.value) {
+            typeof window != "undefined" &&
+              window.localStorage.setItem("city", e.value?.label);
+            props?.getdocs && props?.getdocs();
+            setSelectedCity(e.value);
+          }
+        }}
+        onSelect={(e) => {
+          // Ensure dropdown closes after selection
+          setTimeout(() => {
+            const panel = document.querySelector('.p-autocomplete-panel');
+            if (panel) {
+              panel.style.display = 'none';
+            }
+          }, 100);
         }}
         dropdown
+        scrollHeight="200px"
+        panelClassName="city-dropdown-panel"
       />
     </>
   );

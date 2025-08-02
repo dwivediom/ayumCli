@@ -17,6 +17,7 @@ import Typewriter from "./TypeWriteAnimate";
 import HeroSection from "./HeroSection";
 import { cityoptions } from "../public/utils/Utils";
 const categories = [
+  { label: "All" },
   { label: "Kidney" },
   { label: "Dentist" },
   { label: "Skin" },
@@ -31,7 +32,7 @@ const categories = [
 const NewHomePage = () => {
   let [isMobile, setIsMobile] = useState(false);
   const [loading, setloading] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("Skin");
+  const [activeCategory, setActiveCategory] = useState("All");
   const [city, setCity] = useState();
 
   const { langmodal, sethidebottomnav2 } = useContext(AccountContext);
@@ -54,7 +55,7 @@ const NewHomePage = () => {
     const gotdata = await getDoc(
       city,
       "home",
-      activeCategory === "More" ? "" : activeCategory
+      activeCategory === "More" || activeCategory === "All" ? "" : activeCategory
     );
     setdocs(gotdata.data);
     const onboarddoc = await getOnboardedDoc();
@@ -66,7 +67,7 @@ const NewHomePage = () => {
     if (!langmodal) {
       getalldoc();
     }
-  }, [langmodal, activeCategory]);
+  }, [langmodal, activeCategory, city]);
 
   const ShowMoreDoc = async () => {
     setshowload(true);
