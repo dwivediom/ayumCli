@@ -268,6 +268,7 @@ const NewCheckoutPageLab = (props) => {
           time: formData?.time || "10:00 AM",
         },
       },
+      address: selectedAddress || null,
       prescription: selectedPrescription || null,
     };
 

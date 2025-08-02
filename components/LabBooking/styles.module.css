@@ -65,7 +65,8 @@
 }
 
 .searchSection {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  padding: 0 0.5rem;
 }
 
 .searchGrid {
@@ -1493,7 +1494,7 @@
 
 /* Search Section */
 .searchSection {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   padding: 0 0.5rem;
 }
 
@@ -6202,3 +6203,318 @@
 }
 
 /* ... existing styles ... */
+
+/* Limited Time Offer Badge */
+.limitedOfferBadge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.limitedOfferBadge::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite;
+}
+
+.offerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.offerIcon {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-right: 1rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.offerText {
+  flex: 1;
+  color: white;
+}
+
+.offerTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.offerSubtitle {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.offerTimer {
+  text-align: center;
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.timerLabel {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.timerValue {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.offerRibbon {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+  transform: rotate(15deg);
+  animation: pulse 2s infinite;
+}
+
+.offerRibbon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -5px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid #ff6b6b;
+  transform: translateY(-50%);
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: rotate(15deg) scale(1);
+  }
+  50% {
+    transform: rotate(15deg) scale(1.05);
+  }
+}
+
+/* Responsive Design for Badge */
+@media (max-width: 768px) {
+  .limitedOfferBadge {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .offerContent {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .offerIcon {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .offerTimer {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .offerTitle {
+    font-size: 1.1rem;
+  }
+  
+  .offerSubtitle {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .limitedOfferBadge {
+    padding: 0.75rem;
+  }
+  
+  .offerTitle {
+    font-size: 1rem;
+  }
+  
+  .offerSubtitle {
+    font-size: 0.8rem;
+  }
+  
+  .timerValue {
+    font-size: 1rem;
+  }
+  
+  .offerRibbon {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* Limited Time Offer Ribbon */
+.offerRibbonContainer {
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+.offerRibbon {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 0;
+  padding: 0.4rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15);
+  position: relative;
+  max-width: 280px;
+  width: 100%;
+  /* Ribbon shape with notched ends */
+  clip-path: polygon(
+    0% 0%,
+    8% 0%,
+    12% 50%,
+    8% 100%,
+    0% 100%,
+    4% 50%
+  );
+}
+
+.offerRibbon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  clip-path: polygon(
+    0% 0%,
+    8% 0%,
+    12% 50%,
+    8% 100%,
+    0% 100%,
+    4% 50%
+  );
+  z-index: -1;
+}
+
+.offerRibbon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  clip-path: polygon(
+    92% 0%,
+    100% 0%,
+    96% 50%,
+    100% 100%,
+    92% 100%,
+    88% 50%
+  );
+  z-index: -1;
+}
+
+.ribbonContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 1;
+}
+
+.ribbonText {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 0.1rem;
+}
+
+.ribbonTimer {
+  color: #fbbf24;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  line-height: 1;
+}
+
+/* Responsive Design for Ribbon */
+@media (max-width: 768px) {
+  .offerRibbon {
+    max-width: 260px;
+    padding: 0.35rem 1rem;
+  }
+  
+  .ribbonText {
+    font-size: 0.7rem;
+  }
+  
+  .ribbonTimer {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .offerRibbon {
+    max-width: 240px;
+    padding: 0.3rem 0.9rem;
+  }
+  
+  .ribbonText {
+    font-size: 0.65rem;
+  }
+  
+  .ribbonTimer {
+    font-size: 0.6rem;
+  }
+}

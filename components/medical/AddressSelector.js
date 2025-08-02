@@ -27,6 +27,7 @@ const AddressSelector = (props) => {
     landmark: "",
     latitude: "",
     longitude: "",
+    geoUrl: "", // Add this new field for Google Maps URL
   });
   const [validationErrors, setValidationErrors] = useState({});
   const [showValidationMessage, setShowValidationMessage] = useState(false);
@@ -72,26 +73,26 @@ const AddressSelector = (props) => {
 
   const validateAddress = () => {
     const errors = {};
-    
+
     if (!newAddress.name || newAddress.name.trim() === "") {
       errors.name = "Full name is required";
     }
-    
+
     if (!newAddress.phone || newAddress.phone.trim() === "") {
       errors.phone = "Phone number is required";
     }
-    
+
     if (!newAddress.street || newAddress.street.trim() === "") {
       errors.street = "Street address is required";
     }
-    
+
     if (!newAddress.city || newAddress.city.trim() === "") {
       errors.city = "City is required";
     }
-    
+
     setValidationErrors(errors);
     setShowValidationMessage(Object.keys(errors).length > 0);
-    
+
     return Object.keys(errors).length === 0;
   };
 
@@ -106,19 +107,21 @@ const AddressSelector = (props) => {
 
     try {
       let updatedAddressList;
-      
+
       if (isEditing && editingAddress) {
         // Editing existing address
-        updatedAddressList = addresslist.map((addr, index) => 
-          index === editingAddress.id ? { ...newAddress, id: editingAddress.id } : addr
+        updatedAddressList = addresslist.map((addr, index) =>
+          index === editingAddress.id
+            ? { ...newAddress, id: editingAddress.id }
+            : addr
         );
         setaddresslist(updatedAddressList);
-        
+
         // Update selected address if it was the one being edited
         if (selectedAddress && selectedAddress.id === editingAddress.id) {
           setSelectedAddress({ ...newAddress, id: editingAddress.id });
         }
-        
+
         // Reset editing state
         setEditingAddress(null);
         setIsEditing(false);
@@ -171,7 +174,9 @@ const AddressSelector = (props) => {
       toast.current.show({
         severity: "error",
         summary: "Error",
-        detail: isEditing ? "Failed to update address. Please try again." : "Failed to add address. Please try again.",
+        detail: isEditing
+          ? "Failed to update address. Please try again."
+          : "Failed to add address. Please try again.",
         life: 3000,
       });
     }
@@ -253,6 +258,9 @@ const AddressSelector = (props) => {
       state: address.state || "",
       pincode: address.pincode || "",
       landmark: address.landmark || "",
+      latitude: address.latitude || "",
+      longitude: address.longitude || "",
+      geoUrl: address.geoUrl || "", // Include geoUrl when editing
     });
     setIsEditing(true);
     setShowAddressForm(true);
@@ -291,6 +299,9 @@ const AddressSelector = (props) => {
 
       const { latitude, longitude } = position.coords;
 
+      // Create Google Maps URL
+      const geoUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
       // Show loading toast
       toast.current.show({
         severity: "info",
@@ -317,6 +328,7 @@ const AddressSelector = (props) => {
         ...newAddress,
         latitude,
         longitude,
+        geoUrl, // Add the Google Maps URL to the address object
         street: data.display_name.split(",")[0] || "",
         city:
           data.address.city || data.address.town || data.address.village || "",
@@ -457,7 +469,9 @@ const AddressSelector = (props) => {
               style={{ fontSize: "1rem", width: "100%" }}
               placeholder="Full Name"
               name="name"
-              className={`p-inputtext-lg ${validationErrors.name ? 'p-invalid' : ''}`}
+              className={`p-inputtext-lg ${
+                validationErrors.name ? "p-invalid" : ""
+              }`}
             />
             {validationErrors.name && (
               <small className="p-error">{validationErrors.name}</small>
@@ -470,7 +484,9 @@ const AddressSelector = (props) => {
               style={{ fontSize: "1rem", width: "100%" }}
               placeholder="Phone Number"
               name="phone"
-              className={`p-inputtext-lg ${validationErrors.phone ? 'p-invalid' : ''}`}
+              className={`p-inputtext-lg ${
+                validationErrors.phone ? "p-invalid" : ""
+              }`}
             />
             {validationErrors.phone && (
               <small className="p-error">{validationErrors.phone}</small>
@@ -511,9 +527,7 @@ const AddressSelector = (props) => {
               icon="pi pi-map-marker"
               style={{ fontSize: "1rem", width: "100%" }}
               label={
-                isLoadingLocation
-                  ? "Getting Location..."
-                  : "Get Current Location"
+                isLoadingLocation ? "Getting Address..." : "Auto Fill Address"
               }
               loading={isLoadingLocation}
               className="location-button"
@@ -527,7 +541,9 @@ const AddressSelector = (props) => {
               placeholder="Street Address"
               name="street"
               style={{ fontSize: "1rem", width: "100%" }}
-              className={`p-inputtext-lg ${validationErrors.street ? 'p-invalid' : ''}`}
+              className={`p-inputtext-lg ${
+                validationErrors.street ? "p-invalid" : ""
+              }`}
             />
             {validationErrors.street && (
               <small className="p-error">{validationErrors.street}</small>
@@ -540,7 +556,9 @@ const AddressSelector = (props) => {
               placeholder="City"
               name="city"
               style={{ fontSize: "1rem", width: "100%" }}
-              className={`p-inputtext-lg ${validationErrors.city ? 'p-invalid' : ''}`}
+              className={`p-inputtext-lg ${
+                validationErrors.city ? "p-invalid" : ""
+              }`}
             />
             {validationErrors.city && (
               <small className="p-error">{validationErrors.city}</small>
@@ -679,8 +697,13 @@ const AddressSelector = (props) => {
           animation: blink 0.6s ease-in-out;
         }
         @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.7; }
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.7;
+          }
         }
         .p-error {
           color: #ef4444;
