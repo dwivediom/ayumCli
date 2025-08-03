@@ -45,6 +45,7 @@ const ServiceSelection = ({
   const [showcheckout, setShowcheckout] = useState(false);
   const [showTestDetails, setShowTestDetails] = useState(false);
   const [selectedTestForDetails, setSelectedTestForDetails] = useState(null);
+  const [selectedFilter, setSelectedFilter] = useState("package"); // Add this state
 
   // Infinite scroll refs
   const observerRef = useRef();
@@ -112,6 +113,7 @@ const ServiceSelection = ({
         selectedCategory,
         searchText,
         city,
+        selectedFilter,
       });
       setPageno(1);
       setTests([]);
@@ -123,7 +125,7 @@ const ServiceSelection = ({
     };
 
     resetTests();
-  }, [selectedCategory, searchText, city]);
+  }, [selectedCategory, searchText, city, selectedFilter]); // Add selectedFilter to dependencies
 
   const fetchCategories = async () => {
     try {
@@ -169,6 +171,7 @@ const ServiceSelection = ({
         searchText,
         selectedCategory,
         city,
+        selectedFilter, // Add this
         pageno: reset ? 1 : pageno,
       });
 
@@ -186,6 +189,7 @@ const ServiceSelection = ({
         city: city,
         page: currentPage.toString(),
         limit: "10",
+        type: selectedFilter, // Add filter type
       });
 
       // Mutual exclusivity: Only send search OR category, not both
@@ -231,7 +235,9 @@ const ServiceSelection = ({
           "for category:",
           selectedCategory,
           "search:",
-          searchText
+          searchText,
+          "filter:",
+          selectedFilter
         );
 
         if (reset) {
@@ -318,6 +324,18 @@ const ServiceSelection = ({
   const handleSearch = () => {
     console.log("Search triggered with text:", searchText);
     // Search is handled by useEffect when searchText changes
+  };
+
+  // Add filter change handler
+  const handleFilterChange = (filter) => {
+    setSelectedFilter(filter);
+    // Reset tests when filter changes
+    setPageno(1);
+    setTests([]);
+    setHasMore(true);
+    setTimeout(() => {
+      fetchAllTests(true);
+    }, 100);
   };
 
   const handleTestSelection = (test) => {
@@ -517,6 +535,8 @@ const ServiceSelection = ({
                 fontSize: "0.75rem",
                 border: "1px solid #ccc",
                 textTransform: "capitalize",
+                animation:
+                  test.type === selectedFilter ? "pulse 2s infinite" : "none",
               }}
             >
               {test.type}
@@ -710,6 +730,37 @@ const ServiceSelection = ({
             className={styles.searchInput}
             onKeyPress={(e) => e.key === "Enter" && handleSearch()}
           />
+        </div>
+      </div>
+
+      {/* Filter Toggle Section */}
+      <div className={styles.filterToggleSection}>
+        <div className={styles.filterToggleContainer}>
+          <div className={styles.filterToggle}>
+            <button
+              className={`${styles.toggleOption} ${
+                selectedFilter === "test" ? styles.active : ""
+              }`}
+              onClick={() => handleFilterChange("test")}
+            >
+              <i className="pi pi-flask"></i>
+              <span>Tests</span>
+            </button>
+            <button
+              className={`${styles.toggleOption} ${
+                selectedFilter === "package" ? styles.active : ""
+              }`}
+              onClick={() => handleFilterChange("package")}
+            >
+              <i className="pi pi-box"></i>
+              <span>Packages</span>
+            </button>
+            <div
+              className={`${styles.toggleSlider} ${
+                styles[`slider-${selectedFilter}`]
+              }`}
+            ></div>
+          </div>
         </div>
       </div>
 
