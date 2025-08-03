@@ -326,16 +326,12 @@ const ServiceSelection = ({
     // Search is handled by useEffect when searchText changes
   };
 
-  // Add filter change handler
+  // Fix the filter change handler - remove manual reset since useEffect handles it
   const handleFilterChange = (filter) => {
+    console.log("Filter changing from", selectedFilter, "to", filter);
     setSelectedFilter(filter);
-    // Reset tests when filter changes
-    setPageno(1);
-    setTests([]);
-    setHasMore(true);
-    setTimeout(() => {
-      fetchAllTests(true);
-    }, 100);
+    // Remove the manual reset - let useEffect handle it
+    // The useEffect will automatically trigger when selectedFilter changes
   };
 
   const handleTestSelection = (test) => {
@@ -739,21 +735,21 @@ const ServiceSelection = ({
           <div className={styles.filterToggle}>
             <button
               className={`${styles.toggleOption} ${
-                selectedFilter === "test" ? styles.active : ""
-              }`}
-              onClick={() => handleFilterChange("test")}
-            >
-              <i className="pi pi-flask"></i>
-              <span>Tests</span>
-            </button>
-            <button
-              className={`${styles.toggleOption} ${
                 selectedFilter === "package" ? styles.active : ""
               }`}
               onClick={() => handleFilterChange("package")}
             >
               <i className="pi pi-box"></i>
               <span>Packages</span>
+            </button>
+            <button
+              className={`${styles.toggleOption} ${
+                selectedFilter === "test" ? styles.active : ""
+              }`}
+              onClick={() => handleFilterChange("test")}
+            >
+              <i className="pi pi-flask"></i>
+              <span>Tests</span>
             </button>
             <div
               className={`${styles.toggleSlider} ${

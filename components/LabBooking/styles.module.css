@@ -6599,11 +6599,11 @@
   z-index: 1;
 }
 
-.slider-test {
+.slider-package {
   transform: translateX(0);
 }
 
-.slider-package {
+.slider-test {
   transform: translateX(100%);
 }
 
