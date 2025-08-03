@@ -18,6 +18,11 @@ const ProfilePage = () => {
   const [appointments, setAppointments] = useState([]);
   const [orders, setOrders] = useState([]);
   const [labTests, setLabTests] = useState([]);
+  const [counts, setCounts] = useState({
+    appointments: 0,
+    labRequests: 0,
+    medicalRequests: 0
+  });
   const [loading, setLoading] = useState(true);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
@@ -47,18 +52,32 @@ const ProfilePage = () => {
         return;
       }
 
+      const baseUrl = process.env.NEXT_PUBLIC_B_PORT || "http://localhost:5001";
+      
       // Load user profile data
       const userResponse = await axios.get(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getuser`,
+        `${baseUrl}/api/user/getuser`,
         {
           headers: { "x-auth-token": token },
         }
       );
       setUserData(userResponse.data);
 
+      // Load user counts from the new API
+      const countsResponse = await axios.get(
+        `${baseUrl}/api/user/counts`,
+        {
+          headers: { "x-auth-token": token },
+        }
+      );
+      
+      if (countsResponse.data && !countsResponse.data.error) {
+        setCounts(countsResponse.data.data);
+      }
+
       // Load appointments
       const appointmentsResponse = await axios.get(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/appointment/userappos`,
+        `${baseUrl}/api/appointment/userappos`,
         {
           headers: { "x-auth-token": token },
         }
@@ -67,7 +86,7 @@ const ProfilePage = () => {
 
       // Load orders
       const ordersResponse = await axios.get(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/medical/requests`,
+        `${baseUrl}/api/medical/requests`,
         {
           headers: { "x-auth-token": token },
         }
@@ -76,7 +95,7 @@ const ProfilePage = () => {
 
       // Load lab tests
       const labTestsResponse = await axios.get(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/lab/bookings`,
+        `${baseUrl}/api/lab/bookings`,
         {
           headers: { "x-auth-token": token },
         }
@@ -98,9 +117,10 @@ const ProfilePage = () => {
   const loadSharedProfileData = async (shareId) => {
     try {
       setLoading(true);
+      const baseUrl = process.env.NEXT_PUBLIC_B_PORT || "http://localhost:5001";
       // Load shared profile data (you'll need to implement this API)
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/user/shared-profile/${shareId}`
+        `${baseUrl}/api/user/shared-profile/${shareId}`
       );
       setUserData(response.data);
     } catch (error) {
@@ -119,8 +139,9 @@ const ProfilePage = () => {
   const generateShareLink = async () => {
     try {
       const token = localStorage.getItem("usertoken");
+      const baseUrl = process.env.NEXT_PUBLIC_B_PORT || "http://localhost:5001";
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_B_PORT}/api/user/generate-share-link`,
+        `${baseUrl}/api/user/generate-share-link`,
         {},
         {
           headers: { "x-auth-token": token },
@@ -374,13 +395,13 @@ const ProfilePage = () => {
             }}
           >
             {[
-              { key: "orders", label: "Orders", count: orders.length },
+              { key: "orders", label: "Orders", count: counts.medicalRequests },
               {
                 key: "appointments",
                 label: "Appointments",
-                count: appointments.length,
+                count: counts.appointments,
               },
-              { key: "labTests", label: "Lab Tests", count: labTests.length },
+              { key: "labTests", label: "Lab Tests", count: counts.labRequests },
               { key: "health", label: "My Health", count: 0 },
             ].map((action) => (
               <div
@@ -692,7 +713,7 @@ const ProfilePage = () => {
                   color: "#1e293b",
                 }}
               >
-                {orders.length}
+                {counts.medicalRequests}
               </span>
               <span
                 style={{
@@ -747,7 +768,7 @@ const ProfilePage = () => {
                   color: "#1e293b",
                 }}
               >
-                {appointments.length}
+                {counts.appointments}
               </span>
               <span
                 style={{
@@ -802,7 +823,7 @@ const ProfilePage = () => {
                   color: "#1e293b",
                 }}
               >
-                {labTests.length}
+                {counts.labRequests}
               </span>
               <span
                 style={{
