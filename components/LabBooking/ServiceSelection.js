@@ -107,10 +107,17 @@ const ServiceSelection = ({
 
   // Reset tests when category, search, or city changes
   useEffect(() => {
-    setPageno(1);
-    setTests([]);
-    setHasMore(true);
-    fetchAllTests(true);
+    const resetTests = async () => {
+      setPageno(1);
+      setTests([]);
+      setHasMore(true);
+      // Use setTimeout to ensure state updates are processed before fetching
+      setTimeout(() => {
+        fetchAllTests(true);
+      }, 0);
+    };
+
+    resetTests();
   }, [selectedCategory, searchText, city]);
 
   const fetchCategories = async () => {
@@ -197,14 +204,23 @@ const ServiceSelection = ({
 
       if (response.data && !response.data.error) {
         const newTests = response.data.data || [];
+        console.log("New tests:", searchText, selectedCategory);
 
-        // FIXED: Always reset tests when reset=true, or when there's a search/category filter
-        if (reset || searchText.trim() !== "" || selectedCategory !== "all") {
+        // FIXED: Always set tests when reset=true, regardless of other conditions
+        if (reset) {
           console.log("Resetting tests with new data:", newTests.length);
           setTests(newTests);
         } else {
           console.log("Appending tests to existing list:", newTests.length);
-          setTests((prevTests) => [...prevTests, ...newTests]);
+          setTests((prevTests) => {
+            // Filter out duplicates based on test ID
+            const existingIds = new Set(prevTests.map((test) => test._id));
+            const uniqueNewTests = newTests.filter(
+              (test) => !existingIds.has(test._id)
+            );
+            console.log("Filtered unique new tests:", uniqueNewTests.length);
+            return [...prevTests, ...uniqueNewTests];
+          });
         }
 
         // Check if there are more tests to load
@@ -482,20 +498,23 @@ const ServiceSelection = ({
 
         {/* Test Details */}
         <div className={styles.testDetails}>
-          <div
-            className={styles.testDetailRow}
-            onClick={() => handleShowTestDetails(test)}
-            style={{ cursor: "pointer" }}
-          >
-            <span className={styles.testDetailLabel}>Contains</span>
-            <span className={styles.testDetailValue}>
-              {test?.tests?.length || test?.testIds?.length || 0} tests
-            </span>
-            <i
-              className="pi pi-chevron-down"
-              style={{ fontSize: "0.75rem", color: "#9ca3af" }}
-            ></i>
-          </div>
+          {test.type === "package" && (
+            <div
+              className={styles.testDetailRow}
+              onClick={() => handleShowTestDetails(test)}
+              style={{ cursor: "pointer" }}
+            >
+              <span className={styles.testDetailLabel}>Contains</span>
+              <span className={styles.testDetailValue}>
+                {test?.tests?.length || test?.testIds?.length || 0} tests
+              </span>
+              <i
+                className="pi pi-chevron-down"
+                style={{ fontSize: "0.75rem", color: "#9ca3af" }}
+              ></i>
+            </div>
+          )}
+
           <div className={styles.testDetailRow}>
             <span className={styles.testDetailLabel}>Report</span>
             <span className={styles.testDetailValue}>
@@ -515,9 +534,13 @@ const ServiceSelection = ({
           }}
         >
           <div className={styles.pricingSection}>
-            <div className={styles.currentPrice}>
-              ₹{test?.sellingPrice ? test?.sellingPrice : "N/A"}
-            </div>
+            {test.type === "package" ? (
+              <div className={styles.currentPrice}>
+                ₹{test?.sellingPrice ? test?.sellingPrice : "N/A"}
+              </div>
+            ) : (
+              <div className={styles.currentPrice}>₹{test?.price}</div>
+            )}
 
             <div className={styles.priceInfo}>
               <span className={styles.originalPrice}>₹{test.price}</span>
