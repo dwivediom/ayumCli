@@ -7,6 +7,7 @@ import { Toast } from "primereact/toast";
 import { Calendar } from "primereact/calendar";
 import { Dropdown } from "primereact/dropdown";
 import { Paginator } from "primereact/paginator";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import axios from "axios";
 import styles from "./styles.module.css";
 import {
@@ -20,7 +21,9 @@ import BookingDetailsPage from "./BookingDetailsPage";
 const BookingList = () => {
   const toast = useRef(null);
   const [bookings, setBookings] = useState([]);
+  const [cancelledBookings, setCancelledBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [bookingToCancel, setBookingToCancel] = useState(null);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [testResults, setTestResults] = useState([]);
@@ -88,7 +91,9 @@ const BookingList = () => {
       );
 
       if (response.data && !response.data.error) {
+        // Show all bookings in the same list
         setBookings(response.data.data || []);
+        setCancelledBookings([]); // No longer needed
         setPagination({
           page: response.data.pagination.page,
           limit: pagination.limit,
@@ -298,6 +303,15 @@ const BookingList = () => {
     });
   };
 
+  const formatTime = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
   const viewBookingDetails = async (booking) => {
     setSelectedBooking(booking);
     setShowDetailsPage(true);
@@ -321,6 +335,96 @@ const BookingList = () => {
     fetchTestResults();
   };
 
+  const showCancelConfirmation = (bookingId) => {
+    setBookingToCancel(bookingId);
+    confirmDialog({
+      message: "Are you sure you want to cancel this booking?",
+      header: "Cancel Booking",
+      icon: "pi pi-exclamation-triangle",
+      acceptClassName: "p-button-danger",
+      accept: () => cancelBooking(bookingId),
+      reject: () => {
+        setBookingToCancel(null);
+        console.log("User cancelled the operation");
+      },
+    });
+  };
+
+  const cancelBooking = async (bookingId) => {
+    try {
+      console.log("Attempting to cancel booking:", bookingId);
+      const authToken = localStorage.getItem("usertoken");
+
+      if (!authToken) {
+        toast.current.show({
+          severity: "error",
+          summary: "Authentication Error",
+          detail: "Please log in to continue",
+          life: 3000,
+        });
+        return;
+      }
+
+      console.log("Sending cancel request to:", `${apiUrl}/booking/cancel`);
+      const response = await axios.post(
+        `${apiUrl}/booking/cancel`,
+        {
+          bookingId: bookingId,
+        },
+        {
+          headers: {
+            "x-auth-token": authToken,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Cancel API response:", response.data);
+
+      if (response.data && !response.data.error) {
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: response.data.message || "Booking cancelled successfully",
+          life: 3000,
+        });
+        
+        // Refresh the bookings list
+        await fetchBookings();
+      } else {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: response.data.message || "Failed to cancel booking",
+          life: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Error cancelling booking:", error);
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: error.response?.data?.message || "Failed to cancel booking",
+        life: 3000,
+      });
+    } finally {
+      setBookingToCancel(null);
+    }
+  };
+
+  const isBookingCancelled = (booking) => {
+    // Check if booking is cancelled based on status or cancelledAt field
+    const isCancelled = booking.status === "cancelled" || booking.cancelledAt;
+    console.log(`Booking ${booking._id} cancelled status:`, {
+      status: booking.status,
+      cancelledAt: booking.cancelledAt,
+      isCancelled: isCancelled
+    });
+    return isCancelled;
+  };
+
+
+
   const handleFilterChange = (field, value) => {
     setFilters((prev) => ({
       ...prev,
@@ -338,6 +442,69 @@ const BookingList = () => {
   };
 
   const itemTemplate = (booking) => {
+    const isCancelled = isBookingCancelled(booking);
+    
+    if (isCancelled) {
+      // Simplified template for cancelled bookings
+      return (
+        <div className={styles.modernBookingCard}>
+          <div className={styles.cardHeader}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "10px",
+                alignItems: "center",
+              }}
+              className={styles.labInfo}
+            >
+              <div className={styles.labIcon}>
+                <i className="pi pi-building"></i>
+              </div>
+              <div className={styles.labDetails}>
+                <h3>
+                  {booking?.packageDetails &&
+                  booking?.packageDetails[0]?.packageName
+                    ? booking?.packageDetails[0]?.packageName
+                    : booking?.testsRequested?.[0]?.name || "N/A"}
+                </h3>
+                <p className={styles.bookingId}>#{booking._id.slice(-8)}</p>
+              </div>
+            </div>
+            <div className={styles.statusBadge}>
+              <Tag
+                value="Cancelled"
+                severity="danger"
+              />
+            </div>
+          </div>
+
+          <div className={styles.cardContent}>
+            <div className={styles.cancelledInfo}>
+              <div className={styles.cancelledDate}>
+                <i className="pi pi-calendar-times"></i>
+                <span>Cancelled on {formatDate(booking.cancelledAt)}</span>
+              </div>
+              <div className={styles.cancelledTime}>
+                <i className="pi pi-clock"></i>
+                <span>{formatTime(booking.cancelledAt)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.cardFooter}>
+            <Button
+              label="View Details"
+              icon="pi pi-eye"
+              onClick={() => viewBookingDetails(booking)}
+              className={styles.viewButton}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    // Original template for active bookings
     const totalTests = booking.testsRequested?.length || 0;
     const completedTests =
       booking.testsRequested?.filter((test) => test.status === "completed")
@@ -475,6 +642,13 @@ const BookingList = () => {
             icon="pi pi-eye"
             onClick={() => viewBookingDetails(booking)}
             className={styles.viewButton}
+          />
+          <Button
+            label="Cancel Booking"
+            icon="pi pi-times"
+            onClick={() => showCancelConfirmation(booking._id)}
+            className={styles.cancelButton}
+            severity="danger"
           />
         </div>
       </div>
@@ -897,6 +1071,7 @@ const BookingList = () => {
   return (
     <div className={styles.mobileBookingListContainer}>
       <Toast ref={toast} />
+      <ConfirmDialog />
 
       {/* Show Booking Details Page when active */}
       {showDetailsPage && selectedBooking && (
