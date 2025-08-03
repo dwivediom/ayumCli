@@ -562,13 +562,9 @@ const ServiceSelection = ({
           }}
         >
           <div className={styles.pricingSection}>
-            {test.type === "package" ? (
-              <div className={styles.currentPrice}>
-                ₹{test?.sellingPrice ? test?.sellingPrice : "N/A"}
-              </div>
-            ) : (
-              <div className={styles.currentPrice}>₹{test?.price}</div>
-            )}
+            <div className={styles.currentPrice}>
+              ₹{test?.sellingPrice ? test?.sellingPrice : "N/A"}
+            </div>
 
             <div className={styles.priceInfo}>
               <span className={styles.originalPrice}>₹{test.price}</span>
