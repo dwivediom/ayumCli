@@ -754,6 +754,7 @@ const ServiceSelection = ({
             <div
               className={`${styles.toggleSlider} ${
                 styles[`slider-${selectedFilter}`]
+                // styles[`slider-${selectedFilter}`]
               }`}
             ></div>
           </div>
