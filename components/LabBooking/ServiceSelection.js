@@ -105,16 +105,21 @@ const ServiceSelection = ({
     fetchAllTests(true); // Reset tests when component mounts
   }, []);
 
-  // Reset tests when category, search, or city changes
+  // Update the useEffect to properly handle category and search changes
   useEffect(() => {
     const resetTests = async () => {
+      console.log("Resetting tests due to change:", {
+        selectedCategory,
+        searchText,
+        city,
+      });
       setPageno(1);
       setTests([]);
       setHasMore(true);
       // Use setTimeout to ensure state updates are processed before fetching
       setTimeout(() => {
         fetchAllTests(true);
-      }, 0);
+      }, 100); // Increased timeout for better state synchronization
     };
 
     resetTests();
@@ -183,14 +188,30 @@ const ServiceSelection = ({
         limit: "10",
       });
 
-      // Add search text if present
+      // Mutual exclusivity: Only send search OR category, not both
       if (searchText.trim()) {
-        params.append("searchText", searchText.trim());
-      }
+        // If search text is present, only send search parameter
+        params.append("search", searchText.trim());
+        console.log("Sending search parameter:", searchText.trim());
+      } else if (selectedCategory !== "all") {
+        // If no search text but category is selected, send category parameter
+        const categoryMapping = {
+          "full body": "full body",
+          cbc: "blood",
+          urine: "urine",
+          gynae: "gynae",
+          thyroid: "thyroid",
+          liver: "liver function test",
+          lipid: "lipid profile",
+        };
 
-      // Add category if not "all"
-      if (selectedCategory !== "all") {
-        params.append("category", selectedCategory);
+        const mappedCategory =
+          categoryMapping[selectedCategory] || selectedCategory;
+        params.append("category", mappedCategory);
+        console.log("Sending category parameter:", mappedCategory);
+      } else {
+        // Neither search nor category - fetch all tests
+        console.log("No filters applied - fetching all tests");
       }
 
       const url = `${labTestApi.getAllOfferedTests()}?${params.toString()}`;
@@ -204,16 +225,21 @@ const ServiceSelection = ({
 
       if (response.data && !response.data.error) {
         const newTests = response.data.data || [];
-        console.log("New tests:", searchText, selectedCategory);
+        console.log(
+          "New tests fetched:",
+          newTests.length,
+          "for category:",
+          selectedCategory,
+          "search:",
+          searchText
+        );
 
-        // FIXED: Always set tests when reset=true, regardless of other conditions
         if (reset) {
           console.log("Resetting tests with new data:", newTests.length);
           setTests(newTests);
         } else {
           console.log("Appending tests to existing list:", newTests.length);
           setTests((prevTests) => {
-            // Filter out duplicates based on test ID
             const existingIds = new Set(prevTests.map((test) => test._id));
             const uniqueNewTests = newTests.filter(
               (test) => !existingIds.has(test._id)
@@ -223,7 +249,6 @@ const ServiceSelection = ({
           });
         }
 
-        // Check if there are more tests to load
         setHasMore(newTests.length === 10);
 
         if (!reset) {
@@ -285,6 +310,9 @@ const ServiceSelection = ({
   const handleCategorySelect = (categoryId) => {
     console.log("Category selected:", categoryId);
     setSelectedCategory(categoryId);
+    // Clear search text when category changes to ensure mutual exclusivity
+    setSearchText("");
+    console.log("Search text cleared due to category selection");
   };
 
   const handleSearch = () => {
@@ -577,6 +605,18 @@ const ServiceSelection = ({
     );
   };
 
+  // Update the search input to clear category when user starts typing
+  const handleSearchInputChange = (e) => {
+    const newSearchText = e.target.value;
+    setSearchText(newSearchText);
+
+    // If user starts typing and a category is selected, clear the category
+    if (newSearchText.trim() && selectedCategory !== "all") {
+      setSelectedCategory("all");
+      console.log("Category cleared due to search input");
+    }
+  };
+
   return (
     <div className={styles.modernServiceSelection}>
       <Toast ref={toast} />
@@ -669,7 +709,7 @@ const ServiceSelection = ({
           </div>
           <InputText
             value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={handleSearchInputChange}
             placeholder="Search tests"
             className={styles.searchInput}
             onKeyPress={(e) => e.key === "Enter" && handleSearch()}
