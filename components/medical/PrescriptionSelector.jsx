@@ -174,7 +174,7 @@ const PrescriptionSelector = ({ value, onChange, getAuthHeaders }) => {
 
         // Automatically select the newly uploaded prescription
         onChange(response.data.data);
-
+        console.log(response.data.data, "response.data.data");
         isFileSelected(response.data.data);
         // Finally refresh the list from server
         await fetchPrescriptions();
@@ -212,6 +212,7 @@ const PrescriptionSelector = ({ value, onChange, getAuthHeaders }) => {
     if (isFileSelected(file)) {
       onChange(null);
     } else {
+      console.log(file, "filevaluee");
       onChange(file);
     }
   };

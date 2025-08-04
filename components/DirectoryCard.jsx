@@ -1750,6 +1750,9 @@ ${linktext}`;
                     gap: "0.3rem",
                     boxShadow: "0 1px 4px #fde68a44",
                   }}
+                  onClick={() => {
+                    router.push(`/doctor?docid=${item._id}`);
+                  }}
                 >
                   <i
                     className="pi pi-star-fill"
