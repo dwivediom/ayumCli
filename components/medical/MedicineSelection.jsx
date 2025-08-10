@@ -938,6 +938,7 @@ const MedicineSelection = ({
         state: selectedAddress?.state,
         pincode: selectedAddress?.pincode,
         landmark: selectedAddress?.landmark,
+        geoUrl: selectedAddress?.geoUrl,
       };
 
       const items = cart.map((item) => {
@@ -1448,6 +1449,7 @@ const MedicineSelection = ({
         state: selectedAddress?.state || "",
         pincode: selectedAddress?.pincode || "",
         landmark: selectedAddress?.landmark || "",
+        geoUrl: selectedAddress?.geoUrl || "",
       };
       console.log(
         deliveryAddress,

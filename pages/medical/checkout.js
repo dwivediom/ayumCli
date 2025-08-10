@@ -157,6 +157,7 @@ const Checkout = () => {
         state: selectedAddress?.state,
         pincode: selectedAddress?.pincode,
         landmark: selectedAddress?.landmark,
+        geoUrl: selectedAddress?.geoUrl,
       };
 
       const items = cart.map((item) => ({

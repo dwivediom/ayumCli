@@ -41,6 +41,7 @@ const MedicineRequests = () => {
         state: checkoutForm.state,
         pincode: checkoutForm.pincode,
         landmark: checkoutForm.landmark,
+        geoUrl: checkoutForm.geoUrl,
       };
       let cart = request.items;
       const items = cart.map((item) => ({
@@ -114,7 +115,7 @@ const MedicineRequests = () => {
         { headers: getAuthHeaders() }
       );
       console.log("Cancellation API response:", response);
-      
+
       if (response.data) {
         toast.current.show({
           severity: "success",
@@ -125,7 +126,7 @@ const MedicineRequests = () => {
         setShowCancelConfirmation(false);
         setCancellationReason("");
         setSelectedRequest(null);
-        
+
         console.log("About to refresh requests list...");
         console.log("Current page:", currentPage, "Rows:", rows);
         // Refresh the requests list to show updated data without page reload
@@ -575,7 +576,9 @@ const MedicineRequests = () => {
                   icon="pi pi-file-pdf"
                   severity="info"
                   onClick={() => {
-                    router.push(`/medical/orderdetails?id=${request.saleOrderId}`);
+                    router.push(
+                      `/medical/orderdetails?id=${request.saleOrderId}`
+                    );
                   }}
                 />
               )}
@@ -990,42 +993,49 @@ const MedicineRequests = () => {
         />
       </div> */}
 
-             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "1rem 0" }}>
-         <h3 style={{ margin: 0 }}>My Orders</h3>
-         <button
-           style={{
-             background: "#008080",
-             color: "#fff",
-             border: "none",
-             borderRadius: "10px",
-             padding: "1rem 1.5rem",
-             fontWeight: 600,
-             fontSize: "1rem",
-             height: "50px",
-             display: "flex",
-             alignItems: "center",
-             justifyContent: "center",
-             gap: "0.5rem",
-             boxShadow: "0 2px 8px rgba(0,128,128,0.25)",
-             cursor: "pointer",
-             transition: "all 0.18s",
-           }}
-           onClick={() => router.push("/medical/list")}
-           onMouseEnter={(e) => {
-             e.target.style.background = "#006666";
-             e.target.style.transform = "translateY(-1px)";
-             e.target.style.boxShadow = "0 4px 12px rgba(0,128,128,0.35)";
-           }}
-           onMouseLeave={(e) => {
-             e.target.style.background = "#008080";
-             e.target.style.transform = "translateY(0)";
-             e.target.style.boxShadow = "0 2px 8px rgba(0,128,128,0.25)";
-           }}
-         >
-           <i className="pi pi-plus" style={{ fontSize: "1rem" }}></i>
-           Order Medicine
-         </button>
-       </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "1rem 0",
+        }}
+      >
+        <h3 style={{ margin: 0 }}>My Orders</h3>
+        <button
+          style={{
+            background: "#008080",
+            color: "#fff",
+            border: "none",
+            borderRadius: "10px",
+            padding: "1rem 1.5rem",
+            fontWeight: 600,
+            fontSize: "1rem",
+            height: "50px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "0.5rem",
+            boxShadow: "0 2px 8px rgba(0,128,128,0.25)",
+            cursor: "pointer",
+            transition: "all 0.18s",
+          }}
+          onClick={() => router.push("/medical/list")}
+          onMouseEnter={(e) => {
+            e.target.style.background = "#006666";
+            e.target.style.transform = "translateY(-1px)";
+            e.target.style.boxShadow = "0 4px 12px rgba(0,128,128,0.35)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "#008080";
+            e.target.style.transform = "translateY(0)";
+            e.target.style.boxShadow = "0 2px 8px rgba(0,128,128,0.25)";
+          }}
+        >
+          <i className="pi pi-plus" style={{ fontSize: "1rem" }}></i>
+          Order Medicine
+        </button>
+      </div>
       {/* <div className={styles.searchContainer}>
         <IconField style={{ width: "100%" }} iconPosition="left">
           <InputIcon className="pi pi-search" />
