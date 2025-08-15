@@ -525,7 +525,7 @@
 .testDetails {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  /* gap: 10px; */
   font-size: 0.85rem;
   color: var(--text-color-secondary);
 }
@@ -647,7 +647,7 @@
   
   .testDetails {
     flex-direction: column;
-    gap: 5px;
+    /* gap: 5px; */
   }
 }
 
@@ -1620,7 +1620,7 @@
 .testDetails {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  /* gap: 8px; */
 }
 
 .detailSection {
@@ -1898,7 +1898,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
   font-size: 0.875rem;
   color: #6b7280;
   transition: all 0.2s ease;
@@ -3739,7 +3739,7 @@
 
 .testItemDisease {
   font-size: 0.85rem;
-  color: #dc3545;
+  color: #0acfbf;
   background: #f8d7da;
   padding: 0.2rem 0.6rem;
   border-radius: 8px;
@@ -5490,7 +5490,7 @@
 .testDetails {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  /* gap: 1rem; */
 }
 
 .testMeta {
@@ -6937,3 +6937,135 @@
 }
 
 /* ... rest of existing styles ... */
+
+/* ... existing styles ... */
+
+/* Disease Section Styles - Teal Theme */
+.diseaseSection {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: linear-gradient(135deg, #f0fdfa, #ecfeff);
+  border-radius: 8px;
+  border: 1px solid #a7f3d0;
+  transition: all 0.2s ease;
+}
+
+.diseaseSection:hover {
+  background: linear-gradient(135deg, #ecfeff, #e0f2fe);
+  border-color: #5eead4;
+  box-shadow: 0 2px 8px rgba(10, 207, 191, 0.1);
+}
+
+.diseaseHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.diseaseLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0acfbf;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.diseaseChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.diseaseChip {
+  background: linear-gradient(135deg, #0acfbf, #0891b2);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 16px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  border: 1px solid #0acfbf;
+  box-shadow: 0 1px 3px rgba(10, 207, 191, 0.2);
+  transition: all 0.2s ease;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.diseaseChip::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.diseaseChip:hover::before {
+  left: 100%;
+}
+
+.diseaseChip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(10, 207, 191, 0.3);
+  background: linear-gradient(135deg, #0891b2, #0e7490);
+}
+
+.diseaseMore {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 16px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  border: 1px solid #6c757d;
+  box-shadow: 0 1px 3px rgba(108, 117, 125, 0.2);
+  transition: all 0.2s ease;
+  cursor: default;
+  line-height: 1.2;
+}
+
+.diseaseMore:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(108, 117, 125, 0.3);
+  background: linear-gradient(135deg, #5a6268, #495057);
+}
+
+/* Mobile Responsive for Disease Section */
+@media (max-width: 768px) {
+  .diseaseSection {
+    padding: 0.4rem;
+    margin-top: 0.4rem;
+  }
+  
+  .diseaseChips {
+    gap: 0.25rem;
+  }
+  
+  .diseaseChip,
+  .diseaseMore {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.4rem;
+  }
+  
+  .diseaseLabel {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .diseaseChips {
+    gap: 0.2rem;
+  }
+  
+  .diseaseChip,
+  .diseaseMore {
+    font-size: 0.55rem;
+    padding: 0.12rem 0.35rem;
+  }
+}
+
+/* ... existing styles continue ... */

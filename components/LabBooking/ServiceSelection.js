@@ -486,6 +486,38 @@ const ServiceSelection = ({
     const isLastElement = index === tests.length - 1;
     const cardRef = isLastElement ? lastTestElementRef : null;
 
+    // Extract diseases from test data
+    const getDiseases = () => {
+      const diseases = new Set();
+
+      // Add main test disease if available
+      if (test.disease) {
+        diseases.add(test.disease);
+      }
+
+      // Add diseases from included tests if it's a package
+      if (test.tests && test.tests.length > 0) {
+        test.tests.forEach((t) => {
+          if (t.disease) {
+            diseases.add(t.disease);
+          }
+        });
+      }
+
+      // Add diseases from testIds if available
+      if (test.testIds && test.testIds.length > 0) {
+        test.testIds.forEach((t) => {
+          if (t.disease) {
+            diseases.add(t.disease);
+          }
+        });
+      }
+
+      return Array.from(diseases).slice(0, 4); // Limit to 4 diseases for UI
+    };
+
+    const diseases = getDiseases();
+
     return (
       <div ref={cardRef} className={styles.newTestCard} key={test._id}>
         {/* Icon and Test Name */}
@@ -548,7 +580,7 @@ const ServiceSelection = ({
               onClick={() => handleShowTestDetails(test)}
               style={{ cursor: "pointer" }}
             >
-              <span className={styles.testDetailLabel}>Contains</span>
+              <span>Contains</span>
               <span className={styles.testDetailValue}>
                 {test?.tests?.length || test?.testIds?.length || 0} tests
               </span>
@@ -565,6 +597,31 @@ const ServiceSelection = ({
               within {test?.turnaroundTime}
             </span>
           </div>
+
+          {/* Recommended for Diseases Section */}
+          {diseases.length > 0 && (
+            <div className={styles.diseaseSection}>
+              <div className={styles.diseaseHeader}>
+                <i
+                  className="pi pi-heart"
+                  style={{ color: "#0acfbf", fontSize: "0.8rem" }}
+                ></i>
+                <span className={styles.diseaseLabel}>Recommended for</span>
+              </div>
+              <div className={styles.diseaseChips}>
+                {diseases.map((disease, idx) => (
+                  <span key={idx} className={styles.diseaseChip}>
+                    {disease}
+                  </span>
+                ))}
+                {diseases.length === 4 && (
+                  <span className={styles.diseaseMore}>
+                    +{getDiseases().length - 4} more
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Pricing and Book Button */}
