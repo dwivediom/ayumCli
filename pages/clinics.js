@@ -215,7 +215,7 @@ const clinics = () => {
           );
         })}
 
-        {clinics.length == 0 && (
+        {clinics?.length == 0 && (
           <div style={{ textAlign: "center" }}>
             <p>No Clinic Found ☹️</p>
             This doctor is not associated with any clinic!

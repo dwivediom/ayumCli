@@ -151,7 +151,7 @@ export default function Home(props) {
       setfull(true);
     }
 
-    const finalstatedata = doctors.concat(newdocdata.data);
+    const finalstatedata = doctors?.concat(newdocdata.data);
     console.log(finalstatedata, "Final data hai");
 
     setdoctors(finalstatedata);

@@ -68,7 +68,7 @@ const BookAppointment = () => {
   const submit = async (e) => {
     e.preventDefault();
 
-    if (data.patientname == "" || data.age == "" || data.phone == "") {
+    if (data.patientname == "" || data.phone == "") {
       toastref.current.show({
         severity: "error",
         summary: "Error",
@@ -312,6 +312,7 @@ const BookAppointment = () => {
       // if (reserveddatas.length > 0) {
       if (alltimings) {
         setloader(true);
+        console.log(alltimings, "alltimings");
         const result = await getAvailableSlotsForDay();
         console.log("generatedSlots end", result);
         setAvailableSlots(result);

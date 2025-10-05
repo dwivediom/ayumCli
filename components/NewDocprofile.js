@@ -18,12 +18,17 @@ const NewDocprofile = ({ item, key, docid, showreview, isMobile }) => {
   const GetProfleData = async () => {
     const prodata = await axios({
       method: "post",
-      url: `${process.env.NEXT_PUBLIC_B_PORT}/api/user/getdoctorprofiledata?id=${docid}`,
+      url: `${
+        process.env.NEXT_PUBLIC_B_PORT
+      }/api/user/getdoctorprofiledata?id=${
+        item.onAyum ? item.doctorid : docid
+      }`,
       headers: {
         "x-auth-token": localStorage.usertoken,
       },
       data: {},
     });
+    console.log(prodata.data?.data, "prodata");
     setprofiledata(prodata.data?.data);
     // setappocount(prodata?.data?.data?.appocount);
   };
@@ -215,7 +220,7 @@ const NewDocprofile = ({ item, key, docid, showreview, isMobile }) => {
             <div className={styles.profileactions}>
               <div
                 onClick={() => {
-                  router.push(`/clinics?id=${docid}`);
+                  router.push(`/clinics?id=${profiledata?._id}`);
                 }}
                 className={styles.profilesubaction1}
               >
@@ -250,7 +255,7 @@ const NewDocprofile = ({ item, key, docid, showreview, isMobile }) => {
           <div className={styles.profilesubaction2}>View On Map</div>
           <div
             onClick={() => {
-              router.push(`/clinics?id=${docid}`);
+              router.push(`/clinics?id=${profiledata?._id}`);
             }}
             className={styles.profilesubaction1}
           >

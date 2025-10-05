@@ -444,13 +444,13 @@ const MedicineRequests = () => {
         </div>
 
         <div className={styles.requestSummary}>
-          <div className={styles.summaryItem}>
+          {/* <div className={styles.summaryItem}>
             <span className={styles.summaryLabel}>Pharmacy:</span>
             <span className={styles.summaryValue}>
               {request.pharmacyId?.buisnessname || "Not specified"}
             </span>
-          </div>
-          {request.orderType === "medicine_search" &&
+          </div> */}
+          {/* {request.orderType === "medicine_search" &&
             request.items &&
             request.items.length > 0 && (
               <>
@@ -460,14 +460,8 @@ const MedicineRequests = () => {
                     {request.items.length}
                   </span>
                 </div>
-                <div className={styles.summaryItem}>
-                  <span className={styles.summaryLabel}>Total:</span>
-                  <span className={styles.summaryValue}>
-                    ₹{request.payment?.amount?.total ?? 0}
-                  </span>
-                </div>
               </>
-            )}
+            )} */}
           {request.orderType === "prescription_upload" &&
             request.prescription?.url && (
               <div className={styles.summaryItem}>
@@ -738,13 +732,13 @@ const MedicineRequests = () => {
                     className={styles.requestStatus}
                   />
                 </div>
-                <div className={styles.detailsRow}>
+                {/* <div className={styles.detailsRow}>
                   <span className={styles.detailsLabel}>Pharmacy:</span>
                   <span className={styles.detailsValue}>
                     {selectedRequest.pharmacyId?.buisnessname ||
                       "Not specified"}
                   </span>
-                </div>
+                </div> */}
                 <div className={styles.detailsRow}>
                   <span className={styles.detailsLabel}>Hospital/Clinic:</span>
                   <span className={styles.detailsValue}>

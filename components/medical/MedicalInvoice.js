@@ -65,28 +65,28 @@ const MedicalInvoice = ({
     const originalWhiteSpace = element.style.whiteSpace;
     const originalTableLayout = element.style.tableLayout;
     // Set styles for PDF rendering
-    element.style.overflow = 'visible';
-    element.style.width = '210mm'; // A4 width
-    element.style.maxWidth = '210mm';
-    element.style.minWidth = '210mm';
-    element.style.whiteSpace = 'normal';
+    element.style.overflow = "visible";
+    element.style.width = "210mm"; // A4 width
+    element.style.maxWidth = "210mm";
+    element.style.minWidth = "210mm";
+    element.style.whiteSpace = "normal";
     // Fix all tables inside to fit and wrap
-    const tables = element.querySelectorAll('table');
-    tables.forEach(table => {
-      table.style.tableLayout = 'fixed';
-      table.style.width = '100%';
+    const tables = element.querySelectorAll("table");
+    tables.forEach((table) => {
+      table.style.tableLayout = "fixed";
+      table.style.width = "100%";
     });
-    const tds = element.querySelectorAll('td, th');
-    tds.forEach(cell => {
-      cell.style.whiteSpace = 'normal';
-      cell.style.wordBreak = 'break-word';
-      cell.style.overflowWrap = 'break-word';
+    const tds = element.querySelectorAll("td, th");
+    tds.forEach((cell) => {
+      cell.style.whiteSpace = "normal";
+      cell.style.wordBreak = "break-word";
+      cell.style.overflowWrap = "break-word";
     });
 
     const canvas = await html2canvas(element, { scale: 2, useCORS: true });
-    const imgData = canvas.toDataURL('image/png');
+    const imgData = canvas.toDataURL("image/png");
 
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdf = new jsPDF("p", "mm", "a4");
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
 
@@ -105,14 +105,17 @@ const MedicalInvoice = ({
 
     // Create a temporary canvas for page slicing
     for (let i = 0; i < pageCount; i++) {
-      const pageCanvas = document.createElement('canvas');
+      const pageCanvas = document.createElement("canvas");
       pageCanvas.width = canvas.width;
-      pageCanvas.height = Math.min(canvas.height - (i * (pageHeight * canvas.width / pdfWidth)), pageHeight * canvas.width / pdfWidth);
-      const ctx = pageCanvas.getContext('2d');
+      pageCanvas.height = Math.min(
+        canvas.height - i * ((pageHeight * canvas.width) / pdfWidth),
+        (pageHeight * canvas.width) / pdfWidth
+      );
+      const ctx = pageCanvas.getContext("2d");
       ctx.drawImage(
         canvas,
         0,
-        i * (pageHeight * canvas.width / pdfWidth),
+        i * ((pageHeight * canvas.width) / pdfWidth),
         canvas.width,
         pageCanvas.height,
         0,
@@ -120,11 +123,11 @@ const MedicalInvoice = ({
         canvas.width,
         pageCanvas.height
       );
-      const pageImgData = pageCanvas.toDataURL('image/png');
+      const pageImgData = pageCanvas.toDataURL("image/png");
       if (i > 0) pdf.addPage();
       pdf.addImage(
         pageImgData,
-        'PNG',
+        "PNG",
         0,
         0,
         pdfWidth,
@@ -138,17 +141,17 @@ const MedicalInvoice = ({
     element.style.maxWidth = originalMaxWidth;
     element.style.minWidth = originalMinWidth;
     element.style.whiteSpace = originalWhiteSpace;
-    tables.forEach(table => {
-      table.style.tableLayout = '';
-      table.style.width = '';
+    tables.forEach((table) => {
+      table.style.tableLayout = "";
+      table.style.width = "";
     });
-    tds.forEach(cell => {
-      cell.style.whiteSpace = '';
-      cell.style.wordBreak = '';
-      cell.style.overflowWrap = '';
+    tds.forEach((cell) => {
+      cell.style.whiteSpace = "";
+      cell.style.wordBreak = "";
+      cell.style.overflowWrap = "";
     });
 
-    pdf.save('invoice.pdf');
+    pdf.save("invoice.pdf");
   };
 
   const formatDate = (dateString) => {
@@ -298,24 +301,29 @@ const MedicalInvoice = ({
               {/* <p>CGST: ₹{invoice.totalAmount?.cgst || 0}</p>
           <p>SGST: ₹{invoice.totalAmount?.sgst || 0}</p> */}
               <p>
-                <strong>Subtotal:</strong> ₹{invoice.totalAmount?.subTotal || 0}
+                <strong>Subtotal:</strong> ₹
+                {invoice.totalAmount?.netAmount || 0}
               </p>
               <p>
                 <strong>Discount:</strong> ₹{invoice.totalAmount?.discount || 0}
               </p>
               <p>
-                <strong>CN Amount:</strong> ₹
-                {invoice.totalAmount?.cnAmount || 0}
+                <strong>Delivery Charge:</strong> ₹
+                {invoice.totalAmount?.deliveryChargeToCustomer || 0}
               </p>
+
               <p className="font-bold text-base">
-                Total: ₹{invoice.totalAmount?.netAmount || 0}
+                Total: ₹
+                {invoice.totalAmount?.netAmount +
+                  invoice.totalAmount?.deliveryChargeToCustomer -
+                  invoice.totalAmount?.discount || 0}
               </p>
-              <p className="font-bold text-base">
+              {/* <p className="font-bold text-base">
                 Paid Amount: ₹{invoice.totalAmount?.paidAmount || 0}
-              </p>
-              <p className="font-bold text-base">
+              </p> */}
+              {/* <p className="font-bold text-base">
                 Pending Amount: ₹{invoice.totalAmount?.pendingAmount || 0}
-              </p>
+              </p> */}
             </div>
 
             <Divider />

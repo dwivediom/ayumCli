@@ -107,10 +107,10 @@ const Footer = () => {
               <span className="badge">🔬 Quality</span>
             </div>
           </div>
-          {/* <button className="version-btn" onClick={() => setadminmode(true)}>
+          <button className="version-btn" onClick={() => setadminmode(true)}>
             <span className="version-icon">⚙️</span>
             Version 0.0
-          </button> */}
+          </button>
         </div>
       </div>
 

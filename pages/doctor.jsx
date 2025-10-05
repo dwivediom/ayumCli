@@ -168,6 +168,10 @@ const Doctors = ({ initialData }) => {
         : "Rewa"
     );
   }, []);
+
+  useEffect(() => {
+    console.log(docs, "doctordatahere");
+  }, [docs]);
   return (
     <>
       <Head>

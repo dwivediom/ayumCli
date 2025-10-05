@@ -494,7 +494,7 @@ width: 100% !important;
 
 .detailsValue {
   color: var(--primary-color);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .medicineActions {
@@ -943,7 +943,7 @@ width: 100% !important;
 
 .detailsValue {
   color: var(--text-color);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .medicinesTable {
