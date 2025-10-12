@@ -65,6 +65,7 @@ const BookingDetailsPage = ({ booking, visible, onHide, onBack }) => {
       );
 
       if (response.data && !response.data.error) {
+        console.log(response.data.data, "bookingdetails");
         setBookingDetails(response.data.data);
       } else {
         toast.current.show({
@@ -416,6 +417,97 @@ const BookingDetailsPage = ({ booking, visible, onHide, onBack }) => {
               {/* Tests Section */}
               <div className={styles.testsSection}>
                 <h2>Tests & Results</h2>
+
+                {/* Report URLs Section */}
+                {bookingDetails.reportUrls &&
+                  bookingDetails.reportUrls.length > 0 && (
+                    <div className={styles.reportUrlsSection}>
+                      <div className={styles.reportUrlsGrid}>
+                        {bookingDetails.reportUrls.map((reportUrl, index) => (
+                          <div
+                            key={index}
+                            style={{
+                              margin: "5px",
+                              padding: "5px",
+                              borderRadius: "10px",
+                              border: "1px solid #e2e8f0",
+                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                            }}
+                          >
+                            <div className={styles.reportUrlContent}>
+                              <h4>
+                                Report #{index + 1} -{" "}
+                                {bookingDetails?.packageDetails[0]?.packageName}
+                              </h4>
+                              <p className={styles.reportUrlMeta}>
+                                {new Date().toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                })}
+                              </p>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: "10px",
+                              }}
+                              className={styles.reportUrlActions}
+                            >
+                              <Button
+                                icon="pi pi-eye"
+                                onClick={() => window.open(reportUrl, "_blank")}
+                                className={styles.reportActionButton}
+                                tooltip="View Report"
+                                size="small"
+                              />
+                              <Button
+                                icon="pi pi-download"
+                                onClick={() => {
+                                  const link = document.createElement("a");
+                                  link.href = reportUrl;
+                                  link.download = `lab-report-${index + 1}.pdf`;
+                                  link.target = "_blank";
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                }}
+                                className={styles.reportActionButton}
+                                tooltip="Download Report"
+                                size="small"
+                              />
+                              <Button
+                                icon="pi pi-share-alt"
+                                onClick={() => {
+                                  if (navigator.share) {
+                                    navigator.share({
+                                      title: `Lab Report #${index + 1}`,
+                                      url: reportUrl,
+                                    });
+                                  } else {
+                                    navigator.clipboard
+                                      .writeText(reportUrl)
+                                      .then(() => {
+                                        toast.current.show({
+                                          severity: "success",
+                                          summary: "Copied",
+                                          detail:
+                                            "Report URL copied to clipboard",
+                                          life: 2000,
+                                        });
+                                      });
+                                  }
+                                }}
+                                className={styles.reportActionButton}
+                                tooltip="Share Report"
+                                size="small"
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                 <div className={styles.testsList}>
                   {bookingDetails.testsRequested?.map((test, index) => (
