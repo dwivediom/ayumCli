@@ -410,3 +410,5 @@ const PrescriptionSelector = ({ value, onChange, getAuthHeaders }) => {
 };
 
 export default PrescriptionSelector;
+
+// 💡 Large images (>5MB) will be automatically compressed for faster upload
