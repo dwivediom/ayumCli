@@ -164,280 +164,701 @@ const NewDocprofile = ({ item, key, docid, showreview, isMobile }) => {
       )}
       <div
         style={{
-          display: "flex",
-          gap: "1rem",
+          padding: isMobile ? "20px 15px" : "30px 25px",
+          position: "relative",
         }}
+        className={styles.submainbox}
       >
-        <img
-          alt={item.name}
-          style={{
-            width: isMobile ? "100px" : "150px",
-            height: isMobile ? "100px" : "150px",
-            borderRadius: "50%",
-            objectFit: "cover",
-            minWidth: "0",
-            minHeight: "0",
-            boxShadow: "2px 3px 6px rgba(0,0,0,0.1)",
-          }}
-          src={profiledata ? profiledata?.picture?.replace(/=s\d+-c/, "") : ""}
-        />
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            flexDirection: "column",
-            gap: "3px",
-            width: "60%",
-          }}
-        >
-          <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
-            Dr. {profiledata && profiledata?.name}
+        {isMobile ? (
+          <span className={styles.viewToPatientsMobile}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+              style={{ width: "16px", height: "16px" }}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              />
+            </svg>
+            View to patients
           </span>
-          <span className={styles.lighttextcolor}>RegNo - 03902</span>
+        ) : (
           <span
-            style={{ fontStyle: "italic" }}
-            className={styles.lighttextcolor}
-          >
-            Dermatologist in Rewa , India
-          </span>
-          <Button
             style={{
-              padding: "10px",
-              height: "1.5rem",
-              width: "fit-content",
-              background: "green",
-              borderRadius: "4px",
+              position: "absolute",
+              top: "15px",
+              right: "15px",
               display: "flex",
               alignItems: "center",
+              gap: "6px",
+              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              padding: "8px 12px",
+              borderRadius: "20px",
               color: "white",
-              border: "none",
+              fontSize: "13px",
+              fontWeight: "500",
+              boxShadow: "0 2px 8px rgba(102, 126, 234, 0.3)",
+              zIndex: 10,
             }}
-            label="4.5"
-            icon="pi pi-star-fill"
-            iconPos="right"
-          />
-          {!isMobile && (
-            <div className={styles.profileactions}>
-              <div
-                onClick={() => {
-                  router.push(`/clinics?id=${profiledata?._id}`);
-                }}
-                className={styles.profilesubaction1}
-              >
-                Book Appointment
-              </div>
-              <div className={styles.profilesubaction2}>View On Map</div>
-            </div>
-          )}
-          {isMobile && (
-            <div
-              style={{
-                padding: "5px",
-                borderRadius: "4px",
-                marginTop: "3px",
-                background: "#EDF0F8",
-                paddingLeft: "10px",
-              }}
-            >
-              <span>Experience :</span> <span>6+ yrs</span>
-            </div>
-          )}
-        </div>
-      </div>
-      {isMobile && (
-        <div
-          style={{
-            justifyContent: "center",
-            display: "flex",
-          }}
-          className={styles.profileactions}
-        >
-          <div className={styles.profilesubaction2}>View On Map</div>
-          <div
-            onClick={() => {
-              router.push(`/clinics?id=${profiledata?._id}`);
-            }}
-            className={styles.profilesubaction1}
           >
-            Book Appointment
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+              style={{ width: "16px", height: "16px" }}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              />
+            </svg>
+            View to patients
+          </span>
+        )}
+
+        {/* Profile Header Section */}
+        <div className={styles.profileHeader}>
+          <div className={styles.profileImageWrapper}>
+            <Image
+              alt={profiledata ? profiledata.name : ""}
+              className={styles.profileImage}
+              src={
+                profiledata ? profiledata?.picture?.replace(/=s\d+-c/, "") : ""
+              }
+              width={isMobile ? 120 : 180}
+              height={isMobile ? 120 : 180}
+            />
+            {profiledata?.avgrating && (
+              <div className={styles.ratingBadge}>
+                <span
+                  className="pi pi-star-fill"
+                  style={{ fontSize: "14px", marginRight: "4px" }}
+                ></span>
+                <span style={{ fontWeight: "600" }}>
+                  {profiledata?.avgrating}
+                </span>
+              </div>
+            )}
+          </div>
+          <div className={styles.profileInfo}>
+            <h1 className={styles.profileName}>
+              {profiledata && profiledata?.name}
+            </h1>
+            <div className={styles.profileMeta}>
+              <span className={styles.regNumber}>
+                <span
+                  className="pi pi-id-card"
+                  style={{ marginRight: "6px" }}
+                ></span>
+                Reg. No: {profiledata?.regno || "N/A"}
+              </span>
+              <span className={styles.specialization}>
+                <span
+                  className="pi pi-briefcase"
+                  style={{ marginRight: "6px" }}
+                ></span>
+                {profiledata?.specialist?.charAt(0).toUpperCase() +
+                  profiledata?.specialist?.slice(
+                    1,
+                    profiledata?.specialist?.length
+                  ) || "General Practitioner"}
+              </span>
+              <span className={styles.location}>
+                <span
+                  className="pi pi-map-marker"
+                  style={{ marginRight: "6px" }}
+                ></span>
+                {profiledata?.city || "City"}, India
+              </span>
+            </div>
+            {!profiledata?.avgrating && (
+              <div className={styles.noRatingBadge}>
+                <span>Not rated yet</span>
+              </div>
+            )}
+            {!isMobile && (
+              <div className={styles.profileactions}>
+                <div
+                  onClick={() => router.push(`/clinics?id=${profiledata?._id}`)}
+                  className={styles.profilesubaction1}
+                >
+                  <span
+                    className="pi pi-calendar"
+                    style={{ marginRight: "6px" }}
+                  ></span>
+                  Book Appointment
+                </div>
+                <div className={styles.profilesubaction2}>
+                  <span
+                    className="pi pi-map"
+                    style={{ marginRight: "6px" }}
+                  ></span>
+                  View On Map
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      )}
 
-      <div className={styles.explangcard}>
-        {!isMobile && (
-          <div className={styles.subexplangcard1}>
-            {" "}
-            <span>Overall Experience :</span> <span>6+ yrs</span>
+        {isMobile && (
+          <div className={styles.profileactions} style={{ marginTop: "15px" }}>
+            <div
+              onClick={() => router.push(`/clinics?id=${profiledata?._id}`)}
+              className={styles.profilesubaction1}
+            >
+              <span
+                className="pi pi-calendar"
+                style={{ marginRight: "6px" }}
+              ></span>
+              Book Appointment
+            </div>
+            <div className={styles.profilesubaction2}>
+              <span className="pi pi-map" style={{ marginRight: "6px" }}></span>
+              View On Map
+            </div>
           </div>
         )}
 
-        <div
-          style={{ width: isMobile && "100%" }}
-          className={styles.subexplangcard2}
-        >
-          {" "}
-          <span>Languages :</span>{" "}
-          <div style={{ display: "flex", gap: "5px" }}>
-            <span>English</span>
-            <span>Hindi</span>
-          </div>{" "}
+        {/* Languages Section - Mobile Friendly */}
+        <div className={styles.languagesCard}>
+          <div className={styles.languagesHeader}>
+            <div className={styles.languagesIcon}>
+              <span className="pi pi-globe"></span>
+            </div>
+            <span className={styles.languagesTitle}>Languages</span>
+          </div>
+          <div className={styles.languageTags}>
+            <span className={styles.languageTag}>English</span>
+            <span className={styles.languageTag}>Hindi</span>
+          </div>
         </div>
-      </div>
-      <div className={styles.storycard}>
-        {profiledata?.bio
-          ? profiledata?.bio
-          : "Show a summary about yourself...."}
-      </div>
-      <div className={styles.commonlytreats}>
-        <span style={{ fontWeight: "600", fontSize: "1.1rem" }}>
-          Commonly Treats
-        </span>
-        <div
-          style={{
-            display: "flex",
-            gap: "10px",
-            // padding: "10px",
-            flexWrap: "wrap",
-            paddingTop: "5px",
-          }}
-        >
-          <div className={styles.commonlytreatsbox}>Heart Rate</div>
-          <div className={styles.commonlytreatsbox}>Neck Pain</div>
-          <div className={styles.commonlytreatsbox}>Throat</div>
-          <div className={styles.commonlytreatsbox}>Headache</div>
-        </div>
-      </div>
-      <div className={styles.registrationbox}>
-        <span style={{ fontWeight: "600", fontSize: "1.1rem" }}>
-          Registration
-        </span>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginTop: "10px",
-          }}
-        >
-          <span style={{ fontSize: "15px", fontWeight: "500" }}>
-            {profiledata?.regno ? profiledata?.regno : ""}
-          </span>
-          <span
-            style={{
-              fontSize: "14px",
-              fontWeight: "500",
-            }}
-          >
-            23-06-2010
-          </span>
-        </div>
-      </div>
-      <div className={styles.edubox}>
-        <span style={{ fontWeight: "600", fontSize: "1.1rem" }}>
-          Experience
-        </span>
-        <div
-          style={{
-            // marginTop: "10px",
-            display: "flex",
-            gap: "10px",
-            flexWrap: "wrap",
-          }}
-        >
-          {profiledata?.experience &&
-            profiledata?.experience.map((item) => {
-              return (
-                <div
-                  style={{
-                    // border: "1px solid red",
-                    color: "white",
-                    boxShadow: "3px 4px 10px rgba(0,0,0,0.3)",
 
-                    width: "fit-content",
-                    width: "20rem",
-                    padding: "0 10px",
+        {/* Bio Section */}
+        <div className={styles.bioSection}>
+          <h3 className={styles.sectionTitle}>
+            <span className="pi pi-user" style={{ marginRight: "8px" }}></span>
+            About
+          </h3>
+          <p className={styles.bioText}>
+            {profiledata?.bio ||
+              "No bio available. Please update your profile to add information about yourself and your practice."}
+          </p>
+        </div>
 
-                    position: "relative",
-                  }}
-                  className={styles.expcard}
-                >
-                  <img
-                    src="/medaliconpng.png"
-                    style={{
-                      position: "absolute",
-                      width: "35px",
-                      height: "35px",
-                      transform: "rotate(0deg)",
-                      right: "10px",
-                      bottom: "10px",
-                    }}
-                  />
-                  <p>
-                    {" "}
-                    <span style={{ fontWeight: "bold" }}>
-                      {item?.position}
-                    </span>{" "}
-                    <span>{item?.organization}</span>{" "}
-                  </p>
-                  <p>
-                    {" "}
-                    <span>{item?.location}</span>
-                  </p>
-                  <p style={{ fontSize: "14px" }}>
-                    From {item?.from} - To {item?.to}
-                  </p>
+        {/* Commonly Treats Section */}
+        <div className={styles.sectionCard}>
+          <h3 className={styles.sectionTitle}>
+            <span className="pi pi-heart" style={{ marginRight: "8px" }}></span>
+            Commonly Treats
+          </h3>
+          <div className={styles.treatsGrid}>
+            <div className={styles.treatItem}>Heart Rate</div>
+            <div className={styles.treatItem}>Neck Pain</div>
+            <div className={styles.treatItem}>Throat</div>
+            <div className={styles.treatItem}>Headache</div>
+          </div>
+        </div>
+
+        {/* Registration Section */}
+        <div className={styles.sectionCard}>
+          <h3 className={styles.sectionTitle}>
+            <span
+              className="pi pi-shield"
+              style={{ marginRight: "8px" }}
+            ></span>
+            Registration Details
+          </h3>
+          <div className={styles.registrationInfo}>
+            <span className={styles.registrationNumber}>
+              {profiledata?.regno || "Not provided"}
+            </span>
+          </div>
+        </div>
+
+        {/* Experience Section */}
+        {profiledata?.experience && profiledata?.experience.length > 0 && (
+          <div className={styles.sectionCard}>
+            <h3 className={styles.sectionTitle}>
+              <span
+                className="pi pi-briefcase"
+                style={{ marginRight: "8px" }}
+              ></span>
+              Professional Experience
+            </h3>
+            <div className={styles.experienceGrid}>
+              {profiledata.experience.map((item, index) => (
+                <div key={index} className={styles.expcard}>
+                  <div className={styles.expIcon}>
+                    <span
+                      className="pi pi-building"
+                      style={{ fontSize: "24px" }}
+                    ></span>
+                  </div>
+                  <div className={styles.expContent}>
+                    <h4 className={styles.expPosition}>{item?.position}</h4>
+                    <p className={styles.expOrganization}>
+                      {item?.organization}
+                    </p>
+                    <p className={styles.expLocation}>
+                      <span
+                        className="pi pi-map-marker"
+                        style={{ fontSize: "12px", marginRight: "4px" }}
+                      ></span>
+                      {item?.location}
+                    </p>
+                    <p className={styles.expDuration}>
+                      {item?.from} - {item?.current ? "Present" : item?.to}
+                    </p>
+                  </div>
                 </div>
-              );
-            })}
-        </div>
-      </div>
-      <div className={styles.edubox}>
-        <span style={{ fontWeight: "600", fontSize: "1.1rem" }}>
-          Educational Qualifications
-        </span>
-        {profiledata?.education &&
-          profiledata?.education.map((item) => {
-            return (
-              <div
-                style={{
-                  // border: "1px solid red",
-                  color: "white",
-                  boxShadow: "3px 4px 15px rgba(0,0,0,0.3)",
-                  padding: "0 10px",
-                  width: "fit-content",
-                  width: "20rem",
-                  position: "relative",
-                }}
-                className={styles.educard}
-              >
-                <img
-                  src="/medaliconpng.png"
-                  style={{
-                    position: "absolute",
-                    width: "35px",
-                    height: "35px",
-                    transform: "rotate(0deg)",
-                    right: "10px",
-                    bottom: "10px",
-                  }}
-                />
-                <p>
-                  {" "}
-                  <span style={{ fontWeight: "bold" }}>
-                    {item?.degree}
-                  </span>{" "}
-                  From <span>{item?.school}</span>{" "}
-                </p>
-                <p>
-                  {" "}
-                  <span>Field of study - {item?.fieldofstudy}</span>
-                </p>
-                <p style={{ fontSize: "14px" }}>
-                  From {item?.from} - To {item?.to}
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Education Section */}
+        {profiledata?.education && profiledata?.education.length > 0 && (
+          <div className={styles.sectionCard}>
+            <h3 className={styles.sectionTitle}>
+              <span
+                className="pi pi-graduation-cap"
+                style={{ marginRight: "8px" }}
+              ></span>
+              Educational Qualifications
+            </h3>
+            <div className={styles.educationGrid}>
+              {profiledata.education.map((item, index) => (
+                <div key={index} className={styles.educard}>
+                  <div className={styles.eduIcon}>
+                    <span
+                      className="pi pi-book"
+                      style={{ fontSize: "24px" }}
+                    ></span>
+                  </div>
+                  <div className={styles.eduContent}>
+                    <h4 className={styles.eduDegree}>{item?.degree}</h4>
+                    <p className={styles.eduSchool}>{item?.school}</p>
+                    <p className={styles.eduField}>
+                      Field: {item?.fieldofstudy}
+                    </p>
+                    <p className={styles.eduDuration}>
+                      {item?.from} - {item?.to}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Certifications Section */}
+        <div className={styles.sectionCard}>
+          <h3 className={styles.sectionTitle}>
+            <span
+              className="pi pi-certificate"
+              style={{ marginRight: "8px" }}
+            ></span>
+            Certifications & Licenses
+          </h3>
+          <div className={styles.certificationsGrid}>
+            <div className={styles.certCard}>
+              <div className={styles.certIcon}>
+                <span
+                  className="pi pi-verified"
+                  style={{ fontSize: "24px" }}
+                ></span>
+              </div>
+              <div className={styles.certContent}>
+                <h4 className={styles.certTitle}>
+                  Medical Council Registration
+                </h4>
+                <p className={styles.certIssuer}>Medical Council of India</p>
+                <p className={styles.certDate}>Issued: 2015</p>
+                <p className={styles.certStatus}>
+                  <span className={styles.statusBadge}>Active</span>
                 </p>
               </div>
-            );
-          })}
+            </div>
+            <div className={styles.certCard}>
+              <div className={styles.certIcon}>
+                <span
+                  className="pi pi-verified"
+                  style={{ fontSize: "24px" }}
+                ></span>
+              </div>
+              <div className={styles.certContent}>
+                <h4 className={styles.certTitle}>
+                  Advanced Cardiac Life Support (ACLS)
+                </h4>
+                <p className={styles.certIssuer}>American Heart Association</p>
+                <p className={styles.certDate}>Issued: 2018</p>
+                <p className={styles.certStatus}>
+                  <span className={styles.statusBadge}>Valid</span>
+                </p>
+              </div>
+            </div>
+            <div className={styles.certCard}>
+              <div className={styles.certIcon}>
+                <span
+                  className="pi pi-verified"
+                  style={{ fontSize: "24px" }}
+                ></span>
+              </div>
+              <div className={styles.certContent}>
+                <h4 className={styles.certTitle}>
+                  Board Certification in Internal Medicine
+                </h4>
+                <p className={styles.certIssuer}>
+                  National Board of Examinations
+                </p>
+                <p className={styles.certDate}>Issued: 2016</p>
+                <p className={styles.certStatus}>
+                  <span className={styles.statusBadge}>Active</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Awards & Recognition Section */}
+        <div className={styles.sectionCard}>
+          <h3 className={styles.sectionTitle}>
+            <span
+              className="pi pi-trophy"
+              style={{ marginRight: "8px" }}
+            ></span>
+            Awards & Recognition
+          </h3>
+          <div className={styles.awardsGrid}>
+            <div className={styles.awardCard}>
+              <div className={styles.awardIcon}>
+                <span
+                  className="pi pi-star"
+                  style={{ fontSize: "28px" }}
+                ></span>
+              </div>
+              <div className={styles.awardContent}>
+                <h4 className={styles.awardTitle}>Best Doctor Award 2022</h4>
+                <p className={styles.awardOrg}>State Medical Association</p>
+                <p className={styles.awardYear}>2022</p>
+              </div>
+            </div>
+            <div className={styles.awardCard}>
+              <div className={styles.awardIcon}>
+                <span
+                  className="pi pi-medal"
+                  style={{ fontSize: "28px" }}
+                ></span>
+              </div>
+              <div className={styles.awardContent}>
+                <h4 className={styles.awardTitle}>
+                  Excellence in Patient Care
+                </h4>
+                <p className={styles.awardOrg}>Healthcare Excellence</p>
+                <p className={styles.awardYear}>2021</p>
+              </div>
+            </div>
+            <div className={styles.awardCard}>
+              <div className={styles.awardIcon}>
+                <span
+                  className="pi pi-award"
+                  style={{ fontSize: "28px" }}
+                ></span>
+              </div>
+              <div className={styles.awardContent}>
+                <h4 className={styles.awardTitle}>
+                  Outstanding Medical Professional
+                </h4>
+                <p className={styles.awardOrg}>Medical Excellence Forum</p>
+                <p className={styles.awardYear}>2020</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Services Offered Section */}
+        <div className={styles.sectionCard}>
+          <h3 className={styles.sectionTitle}>
+            <span className="pi pi-cog" style={{ marginRight: "8px" }}></span>
+            Services Offered
+          </h3>
+          <div className={styles.servicesGrid}>
+            <div className={styles.serviceItem}>
+              <span
+                className="pi pi-check-circle"
+                style={{ marginRight: "8px", color: "#38ef7d" }}
+              ></span>
+              General Consultation
+            </div>
+            <div className={styles.serviceItem}>
+              <span
+                className="pi pi-check-circle"
+                style={{ marginRight: "8px", color: "#38ef7d" }}
+              ></span>
+              Health Check-ups
+            </div>
+            <div className={styles.serviceItem}>
+              <span
+                className="pi pi-check-circle"
+                style={{ marginRight: "8px", color: "#38ef7d" }}
+              ></span>
+              Preventive Care
+            </div>
+            <div className={styles.serviceItem}>
+              <span
+                className="pi pi-check-circle"
+                style={{ marginRight: "8px", color: "#38ef7d" }}
+              ></span>
+              Chronic Disease Management
+            </div>
+            <div className={styles.serviceItem}>
+              <span
+                className="pi pi-check-circle"
+                style={{ marginRight: "8px", color: "#38ef7d" }}
+              ></span>
+              Vaccination Services
+            </div>
+            <div className={styles.serviceItem}>
+              <span
+                className="pi pi-check-circle"
+                style={{ marginRight: "8px", color: "#38ef7d" }}
+              ></span>
+              Health Counseling
+            </div>
+          </div>
+        </div>
+
+        {/* Patient Reviews Section */}
+        <div className={styles.sectionCard}>
+          <h3 className={styles.sectionTitle}>
+            <span
+              className="pi pi-comments"
+              style={{ marginRight: "8px" }}
+            ></span>
+            Patient Reviews
+            <span className={styles.reviewCount}>(24 reviews)</span>
+          </h3>
+          <div className={styles.reviewsContainer}>
+            <div className={styles.reviewCard}>
+              <div className={styles.reviewHeader}>
+                <div className={styles.reviewerInfo}>
+                  <div className={styles.reviewerAvatar}>
+                    <span
+                      className="pi pi-user"
+                      style={{ fontSize: "20px" }}
+                    ></span>
+                  </div>
+                  <div>
+                    <h4 className={styles.reviewerName}>Rajesh Kumar</h4>
+                    <p className={styles.reviewDate}>2 weeks ago</p>
+                  </div>
+                </div>
+                <div className={styles.reviewRating}>
+                  <Rating value={5} readOnly cancel={false} />
+                </div>
+              </div>
+              <p className={styles.reviewText}>
+                Excellent doctor! Very patient and understanding. Took time to
+                explain everything clearly. Highly recommended!
+              </p>
+            </div>
+
+            <div className={styles.reviewCard}>
+              <div className={styles.reviewHeader}>
+                <div className={styles.reviewerInfo}>
+                  <div className={styles.reviewerAvatar}>
+                    <span
+                      className="pi pi-user"
+                      style={{ fontSize: "20px" }}
+                    ></span>
+                  </div>
+                  <div>
+                    <h4 className={styles.reviewerName}>Priya Sharma</h4>
+                    <p className={styles.reviewDate}>1 month ago</p>
+                  </div>
+                </div>
+                <div className={styles.reviewRating}>
+                  <Rating value={5} readOnly cancel={false} />
+                </div>
+              </div>
+              <p className={styles.reviewText}>
+                Dr. {profiledata?.name || "Doctor"} is very professional and
+                caring. The clinic is well-maintained and the staff is
+                courteous.
+              </p>
+            </div>
+
+            <div className={styles.reviewCard}>
+              <div className={styles.reviewHeader}>
+                <div className={styles.reviewerInfo}>
+                  <div className={styles.reviewerAvatar}>
+                    <span
+                      className="pi pi-user"
+                      style={{ fontSize: "20px" }}
+                    ></span>
+                  </div>
+                  <div>
+                    <h4 className={styles.reviewerName}>Amit Patel</h4>
+                    <p className={styles.reviewDate}>2 months ago</p>
+                  </div>
+                </div>
+                <div className={styles.reviewRating}>
+                  <Rating value={4} readOnly cancel={false} />
+                </div>
+              </div>
+              <p className={styles.reviewText}>
+                Good experience overall. The doctor provided clear diagnosis and
+                treatment plan. Would visit again.
+              </p>
+            </div>
+
+            <div className={styles.reviewCard}>
+              <div className={styles.reviewHeader}>
+                <div className={styles.reviewerInfo}>
+                  <div className={styles.reviewerAvatar}>
+                    <span
+                      className="pi pi-user"
+                      style={{ fontSize: "20px" }}
+                    ></span>
+                  </div>
+                  <div>
+                    <h4 className={styles.reviewerName}>Sneha Reddy</h4>
+                    <p className={styles.reviewDate}>3 months ago</p>
+                  </div>
+                </div>
+                <div className={styles.reviewRating}>
+                  <Rating value={5} readOnly cancel={false} />
+                </div>
+              </div>
+              <p className={styles.reviewText}>
+                Best doctor in the area! Very knowledgeable and approachable.
+                The waiting time was minimal and the consultation was thorough.
+              </p>
+            </div>
+          </div>
+          <button className={styles.viewAllReviewsBtn}>
+            View All Reviews
+            <span
+              className="pi pi-arrow-right"
+              style={{ marginLeft: "8px" }}
+            ></span>
+          </button>
+        </div>
+
+        {/* Contact & Social Section */}
+        <div className={styles.sectionCard}>
+          <h3 className={styles.sectionTitle}>
+            <span className="pi pi-phone" style={{ marginRight: "8px" }}></span>
+            Contact Information
+          </h3>
+          <div className={styles.contactGrid}>
+            <div className={styles.contactItem}>
+              <div className={styles.contactIcon}>
+                <span
+                  className="pi pi-phone"
+                  style={{ fontSize: "20px" }}
+                ></span>
+              </div>
+              <div className={styles.contactDetails}>
+                <span className={styles.contactLabel}>Phone</span>
+                <span className={styles.contactValue}>+91 98765 43210</span>
+              </div>
+            </div>
+            <div className={styles.contactItem}>
+              <div className={styles.contactIcon}>
+                <span
+                  className="pi pi-envelope"
+                  style={{ fontSize: "20px" }}
+                ></span>
+              </div>
+              <div className={styles.contactDetails}>
+                <span className={styles.contactLabel}>Email</span>
+                <span className={styles.contactValue}>doctor@clinic.com</span>
+              </div>
+            </div>
+            <div className={styles.contactItem}>
+              <div className={styles.contactIcon}>
+                <span
+                  className="pi pi-map-marker"
+                  style={{ fontSize: "20px" }}
+                ></span>
+              </div>
+              <div className={styles.contactDetails}>
+                <span className={styles.contactLabel}>Address</span>
+                <span className={styles.contactValue}>
+                  {profiledata?.city || "City"}, India
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className={styles.socialLinks}>
+            <h4
+              style={{
+                marginBottom: "12px",
+                fontSize: "1rem",
+                fontWeight: "600",
+                color: "#4a5568",
+              }}
+            >
+              Connect on Social Media
+            </h4>
+            <div className={styles.socialIcons}>
+              <a
+                href="#"
+                className={styles.socialLink}
+                style={{ background: "#1877f2" }}
+              >
+                <span className="pi pi-facebook"></span>
+              </a>
+              <a
+                href="#"
+                className={styles.socialLink}
+                style={{ background: "#1da1f2" }}
+              >
+                <span className="pi pi-twitter"></span>
+              </a>
+              <a
+                href="#"
+                className={styles.socialLink}
+                style={{ background: "#0077b5" }}
+              >
+                <span className="pi pi-linkedin"></span>
+              </a>
+              <a
+                href="#"
+                className={styles.socialLink}
+                style={{ background: "#e4405f" }}
+              >
+                <span className="pi pi-instagram"></span>
+              </a>
+              <a
+                href="#"
+                className={styles.socialLink}
+                style={{ background: "#ff0000" }}
+              >
+                <span className="pi pi-youtube"></span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
