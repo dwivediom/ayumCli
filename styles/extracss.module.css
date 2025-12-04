@@ -121,8 +121,17 @@ margin-top: 10px;
 .checkoutdiv{
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 1rem;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+  min-height: calc(100vh - 200px);
+  background: var(--surface-100, #f5f5f5);
+}
+
+@media (max-width: 768px) {
+  .checkoutdiv {
+    padding: 1rem 0.5rem;
+    align-items: stretch;
+  }
 }
 .checkoutform{
   display: flex;

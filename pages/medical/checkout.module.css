@@ -19,6 +19,7 @@
   top: 0 !important;
   z-index: 100 !important;
   margin: 0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
 .backButton {
@@ -90,6 +91,7 @@
   border: 1px solid #e2e8f0 !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
   margin: 0 !important;
+  transition: all 0.3s ease !important;
 }
 
 .pharmacyInfo {
@@ -148,6 +150,12 @@
   border: 1px solid #e2e8f0 !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
   margin: 0 !important;
+  transition: all 0.3s ease !important;
+}
+
+.cartSection:hover,
+.prescriptionSection:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 
 .sectionHeader {
@@ -411,6 +419,11 @@
   border: 1px solid #e2e8f0 !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
   margin: 0 !important;
+  transition: all 0.3s ease !important;
+}
+
+.checkoutCard:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
 }
 
 .checkoutCard h3 {
@@ -578,33 +591,75 @@
 }
 
 .orderSummary h4 {
-  margin: 0 0 12px 0 !important;
-  font-size: 14px !important;
+  margin: 0 0 16px 0 !important;
+  font-size: 16px !important;
   font-weight: 600 !important;
   color: #1e293b !important;
   font-family: inherit !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.orderSummary h4 i {
+  color: #667eea !important;
+  font-size: 16px !important;
+}
+
+.summaryContent {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
 }
 
 .summaryRow {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  margin-bottom: 8px !important;
   font-size: 13px !important;
   color: #64748b !important;
   font-family: inherit !important;
+}
+
+.summaryLabel {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #64748b !important;
+}
+
+.summaryLabel i {
+  font-size: 12px !important;
+  color: #94a3b8 !important;
+}
+
+.summaryValue {
+  font-weight: 500 !important;
+  color: #1e293b !important;
 }
 
 .summaryRowTotal {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  font-size: 15px !important;
-  font-weight: 600 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
   color: #1e293b !important;
-  padding-top: 8px !important;
-  border-top: 1px solid #e2e8f0 !important;
+  padding-top: 16px !important;
+  margin-top: 4px !important;
+  border-top: 2px solid #e2e8f0 !important;
   font-family: inherit !important;
+}
+
+.totalLabel {
+  color: #1e293b !important;
+  font-size: 16px !important;
+}
+
+.totalValue {
+  color: #667eea !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
 }
 
 .placeOrderBtn {
@@ -640,11 +695,19 @@
   min-height: 100vh !important;
   gap: 16px !important;
   color: #64748b !important;
+  background: #f8fafc !important;
 }
 
 .loadingContainer p {
   font-size: 14px !important;
   font-family: inherit !important;
+  margin: 0 !important;
+}
+
+.loadingHint {
+  font-size: 12px !important;
+  color: #94a3b8 !important;
+  margin-top: -8px !important;
 }
 
 .errorContainer {
@@ -653,20 +716,33 @@
   align-items: center !important;
   justify-content: center !important;
   min-height: 100vh !important;
-  gap: 16px !important;
+  gap: 20px !important;
   color: #64748b !important;
   text-align: center !important;
   padding: 20px !important;
+  background: #f8fafc !important;
 }
 
-.errorContainer i {
-  font-size: 48px !important;
-  color: #fbbf24 !important;
+.errorIcon {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50% !important;
+  background: #fef3c7 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 8px !important;
+}
+
+.errorIcon i {
+  font-size: 40px !important;
+  color: #f59e0b !important;
 }
 
 .errorContainer h3 {
   margin: 0 !important;
-  font-size: 18px !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
   color: #1e293b !important;
   font-family: inherit !important;
 }
@@ -676,6 +752,62 @@
   font-size: 14px !important;
   opacity: 0.8 !important;
   font-family: inherit !important;
+  max-width: 400px !important;
+}
+
+.errorButton {
+  margin-top: 8px !important;
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  border: none !important;
+}
+
+/* Empty Checkout State */
+.emptyCheckoutContainer {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: calc(100vh - 200px) !important;
+  padding: 40px 20px !important;
+}
+
+.emptyCheckoutCard {
+  background: white !important;
+  border-radius: 16px !important;
+  padding: 48px 32px !important;
+  text-align: center !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  max-width: 500px !important;
+  width: 100% !important;
+}
+
+.emptyCheckoutCard i {
+  font-size: 64px !important;
+  color: #cbd5e1 !important;
+  margin-bottom: 24px !important;
+  display: block !important;
+}
+
+.emptyCheckoutCard h2 {
+  margin: 0 0 12px 0 !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  color: #1e293b !important;
+  font-family: inherit !important;
+}
+
+.emptyCheckoutCard p {
+  margin: 0 0 32px 0 !important;
+  font-size: 14px !important;
+  color: #64748b !important;
+  font-family: inherit !important;
+}
+
+.continueShoppingBtn {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
 }
 
 .dialog {
@@ -769,6 +901,240 @@
   }
 }
 
+/* Validation Messages */
+.validationMessage {
+  margin-bottom: 12px !important;
+  font-size: 12px !important;
+}
+
+.validationSummary {
+  margin-bottom: 16px !important;
+}
+
+.summaryMessage {
+  font-size: 13px !important;
+}
+
+/* Enhanced Address Styles */
+.landmark {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin: 4px 0 !important;
+  font-size: 12px !important;
+  color: #64748b !important;
+}
+
+.phone {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-top: 6px !important;
+  font-size: 12px !important;
+  color: #1e293b !important;
+  font-weight: 500 !important;
+}
+
+.hint {
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+  margin-top: 4px !important;
+  font-style: italic !important;
+}
+
+/* Prescription Styles */
+.prescriptionHeader {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 12px !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.prescriptionStatus {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 12px !important;
+  color: #059669 !important;
+  font-weight: 500 !important;
+}
+
+.prescriptionStatus i {
+  color: #059669 !important;
+}
+
+.noPrescription {
+  text-align: center !important;
+  padding: 32px 16px !important;
+  color: #64748b !important;
+  border: 2px dashed #e2e8f0 !important;
+  border-radius: 8px !important;
+  background: #f8fafc !important;
+}
+
+.noPrescription i {
+  font-size: 32px !important;
+  margin-bottom: 12px !important;
+  opacity: 0.5 !important;
+  color: #cbd5e1 !important;
+}
+
+.noPrescription p {
+  margin: 0 0 4px 0 !important;
+  font-size: 14px !important;
+  font-family: inherit !important;
+}
+
+/* Order Note */
+.orderNote {
+  margin-top: 12px !important;
+  font-size: 11px !important;
+  color: #64748b !important;
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  font-family: inherit !important;
+}
+
+.orderNote i {
+  font-size: 12px !important;
+  color: #667eea !important;
+}
+
+/* Enhanced Cart Item Styles */
+.cartItem {
+  transition: all 0.2s ease !important;
+}
+
+.cartItem:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  transform: translateY(-1px) !important;
+}
+
+.quantityBtn:disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+}
+
+/* Enhanced Empty States */
+.emptyCart {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+}
+
+.emptyCart i {
+  color: #cbd5e1 !important;
+}
+
+/* Enhanced Pharmacy Card */
+.pharmacyCard {
+  transition: all 0.2s ease !important;
+}
+
+.pharmacyCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Enhanced Payment Options */
+.paymentOption {
+  position: relative !important;
+}
+
+.paymentOption:hover {
+  transform: translateX(4px) !important;
+}
+
+/* Enhanced Buttons */
+.selectBtn,
+.uploadBtn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.selectBtn:hover,
+.uploadBtn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2) !important;
+}
+
+/* Enhanced Checkout Card */
+.checkoutCard {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.checkoutCard::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 4px !important;
+  background: linear-gradient(90deg, #667eea, #764ba2) !important;
+}
+
+/* Enhanced Section Headers */
+.sectionHeader h3,
+.sectionHeader h4 {
+  position: relative !important;
+  padding-left: 12px !important;
+}
+
+.sectionHeader h3::before,
+.sectionHeader h4::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 3px !important;
+  height: 16px !important;
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  border-radius: 2px !important;
+}
+
+/* Enhanced Order Summary */
+.orderSummary {
+  background: #f8fafc !important;
+  padding: 16px !important;
+  border-radius: 8px !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.summaryRowTotal {
+  margin-top: 12px !important;
+  padding-top: 12px !important;
+}
+
+/* Loading States */
+.placeOrderBtn:disabled {
+  position: relative !important;
+}
+
+/* Responsive Enhancements */
+@media (max-width: 768px) {
+  .validationMessage {
+    font-size: 11px !important;
+  }
+  
+  .orderNote {
+    font-size: 10px !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+  }
+  
+  .prescriptionHeader {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+}
+
 /* Override PrimeReact styles */
 .container :global(.p-button) {
   font-family: inherit !important;
@@ -787,5 +1153,14 @@
 }
 
 .container :global(.p-dialog) {
+  font-family: inherit !important;
+}
+
+.container :global(.p-message) {
+  font-family: inherit !important;
+  border-radius: 8px !important;
+}
+
+.container :global(.p-confirm-dialog) {
   font-family: inherit !important;
 } 
