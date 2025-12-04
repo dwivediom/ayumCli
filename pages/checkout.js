@@ -20,7 +20,6 @@ const checkout = () => {
   });
 
   const [planinfo, setplaninfo] = useState(null);
-  const [docdata, setdocdata] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState({
@@ -222,14 +221,11 @@ const checkout = () => {
       GetPlans();
     }
 
-    const doctor = JSON.parse(localStorage.getItem("DocData") || "null");
-    if (doctor) {
-      setdocdata(doctor);
-      setpayPayload((prev) => ({
-        ...prev,
-        name: doctor?.name || "",
-      }));
-    }
+    const doctor = router.query.name;
+    setpayPayload((prev) => ({
+      ...prev,
+      name: doctor || "",
+    }));
   }, [router.query]);
 
   useEffect(() => {
