@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node utils/genrateSitemap.js && next build",
-    "start": "next start -p $PORT",
+    "build": " node utils/genrateSitemap.js && next build",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "embla-carousel-autoplay": "^8.0.4",
     "embla-carousel-react": "^8.0.4",
     "firebase": "^9.23.0",
+    "fs": "^0.0.1-security",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
     "jwt-decode": "^3.1.2",
@@ -60,6 +61,7 @@
     "tailwindcss": "^3.2.0"
   },
   "engines": {
-    "node": "20.x"
+    "node": "20.x",
+    "npm": ">4.2.0"
   }
 }
