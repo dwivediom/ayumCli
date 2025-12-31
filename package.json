@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": " node utils/genrateSitemap.js && next build",
-    "start": "next start",
+    "build": "node utils/genrateSitemap.js && next build",
+    "start": "next start -p $PORT",
     "lint": "next lint"
   },
   "dependencies": {

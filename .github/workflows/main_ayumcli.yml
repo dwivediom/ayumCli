@@ -59,6 +59,12 @@ jobs:
       - name: Install production dependencies
         run: npm ci --production=false
 
+      - name: Clean up unnecessary files
+        run: |
+          rm -rf .git .github
+          find . -name "*.log" -delete || true
+          find node_modules -name ".cache" -type d -exec rm -rf {} + || true
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -66,9 +72,39 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_643FBFD76C3C4798BA4AF177AABCC049 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F53583079D6748DBA0BF0BE6A5EA35AE }}
 
+      - name: Get resource group name
+        id: get-rg
+        run: |
+          RG_NAME=$(az webapp show --name Ayumcli --query resourceGroup -o tsv)
+          echo "rg-name=$RG_NAME" >> $GITHUB_OUTPUT
+          echo "Resource Group: $RG_NAME"
+
+      - name: Stop and wait for active deployments
+        run: |
+          az webapp deployment stop --name Ayumcli --resource-group ${{ steps.get-rg.outputs.rg-name }} || true
+          sleep 10
+          # Wait for any active deployments to finish
+          for i in {1..12}; do
+            STATUS=$(az webapp deployment list --name Ayumcli --resource-group ${{ steps.get-rg.outputs.rg-name }} --query "[0].status" -o tsv 2>/dev/null || echo "NotFound")
+            if [ "$STATUS" != "4" ] && [ "$STATUS" != "InProgress" ]; then
+              break
+            fi
+            echo "Waiting for deployment to complete... ($i/12)"
+            sleep 5
+          done
+
+      - name: Configure Azure Web App settings
+        run: |
+          az webapp config set --name Ayumcli --resource-group ${{ steps.get-rg.outputs.rg-name }} \
+            --startup-file "npm start" \
+            --always-on true || true
+          az webapp config appsettings set --name Ayumcli --resource-group ${{ steps.get-rg.outputs.rg-name }} \
+            --settings WEBSITE_NODE_DEFAULT_VERSION="20-lts" SCM_DO_BUILD_DURING_DEPLOYMENT="false" || true
+
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: "Ayumcli"
           package: .
+          startup-command: "npm start"
