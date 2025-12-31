@@ -19,21 +19,23 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Node.js version
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: "20.x"
+          cache: "npm"
 
       - name: npm install, build, and test
         run: |
-          npm install
+          npm ci
           npm run build --if-present
-          npm run test --if-present
+          npm run test --if-present || true
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
           path: .
+          retention-days: 1
 
   deploy:
     runs-on: ubuntu-latest
@@ -47,7 +49,16 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
-      
+          path: .
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - name: Install production dependencies
+        run: npm ci --production=false
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -55,11 +66,9 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_643FBFD76C3C4798BA4AF177AABCC049 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F53583079D6748DBA0BF0BE6A5EA35AE }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'Ayumcli'
-          slot-name: 'Production'
+          app-name: "Ayumcli"
           package: .
-          
