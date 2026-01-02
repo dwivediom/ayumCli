@@ -19,17 +19,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: "20.x"
           cache: "npm"
 
-      # ✅ BYPASS npm ci issues safely
+      # ✅ npm install (NOT npm ci)
       - name: Install dependencies
         run: npm install
 
-      - name: Build Next.js app
-        run: npm run build
-
-      - name: Upload build artifact
+      # ✅ Upload SOURCE CODE ONLY
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: nextjs-app
@@ -44,7 +42,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Download build artifact
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: nextjs-app
