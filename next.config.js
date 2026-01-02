@@ -11,7 +11,6 @@ const withPWA = require("next-pwa")({
 
 const nextConfig = withPWA({
   // 🔥 REQUIRED for Azure App Service
-  output: "standalone",
 
   images: {
     domains: [
