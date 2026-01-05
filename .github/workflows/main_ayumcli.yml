@@ -24,7 +24,7 @@ jobs:
 
       # ✅ Deterministic install (recommended)
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       # ✅ Build Next.js
       - name: Build app
