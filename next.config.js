@@ -1,16 +1,29 @@
 /** @type {import('next').NextConfig} */
 
+const isDev = process.env.NODE_ENV === "development";
+
 const withPWA = require("next-pwa")({
   dest: "public",
   register: true,
   skipWaiting: true,
   swSrc: "worker/service-worker.js",
-  buildExcludes: [/middleware-manifest.json$/],
-  disable: process.env.NODE_ENV === "development",
+
+  // ⚠️ Required to avoid Azure build/runtime issues
+  buildExcludes: [
+    /middleware-manifest.json$/,
+    /server\/middleware-manifest.json$/,
+  ],
+
+  // 🔥 PWA must be DISABLED in dev & enabled in prod only
+  disable: isDev,
 });
 
-const nextConfig = withPWA({
-  // 🔥 REQUIRED for Azure App Service
+const nextConfig = {
+  // ✅ REQUIRED for GitHub Actions + Azure App Service
+  output: "standalone",
+
+  reactStrictMode: true,
+  swcMinify: true,
 
   images: {
     domains: [
@@ -27,17 +40,14 @@ const nextConfig = withPWA({
     ],
   },
 
-  reactStrictMode: true,
-  swcMinify: true,
-
+  // ❌ DO NOT hardcode localhost in prod builds
   env: {
-    // Client-safe env (compile-time)
-    Bport: "http://localhost:5000",
+    NEXT_PUBLIC_BPORT: process.env.NEXT_PUBLIC_BPORT || "http://localhost:5000",
   },
 
   eslint: {
     ignoreDuringBuilds: true,
   },
-});
+};
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);
