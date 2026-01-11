@@ -8,22 +8,19 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
   swSrc: "worker/service-worker.js",
 
-  // ⚠️ Required to avoid Azure build/runtime issues
   buildExcludes: [
     /middleware-manifest.json$/,
     /server\/middleware-manifest.json$/,
   ],
 
-  // 🔥 PWA must be DISABLED in dev & enabled in prod only
   disable: isDev,
 });
 
 const nextConfig = {
-  // ✅ REQUIRED for GitHub Actions + Azure App Service
-  output: "standalone",
-
   reactStrictMode: true,
   swcMinify: true,
+
+  poweredByHeader: false,
 
   images: {
     domains: [
@@ -40,7 +37,6 @@ const nextConfig = {
     ],
   },
 
-  // ❌ DO NOT hardcode localhost in prod builds
   env: {
     NEXT_PUBLIC_BPORT: process.env.NEXT_PUBLIC_BPORT || "http://localhost:5000",
   },
